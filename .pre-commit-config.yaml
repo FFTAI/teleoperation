@@ -1,0 +1,37 @@
+default_install_hook_types: [pre-commit, commit-msg]
+
+repos:
+  - repo: https://github.com/pre-commit/pre-commit-hooks
+    rev: v3.2.0
+    hooks:
+      - id: trailing-whitespace
+      - id: end-of-file-fixer
+      - id: check-yaml
+        args:
+          - --unsafe
+      - id: check-toml
+      - id: check-added-large-files
+      - id: check-merge-conflict
+
+  - repo: https://github.com/asottile/pyupgrade
+    rev: v3.15.2
+    hooks:
+      - id: pyupgrade
+        args: [--py310-plus]
+        exclude: ^(src/pdm/models/in_process/.*\.py|install-pdm\.py)$
+
+  - repo: https://github.com/astral-sh/ruff-pre-commit
+    rev: "v0.4.7"
+    hooks:
+      - id: ruff
+        types_or: [python, pyi]
+        args: [--select, I, --fix, --exit-non-zero-on-fix, --show-fixes]
+      - id: ruff-format
+        types_or: [python, pyi]
+
+  # - repo: https://github.com/compilerla/conventional-pre-commit
+  #   rev: "v3.3.0"
+  #   hooks:
+  #     - id: conventional-pre-commit
+  #       stages: [commit-msg]
+  #       args: []
