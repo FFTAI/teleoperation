@@ -97,7 +97,7 @@ select = [
 ]
 ignore = [
     "E501", # line-too-long
-    # "F401", # unused import
+    "F401", # unused import
 ]
 
 [tool.ruff.lint.per-file-ignores]
