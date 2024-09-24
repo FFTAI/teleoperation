@@ -36,6 +36,8 @@ DEFAULT_QPOS= np.array([
 
 ])
 # fmt: on
+
+
 class ReplayRobot(RobotWrapper):
     def __init__(self, config: DictConfig, dt=1 / 60, sim=True, show_fpv=False):
         self.sim = sim
@@ -47,7 +49,7 @@ class ReplayRobot(RobotWrapper):
 
         self.dt = dt
 
-        self.viz.display(self.configuration.q)
+        self.update_display()
 
         self.hand_retarget = HandRetarget(config.hand.config)
 
