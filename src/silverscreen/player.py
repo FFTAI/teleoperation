@@ -208,8 +208,8 @@ class TeleopRobot(Robot):
             self.client = RobotClient(namespace="gr/daq")
 
             if self.hand_retarget.hand_type == "fourier":
-                self.left_hand = FourierDexHand(self.config.hand.ip_left)
-                self.right_hand = FourierDexHand(self.config.hand.ip_right)
+                self.left_hand = FourierDexHand(config.hand.ip_left)
+                self.right_hand = FourierDexHand(config.hand.ip_right)
 
                 with ThreadPoolExecutor(max_workers=2) as executor:
                     executor.submit(self.left_hand.init)
@@ -235,6 +235,8 @@ class TeleopRobot(Robot):
             create=True,
             size=np.prod(self.cam.img_shape) * np.uint8().itemsize,  # type: ignore
         )
+
+        print(self.cam.img_shape, self.cam.resolution)
         self.img_array = np.ndarray(
             self.cam.img_shape,
             dtype=np.uint8,

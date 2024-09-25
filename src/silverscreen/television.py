@@ -26,7 +26,7 @@ class OpenTeleVision:
     ):
         self._connected = mp.Value("b", False, lock=True)
         # self.app=Vuer()
-        self.img_shape = (img_shape[0], 2 * img_shape[1], 3)
+        self.img_shape = (img_shape[0], img_shape[1], 3)
         self.img_height, self.img_width = img_shape[:2]
 
         if ngrok:
