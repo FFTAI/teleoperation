@@ -6,7 +6,8 @@ from threading import Lock
 import numpy as np
 from vuer import Vuer
 from vuer.schemas import DefaultScene, Hands, ImageBackground, WebRTCStereoVideoPlane
-from webrtc.zed_server import *
+
+from .webrtc.zed_server import *
 
 image_lock = Lock()
 
@@ -228,7 +229,7 @@ class OpenTeleVision:
             # rest_time = 1/fps - time.time() + start
             end_time = time.time()
             image_lock.release()
-            await asyncio.sleep(0.03)
+            await asyncio.sleep(0.03)  # TODO
 
     @property
     def left_hand(self):

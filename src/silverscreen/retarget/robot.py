@@ -5,8 +5,9 @@ import numpy as np
 import pink
 import pinocchio as pin
 import qpsolvers
-from filters import LPRotationFilter, OneEuroFilter
 from omegaconf import DictConfig
+
+from silverscreen.filters import LPRotationFilter, OneEuroFilter
 
 from .robot_wrapper import RobotWrapper
 

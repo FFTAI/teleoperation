@@ -2,7 +2,7 @@ import cv2
 import numpy as np
 import pyzed.sl as sl
 
-from . import CameraBase
+from .camera_base import CameraBase
 
 # resolution = (720, 1280)
 # crop_size_w = 1

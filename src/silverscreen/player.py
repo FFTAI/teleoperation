@@ -11,7 +11,6 @@ import h5py
 import matplotlib.pyplot as plt
 import numpy as np
 import typer
-from camera import make_camera
 from fourier_grx_client import ControlGroup, RobotClient
 from loguru import logger
 from omegaconf import DictConfig, OmegaConf
@@ -25,6 +24,9 @@ from silverscreen.retarget.hand import HandRetarget
 from silverscreen.retarget.robot import Robot
 from silverscreen.retarget.robot_wrapper import RobotWrapper
 from silverscreen.television import OpenTeleVision
+from silverscreen.utils import se3_to_xyzquat
+
+from .camera import make_camera
 
 # fmt: off
 DEFAULT_INDEX =list(range(12, 32))
@@ -330,6 +332,16 @@ class TeleopRobot(Robot):
             ],
             right,
         )
+
+    def get_ee_pose(self):
+        if self.sim:
+            return None, None
+        left_ee_pose = self.client.get_transform("l_hand_pitch", "base")
+        right_ee_pose = self.client.get_transform("r_hand_pitch", "base")
+        left_ee_pose = se3_to_xyzquat(left_ee_pose)
+        right_ee_pose = se3_to_xyzquat(right_ee_pose)
+
+        return np.hstack([left_ee_pose, right_ee_pose])
 
     def control_hands(self, left_qpos, right_qpos):
         left_qpos_real, right_qpos_real = self.hand_retarget.qpos_to_real(left_qpos, right_qpos)

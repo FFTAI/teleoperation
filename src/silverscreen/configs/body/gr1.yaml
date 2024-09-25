@@ -28,7 +28,7 @@ hand:
 
 robot:
   urdf_path: "gr1/urdf/robot.urdf"
-  urdf_package_dirs: ["gr1/urdf"]
+  urdf_package_dirs: ["gr1/urdf", "gr1"]
   # urdf_path: "gr1_inspire/urdf/t2_collision.urdf"
   # urdf_package_dirs: ["gr1_inspire/urdf"]
 
@@ -84,12 +84,11 @@ robot:
     min_distance: 0.02
     enabled_links: ["right_hand_yaw_link", "left_hand_yaw_link", "torso_link"]
 
-  joints_to_lock:
-    [
+  joints_to_lock: [
       "waist_roll_joint",
       "head_roll_joint",
       "waist_yaw_joint",
-      "waist_pitch_joint",
+      # "waist_pitch_joint",
     ]
 
   # frames:

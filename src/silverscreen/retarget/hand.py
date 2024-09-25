@@ -3,6 +3,7 @@ from pathlib import Path
 import numpy as np
 import yaml
 from dex_retargeting.retargeting_config import RetargetingConfig
+
 from silverscreen.configs import get_default_assets_root, get_default_config_root
 from silverscreen.constants import tip_indices
 from silverscreen.utils import remap
@@ -11,7 +12,7 @@ from silverscreen.utils import remap
 class HandRetarget:
     def __init__(self, config_name: str, tip_indices=tip_indices) -> None:
         assets_dir = get_default_assets_root()
-        config_dir = get_default_config_root()
+        config_dir = get_default_config_root() / "hand"
         RetargetingConfig.set_default_urdf_dir(assets_dir)
         with (Path(config_dir) / config_name).open("r") as f:
             cfg = yaml.safe_load(f)

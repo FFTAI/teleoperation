@@ -2,7 +2,7 @@ import cv2
 import numpy as np
 import pyrealsense2 as rs
 
-from . import CameraBase
+from .camera_base import CameraBase
 
 
 class CamRealsense(CameraBase):

@@ -1,5 +1,6 @@
 import os
 import time
+from dataclasses import dataclass
 from glob import glob
 from pathlib import Path
 from typing import Annotated
@@ -7,7 +8,6 @@ from typing import Annotated
 import h5py
 import numpy as np
 import typer
-from attr import dataclass
 from loguru import logger
 from omegaconf import DictConfig, OmegaConf
 
@@ -15,7 +15,7 @@ from silverscreen.configs import DEFAULT_CONFIG_DIR
 from silverscreen.filters import LPRotationFilter
 from silverscreen.player import TeleopRobot
 from silverscreen.state_machine import FSM
-from silverscreen.utils import KeyboardListener
+from silverscreen.utils import KeyboardListener, se3_to_xyzquat
 
 np.set_printoptions(precision=2, suppress=True)
 
@@ -66,18 +66,20 @@ class RecordingInfo:
 
 
 def main(
-    session_name: Annotated[str, typer.Argument(default="test", help="Name of the session")],
-    data_root: Annotated[
-        Path, typer.Argument(default=PROJECT_ROOT / "data" / "recordings", help="Root directory for data storage")
-    ],
+    session_name: Annotated[str, typer.Argument(help="Name of the session")],
+    waist: bool = True,
     sim: bool = False,
     record: bool = False,
     wait_time: float = 3.0,
 ):
-    default_config = Path(DEFAULT_CONFIG_DIR) / "body" / "config.yml"
+    data_root = Path(PROJECT_ROOT).parent / "data"
+    default_config = Path(DEFAULT_CONFIG_DIR) / "body" / "gr1.yaml"
     config = DictConfig(OmegaConf.load(default_config))
 
     config.wait_time = wait_time
+
+    if not waist:
+        config.robot.joints_to_lock.append("waist_pitch_joint")
 
     recording = None
 
@@ -94,10 +96,12 @@ def main(
             "hand_qpos": [],
             "qpos": [],
             "qvel": [],
+            "ee_pose": [],
         },
         "action": {
             "joints": [],
             "hands": [],
+            "wrist_pose": [],
         },
     }
 
@@ -136,7 +140,7 @@ def main(
                 right_qpos,
             ) = robot.step()
 
-            if fsm.state == FSM.State.COLLECTING:
+            if fsm.state == FSM.State.COLLECTING or not record:
                 timestamp = robot.update_image()
             else:
                 timestamp = robot.update_image(gray=True)
@@ -206,10 +210,12 @@ def main(
                         "hand_qpos": [],
                         "qpos": [],
                         "qvel": [],
+                        "ee_pose": [],
                     },
                     "action": {
                         "joints": [],
                         "hands": [],
+                        "wrist_pose": [],
                     },
                 }
 
@@ -271,6 +277,9 @@ def main(
                 if fsm.state == FSM.State.COLLECTING:
                     data_dict["action"]["hands"].append(filtered_hand_qpos)
                     data_dict["action"]["joints"].append(qpos)
+                    data_dict["action"]["wrist_pose"].append(
+                        np.hstack([se3_to_xyzquat(left_pose), se3_to_xyzquat(right_pose)])
+                    )
 
             if fsm.state == FSM.State.COLLECTING:
                 data_dict["timestamp"].append(timestamp)
@@ -280,6 +289,7 @@ def main(
                 data_dict["obs"]["qpos"].append(qpos)
                 data_dict["obs"]["qvel"].append(qvel)
                 data_dict["obs"]["hand_qpos"].append(hand_qpos)
+                data_dict["obs"]["ee_pose"].append(robot.get_ee_pose())
 
                 for cam in camera_names:
                     data_dict["obs"][f"camera_{cam}"].append(i)

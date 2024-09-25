@@ -7,6 +7,8 @@ import pinocchio as pin
 from loguru import logger
 from omegaconf import DictConfig, OmegaConf
 
+from silverscreen.utils import ASSET_DIR
+
 
 class RobotWrapper:
     def __init__(self, config: DictConfig | str, open_viz: bool = False):
@@ -15,8 +17,8 @@ class RobotWrapper:
         else:
             self.config = config
         self.robot = pin.RobotWrapper.BuildFromURDF(
-            filename=self.config.urdf_path,
-            package_dirs=list(self.config.urdf_package_dirs),
+            filename=str(ASSET_DIR / self.config.urdf_path),
+            package_dirs=[str(ASSET_DIR / d) for d in self.config.urdf_package_dirs],
             root_joint=pin.JointModelFreeFlyer(),
         )
 

@@ -1,5 +1,23 @@
+from pathlib import Path
+
 import numpy as np
 from pynput import keyboard
+from scipy.spatial.transform import Rotation as R
+
+PROJECT_ROOT = Path(__file__).resolve().parent
+ASSET_DIR = PROJECT_ROOT / "assets"
+CONFIG_DIR = PROJECT_ROOT / "configs"
+DATA_DIR = PROJECT_ROOT.parent / "data"
+
+
+def se3_to_xyzquat(se3):
+    translation = se3[:3, 3]
+    rotmat = se3[:3, :3]
+
+    quat = R.from_matrix(rotmat).as_quat()
+
+    xyzquat = np.concatenate([translation, quat])
+    return xyzquat
 
 
 def mat_update(prev_mat, mat):

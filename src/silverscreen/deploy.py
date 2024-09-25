@@ -10,9 +10,9 @@ from omegaconf import DictConfig, OmegaConf
 from tqdm import tqdm
 
 from silverscreen.player import ReplayRobot
+from silverscreen.utils import PROJECT_ROOT
 
-current_dir = Path(__file__).parent.resolve()
-DATA_DIR = (current_dir.parent / "data/").resolve()
+DATA_DIR = (PROJECT_ROOT.parent / "data/").resolve()
 RECORD_DIR = (DATA_DIR / "recordings/").resolve()
 LOG_DIR = (DATA_DIR / "logs/").resolve()
 
@@ -70,14 +70,22 @@ def merge_act(actions_for_curr_step, k=0.01):
     return raw_action
 
 
-def main(task_id: str = "", exp_id: str = "", ckpt: str = "", episode: int = 1, sim: bool = True):
-    config = OmegaConf.load("../teleop/config.yml")
+def main(task_id: str = "", exp_id: str = "", policy: str = "", episode: int = 1, sim: bool = True):
+    config = OmegaConf.load(str(PROJECT_ROOT) + "/configs/config.yml")
+
     task_dir, task_name = parse_id(RECORD_DIR, task_id)
+    if task_dir is None or task_name is None:
+        raise ValueError(f"Task ID {task_id} not found in {RECORD_DIR}")
     exp_path, _ = parse_id((Path(LOG_DIR) / task_name).resolve(), exp_id)
+
+    if exp_path is None:
+        raise ValueError(f"Experiment ID {exp_id} not found in {LOG_DIR / task_name}")
+
     episode_name = f"processed_episode_{episode}.hdf5"
     episode_path = (Path(task_dir) / "processed" / episode_name).resolve()
     norm_stat_path = Path(exp_path) / "dataset_stats.pkl"
-    policy_path = Path(exp_path) / f"traced_jit_{ckpt}.pt"
+    # policy_path = Path(exp_path) / f"traced_jit_{ckpt}.pt"
+    policy_path = Path(policy)
 
     play_freq = 30
     temporal_agg = True
