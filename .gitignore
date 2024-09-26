@@ -194,6 +194,32 @@ MANIFEST
 #  before PyInstaller builds the exe, so as to inject date/other infos into it.
 *.manifest
 *.spec
+6
+7
+8
+9
+10
+11
+12
+13
+14
+15
+16
+17
+18
+19
+20
+21
+22
+23
+24
+25
+26
+27
+28
+29
+30
+1727355873924.0001727355873957.0001727355873974.0001727355874007.0001727355874040.0001727355874057.000
 
 # Installer logs
 pip-log.txt
@@ -324,3 +350,5 @@ cython_debug/
 #  option (not recommended) you can uncomment the following to ignore the entire idea folder.
 .idea/
 *.pem
+certs/
+data/

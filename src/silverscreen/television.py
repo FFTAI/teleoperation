@@ -4,6 +4,7 @@ import time
 from multiprocessing.shared_memory import SharedMemory
 from threading import Lock
 
+from loguru import logger
 import numpy as np
 from vuer import Vuer
 from vuer.schemas import DefaultScene, Hands, ImageBackground, WebRTCStereoVideoPlane
@@ -56,10 +57,10 @@ class OpenTeleVision:
         else:
             raise ValueError("stream_mode must be either 'webrtc' or 'image'")
 
-        self.left_hand_shared = mp.Array("d", 16, lock=True)
-        self.right_hand_shared = mp.Array("d", 16, lock=True)
-        self.left_landmarks_shared = mp.Array("d", 75, lock=True)
-        self.right_landmarks_shared = mp.Array("d", 75, lock=True)
+        self.left_wrist_shared = mp.Array("d", 16, lock=True)
+        self.right_wrist_shared = mp.Array("d", 16, lock=True)
+        self.left_landmarks_shared = mp.Array("d", 25 * 3, lock=True)
+        self.right_landmarks_shared = mp.Array("d", 25 * 3, lock=True)
 
         self.head_matrix_shared = mp.Array("d", 16, lock=True)
         self.aspect_shared = mp.Value("d", 1.0, lock=True)
@@ -100,7 +101,8 @@ class OpenTeleVision:
 
     @property
     def connected(self):
-        return bool(self._connected.value)
+        with self._connected.get_lock():
+            return bool(self._connected.value)
 
     def run(self):
         self.app.run()
@@ -123,25 +125,18 @@ class OpenTeleVision:
         # print("camera moved", event.value["matrix"].shape, event.value["matrix"])
 
     async def on_hand_move(self, event, session, fps=60):
+        
         try:
-            # with self.left_hand_shared.get_lock():  # Use the lock to ensure thread-safe updates
-            #     self.left_hand_shared[:] = event.value["leftHand"]
-            # with self.right_hand_shared.get_lock():
-            #     self.right_hand_shared[:] = event.value["rightHand"]
-            # with self.left_landmarks_shared.get_lock():
-            #     self.left_landmarks_shared[:] = np.array(event.value["leftLandmarks"]).flatten()
-            # with self.right_landmarks_shared.get_lock():
-            #     self.right_landmarks_shared[:] = np.array(event.value["rightLandmarks"]).flatten()
-            self.left_hand_shared[:] = event.value["leftHand"]
-            self.right_hand_shared[:] = event.value["rightHand"]
+            self.left_wrist_shared[:] = np.array(event.value["leftHand"]).flatten()
+            self.right_wrist_shared[:] = np.array(event.value["rightHand"]).flatten()
             self.left_landmarks_shared[:] = np.array(event.value["leftLandmarks"]).flatten()
             self.right_landmarks_shared[:] = np.array(event.value["rightLandmarks"]).flatten()
             if not self._connected.value:
                 self._connected.value = True
-                print("first hand received")
+                logger.success("first hand received")
 
-        except Exception:
-            # print(e)
+        except Exception as e:
+            # logger.warning(e)
             pass
 
     async def main_webrtc(self, session, fps=60):
@@ -158,8 +153,8 @@ class OpenTeleVision:
         while True:
             await asyncio.sleep(1)
 
-    async def main_image(self, session, fps=60):
-        session.upsert @ Hands(fps=fps, stream=True, key="hands", showLeft=True, showRight=False)  # type: ignore
+    async def main_image(self, session, fps=90):
+        session.upsert @ Hands(fps=fps, stream=True, key="hands", showLeft=False, showRight=False)  # type: ignore
         end_time = time.time()
         while True:
             start = time.time()
@@ -231,43 +226,33 @@ class OpenTeleVision:
             end_time = time.time()
             image_lock.release()
 
-            sleep_time = max(1 / fps - (end_time - start), 0)
+            # print(f"fps: {1 / (end_time - start)}")
+
+            sleep_time = max(1 / 60 - (end_time - start), 0)
             await asyncio.sleep(sleep_time)
 
     @property
-    def left_hand(self):
-        # with self.left_hand_shared.get_lock():
-        #     return np.array(self.left_hand_shared[:]).reshape(4, 4, order="F")
-        return np.array(self.left_hand_shared[:]).reshape(4, 4, order="F")
+    def left_wrist(self):
+        return np.array(self.left_wrist_shared[:]).reshape(4, 4, order="F")
 
     @property
-    def right_hand(self):
-        # with self.right_hand_shared.get_lock():
-        #     return np.array(self.right_hand_shared[:]).reshape(4, 4, order="F")
-        return np.array(self.right_hand_shared[:]).reshape(4, 4, order="F")
+    def right_wrist(self):
+        return np.array(self.right_wrist_shared[:]).reshape(4, 4, order="F")
 
     @property
     def left_landmarks(self):
-        # with self.left_landmarks_shared.get_lock():
-        #     return np.array(self.left_landmarks_shared[:]).reshape(25, 3)
         return np.array(self.left_landmarks_shared[:]).reshape(25, 3)
-
+       
     @property
     def right_landmarks(self):
-        # with self.right_landmarks_shared.get_lock():
-        # return np.array(self.right_landmarks_shared[:]).reshape(25, 3)
         return np.array(self.right_landmarks_shared[:]).reshape(25, 3)
 
     @property
     def head_matrix(self):
-        # with self.head_matrix_shared.get_lock():
-        #     return np.array(self.head_matrix_shared[:]).reshape(4, 4, order="F")
         return np.array(self.head_matrix_shared[:]).reshape(4, 4, order="F")
 
     @property
     def aspect(self):
-        # with self.aspect_shared.get_lock():
-        # return float(self.aspect_shared.value)
         return float(self.aspect_shared.value)
 
 

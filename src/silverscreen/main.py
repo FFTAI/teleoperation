@@ -69,7 +69,7 @@ def main(
     waist: bool = True,
     sim: bool = False,
     record: bool = False,
-    wait_time: float = 3.0,
+    wait_time: float = 1.0,
 ):
     data_root = Path(PROJECT_ROOT).parent / "data"
     default_config = Path(CONFIG_DIR) / "body" / "gr1.yaml"
@@ -277,7 +277,7 @@ def main(
                     data_dict["action"]["hands"].append(filtered_hand_qpos)
                     data_dict["action"]["joints"].append(qpos)
                     data_dict["action"]["wrist_pose"].append(
-                        np.hstack([se3_to_xyzquat(left_pose), se3_to_xyzquat(right_pose)])
+                        np.hstack([left_pose, right_pose])
                     )
 
             if fsm.state == FSM.State.COLLECTING:

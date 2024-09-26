@@ -274,18 +274,8 @@ class TeleopRobot(Robot):
     def step(self):
         head_mat, left_wrist_mat, right_wrist_mat, left_hand_mat, right_hand_mat = self.processor.process(self.tv)
 
-        left_pose = np.concatenate(
-            [
-                left_wrist_mat[:3, 3],
-                rotations.quaternion_from_matrix(left_wrist_mat[:3, :3])[[1, 2, 3, 0]],
-            ]
-        )
-        right_pose = np.concatenate(
-            [
-                right_wrist_mat[:3, 3],
-                rotations.quaternion_from_matrix(right_wrist_mat[:3, :3])[[1, 2, 3, 0]],
-            ]
-        )
+        left_pose = se3_to_xyzquat(left_wrist_mat)
+        right_pose = se3_to_xyzquat(right_wrist_mat)
 
         left_qpos, right_qpos = self.hand_retarget.retarget(left_hand_mat, right_hand_mat)
 
@@ -305,24 +295,30 @@ class TeleopRobot(Robot):
                 executor.submit(self.left_hand.reset)
 
     def set_display_hand_joints(self, left_hand_qpos, right_hand_qpos):
-        left = np.zeros(11)
-        right = np.zeros(11)
 
-        left[0:2] = left_hand_qpos[0]
-        left[2:4] = left_hand_qpos[1]
-        left[4:6] = left_hand_qpos[3]
-        left[6:8] = left_hand_qpos[2]
-        left[8] = left_hand_qpos[5]
-        left[9:11] = left_hand_qpos[4]
+        if len(left_hand_qpos) == 6:
+            left = np.zeros(11)
+            left[0:2] = left_hand_qpos[0]
+            left[2:4] = left_hand_qpos[1]
+            left[4:6] = left_hand_qpos[3]
+            left[6:8] = left_hand_qpos[2]
+            left[8] = left_hand_qpos[5]
+            left[9:11] = left_hand_qpos[4]
+        else:
+            left = left_hand_qpos
 
-        right[0:2] = right_hand_qpos[0]
-        right[2:4] = right_hand_qpos[1]
-        right[4:6] = right_hand_qpos[3]
-        right[6:8] = right_hand_qpos[2]
-        right[8] = right_hand_qpos[5]
-        right[9:11] = right_hand_qpos[4]
+        if len(right_hand_qpos) == 6:
+            right = np.zeros(11)
+            right[0:2] = right_hand_qpos[0]
+            right[2:4] = right_hand_qpos[1]
+            right[4:6] = right_hand_qpos[3]
+            right[6:8] = right_hand_qpos[2]
+            right[8] = right_hand_qpos[5]
+            right[9:11] = right_hand_qpos[4]
+        else:
+            right = right_hand_qpos
 
-        # print(left, right, self.left_retargeting.joint_names)
+        # print(left, right, self.hand_retarget.left_joint_names)
         self.set_joint_positions(
             [
                 self.left_hand_prefix + name if not name.startswith(self.left_hand_prefix) else name

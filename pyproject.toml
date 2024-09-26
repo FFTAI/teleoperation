@@ -7,7 +7,7 @@ dependencies = [
     "numpy~=1.26.4",
     "h5py>=3.11.0",
     "pytransform3d>=3.6.2",
-    "vuer[all]==0.0.33",
+    "vuer[all]==0.0.32rc8",
     "tqdm>=4.66.5",
     "rich>=13.8.1",
     "opencv-python>=4.10.0.84",

@@ -44,8 +44,8 @@ class VuerPreprocessor:
 
     def process(self, tv):
         self.vuer_head_mat = mat_update(self.vuer_head_mat, tv.head_matrix.copy())
-        self.vuer_right_wrist_mat = mat_update(self.vuer_right_wrist_mat, tv.right_hand.copy())
-        self.vuer_left_wrist_mat = mat_update(self.vuer_left_wrist_mat, tv.left_hand.copy())
+        self.vuer_right_wrist_mat = mat_update(self.vuer_right_wrist_mat, tv.right_wrist.copy())
+        self.vuer_left_wrist_mat = mat_update(self.vuer_left_wrist_mat, tv.left_wrist.copy())
 
         # change of basis
         head_mat = grd_yup2grd_zup @ self.vuer_head_mat @ fast_mat_inv(grd_yup2grd_zup)
@@ -69,6 +69,9 @@ class VuerPreprocessor:
         # homogeneous
         left_fingers = np.concatenate([tv.left_landmarks.copy().T, np.ones((1, tv.left_landmarks.shape[0]))])
         right_fingers = np.concatenate([tv.right_landmarks.copy().T, np.ones((1, tv.right_landmarks.shape[0]))])
+
+        # left_fingers = tv.left_landmarks.copy()[:, 3, :].reshape(-1, 4).T
+        # right_fingers = tv.right_landmarks.copy()[:, 3, :].reshape(-1, 4).T
 
         # change of basis
         left_fingers = grd_yup2grd_zup @ left_fingers
