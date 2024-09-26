@@ -13,20 +13,24 @@ class CamRealsense(CameraBase):
         resolution: tuple[int, int] = (720, 1280),
         crop_size_h: int = 0,
         crop_size_w: int = 1,
-        open=True,
     ):
-        super().__init__(index, fps, resolution, crop_size_h, crop_size_w, open)
+        super().__init__(
+            index,
+            fps,
+            resolution,
+            crop_size_h,
+            crop_size_w,
+        )
 
-        if open:
-            # Configure RealSense pipeline
-            self.pipeline = rs.pipeline()
-            config = rs.config()
+        # Configure RealSense pipeline
+        self.pipeline = rs.pipeline()
+        config = rs.config()
 
-            # Set resolution and frame rate for the RealSense camera
-            config.enable_stream(rs.stream.color, resolution[1], resolution[0], rs.format.bgr8, fps)
+        # Set resolution and frame rate for the RealSense camera
+        config.enable_stream(rs.stream.color, resolution[1], resolution[0], rs.format.bgr8, fps)
 
-            # Start streaming
-            self.pipeline.start(config)
+        # Start streaming
+        self.pipeline.start(config)
 
     def start_recording(self, output_path: str):
         # Define the codec and create VideoWriter object

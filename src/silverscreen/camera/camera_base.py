@@ -11,7 +11,6 @@ class CameraBase(ABC):
         resolution: tuple[int, int],
         crop_size_h: int,
         crop_size_w: int,
-        open: bool,
         **kwargs,
     ):
         self.index = index

@@ -18,27 +18,25 @@ class CamZed(CameraBase):
         resolution: tuple[int, int] = (720, 1280),
         crop_size_h: int = 0,
         crop_size_w: int = 1,
-        open=True,
     ):
-        super().__init__(index, fps, resolution, crop_size_h, crop_size_w, open)
+        super().__init__(index, fps, resolution, crop_size_h, crop_size_w)
 
-        if open:
-            # Create a InitParameters object and set configuration parameters
-            init_params = sl.InitParameters()
-            init_params.camera_resolution = (
-                sl.RESOLUTION.HD720
-            )  # Use HD720 opr HD1200 video mode, depending on camera type.
-            init_params.camera_fps = fps  # Set fps at 60
-            self.zed = sl.Camera()
-            err = self.zed.open(init_params)
+        # Create a InitParameters object and set configuration parameters
+        init_params = sl.InitParameters()
+        init_params.camera_resolution = (
+            sl.RESOLUTION.HD720
+        )  # Use HD720 opr HD1200 video mode, depending on camera type.
+        init_params.camera_fps = fps  # Set fps at 60
+        self.zed = sl.Camera()
+        err = self.zed.open(init_params)
 
-            if err != sl.ERROR_CODE.SUCCESS:
-                print("Camera Open : " + repr(err) + ". Exit program.")
-                exit()
+        if err != sl.ERROR_CODE.SUCCESS:
+            print("Camera Open : " + repr(err) + ". Exit program.")
+            exit()
 
-            self.image_left = sl.Mat()
-            self.image_right = sl.Mat()
-            self.runtime_parameters = sl.RuntimeParameters()
+        self.image_left = sl.Mat()
+        self.image_right = sl.Mat()
+        self.runtime_parameters = sl.RuntimeParameters()
 
     def start_recording(self, output_path: str):
         recording_params = sl.RecordingParameters(output_path, sl.SVO_COMPRESSION_MODE.H264)
