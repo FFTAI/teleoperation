@@ -18,16 +18,16 @@ class CameraBase(ABC):
 
         self.crop_size_h = crop_size_h
         self.crop_size_w = crop_size_w
-        resolution_cropped = (
+        self.resolution_cropped = (
             resolution[0] - crop_size_h,
             resolution[1] - 2 * crop_size_w,
         )
-        self.img_shape = (resolution_cropped[0], 2 * resolution_cropped[1], 3)
+        self.img_shape = (self.resolution_cropped[0], 2 * self.resolution_cropped[1], 3)
 
     @property
     def resolution(self) -> tuple[int, int]:
         """height, width"""
-        return self.img_shape[:2]
+        return self.resolution_cropped
 
     @property
     def img_height(self) -> int:

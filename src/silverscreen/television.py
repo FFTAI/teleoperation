@@ -1,6 +1,7 @@
 import asyncio
 import multiprocessing as mp
 import time
+from multiprocessing.shared_memory import SharedMemory
 from threading import Lock
 
 import numpy as np
@@ -26,7 +27,7 @@ class OpenTeleVision:
     ):
         self._connected = mp.Value("b", False, lock=True)
         # self.app=Vuer()
-        self.img_shape = (img_shape[0], img_shape[1], 3)
+        self.img_shape = (img_shape[0], img_shape[1] * 2, 3)
         self.img_height, self.img_width = img_shape[:2]
 
         if ngrok:
@@ -40,18 +41,18 @@ class OpenTeleVision:
                 queue_len=3,
             )
 
-        self.app.add_handler("HAND_MOVE")(self.on_hand_move)
-        self.app.add_handler("CAMERA_MOVE")(self.on_cam_move)
+        self.app.add_handler("HAND_MOVE")(self.on_hand_move)  # type: ignore
+        self.app.add_handler("CAMERA_MOVE")(self.on_cam_move)  # type: ignore
         if stream_mode == "image":
-            existing_shm = mp.shared_memory.SharedMemory(name=shm_name)
+            existing_shm = SharedMemory(name=shm_name)
             self.img_array = np.ndarray(
                 (self.img_shape[0], self.img_shape[1], 3),
                 dtype=np.uint8,
                 buffer=existing_shm.buf,
             )
-            self.app.spawn(start=False)(self.main_image)
+            self.app.spawn(start=False)(self.main_image)  # type: ignore
         elif stream_mode == "webrtc":
-            self.app.spawn(start=False)(self.main_webrtc)
+            self.app.spawn(start=False)(self.main_webrtc)  # type: ignore
         else:
             raise ValueError("stream_mode must be either 'webrtc' or 'image'")
 
@@ -158,7 +159,7 @@ class OpenTeleVision:
             await asyncio.sleep(1)
 
     async def main_image(self, session, fps=60):
-        session.upsert @ Hands(fps=fps, stream=True, key="hands", showLeft=False, showRight=False)
+        session.upsert @ Hands(fps=fps, stream=True, key="hands", showLeft=True, showRight=False)  # type: ignore
         end_time = time.time()
         while True:
             start = time.time()
@@ -229,7 +230,9 @@ class OpenTeleVision:
             # rest_time = 1/fps - time.time() + start
             end_time = time.time()
             image_lock.release()
-            await asyncio.sleep(0.03)  # TODO
+
+            sleep_time = max(1 / fps - (end_time - start), 0)
+            await asyncio.sleep(sleep_time)
 
     @property
     def left_hand(self):
@@ -278,7 +281,7 @@ if __name__ == "__main__":
     )  # 450 * 600
     img_shape = (2 * resolution_cropped[0], resolution_cropped[1], 3)  # 900 * 600
     img_height, img_width = resolution_cropped[:2]  # 450 * 600
-    shm = mp.shared_memory.SharedMemory(create=True, size=np.prod(img_shape) * np.uint8().itemsize)
+    shm = SharedMemory(create=True, size=int(np.prod(img_shape) * np.uint8().itemsize))
     shm_name = shm.name
     img_array = np.ndarray((img_shape[0], img_shape[1], 3), dtype=np.uint8, buffer=shm.buf)
 

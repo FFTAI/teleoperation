@@ -57,7 +57,7 @@ class ReplayRobot(RobotWrapper):
 
         if not self.sim:
             logger.warning("Real robot mode.")
-            self.cam = make_camera("zed", open=True)
+            self.cam = make_camera("zed")
             self.client = RobotClient(namespace="gr/daq")
             self.left_hand = FourierDexHand(self.config.hand.ip_left)
             self.right_hand = FourierDexHand(self.config.hand.ip_right)
@@ -204,10 +204,9 @@ class TeleopRobot(Robot):
 
         if not self.sim:
             logger.warning("Real robot mode.")
-            self.cam = make_camera("zed", open=True)
+            self.cam = make_camera("zed")
             self.client = RobotClient(namespace="gr/daq")
-            
-            
+
             logger.info("Init robot client.")
             time.sleep(1.0)
             self.client.set_enable(True)
@@ -217,8 +216,7 @@ class TeleopRobot(Robot):
             self.client.move_joints(DEFAULT_INDEX, positions=DEFAULT_QPOS, degrees=False, duration=1.0)
             self.set_joint_positions([self.config.joint_names[i] for i in DEFAULT_INDEX], DEFAULT_QPOS, degrees=False)
             self.set_posture_target_from_current_configuration()
-            
-            
+
             logger.info("Init hands.")
             if self.hand_retarget.hand_type == "fourier":
                 self.left_hand = FourierDexHand(config.hand.ip_left)
@@ -233,8 +231,6 @@ class TeleopRobot(Robot):
                 with ThreadPoolExecutor(max_workers=2) as executor:
                     executor.submit(self.left_hand.reset)
                     executor.submit(self.right_hand.reset)
-
-            
 
         self.shm = shared_memory.SharedMemory(
             create=True,

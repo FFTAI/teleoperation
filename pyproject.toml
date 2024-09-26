@@ -7,7 +7,7 @@ dependencies = [
     "numpy~=1.26.4",
     "h5py>=3.11.0",
     "pytransform3d>=3.6.2",
-    "vuer[all]~=0.0.34-rc7",
+    "vuer[all]==0.0.33",
     "tqdm>=4.66.5",
     "rich>=13.8.1",
     "opencv-python>=4.10.0.84",
@@ -24,7 +24,7 @@ dependencies = [
     "meshcat>=0.3.2",
     "meshcat-shapes>=0.3.0",
 ]
-requires-python = "~=3.10,<3.12"
+requires-python = "~=3.10"
 readme = "README.md"
 license = { text = "MIT" }
 

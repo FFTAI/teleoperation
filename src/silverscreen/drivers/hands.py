@@ -36,12 +36,12 @@ class FourierDexHand:
         for i in range(10):
             m_last_cnt = self.hand.get_cnt()
             if len(m_last_cnt) != 6:
-                print("calibration communication failed, try again...")
+                logger.warning("calibration communication failed, try again...")
                 if i == 9:
-                    print("calibration failed")
+                    logger.error("calibration failed")
                     return False
                 continue
-            print("calibration start")
+            logger.info("calibration start")
             break
 
         self.hand.set_pwm(_back1)
@@ -61,7 +61,7 @@ class FourierDexHand:
                     time.sleep(2)
                     self.hand.calibration()
                     time.sleep(0.1)
-                    print("calibration success")
+                    logger.info("calibration success")
                     return True
                 self.hand.set_pwm(_forward)
             else:
@@ -72,7 +72,7 @@ class FourierDexHand:
 
         self.hand.set_pwm(_stop)
         time.sleep(2)
-        print("calibration failed")
+        logger.error("calibration failed")
         return False
 
 
@@ -81,7 +81,7 @@ class FourierDexHand:
         if isinstance(res, list) and len(res) == 6:
             self._hand_positions = res
         else:
-            logger.warning(f"Getting hand pos error: {res}")
+            logger.inging(f"Getting hand pos error: {res}")
         return self._hand_positions
 
     def set_positions(self, positions, wait_reply=False):

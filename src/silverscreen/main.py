@@ -144,7 +144,7 @@ def main(
             else:
                 timestamp = robot.update_image(gray=True)
 
-            head_mat = head_filter.next_mat(head_mat[:3, :3])
+            head_mat = head_filter.next_mat(head_mat)
 
             robot.solve(left_pose, right_pose, head_mat, dt=1 / config.frequency)
 

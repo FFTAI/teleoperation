@@ -1,6 +1,7 @@
 from pathlib import Path
 
 import numpy as np
+from loguru import logger
 from pynput import keyboard
 from scipy.spatial.transform import Rotation as R
 
@@ -51,6 +52,7 @@ class KeyboardListener:
     def __init__(self):
         self.listener = keyboard.Listener(on_press=self.on_press, on_release=self.on_release)
         self._space_pressed = False
+        logger.debug("Keyboard listener initialized")
 
     @property
     def space_pressed(self):
@@ -63,6 +65,7 @@ class KeyboardListener:
         self.listener.start()
 
     def on_press(self, key):
+        logger.debug(f"Key pressed: {key}")
         try:
             if key == keyboard.Key.space:
                 self._space_pressed = True

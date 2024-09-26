@@ -100,7 +100,10 @@ class LPRotationFilter:
 
     def next_mat(self, x: np.ndarray):
         """take and return rotation matrix instead of quat"""
-        assert x.shape == (3, 3)
+        assert x.shape == (3, 3) or x.shape == (4, 4)
+
+        if x.shape == (4, 4):
+            x = x[:3, :3]
 
         x = rotations.quaternion_from_matrix(x)
         next_x_quat = self.next(x)
