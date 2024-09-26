@@ -7,7 +7,8 @@ from scipy.spatial.transform import Rotation as R
 PROJECT_ROOT = Path(__file__).resolve().parent
 ASSET_DIR = PROJECT_ROOT / "assets"
 CONFIG_DIR = PROJECT_ROOT / "configs"
-DATA_DIR = PROJECT_ROOT.parent / "data"
+DATA_DIR = PROJECT_ROOT.parent.parent / "data"
+CERT_DIR = PROJECT_ROOT.parent.parent / "certs"
 
 
 def se3_to_xyzquat(se3):

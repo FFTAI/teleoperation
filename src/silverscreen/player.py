@@ -24,7 +24,7 @@ from silverscreen.retarget.hand import HandRetarget
 from silverscreen.retarget.robot import Robot
 from silverscreen.retarget.robot_wrapper import RobotWrapper
 from silverscreen.television import OpenTeleVision
-from silverscreen.utils import se3_to_xyzquat
+from silverscreen.utils import CERT_DIR, se3_to_xyzquat
 
 from .camera import make_camera
 
@@ -206,7 +206,20 @@ class TeleopRobot(Robot):
             logger.warning("Real robot mode.")
             self.cam = make_camera("zed", open=True)
             self.client = RobotClient(namespace="gr/daq")
+            
+            
+            logger.info("Init robot client.")
+            time.sleep(1.0)
+            self.client.set_enable(True)
 
+            time.sleep(1.0)
+
+            self.client.move_joints(DEFAULT_INDEX, positions=DEFAULT_QPOS, degrees=False, duration=1.0)
+            self.set_joint_positions([self.config.joint_names[i] for i in DEFAULT_INDEX], DEFAULT_QPOS, degrees=False)
+            self.set_posture_target_from_current_configuration()
+            
+            
+            logger.info("Init hands.")
             if self.hand_retarget.hand_type == "fourier":
                 self.left_hand = FourierDexHand(config.hand.ip_left)
                 self.right_hand = FourierDexHand(config.hand.ip_right)
@@ -221,15 +234,7 @@ class TeleopRobot(Robot):
                     executor.submit(self.left_hand.reset)
                     executor.submit(self.right_hand.reset)
 
-            logger.info("Init robot client.")
-            time.sleep(1.0)
-            self.client.set_enable(True)
-
-            time.sleep(1.0)
-
-            self.client.move_joints(DEFAULT_INDEX, positions=DEFAULT_QPOS, degrees=False, duration=1.0)
-            self.set_joint_positions([self.config.joint_names[i] for i in DEFAULT_INDEX], DEFAULT_QPOS, degrees=False)
-            self.set_posture_target_from_current_configuration()
+            
 
         self.shm = shared_memory.SharedMemory(
             create=True,
@@ -250,6 +255,8 @@ class TeleopRobot(Robot):
             stream_mode="image",
             toggle_streaming=self.toggle_streaming,
             ngrok=False,
+            cert_file=str(CERT_DIR / "cert.pem"),
+            key_file=str(CERT_DIR / "key.pem"),
         )
 
         self.processor = VuerPreprocessor(hand_type=self.hand_retarget.hand_type)

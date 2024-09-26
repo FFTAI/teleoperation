@@ -11,11 +11,10 @@ import typer
 from loguru import logger
 from omegaconf import DictConfig, OmegaConf
 
-from silverscreen.configs import DEFAULT_CONFIG_DIR
 from silverscreen.filters import LPRotationFilter
 from silverscreen.player import TeleopRobot
 from silverscreen.state_machine import FSM
-from silverscreen.utils import KeyboardListener, se3_to_xyzquat
+from silverscreen.utils import CONFIG_DIR, KeyboardListener, se3_to_xyzquat
 
 np.set_printoptions(precision=2, suppress=True)
 
@@ -73,7 +72,7 @@ def main(
     wait_time: float = 3.0,
 ):
     data_root = Path(PROJECT_ROOT).parent / "data"
-    default_config = Path(DEFAULT_CONFIG_DIR) / "body" / "gr1.yaml"
+    default_config = Path(CONFIG_DIR) / "body" / "gr1.yaml"
     config = DictConfig(OmegaConf.load(default_config))
 
     config.wait_time = wait_time
@@ -145,7 +144,7 @@ def main(
             else:
                 timestamp = robot.update_image(gray=True)
 
-            head_mat = head_filter.next_mat(head_mat)
+            head_mat = head_filter.next_mat(head_mat[:3, :3])
 
             robot.solve(left_pose, right_pose, head_mat, dt=1 / config.frequency)
 
