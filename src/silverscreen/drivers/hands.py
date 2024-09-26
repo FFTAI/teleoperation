@@ -16,6 +16,7 @@ class Hand(Protocol):
     def reset(self): ...
 
 
+
 class FourierDexHand:
     def __init__(self, hand_ip: str):
         self.hand = DexHand(hand_ip)
@@ -23,16 +24,57 @@ class FourierDexHand:
         self._hand_positions = [0] * 6
 
     def init(self):
-        self.reset()
-        time.sleep(1.0)
-        self.hand.set_pwm([200, 200, 200, 200, -200, -200])
-        time.sleep(1.0)
-        self.hand.set_pwm([-200, -200, -200, -200, 200, 200])
-        time.sleep(1.0)
-        self.reset()
+        return self._reset()
 
-        self.hand.calibration()
-        time.sleep(1.0)
+
+    def _reset(self):
+        _back1, _forward, _stop = (
+            [-200, -200, -200, -200, -200, -200],
+            [200, 200, 200, 200, 200, 200],
+            [0, 0, 0, 0, 0, 0],
+        )
+        for i in range(10):
+            m_last_cnt = self.hand.get_cnt()
+            if len(m_last_cnt) != 6:
+                print("calibration communication failed, try again...")
+                if i == 9:
+                    print("calibration failed")
+                    return False
+                continue
+            print("calibration start")
+            break
+
+        self.hand.set_pwm(_back1)
+        time.sleep(2)
+        go_back_counts = 0
+
+        for i in range(500):
+            m_cur_cnt = self.hand.get_cnt()
+
+            if len(m_cur_cnt) != 6:
+                continue
+
+            if m_cur_cnt == m_last_cnt:
+                go_back_counts += 1
+                if go_back_counts > 5:
+                    self.hand.set_pwm(_back1)
+                    time.sleep(2)
+                    self.hand.calibration()
+                    time.sleep(0.1)
+                    print("calibration success")
+                    return True
+                self.hand.set_pwm(_forward)
+            else:
+                self.hand.set_pwm(_back1)
+
+            m_last_cnt = m_cur_cnt
+            time.sleep(0.01)
+
+        self.hand.set_pwm(_stop)
+        time.sleep(2)
+        print("calibration failed")
+        return False
+
 
     def get_positions(self):
         res = self.hand.get_angle()
