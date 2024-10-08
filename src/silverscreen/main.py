@@ -14,7 +14,7 @@ from omegaconf import DictConfig, OmegaConf
 from silverscreen.filters import LPRotationFilter
 from silverscreen.player import TeleopRobot
 from silverscreen.state_machine import FSM
-from silverscreen.utils import CONFIG_DIR, KeyboardListener, se3_to_xyzquat
+from silverscreen.utils import CONFIG_DIR, KeyboardListener
 
 np.set_printoptions(precision=2, suppress=True)
 
@@ -61,7 +61,7 @@ class RecordingInfo:
     def increment(self):
         self.episode_id += 1
         self.episode_path = os.path.join(self.session_path, f"episode_{self.episode_id}.hdf5")
-        self.images_path = os.path.join(self.session_path, f"images_episode_{self.episode_id}")
+        self.video_path = os.path.join(self.session_path, f"episode_{self.episode_id}")
 
 
 def main(
@@ -276,9 +276,7 @@ def main(
                 if fsm.state == FSM.State.COLLECTING:
                     data_dict["action"]["hands"].append(filtered_hand_qpos)
                     data_dict["action"]["joints"].append(qpos)
-                    data_dict["action"]["wrist_pose"].append(
-                        np.hstack([left_pose, right_pose])
-                    )
+                    data_dict["action"]["wrist_pose"].append(np.hstack([left_pose, right_pose]))
 
             if fsm.state == FSM.State.COLLECTING:
                 data_dict["timestamp"].append(timestamp)
