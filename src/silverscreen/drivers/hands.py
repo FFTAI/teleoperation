@@ -81,7 +81,7 @@ class FourierDexHand:
         if isinstance(res, list) and len(res) == 6:
             self._hand_positions = res
         else:
-            logger.inging(f"Getting hand pos error: {res}")
+            logger.warning(f"Getting hand pos error: {res}")
         return self._hand_positions
 
     def set_positions(self, positions, wait_reply=False):

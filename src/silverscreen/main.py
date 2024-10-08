@@ -67,6 +67,7 @@ class RecordingInfo:
 def main(
     session_name: Annotated[str, typer.Argument(help="Name of the session")],
     waist: bool = True,
+    head: bool = True,
     sim: bool = False,
     record: bool = False,
     wait_time: float = 1.0,
@@ -79,6 +80,12 @@ def main(
 
     if not waist:
         config.robot.joints_to_lock.append("waist_pitch_joint")
+
+    if not head:
+        config.robot.joints_to_lock.append("head_pitch_joint")
+        config.robot.joints_to_lock.append("head_yaw_joint")
+
+    print("Joints to lock: ", config.robot.joints_to_lock)
 
     recording = None
 
