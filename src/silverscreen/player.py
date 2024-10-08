@@ -14,7 +14,6 @@ import typer
 from fourier_grx_client import ControlGroup, RobotClient
 from loguru import logger
 from omegaconf import DictConfig, OmegaConf
-from pytransform3d import rotations
 from tqdm import tqdm
 
 from silverscreen.drivers.hands import FourierDexHand, InspireDexHand
@@ -97,7 +96,7 @@ class ReplayRobot(RobotWrapper):
         qpos_robot = np.deg2rad(self.client.joint_positions)
         qpos = np.concatenate(
             (
-                qpos_robot[[13, 15, 17]],
+                qpos_robot[[13, 16, 17]],
                 qpos_robot[-14:],
                 left_hand_qpos,
                 right_hand_qpos,
@@ -144,7 +143,7 @@ class ReplayRobot(RobotWrapper):
         assert len(action) == 29
         qpos = np.zeros(32)
 
-        qpos[[13, 15, 17]] = action[[0, 1, 2]]
+        qpos[[13, 16, 17]] = action[[0, 1, 2]]
         qpos[-14:] = action[3:17]
         left_hand_qpos, right_hand_qpos = self.hand_retarget.real_to_qpos(action[17:23], action[23:29])
 
@@ -295,7 +294,6 @@ class TeleopRobot(Robot):
                 executor.submit(self.left_hand.reset)
 
     def set_display_hand_joints(self, left_hand_qpos, right_hand_qpos):
-
         if len(left_hand_qpos) == 6:
             left = np.zeros(11)
             left[0:2] = left_hand_qpos[0]

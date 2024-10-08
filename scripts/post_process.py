@@ -135,9 +135,9 @@ def load_hdf5(path, offset=10):  # offset 10ms
     actions_hands = np.array(file["/action/hands"][:])
     # cmds = np.array(file["/action/cmd"][:])
 
-    states = np.concatenate([states_joints[:, [13, 15, 17]], states_joints[:, -14:], states_hands], axis=1)
+    states = np.concatenate([states_joints[:, [13, 16, 17]], states_joints[:, -14:], states_hands], axis=1)
     actions = np.concatenate(
-        [actions_joints[:, [13, 15, 17]], actions_joints[:, -14:], actions_hands],
+        [actions_joints[:, [13, 16, 17]], actions_joints[:, -14:], actions_hands],
         axis=1,
     )
     cmds = []
