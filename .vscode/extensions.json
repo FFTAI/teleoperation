@@ -1,0 +1,12 @@
+{
+    "recommendations": [
+        "njpwerner.autodocstring",
+        "piotrpalarz.vscode-gitignore-generator",
+        "charliermarsh.ruff",
+        "mhutchie.git-graph",
+        "seatonjiang.gitmoji-vscode",
+        "ms-python.python",
+        "ms-toolsai.jupyter",
+        "tamasfe.even-better-toml"
+    ]
+}
