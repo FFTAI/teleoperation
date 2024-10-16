@@ -1,15 +1,39 @@
+# Copyright [2024] [Xuxin Cheng, Jialong Li, Shiqi Yang, Ge Yang and Xiaolong Wang]
+
+# Licensed under the Apache License, Version 2.0 (the "License");
+# you may not use this file except in compliance with the License.
+# You may obtain a copy of the License at
+
+#     http://www.apache.org/licenses/LICENSE-2.0
+
+# Unless required by applicable law or agreed to in writing, software
+# distributed under the License is distributed on an "AS IS" BASIS,
+# WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+# See the License for the specific language governing permissions and
+# limitations under the License.
+
+# ------------------
+
+# This code builds upon following open-source code-bases. Please visit the URLs to see the respective LICENSES:
+
+# 1) https://github.com/tonyzhaozh/act
+# 2) https://github.com/facebookresearch/detr
+# 3) https://github.com/dexsuite/dex-retargeting
+# 4) https://github.com/vuer-ai/vuer
+
+# ------------------
+
 import asyncio
 import multiprocessing as mp
 import time
 from multiprocessing.shared_memory import SharedMemory
 from threading import Lock
+from typing import Literal
 
-from loguru import logger
 import numpy as np
+from loguru import logger
 from vuer import Vuer
-from vuer.schemas import DefaultScene, Hands, ImageBackground, WebRTCStereoVideoPlane
-
-from .webrtc.zed_server import *
+from vuer.schemas import Hands, ImageBackground
 
 image_lock = Lock()
 
@@ -19,16 +43,16 @@ class OpenTeleVision:
         self,
         img_shape,
         shm_name,
-        queue,
-        toggle_streaming,
-        stream_mode="image",
+        stream_mode: Literal["rgb_mono", "rgb_stereo"] = "rgb_stereo",
         cert_file="./cert.pem",
         key_file="./key.pem",
         ngrok=False,
     ):
         self._connected = mp.Value("b", False, lock=True)
-        # self.app=Vuer()
-        self.img_shape = (img_shape[0], img_shape[1] * 2, 3)
+
+        self.stream_mode = stream_mode
+        if self.stream_mode == "rgb_stereo":
+            self.img_shape = (img_shape[0], img_shape[1] * 2, 3)
         self.img_height, self.img_width = img_shape[:2]
 
         if ngrok:
@@ -44,7 +68,8 @@ class OpenTeleVision:
 
         self.app.add_handler("HAND_MOVE")(self.on_hand_move)  # type: ignore
         self.app.add_handler("CAMERA_MOVE")(self.on_cam_move)  # type: ignore
-        if stream_mode == "image":
+
+        if stream_mode.startswith("rgb"):
             existing_shm = SharedMemory(name=shm_name)
             self.img_array = np.ndarray(
                 (self.img_shape[0], self.img_shape[1], 3),
@@ -52,49 +77,16 @@ class OpenTeleVision:
                 buffer=existing_shm.buf,
             )
             self.app.spawn(start=False)(self.main_image)  # type: ignore
-        elif stream_mode == "webrtc":
-            self.app.spawn(start=False)(self.main_webrtc)  # type: ignore
         else:
-            raise ValueError("stream_mode must be either 'webrtc' or 'image'")
+            raise ValueError("stream_mode must be either 'rgb_mono' or 'rgb_stereo'")
 
-        self.left_wrist_shared = mp.Array("d", 16, lock=True)
-        self.right_wrist_shared = mp.Array("d", 16, lock=True)
-        self.left_landmarks_shared = mp.Array("d", 25 * 3, lock=True)
-        self.right_landmarks_shared = mp.Array("d", 25 * 3, lock=True)
+        self.left_wrist_shared = mp.Array("d", 16)
+        self.right_wrist_shared = mp.Array("d", 16)
+        self.left_landmarks_shared = mp.Array("d", 25 * 3)
+        self.right_landmarks_shared = mp.Array("d", 25 * 3)
 
-        self.head_matrix_shared = mp.Array("d", 16, lock=True)
-        self.aspect_shared = mp.Value("d", 1.0, lock=True)
-        if stream_mode == "webrtc":
-            ssl_context = ssl.SSLContext()
-            ssl_context.load_cert_chain(cert_file, key_file)
-
-            app = web.Application()
-            cors = aiohttp_cors.setup(
-                app,
-                defaults={
-                    "*": aiohttp_cors.ResourceOptions(
-                        allow_credentials=True,
-                        expose_headers="*",
-                        allow_headers="*",
-                        allow_methods="*",
-                    )
-                },
-            )
-            rtc = RTC(img_shape, queue, toggle_streaming, 60)
-            app.on_shutdown.append(on_shutdown)
-            cors.add(app.router.add_get("/", index))
-            cors.add(app.router.add_get("/client.js", javascript))
-            cors.add(app.router.add_post("/offer", rtc.offer))
-
-            self.webrtc_process = mp.Process(
-                target=web.run_app,
-                args=(app,),
-                kwargs={"host": "0.0.0.0", "port": 8080, "ssl_context": ssl_context},
-            )
-            self.webrtc_process.daemon = True
-            self.webrtc_process.start()
-            # web.run_app(app, host="0.0.0.0", port=8080, ssl_context=ssl_context)
-
+        self.head_matrix_shared = mp.Array("d", 16)
+        self.aspect_shared = mp.Value("d", 1.0)
         self.process = mp.Process(target=self.run)
         self.process.daemon = True
         self.process.start()
@@ -108,24 +100,14 @@ class OpenTeleVision:
         self.app.run()
 
     async def on_cam_move(self, event, session, fps=60):
-        # only intercept the ego camera.
-        # if event.key != "ego":
-        #     return
         try:
-            # with self.head_matrix_shared.get_lock():  # Use the lock to ensure thread-safe updates
-            #     self.head_matrix_shared[:] = event.value["camera"]["matrix"]
-            # with self.aspect_shared.get_lock():
-            #     self.aspect_shared.value = event.value['camera']['aspect']
             self.head_matrix_shared[:] = event.value["camera"]["matrix"]
             self.aspect_shared.value = event.value["camera"]["aspect"]
-        except:
+        except Exception as e:
+            logger.trace(f"Error in on_cam_move: {e}")
             pass
-        # self.head_matrix = np.array(event.value["camera"]["matrix"]).reshape(4, 4, order="F")
-        # print(np.array(event.value["camera"]["matrix"]).reshape(4, 4, order="F"))
-        # print("camera moved", event.value["matrix"].shape, event.value["matrix"])
 
     async def on_hand_move(self, event, session, fps=60):
-        
         try:
             self.left_wrist_shared[:] = np.array(event.value["leftHand"]).flatten()
             self.right_wrist_shared[:] = np.array(event.value["rightHand"]).flatten()
@@ -136,99 +118,84 @@ class OpenTeleVision:
                 logger.success("first hand received")
 
         except Exception as e:
-            # logger.warning(e)
+            logger.trace(f"Error in on_hand_move: {e}")
             pass
 
-    async def main_webrtc(self, session, fps=60):
-        session.set @ DefaultScene(frameloop="always")
-        session.upsert @ Hands(fps=fps, stream=True, key="hands", showLeft=False, showRight=False)
-        session.upsert @ WebRTCStereoVideoPlane(
-            src="https://192.168.8.102:8080/offer",
-            # iceServer={},
-            key="zed",
-            aspect=1.33334,
-            height=8,
-            position=[0, -2, -0.2],
-        )
-        while True:
-            await asyncio.sleep(1)
-
-    async def main_image(self, session, fps=90):
+    async def main_image(self, session, fps=60):
         session.upsert @ Hands(fps=fps, stream=True, key="hands", showLeft=False, showRight=False)  # type: ignore
         end_time = time.time()
         while True:
             start = time.time()
-            # print(end_time - start)
-            # aspect = self.aspect_shared.value
             image_lock.acquire()
             display_image = self.img_array
 
-            # session.upsert(
-            # ImageBackground(
-            #     # Can scale the images down.
-            #     display_image[:self.img_height],
-            #     # 'jpg' encoding is significantly faster than 'png'.
-            #     format="jpeg",
-            #     quality=80,
-            #     key="left-image",
-            #     interpolate=True,
-            #     # fixed=True,
-            #     aspect=1.778,
-            #     distanceToCamera=2,
-            #     position=[0, -0.5, -2],
-            #     rotation=[0, 0, 0],
-            # ),
-            # to="bgChildren",
-            # )
-
-            session.upsert(
-                [
+            if self.stream_mode == "rgb_mono":
+                session.upsert(
                     ImageBackground(
                         # Can scale the images down.
-                        display_image[::2, : self.img_width],
-                        # display_image[:self.img_height:2, ::2],
+                        display_image[::2, :],
                         # 'jpg' encoding is significantly faster than 'png'.
                         format="jpeg",
                         quality=80,
                         key="left-image",
                         interpolate=True,
                         # fixed=True,
-                        aspect=1.66667,
-                        # distanceToCamera=0.5,
-                        height=8,
-                        position=[0, -1, 3],
-                        # rotation=[0, 0, 0],
-                        layers=1,
-                        alphaSrc="./vinette.jpg",
+                        aspect=1.778,
+                        distanceToCamera=2,
+                        position=[0, -0.5, -2],
+                        rotation=[0, 0, 0],
                     ),
-                    ImageBackground(
-                        # Can scale the images down.
-                        display_image[::2, self.img_width :],
-                        # display_image[self.img_height::2, ::2],
-                        # 'jpg' encoding is significantly faster than 'png'.
-                        format="jpeg",
-                        quality=80,
-                        key="right-image",
-                        interpolate=True,
-                        # fixed=True,
-                        aspect=1.66667,
-                        # distanceToCamera=0.5,
-                        height=8,
-                        position=[0, -1, 3],
-                        # rotation=[0, 0, 0],
-                        layers=2,
-                        alphaSrc="./vinette.jpg",
-                    ),
-                ],
-                to="bgChildren",
-            )
+                    to="bgChildren",
+                )
+            elif self.stream_mode == "rgb_stereo":
+                session.upsert(
+                    [
+                        ImageBackground(
+                            # Can scale the images down.
+                            display_image[::2, : self.img_width],
+                            # display_image[:self.img_height:2, ::2],
+                            # 'jpg' encoding is significantly faster than 'png'.
+                            format="jpeg",
+                            quality=80,
+                            key="left-image",
+                            interpolate=True,
+                            # fixed=True,
+                            aspect=1.66667,
+                            # distanceToCamera=0.5,
+                            height=8,
+                            position=[0, -1, 3],
+                            # rotation=[0, 0, 0],
+                            layers=1,
+                            alphaSrc="./vinette.jpg",
+                        ),
+                        ImageBackground(
+                            # Can scale the images down.
+                            display_image[::2, self.img_width :],
+                            # display_image[self.img_height::2, ::2],
+                            # 'jpg' encoding is significantly faster than 'png'.
+                            format="jpeg",
+                            quality=80,
+                            key="right-image",
+                            interpolate=True,
+                            # fixed=True,
+                            aspect=1.66667,
+                            # distanceToCamera=0.5,
+                            height=8,
+                            position=[0, -1, 3],
+                            # rotation=[0, 0, 0],
+                            layers=2,
+                            alphaSrc="./vinette.jpg",
+                        ),
+                    ],
+                    to="bgChildren",
+                )
             # rest_time = 1/fps - time.time() + start
             end_time = time.time()
             image_lock.release()
 
             # print(f"fps: {1 / (end_time - start)}")
 
-            sleep_time = max(1 / 60 - (end_time - start), 0)
+            sleep_time = max(1 / fps - (end_time - start), 0)
             await asyncio.sleep(sleep_time)
 
     @property
@@ -242,7 +209,7 @@ class OpenTeleVision:
     @property
     def left_landmarks(self):
         return np.array(self.left_landmarks_shared[:]).reshape(25, 3)
-       
+
     @property
     def right_landmarks(self):
         return np.array(self.right_landmarks_shared[:]).reshape(25, 3)
@@ -254,25 +221,3 @@ class OpenTeleVision:
     @property
     def aspect(self):
         return float(self.aspect_shared.value)
-
-
-if __name__ == "__main__":
-    resolution = (720, 1280)
-    crop_size_w = 340  # (resolution[1] - resolution[0]) // 2
-    crop_size_h = 270
-    resolution_cropped = (
-        resolution[0] - crop_size_h,
-        resolution[1] - 2 * crop_size_w,
-    )  # 450 * 600
-    img_shape = (2 * resolution_cropped[0], resolution_cropped[1], 3)  # 900 * 600
-    img_height, img_width = resolution_cropped[:2]  # 450 * 600
-    shm = SharedMemory(create=True, size=int(np.prod(img_shape) * np.uint8().itemsize))
-    shm_name = shm.name
-    img_array = np.ndarray((img_shape[0], img_shape[1], 3), dtype=np.uint8, buffer=shm.buf)
-
-    tv = OpenTeleVision(resolution_cropped, cert_file="../cert.pem", key_file="../key.pem")
-    while True:
-        # print(tv.left_landmarks)
-        # print(tv.left_hand)
-        # tv.modify_shared_image(random=True)
-        time.sleep(1)

@@ -36,7 +36,7 @@ class Camera:
 
     def start_recording(self, output_path: str):
         # Define the codec and create VideoWriter object
-        fourcc = cv2.VideoWriter_fourcc(*'XVID')
+        fourcc = cv2.VideoWriter_fourcc(*"XVID")
         self.out = cv2.VideoWriter(output_path, fourcc, 20.0, (self.img_width, self.img_height))
         self.is_recording = True
 
@@ -51,9 +51,7 @@ class Camera:
             raise Exception("Failed to grab image")
 
         # Crop the frame
-        cropped_frame = frame[
-            self.crop_size_h:, self.crop_size_w:-self.crop_size_w
-        ]
+        cropped_frame = frame[self.crop_size_h :, self.crop_size_w : -self.crop_size_w]
 
         if gray:
             # Convert to grayscale if requested
@@ -71,7 +69,6 @@ class Camera:
         cv2.destroyAllWindows()
 
 
-
 def main():
     # Initialize the Camera object
     camera = Camera(camera_index=0, resolution=(720, 1280), crop_size_h=0, crop_size_w=0, open=True)
@@ -83,10 +80,10 @@ def main():
             timestamp, frame = camera.grab(gray=False)  # Set gray=True if you want grayscale
 
             # Show the frame in a window
-            cv2.imshow('Camera Feed', frame)
+            cv2.imshow("Camera Feed", frame)
 
             # Check if 'q' is pressed to break the loop
-            if cv2.waitKey(1) & 0xFF == ord('q'):
+            if cv2.waitKey(1) & 0xFF == ord("q"):
                 break
 
         except Exception as e:
@@ -97,7 +94,6 @@ def main():
     camera.release()
     cv2.destroyAllWindows()
 
+
 if __name__ == "__main__":
     main()
-
-

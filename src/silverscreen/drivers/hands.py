@@ -16,7 +16,6 @@ class Hand(Protocol):
     def reset(self): ...
 
 
-
 class FourierDexHand:
     def __init__(self, hand_ip: str):
         self.hand = DexHand(hand_ip)
@@ -25,7 +24,6 @@ class FourierDexHand:
 
     def init(self):
         return self._reset()
-
 
     def _reset(self):
         _back1, _forward, _stop = (
@@ -74,7 +72,6 @@ class FourierDexHand:
         time.sleep(2)
         logger.error("calibration failed")
         return False
-
 
     def get_positions(self):
         res = self.hand.get_angle()

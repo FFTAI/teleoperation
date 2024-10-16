@@ -1,3 +1,5 @@
+from __future__ import annotations
+
 import time
 from typing import Literal
 
@@ -8,11 +10,12 @@ import qpsolvers
 from omegaconf import DictConfig
 
 from silverscreen.filters import LPRotationFilter, OneEuroFilter
+from silverscreen.retarget.hand import HandRetarget
 
 from .robot_wrapper import RobotWrapper
 
 
-class Robot(RobotWrapper):
+class IKRobot(RobotWrapper):
     def __init__(self, config: DictConfig):
         super().__init__(config.robot)
 
@@ -108,12 +111,11 @@ class Robot(RobotWrapper):
         self,
         left_target: np.ndarray,
         right_target: np.ndarray,
-        head_target: np.ndarray,
+        head_target: np.ndarray | None,
         dt: float,
     ):
         right_target = pin.XYZQUATToSE3(right_target)
         left_target = pin.XYZQUATToSE3(left_target)
-        head_target = pin.SE3(head_target[:3, :3], np.array([0.0, 0.0, 0.0]))
 
         left_target.translation = left_target.translation * self.config.body_scaling_factor
         right_target.translation = right_target.translation * self.config.body_scaling_factor
@@ -127,7 +129,10 @@ class Robot(RobotWrapper):
 
         self.tasks["r_hand_task"].set_target(right_target)
         self.tasks["l_hand_task"].set_target(left_target)
-        self.tasks["head_task"].set_target(head_target)
+
+        if head_target is not None:
+            head_target = pin.SE3(head_target[:3, :3], np.array([0.0, 0.0, 0.0]))
+            self.tasks["head_task"].set_target(head_target)
 
         solver = qpsolvers.available_solvers[0]
 
@@ -143,3 +148,87 @@ class Robot(RobotWrapper):
             safety_break=False,
         )
         self.configuration.integrate_inplace(velocity, dt)
+
+
+class DexRobot(IKRobot):
+    def __init__(self, config: DictConfig):
+        super().__init__(config.robot)
+
+        self.left_hand_prefix = config.hand.prefix_left
+        self.right_hand_prefix = config.hand.prefix_right
+
+        self.hand_filter = OneEuroFilter(min_cutoff=config.hand_filter.min_cutoff, beta=config.hand_filter.beta)
+        self.joint_filter = OneEuroFilter(min_cutoff=config.joint_filter.min_cutoff, beta=config.joint_filter.beta)
+
+        self.hand_retarget = HandRetarget(config.hand.config)
+
+    def hand_action_convert(self, left_qpos, right_qpos, filtering=True) -> tuple[np.ndarray, np.ndarray]:
+        left_qpos_real, right_qpos_real = self.hand_retarget.qpos_to_real(left_qpos, right_qpos)
+        if not filtering:
+            if self.hand_retarget.hand_type == "inspire":
+                filtered_hand_qpos = np.hstack([left_qpos_real, right_qpos_real]).astype(int)
+            elif self.hand_retarget.hand_type == "fourier":
+                filtered_hand_qpos = np.hstack([left_qpos_real, right_qpos_real])
+            else:
+                raise ValueError("Invalid hand type.")
+        else:
+            if self.hand_retarget.hand_type == "inspire":
+                filtered_hand_qpos = self.hand_filter.next(
+                    time.time(),
+                    np.hstack([left_qpos_real, right_qpos_real]),
+                ).astype(int)
+            elif self.hand_retarget.hand_type == "fourier":
+                filtered_hand_qpos = self.hand_filter.next(
+                    time.time(),
+                    np.hstack([left_qpos_real, right_qpos_real]),
+                )
+            else:
+                raise ValueError("Invalid hand type.")
+
+        return filtered_hand_qpos[:6], filtered_hand_qpos[6:]
+
+    def set_hand_joints(self, left_hand_qpos: np.ndarray, right_hand_qpos: np.ndarray):
+        """Set the joint positions of the hands to pinocchio
+
+        Args:
+            left_hand_qpos (ndarray): Hand qpos in radians
+            right_hand_qpos (ndarray): Hand qpos in radians
+        """
+        # left_hand_qpos, right_hand_qpos = self.hand_retarget.real_to_qpos(left_hand_real, right_hand_real)
+        if len(left_hand_qpos) == 6:
+            left = np.zeros(11)
+            left[0:2] = left_hand_qpos[0]
+            left[2:4] = left_hand_qpos[1]
+            left[4:6] = left_hand_qpos[3]
+            left[6:8] = left_hand_qpos[2]
+            left[8] = left_hand_qpos[5]
+            left[9:11] = left_hand_qpos[4]
+        else:
+            left = left_hand_qpos
+
+        if len(right_hand_qpos) == 6:
+            right = np.zeros(11)
+            right[0:2] = right_hand_qpos[0]
+            right[2:4] = right_hand_qpos[1]
+            right[4:6] = right_hand_qpos[3]
+            right[6:8] = right_hand_qpos[2]
+            right[8] = right_hand_qpos[5]
+            right[9:11] = right_hand_qpos[4]
+        else:
+            right = right_hand_qpos
+
+        # print(left, right, self.hand_retarget.left_joint_names)
+        self.set_joint_positions(
+            [
+                self.left_hand_prefix + name if not name.startswith(self.left_hand_prefix) else name
+                for name in self.hand_retarget.left_joint_names
+            ],
+            left,
+        )
+        self.set_joint_positions(
+            [
+                self.right_hand_prefix + name if not name.startswith(self.right_hand_prefix) else name
+                for name in self.hand_retarget.right_joint_names
+            ],
+            right,
+        )

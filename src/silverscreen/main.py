@@ -64,6 +64,29 @@ class RecordingInfo:
         self.video_path = os.path.join(self.session_path, f"episode_{self.episode_id}")
 
 
+def make_data_dict():
+    # TODO: make this configurable
+    camera_names = ["left", "right"]
+    depth_camera_names = ["left"]
+    data_dict = {
+        "timestamp": [],
+        "obs": {"qpos": [], "hand_qpos": [], "ee_pose": [], "head_pose": []},
+        "action": {
+            "joints": [],
+            "hands": [],
+            "ee_pose": [],
+        },
+    }
+
+    for cam in camera_names:
+        data_dict["obs"][f"camera_{cam}"] = []
+
+    for cam in depth_camera_names:
+        data_dict["obs"][f"depth_{cam}"] = []
+
+    return data_dict
+
+
 def main(
     session_name: Annotated[str, typer.Argument(help="Name of the session")],
     waist: bool = True,
@@ -88,31 +111,13 @@ def main(
     print("Joints to lock: ", config.robot.joints_to_lock)
 
     recording = None
+    data_dict = make_data_dict()
 
     if record:
         session_path = data_root / session_name
         os.makedirs(session_path, exist_ok=True)
 
         recording = RecordingInfo.from_session_path(str(session_path))
-
-    camera_names = ["left", "right"]
-    data_dict = {
-        "timestamp": [],
-        "obs": {
-            "hand_qpos": [],
-            "qpos": [],
-            "qvel": [],
-            "ee_pose": [],
-        },
-        "action": {
-            "joints": [],
-            "hands": [],
-            "wrist_pose": [],
-        },
-    }
-
-    for cam in camera_names:
-        data_dict["obs"][f"camera_{cam}"] = []
 
     fsm = FSM()
 
@@ -155,7 +160,7 @@ def main(
 
             robot.solve(left_pose, right_pose, head_mat, dt=1 / config.frequency)
 
-            robot.set_display_hand_joints(left_qpos, right_qpos)
+            robot.set_hand_joints(left_qpos, right_qpos)
 
             if robot.viz:
                 robot.viz.viewer["head"].set_transform(head_mat)
@@ -208,25 +213,9 @@ def main(
                     raise InitializationError("Recording not initialized.")
                 collection_start = time.time()
 
-                robot.start_recording(str(recording.video_path) + ".svo")
+                robot.start_recording(str(recording.video_path))
 
-                data_dict = {
-                    "timestamp": [],
-                    "obs": {
-                        "hand_qpos": [],
-                        "qpos": [],
-                        "qvel": [],
-                        "ee_pose": [],
-                    },
-                    "action": {
-                        "joints": [],
-                        "hands": [],
-                        "wrist_pose": [],
-                    },
-                }
-
-                for cam in camera_names:
-                    data_dict["obs"][f"camera_{cam}"] = []
+                data_dict = make_data_dict()
 
                 logger.info(f"Episode {recording.episode_id} started.")
                 fsm.next()
@@ -244,7 +233,6 @@ def main(
                     f"Episode {recording.episode_id} took {episode_length:.2f} seconds. Saving data to {recording.episode_path}"
                 )
 
-                # max_timesteps = len(data_dict["timestamp"])
                 # check for inhomogeneous data
                 try:
                     with h5py.File(recording.episode_path, "w", rdcc_nbytes=1024**2 * 2) as f:
@@ -288,15 +276,15 @@ def main(
             if fsm.state == FSM.State.COLLECTING:
                 data_dict["timestamp"].append(timestamp)
 
-                qpos, qvel, hand_qpos = robot.observe(degrees=False)
+                qpos, hand_qpos, ee_pose, head_pose = robot.observe()
 
                 data_dict["obs"]["qpos"].append(qpos)
-                data_dict["obs"]["qvel"].append(qvel)
                 data_dict["obs"]["hand_qpos"].append(hand_qpos)
-                data_dict["obs"]["ee_pose"].append(robot.get_ee_pose())
+                data_dict["obs"]["ee_pose"].append(ee_pose)
+                data_dict["obs"]["head_pose"].append(head_pose)
 
-                for cam in camera_names:
-                    data_dict["obs"][f"camera_{cam}"].append(i)
+                # for cam in camera_names:
+                #     data_dict["obs"][f"camera_{cam}"].append(i)
 
                 i += 1
 
