@@ -1,5 +1,12 @@
 # silverscreen
 
+## Downloads
+```bash
+pdm install -d -Gfourier -Gzed -Grelasense -v
+```
+
+
+
 ## Usage
 
 ```bash
