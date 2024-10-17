@@ -10,7 +10,7 @@ class CamRealsense(CameraBase):
         self,
         index: int = 0,
         fps: int = 60,
-        resolution: tuple[int, int] = (720, 1280),
+        resolution: tuple[int, int] = (480, 640),
         crop_size_h: int = 0,
         crop_size_w: int = 1,
     ):
@@ -75,6 +75,8 @@ class CamRealsense(CameraBase):
 
         if enable_depth and depth_array is not None:
             return timestamp, (rgb, depth_array)
+        
+        rgb = np.hstack((rgb, rgb))
 
         return timestamp, rgb
 
