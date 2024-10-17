@@ -14,7 +14,7 @@ from omegaconf import DictConfig, OmegaConf
 from silverscreen.filters import LPRotationFilter
 from silverscreen.player import TeleopRobot
 from silverscreen.state_machine import FSM
-from silverscreen.utils import CONFIG_DIR, KeyboardListener
+from silverscreen.utils import CONFIG_DIR, RECORD_DIR, KeyboardListener
 
 np.set_printoptions(precision=2, suppress=True)
 
@@ -89,13 +89,13 @@ def make_data_dict():
 
 def main(
     session_name: Annotated[str, typer.Argument(help="Name of the session")],
-    waist: bool = True,
-    head: bool = True,
+    waist: bool = False,
+    head: bool = False,
     sim: bool = False,
     record: bool = False,
     wait_time: float = 1.0,
+    verbose: bool = False,
 ):
-    data_root = Path(PROJECT_ROOT).parent / "data"
     default_config = Path(CONFIG_DIR) / "body" / "gr1.yaml"
     config = DictConfig(OmegaConf.load(default_config))
 
@@ -114,7 +114,7 @@ def main(
     data_dict = make_data_dict()
 
     if record:
-        session_path = data_root / session_name
+        session_path = RECORD_DIR / session_name
         os.makedirs(session_path, exist_ok=True)
 
         recording = RecordingInfo.from_session_path(str(session_path))

@@ -1,3 +1,5 @@
+import multiprocessing as mp
+
 import cv2
 import numpy as np
 import pyzed.sl as sl
@@ -23,6 +25,20 @@ class CamZed(CameraBase):
     ):
         super().__init__(index, fps, (720, 1280))
 
+        self.sources: dict[str, sl.Mat] = {
+            "left": sl.Mat(),
+            "right": sl.Mat(),
+            "depth": sl.Mat(),
+            "point_cloud": sl.Mat(),
+        }
+        self.runtime_parameters = sl.RuntimeParameters()
+        self.timestamp = -1
+
+        self.process = mp.Process(target=self.run)
+        self.process.daemon = True
+        self.process.start()
+
+    def run(self):
         # Create a InitParameters object and set configuration parameters
         init_params = sl.InitParameters()
         init_params.camera_resolution = (
@@ -34,7 +50,7 @@ class CamZed(CameraBase):
         init_params.depth_maximum_distance = MAX_DISTANCE
         init_params.camera_resolution.width = 720
         init_params.camera_resolution.height = 1280
-        init_params.camera_fps = fps  # Set fps at 60
+        init_params.camera_fps = self.fps  # Set fps at 60
 
         self.zed = sl.Camera()
         err = self.zed.open(init_params)
@@ -42,15 +58,6 @@ class CamZed(CameraBase):
         if err != sl.ERROR_CODE.SUCCESS:
             print("Camera Open : " + repr(err) + ". Exit program.")
             exit()
-
-        self.sources: dict[str, sl.Mat] = {
-            "left": sl.Mat(),
-            "right": sl.Mat(),
-            "depth": sl.Mat(),
-            "point_cloud": sl.Mat(),
-        }
-        self.runtime_parameters = sl.RuntimeParameters()
-        self.timestamp = -1
 
     @property
     def available_sources(self) -> list[str]:

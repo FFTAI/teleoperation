@@ -10,6 +10,8 @@ PROJECT_ROOT = Path(__file__).resolve().parent
 ASSET_DIR = PROJECT_ROOT / "assets"
 CONFIG_DIR = PROJECT_ROOT / "configs"
 DATA_DIR = PROJECT_ROOT.parent.parent / "data"
+RECORD_DIR = DATA_DIR / "recordings"
+LOG_DIR = DATA_DIR / "logs"
 CERT_DIR = PROJECT_ROOT.parent.parent / "certs"
 
 
