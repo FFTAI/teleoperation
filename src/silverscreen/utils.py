@@ -2,6 +2,7 @@ from pathlib import Path
 
 import numpy as np
 from loguru import logger
+from numba import njit
 from pynput import keyboard
 from scipy.spatial.transform import Rotation as R
 
@@ -12,6 +13,7 @@ DATA_DIR = PROJECT_ROOT.parent.parent / "data"
 CERT_DIR = PROJECT_ROOT.parent.parent / "certs"
 
 
+@njit
 def se3_to_xyzquat(se3):
     translation = se3[:3, 3]
     rotmat = se3[:3, :3]
@@ -22,6 +24,21 @@ def se3_to_xyzquat(se3):
     return xyzquat
 
 
+@njit
+def xyzquat_to_se3(xyzquat):
+    translation = xyzquat[:3]
+    quat = xyzquat[3:]
+
+    rotmat = R.from_quat(quat).as_matrix()
+
+    se3 = np.eye(4)
+    se3[:3, :3] = rotmat
+    se3[:3, 3] = translation
+
+    return se3
+
+
+@njit
 def mat_update(prev_mat, mat):
     if np.linalg.det(mat) == 0:
         return prev_mat
@@ -29,6 +46,7 @@ def mat_update(prev_mat, mat):
         return mat
 
 
+@njit
 def fast_mat_inv(mat):
     ret = np.eye(4)
     ret[:3, :3] = mat[:3, :3].T
@@ -36,6 +54,7 @@ def fast_mat_inv(mat):
     return ret
 
 
+@njit
 def remap(x, old_min, old_max, new_min, new_max, clip=True):
     old_min = np.array(old_min)
     old_max = np.array(old_max)

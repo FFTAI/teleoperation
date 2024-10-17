@@ -1,18 +1,22 @@
 import math
 
 import numpy as np
+from numba import njit
 from pytransform3d import rotations
 
 
+@njit
 def smoothing_factor(t_e, cutoff):
     r = 2 * math.pi * cutoff * t_e
     return r / (r + 1)
 
 
+@njit
 def exponential_smoothing(a, x, x_prev):
     return a * x + (1 - a) * x_prev
 
 
+@njit
 def rotational_exponential_smoothing(a, x, x_prev):
     # convert (xyzw) to (wxyz)
     x_prev = np.array([x_prev[3], x_prev[0], x_prev[1], x_prev[2]])

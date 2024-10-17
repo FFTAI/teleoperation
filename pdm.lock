@@ -5,7 +5,7 @@
 groups = ["default", "depthai", "dev", "fourier", "realsense", "webrtc", "zed"]
 strategy = ["inherit_metadata"]
 lock_version = "4.5.0"
-content_hash = "sha256:dfe456c1adc82b06ff5abd74ac0b52ff20e51abc7ce7e8d776e826781f65352d"
+content_hash = "sha256:599905c34b193bd0fd24da50ef0c7b96c9dad6e8a6b06fa36d6e0e5bc6ab0d12"
 
 [[metadata.targets]]
 requires_python = ">=3.10,<3.12"
@@ -171,7 +171,7 @@ files = [
 name = "antlr4-python3-runtime"
 version = "4.9.3"
 summary = "ANTLR 4.9.3 runtime for Python 3.7"
-groups = ["default"]
+groups = ["default", "fourier"]
 marker = "python_version >= \"3.10\" and python_version < \"3.12\""
 dependencies = [
     "typing; python_version < \"3.5\"",
@@ -222,7 +222,7 @@ files = [
 name = "asttokens"
 version = "2.4.1"
 summary = "Annotate AST trees with source code positions"
-groups = ["default"]
+groups = ["default", "fourier"]
 marker = "python_version >= \"3.10\" and python_version < \"3.12\""
 dependencies = [
     "six>=1.12.0",
@@ -640,6 +640,21 @@ files = [
 ]
 
 [[package]]
+name = "comm"
+version = "0.2.2"
+requires_python = ">=3.8"
+summary = "Jupyter Python Comm implementation, for usage in ipykernel, xeus-python etc."
+groups = ["fourier"]
+marker = "python_version >= \"3.10\" and python_version < \"3.12\""
+dependencies = [
+    "traitlets>=4",
+]
+files = [
+    {file = "comm-0.2.2-py3-none-any.whl", hash = "sha256:e6fb86cb70ff661ee8c9c14e7d36d6de3b4066f1441be4063df9c5009f0a64d3"},
+    {file = "comm-0.2.2.tar.gz", hash = "sha256:3fd7a84065306e07bea1773df6eb8282de51ba82f77c72f9c85716ab11fe980e"},
+]
+
+[[package]]
 name = "contourpy"
 version = "1.3.0"
 requires_python = ">=3.9"
@@ -757,7 +772,7 @@ name = "decorator"
 version = "5.1.1"
 requires_python = ">=3.5"
 summary = "Decorators for Humans"
-groups = ["default"]
+groups = ["default", "fourier"]
 marker = "python_version >= \"3.10\" and python_version < \"3.12\""
 files = [
     {file = "decorator-5.1.1-py3-none-any.whl", hash = "sha256:b8c3f85900b9dc423225913c5aace94729fe1fa9763b38939a95226f02d37186"},
@@ -874,21 +889,21 @@ files = [
 
 [[package]]
 name = "eclipse-zenoh"
-version = "0.11.0rc3"
+version = "0.11.0"
 requires_python = ">=3.7"
 summary = "The python API for Eclipse zenoh"
 groups = ["fourier"]
 marker = "python_version >= \"3.10\" and python_version < \"3.12\""
 files = [
-    {file = "eclipse_zenoh-0.11.0rc3-cp37-abi3-linux_armv6l.whl", hash = "sha256:30ad78c088c81eb39d2433fe7e26435d74fd51e0c56919a2dbc894d37bf9ad8c"},
-    {file = "eclipse_zenoh-0.11.0rc3-cp37-abi3-macosx_10_7_x86_64.whl", hash = "sha256:42059efdb15f2e9790e0aff760c647cb75118f93195d17c24b3a6c80f9a3d353"},
-    {file = "eclipse_zenoh-0.11.0rc3-cp37-abi3-macosx_10_9_x86_64.macosx_11_0_arm64.macosx_10_9_universal2.whl", hash = "sha256:8846cfb382478047ffb0ea32b01beb95f4585981469c4a03c0afc3462cfb8ee2"},
-    {file = "eclipse_zenoh-0.11.0rc3-cp37-abi3-manylinux_2_12_i686.manylinux2010_i686.whl", hash = "sha256:e834b377c6e5a6ede0d5f417a27460839e88fa8a90f80c7d87def04b3d0d4b51"},
-    {file = "eclipse_zenoh-0.11.0rc3-cp37-abi3-manylinux_2_17_armv7l.manylinux2014_armv7l.whl", hash = "sha256:3109a55371c8e23451ac4cf27c779af495cecb5246d1341cb7acb5b27b94438b"},
-    {file = "eclipse_zenoh-0.11.0rc3-cp37-abi3-manylinux_2_17_x86_64.manylinux2014_x86_64.whl", hash = "sha256:47badb13495680b6102c50a50e0b9f568936f1401d87722a8956385c144beead"},
-    {file = "eclipse_zenoh-0.11.0rc3-cp37-abi3-manylinux_2_28_aarch64.whl", hash = "sha256:1e6ab4ddc878ff66527347405adf0f6d882a06d86d63973e9bfb754afe59b1b2"},
-    {file = "eclipse_zenoh-0.11.0rc3-cp37-abi3-win_amd64.whl", hash = "sha256:7b6dfe40b7abeaf125a8cda3ca7f2a8ff60b9d29c1c84014f2b8059dd094162a"},
-    {file = "eclipse_zenoh-0.11.0rc3.tar.gz", hash = "sha256:a7d1978e55ad4b5998c707f7680d1c19f3bc268e243f59ebf12d2f2e686a134f"},
+    {file = "eclipse_zenoh-0.11.0-cp37-abi3-linux_armv6l.whl", hash = "sha256:a39f0d8f9b1953b97eb907b830ce1009175f438a33f31dbc9f8235463ecfe436"},
+    {file = "eclipse_zenoh-0.11.0-cp37-abi3-macosx_10_7_x86_64.whl", hash = "sha256:48c524e02daae4d85bf02fd6716bf782f34a2ffcf81441d20434b2a9a19371de"},
+    {file = "eclipse_zenoh-0.11.0-cp37-abi3-macosx_10_9_x86_64.macosx_11_0_arm64.macosx_10_9_universal2.whl", hash = "sha256:460002319180a3d3b3cef89a0ae546d2c5b72b60ad36de02e317f98adb9ad859"},
+    {file = "eclipse_zenoh-0.11.0-cp37-abi3-manylinux_2_12_i686.manylinux2010_i686.whl", hash = "sha256:d6a791aa56f8424f53eba4eee99f89d0c7d7de01f08631b233f3904c699398bb"},
+    {file = "eclipse_zenoh-0.11.0-cp37-abi3-manylinux_2_17_armv7l.manylinux2014_armv7l.whl", hash = "sha256:cd05c9bd57c2e538d56d184cfc2a00a8dc0853c69385e17c1aced95d9ab6e816"},
+    {file = "eclipse_zenoh-0.11.0-cp37-abi3-manylinux_2_17_x86_64.manylinux2014_x86_64.whl", hash = "sha256:73de7a0288fbef894b548e7c5edc9f53a3ea31bd15ebce0e0d4563923ce46eb3"},
+    {file = "eclipse_zenoh-0.11.0-cp37-abi3-manylinux_2_28_aarch64.whl", hash = "sha256:f41401484f9eb34842653a37c642a8e7f8ba3b7ed49f2ab56b3f7227ae922109"},
+    {file = "eclipse_zenoh-0.11.0-cp37-abi3-win_amd64.whl", hash = "sha256:a7f6d732e2d7e2c625eeed7a8b87bed9c1dfd7038ada6ca716819a6ec38cfb93"},
+    {file = "eclipse_zenoh-0.11.0.tar.gz", hash = "sha256:f9a1584d448aacf0af139553307d4fb10ff472d7bfff02f0fe5fa1ed00ff71d7"},
 ]
 
 [[package]]
@@ -932,7 +947,7 @@ name = "exceptiongroup"
 version = "1.2.2"
 requires_python = ">=3.7"
 summary = "Backport of PEP 654 (exception groups)"
-groups = ["default"]
+groups = ["default", "fourier"]
 marker = "python_version >= \"3.10\" and python_version < \"3.11\""
 files = [
     {file = "exceptiongroup-1.2.2-py3-none-any.whl", hash = "sha256:3111b9d131c238bec2f8f516e123e14ba243563fb135d3fe885990585aa7795b"},
@@ -944,7 +959,7 @@ name = "executing"
 version = "2.1.0"
 requires_python = ">=3.8"
 summary = "Get the currently executing AST node of a frame, and other information"
-groups = ["default"]
+groups = ["default", "fourier"]
 marker = "python_version >= \"3.10\" and python_version < \"3.12\""
 files = [
     {file = "executing-2.1.0-py2.py3-none-any.whl", hash = "sha256:8d63781349375b5ebccc3142f4b30350c0cd9c79f921cde38be2be4637e98eaf"},
@@ -1017,22 +1032,24 @@ files = [
 
 [[package]]
 name = "fourier-grx-client"
-version = "0.1.5"
+version = "0.2.0a7"
 requires_python = ">=3.8"
 summary = "Client library for Fourier GRx series robots"
 groups = ["fourier"]
 marker = "python_version >= \"3.10\" and python_version < \"3.12\""
 dependencies = [
-    "eclipse-zenoh==0.11.0rc3",
+    "eclipse-zenoh==0.11.0",
+    "ipywidgets>=8.1.5",
     "loguru>=0.7.2",
     "msgpack-numpy>=0.4.8",
     "msgpack>=1.0.8",
     "numpy>=1.24.4",
+    "omegaconf>=2.3.0",
     "rich>=13.8.0",
 ]
 files = [
-    {file = "fourier_grx_client-0.1.5-py3-none-any.whl", hash = "sha256:885a3dd9980ef54f1614696c3f2cf0920529e1d2b24c07e8e91333ef93fa9aa6"},
-    {file = "fourier_grx_client-0.1.5.tar.gz", hash = "sha256:52c3ee11b307c25ed93d2c9d04ad538ce00d982f4e69d72e689d450fda4af437"},
+    {file = "fourier_grx_client-0.2.0a7-py3-none-any.whl", hash = "sha256:e24de5474eca3419b91285fdb0b4500df6e62ac72260cd8d3e8eb243d201738f"},
+    {file = "fourier_grx_client-0.2.0a7.tar.gz", hash = "sha256:39679aad9c7b7623d6aad5dd743023719aed7b707f7cdec6847851b305125ffd"},
 ]
 
 [[package]]
@@ -1284,7 +1301,7 @@ name = "ipython"
 version = "8.27.0"
 requires_python = ">=3.10"
 summary = "IPython: Productive Interactive Computing"
-groups = ["default"]
+groups = ["default", "fourier"]
 marker = "python_version >= \"3.10\" and python_version < \"3.12\""
 dependencies = [
     "colorama; sys_platform == \"win32\"",
@@ -1305,11 +1322,30 @@ files = [
 ]
 
 [[package]]
+name = "ipywidgets"
+version = "8.1.5"
+requires_python = ">=3.7"
+summary = "Jupyter interactive widgets"
+groups = ["fourier"]
+marker = "python_version >= \"3.10\" and python_version < \"3.12\""
+dependencies = [
+    "comm>=0.1.3",
+    "ipython>=6.1.0",
+    "jupyterlab-widgets~=3.0.12",
+    "traitlets>=4.3.1",
+    "widgetsnbextension~=4.0.12",
+]
+files = [
+    {file = "ipywidgets-8.1.5-py3-none-any.whl", hash = "sha256:3290f526f87ae6e77655555baba4f36681c555b8bdbbff430b70e52c34c86245"},
+    {file = "ipywidgets-8.1.5.tar.gz", hash = "sha256:870e43b1a35656a80c18c9503bbf2d16802db1cb487eec6fab27d683381dde17"},
+]
+
+[[package]]
 name = "jedi"
 version = "0.19.1"
 requires_python = ">=3.6"
 summary = "An autocompletion tool for Python that can be used for text editors."
-groups = ["default"]
+groups = ["default", "fourier"]
 marker = "python_version >= \"3.10\" and python_version < \"3.12\""
 dependencies = [
     "parso<0.9.0,>=0.8.3",
@@ -1332,6 +1368,18 @@ dependencies = [
 files = [
     {file = "jinja2-3.1.4-py3-none-any.whl", hash = "sha256:bc5dd2abb727a5319567b7a813e6a2e7318c39f4f487cfe6c89c6f9c7d25197d"},
     {file = "jinja2-3.1.4.tar.gz", hash = "sha256:4a3aee7acbbe7303aede8e9648d13b8bf88a429282aa6122a993f0ac800cb369"},
+]
+
+[[package]]
+name = "jupyterlab-widgets"
+version = "3.0.13"
+requires_python = ">=3.7"
+summary = "Jupyter interactive widgets for JupyterLab"
+groups = ["fourier"]
+marker = "python_version >= \"3.10\" and python_version < \"3.12\""
+files = [
+    {file = "jupyterlab_widgets-3.0.13-py3-none-any.whl", hash = "sha256:e3cda2c233ce144192f1e29914ad522b2f4c40e77214b0cc97377ca3d323db54"},
+    {file = "jupyterlab_widgets-3.0.13.tar.gz", hash = "sha256:a2966d385328c1942b683a8cd96b89b8dd82c8b8f81dda902bb2bc06d46f5bed"},
 ]
 
 [[package]]
@@ -1609,7 +1657,7 @@ name = "matplotlib-inline"
 version = "0.1.7"
 requires_python = ">=3.8"
 summary = "Inline Matplotlib backend for Jupyter"
-groups = ["default"]
+groups = ["default", "fourier"]
 marker = "python_version >= \"3.10\" and python_version < \"3.12\""
 dependencies = [
     "traitlets",
@@ -2204,7 +2252,7 @@ name = "omegaconf"
 version = "2.3.0"
 requires_python = ">=3.6"
 summary = "A flexible configuration library"
-groups = ["default"]
+groups = ["default", "fourier"]
 marker = "python_version >= \"3.10\" and python_version < \"3.12\""
 dependencies = [
     "PyYAML>=5.1.0",
@@ -2320,7 +2368,7 @@ name = "parso"
 version = "0.8.4"
 requires_python = ">=3.6"
 summary = "A Python Parser"
-groups = ["default"]
+groups = ["default", "fourier"]
 marker = "python_version >= \"3.10\" and python_version < \"3.12\""
 files = [
     {file = "parso-0.8.4-py2.py3-none-any.whl", hash = "sha256:a418670a20291dacd2dddc80c377c5c3791378ee1e8d12bffc35420643d43f18"},
@@ -2343,7 +2391,7 @@ files = [
 name = "pexpect"
 version = "4.9.0"
 summary = "Pexpect allows easy control of interactive console applications."
-groups = ["default"]
+groups = ["default", "fourier"]
 marker = "python_version >= \"3.10\" and python_version < \"3.12\" and (sys_platform != \"win32\" and sys_platform != \"emscripten\")"
 dependencies = [
     "ptyprocess>=0.5",
@@ -2475,7 +2523,7 @@ name = "prompt-toolkit"
 version = "3.0.48"
 requires_python = ">=3.7.0"
 summary = "Library for building powerful interactive command lines in Python"
-groups = ["default"]
+groups = ["default", "fourier"]
 marker = "python_version >= \"3.10\" and python_version < \"3.12\""
 dependencies = [
     "wcwidth",
@@ -2507,7 +2555,7 @@ files = [
 name = "ptyprocess"
 version = "0.7.0"
 summary = "Run a subprocess in a pseudo terminal"
-groups = ["default"]
+groups = ["default", "fourier"]
 marker = "python_version >= \"3.10\" and python_version < \"3.12\" and (sys_platform != \"win32\" and sys_platform != \"emscripten\")"
 files = [
     {file = "ptyprocess-0.7.0-py2.py3-none-any.whl", hash = "sha256:4b41f3967fce3af57cc7e94b888626c18bf37a083e3651ca8feeb66d492fef35"},
@@ -2518,7 +2566,7 @@ files = [
 name = "pure-eval"
 version = "0.2.3"
 summary = "Safely evaluate AST nodes without side effects"
-groups = ["default"]
+groups = ["default", "fourier"]
 marker = "python_version >= \"3.10\" and python_version < \"3.12\""
 files = [
     {file = "pure_eval-0.2.3-py3-none-any.whl", hash = "sha256:1db8e35b67b3d218d818ae653e27f06c3aa420901fa7b081ca98cbedc874e0d0"},
@@ -2882,7 +2930,7 @@ name = "pyyaml"
 version = "6.0.2"
 requires_python = ">=3.8"
 summary = "YAML parser and emitter for Python"
-groups = ["default", "depthai", "dev"]
+groups = ["default", "depthai", "dev", "fourier"]
 marker = "python_version >= \"3.10\" and python_version < \"3.12\""
 files = [
     {file = "PyYAML-6.0.2-cp310-cp310-macosx_10_9_x86_64.whl", hash = "sha256:0a9a2848a5b7feac301353437eb7d5957887edbf81d56e903999a75a3d743086"},
@@ -3223,7 +3271,7 @@ name = "six"
 version = "1.16.0"
 requires_python = ">=2.7, !=3.0.*, !=3.1.*, !=3.2.*"
 summary = "Python 2 and 3 compatibility utilities"
-groups = ["default", "dev"]
+groups = ["default", "dev", "fourier"]
 marker = "python_version >= \"3.10\" and python_version < \"3.12\""
 files = [
     {file = "six-1.16.0-py2.py3-none-any.whl", hash = "sha256:8abb2f1d86890a2dfb989f9a77cfcfd3e47c2a354b01111771326f8aa26e0254"},
@@ -3234,7 +3282,7 @@ files = [
 name = "stack-data"
 version = "0.6.3"
 summary = "Extract data from python stack frames and tracebacks for informative displays"
-groups = ["default"]
+groups = ["default", "fourier"]
 marker = "python_version >= \"3.10\" and python_version < \"3.12\""
 dependencies = [
     "asttokens>=2.1.0",
@@ -3387,7 +3435,7 @@ name = "traitlets"
 version = "5.14.3"
 requires_python = ">=3.8"
 summary = "Traitlets Python configuration system"
-groups = ["default"]
+groups = ["default", "fourier"]
 marker = "python_version >= \"3.10\" and python_version < \"3.12\""
 files = [
     {file = "traitlets-5.14.3-py3-none-any.whl", hash = "sha256:b74e89e397b1ed28cc831db7aea759ba6640cb3de13090ca145426688ff1ac4f"},
@@ -3468,7 +3516,7 @@ name = "typing-extensions"
 version = "4.12.2"
 requires_python = ">=3.8"
 summary = "Backported and Experimental Type Hints for Python 3.8+"
-groups = ["default", "webrtc"]
+groups = ["default", "fourier", "webrtc"]
 marker = "python_version >= \"3.10\" and python_version < \"3.12\""
 files = [
     {file = "typing_extensions-4.12.2-py3-none-any.whl", hash = "sha256:04e5ca0351e0f3f85c6853954072df659d0d13fac324d0072316b67d7794700d"},
@@ -3606,7 +3654,7 @@ files = [
 name = "wcwidth"
 version = "0.2.13"
 summary = "Measures the displayed width of unicode strings in a terminal"
-groups = ["default"]
+groups = ["default", "fourier"]
 marker = "python_version >= \"3.10\" and python_version < \"3.12\""
 dependencies = [
     "backports-functools-lru-cache>=1.2.1; python_version < \"3.2\"",
@@ -3654,6 +3702,18 @@ files = [
     {file = "websockets-13.1-pp310-pypy310_pp73-win_amd64.whl", hash = "sha256:e2620453c075abeb0daa949a292e19f56de518988e079c36478bacf9546ced23"},
     {file = "websockets-13.1-py3-none-any.whl", hash = "sha256:a9a396a6ad26130cdae92ae10c36af09d9bfe6cafe69670fd3b6da9b07b4044f"},
     {file = "websockets-13.1.tar.gz", hash = "sha256:a3b3366087c1bc0a2795111edcadddb8b3b59509d5db5d7ea3fdd69f954a8878"},
+]
+
+[[package]]
+name = "widgetsnbextension"
+version = "4.0.13"
+requires_python = ">=3.7"
+summary = "Jupyter interactive widgets for Jupyter Notebook"
+groups = ["fourier"]
+marker = "python_version >= \"3.10\" and python_version < \"3.12\""
+files = [
+    {file = "widgetsnbextension-4.0.13-py3-none-any.whl", hash = "sha256:74b2692e8500525cc38c2b877236ba51d34541e6385eeed5aec15a70f88a6c71"},
+    {file = "widgetsnbextension-4.0.13.tar.gz", hash = "sha256:ffcb67bc9febd10234a362795f643927f4e0c05d9342c727b65d2384f8feacb6"},
 ]
 
 [[package]]

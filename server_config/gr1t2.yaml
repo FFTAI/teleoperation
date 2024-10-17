@@ -108,19 +108,19 @@ actuator:
     ]
   comm_use_fast: [
       # left leg
-      false,
-      false,
-      false,
-      false,
-      false,
-      false,
+      true,
+      true,
+      true,
+      true,
+      true,
+      true,
       # right leg
-      false,
-      false,
-      false,
-      false,
-      false,
-      false,
+      true,
+      true,
+      true,
+      true,
+      true,
+      true,
       # waist
       true,
       true,

@@ -17,7 +17,7 @@ from .robot_wrapper import RobotWrapper
 
 class IKRobot(RobotWrapper):
     def __init__(self, config: DictConfig):
-        super().__init__(config.robot)
+        super().__init__(config)
 
         self.tasks = {}
         self.barriers = {}

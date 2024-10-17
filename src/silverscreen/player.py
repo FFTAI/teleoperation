@@ -16,6 +16,7 @@ from loguru import logger
 from omegaconf import DictConfig, OmegaConf
 from tqdm import tqdm
 
+from silverscreen.camera.camera_base import CameraBase
 from silverscreen.drivers.hands import FourierDexHand, InspireDexHand
 from silverscreen.preprocess import VuerPreprocessor
 from silverscreen.retarget.robot import DexRobot
@@ -54,7 +55,48 @@ def get_head_pose(client, head_link="head_yaw_link", base_link="base_link"):
     return head_pose
 
 
-class ReplayRobot(DexRobot):
+class CameraMixin:
+    cam: CameraBase
+    sim: bool
+
+    def update_image(self, gray=False):
+        """Send image to VR headset"""
+        timestamp, images_dict = self.cam.grab(sources=["left", "right"])
+        self.cam.send_to_display(images_dict, gray=gray)
+        return timestamp
+
+    def observe_vision(self, mode: Literal["stereo", "rgbd"] = "stereo", resolution: tuple[int, int] = (240, 320)):
+        if self.sim:
+            logger.warning("Sim mode no observation.")
+            return None
+
+        if mode == "stereo":
+            sources = ["left", "right"]
+        elif mode == "rgbd":
+            sources = ["left", "depth"]
+        else:
+            raise ValueError("Invalid mode.")
+
+        _, image_dict = self.cam.grab(sources=sources)
+        image_dict = self.cam.post_process(image_dict, resolution, (0, 0, 0, 1280 - 960))
+
+        images = None
+        if mode == "stereo":
+            left_image = image_dict["left"].transpose(2, 0, 1)
+            right_image = image_dict["right"].transpose(2, 0, 1)
+            images = (left_image, right_image)
+
+        elif mode == "rgbd":
+            left_image = image_dict["left"].transpose(2, 0, 1)
+            depth_image = image_dict["depth"].transpose(2, 0, 1)
+            images = (left_image, depth_image)
+        else:
+            raise ValueError("Invalid mode.")
+
+        return images
+
+
+class ReplayRobot(DexRobot, CameraMixin):
     def __init__(self, config: DictConfig, dt=1 / 60, sim=True, show_fpv=False):
         self.sim = sim
         self.show_fpv = show_fpv
@@ -176,7 +218,7 @@ class ReplayRobot(DexRobot):
         return qpos, left_qpos, right_qpos
 
 
-class TeleopRobot(DexRobot):
+class TeleopRobot(DexRobot, CameraMixin):
     image_queue = Queue()
     toggle_streaming = Event()
     image_lock = Lock()
@@ -186,20 +228,32 @@ class TeleopRobot(DexRobot):
 
         self.sim = sim
 
+        # update joint positions in pinocchio
+        self.set_joint_positions([self.config.joint_names[i] for i in DEFAULT_INDEX], DEFAULT_QPOS, degrees=False)
+        self.set_posture_target_from_current_configuration()
+
+        self.cam = make_camera("zed")  # TODO: implement a virtual camera
+        self.tv = OpenTeleVision(
+            self.cam.display_shape,
+            self.cam.shared_memory_name,
+            stream_mode="rgb_stereo",
+            ngrok=False,
+            cert_file=str(CERT_DIR / "cert.pem"),
+            key_file=str(CERT_DIR / "key.pem"),
+        )
+
+        self.processor = VuerPreprocessor(hand_type=self.hand_retarget.hand_type)
+
         if not self.sim:
             logger.warning("Real robot mode.")
-            self.cam = make_camera("zed")
-            self.client = RobotClient(namespace="gr/daq")
 
+            self.client = RobotClient(namespace="gr/daq")
             logger.info("Init robot client.")
             time.sleep(1.0)
             self.client.set_enable(True)
             time.sleep(1.0)
             # move to default position
             self.client.move_joints(DEFAULT_INDEX, positions=DEFAULT_QPOS, degrees=False, duration=1.0)
-            # update joint positions in pinocchio
-            self.set_joint_positions([self.config.joint_names[i] for i in DEFAULT_INDEX], DEFAULT_QPOS, degrees=False)
-            self.set_posture_target_from_current_configuration()
 
             logger.info("Init hands.")
             if self.hand_retarget.hand_type == "fourier":
@@ -214,22 +268,6 @@ class TeleopRobot(DexRobot):
                 with ThreadPoolExecutor(max_workers=2) as executor:
                     executor.submit(self.left_hand.reset)
                     executor.submit(self.right_hand.reset)
-
-        self.tv = OpenTeleVision(
-            self.cam.display_shape,
-            self.cam.shared_memory_name,
-            stream_mode="rgb_stereo",
-            ngrok=False,
-            cert_file=str(CERT_DIR / "cert.pem"),
-            key_file=str(CERT_DIR / "key.pem"),
-        )
-
-        self.processor = VuerPreprocessor(hand_type=self.hand_retarget.hand_type)
-
-    def update_image(self, gray=False):
-        timestamp, images_dict = self.cam.grab(sources=["left", "right"])
-        self.cam.send_to_display(images_dict, gray=gray)
-        return timestamp
 
     def start_recording(self, output_path: str):
         self.cam.start_recording(output_path)
