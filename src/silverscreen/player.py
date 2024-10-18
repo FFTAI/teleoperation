@@ -101,7 +101,7 @@ class ReplayRobot(DexRobot, CameraMixin):
         self.sim = sim
         self.show_fpv = show_fpv
         config.robot.visualize = True
-        super().__init__(config.robot)
+        super().__init__(config)
 
         self.dt = dt
 
@@ -126,36 +126,6 @@ class ReplayRobot(DexRobot, CameraMixin):
 
             self.client.move_joints(DEFAULT_INDEX, DEFAULT_QPOS, degrees=False, duration=1.0)
             self.set_joint_positions([self.config.joint_names[i] for i in DEFAULT_INDEX], DEFAULT_QPOS, degrees=False)
-
-    def observe_vision(self, mode: Literal["stereo", "rgbd"] = "stereo", resolution: tuple[int, int] = (240, 320)):
-        if self.sim:
-            logger.warning("Sim mode no observation.")
-            return None
-
-        if mode == "stereo":
-            sources = ["left", "right"]
-        elif mode == "rgbd":
-            sources = ["left", "depth"]
-        else:
-            raise ValueError("Invalid mode.")
-
-        _, image_dict = self.cam.grab(sources=sources)
-        image_dict = self.cam.post_process(image_dict, resolution, (0, 0, 0, 1280 - 960))
-
-        images = None
-        if mode == "stereo":
-            left_image = image_dict["left"].transpose(2, 0, 1)
-            right_image = image_dict["right"].transpose(2, 0, 1)
-            images = (left_image, right_image)
-
-        elif mode == "rgbd":
-            left_image = image_dict["left"].transpose(2, 0, 1)
-            depth_image = image_dict["depth"].transpose(2, 0, 1)
-            images = (left_image, depth_image)
-        else:
-            raise ValueError("Invalid mode.")
-
-        return images
 
     def observe(self):
         if self.sim:
@@ -334,13 +304,14 @@ class TeleopRobot(DexRobot, CameraMixin):
 
         return np.hstack([left, right])
 
-    def control_joints(self):
-        qpos = self.q_real
-        # qpos = np.rad2deg(qpos)
-        qpos = self.joint_filter.next(time.time(), qpos)
-        self.client.move_joints(ControlGroup.ALL, qpos, degrees=False)
+    def control_joints(self, gravity_compensation=True):
+        qpos = self.joint_filter.next(time.time(), self.q_real)
+        self.client.move_joints(ControlGroup.ALL, qpos, degrees=False, gravity_compensation=gravity_compensation)
 
         return qpos
+
+    def pause_robot(self):
+        self.client.move_joints(ControlGroup.ALL, self.client.joint_positions, gravity_compensation=False)
 
 
 def main(data_dir: str, task: str = "01_cube_kitting", episode: int = 1, config: str = "config.yml"):

@@ -1,8 +1,9 @@
 import math
 
 import numpy as np
-from numba import njit
-from pytransform3d import rotations
+from numba import jit, njit
+from scipy.spatial.transform import Rotation as R
+from scipy.spatial.transform import Slerp
 
 
 @njit
@@ -16,14 +17,10 @@ def exponential_smoothing(a, x, x_prev):
     return a * x + (1 - a) * x_prev
 
 
-@njit
 def rotational_exponential_smoothing(a, x, x_prev):
-    # convert (xyzw) to (wxyz)
-    x_prev = np.array([x_prev[3], x_prev[0], x_prev[1], x_prev[2]])
-    x = np.array([x[3], x[0], x[1], x[2]])
-    x_hat = rotations.quaternion_slerp(x_prev, x, a, shortest_path=True)
-
-    return np.array([x_hat[1], x_hat[2], x_hat[3], x_hat[0]])
+    s = Slerp([0, 1], R.from_quat([x_prev, x]))
+    x_hat = s(a)
+    return x_hat.as_quat()
 
 
 class OneEuroFilter:

@@ -13,11 +13,11 @@ from .utils import fast_mat_inv, mat_update
 
 class VuerPreprocessor:
     def __init__(self, hand_type="inspire"):
-        self.vuer_head_mat = np.array([[1, 0, 0, 0], [0, 1, 0, 1.5], [0, 0, 1, -0.2], [0, 0, 0, 1]])
-        self.vuer_right_wrist_mat = np.array([[1, 0, 0, 0.3], [0, 1, 0, 0.7], [0, 0, 1, -0.2], [0, 0, 0, 1]])
-        self.vuer_left_wrist_mat = np.array([[1, 0, 0, -0.3], [0, 1, 0, 0.7], [0, 0, 1, -0.2], [0, 0, 0, 1]])
+        self.vuer_head_mat = np.array([[1, 0, 0, 0], [0, 1, 0, 1.5], [0, 0, 1, -0.2], [0, 0, 0, 1]], dtype=float)
+        self.vuer_right_wrist_mat = np.array([[1, 0, 0, 0.3], [0, 1, 0, 0.7], [0, 0, 1, -0.2], [0, 0, 0, 1]], dtype=float)
+        self.vuer_left_wrist_mat = np.array([[1, 0, 0, -0.3], [0, 1, 0, 0.7], [0, 0, 1, -0.2], [0, 0, 0, 1]], dtype=float)
 
-        self.offset = np.array([0.1, 0, -0.6])
+        self.offset = np.array([0.1, 0, -0.6], dtype=float)
 
         if hand_type == "inspire":
             self.hand2fingers_left = hand2inspire

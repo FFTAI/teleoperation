@@ -18,7 +18,6 @@ from silverscreen.utils import CONFIG_DIR, RECORD_DIR, KeyboardListener
 
 np.set_printoptions(precision=2, suppress=True)
 
-
 class InitializationError(Exception):
     pass
 
@@ -226,6 +225,7 @@ def main(
             elif fsm.state == FSM.State.EPISODE_ENDED:
                 if not record or recording is None:
                     raise InitializationError("Recording not initialized.")
+                robot.pause_robot()
 
                 episode_length = time.time() - collection_start  # type: ignore
 
@@ -266,7 +266,7 @@ def main(
                 or fsm.state == FSM.State.COLLECTING
             ):
                 filtered_hand_qpos = robot.control_hands(left_qpos, right_qpos)
-                qpos = robot.control_joints()
+                qpos = robot.control_joints(gravity_compensation=True)
 
                 if fsm.state == FSM.State.COLLECTING:
                     data_dict["action"]["hands"].append(filtered_hand_qpos)

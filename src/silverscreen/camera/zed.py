@@ -34,9 +34,10 @@ class CamZed(CameraBase):
         self.runtime_parameters = sl.RuntimeParameters()
         self.timestamp = -1
 
-        self.process = mp.Process(target=self.run)
-        self.process.daemon = True
-        self.process.start()
+        # self.process = mp.Process(target=self.run)
+        # self.process.daemon = True
+        # self.process.start()
+        self.run()
 
     def run(self):
         # Create a InitParameters object and set configuration parameters

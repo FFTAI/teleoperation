@@ -200,23 +200,23 @@ class OpenTeleVision:
 
     @property
     def left_wrist(self):
-        return np.array(self.left_wrist_shared[:]).reshape(4, 4, order="F")
+        return np.array(self.left_wrist_shared[:], dtype=float).reshape(4, 4, order="F")
 
     @property
     def right_wrist(self):
-        return np.array(self.right_wrist_shared[:]).reshape(4, 4, order="F")
+        return np.array(self.right_wrist_shared[:], dtype=float).reshape(4, 4, order="F")
 
     @property
     def left_landmarks(self):
-        return np.array(self.left_landmarks_shared[:]).reshape(25, 3)
+        return np.array(self.left_landmarks_shared[:], dtype=float).reshape(25, 3)
 
     @property
     def right_landmarks(self):
-        return np.array(self.right_landmarks_shared[:]).reshape(25, 3)
+        return np.array(self.right_landmarks_shared[:], dtype=float).reshape(25, 3)
 
     @property
     def head_matrix(self):
-        return np.array(self.head_matrix_shared[:]).reshape(4, 4, order="F")
+        return np.array(self.head_matrix_shared[:], dtype=float).reshape(4, 4, order="F")
 
     @property
     def aspect(self):

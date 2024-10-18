@@ -1,8 +1,9 @@
+from functools import cache
 from pathlib import Path
 
 import numpy as np
 from loguru import logger
-from numba import njit
+from numba import jit, njit
 from pynput import keyboard
 from scipy.spatial.transform import Rotation as R
 
@@ -15,8 +16,21 @@ LOG_DIR = DATA_DIR / "logs"
 CERT_DIR = PROJECT_ROOT.parent.parent / "certs"
 
 
-@njit
 def se3_to_xyzquat(se3):
+    se3 = np.asanyarray(se3).astype(float)
+    if se3.shape != (4, 4):
+        raise ValueError("Input must be a 4x4 matrix")
+    return _se3_to_xyzquat(se3)
+
+
+def xyzquat_to_se3(xyzquat):
+    xyzquat = np.asanyarray(xyzquat).astype(float)
+    if xyzquat.shape != (7,):
+        raise ValueError("Input must be a 7-element array")
+    return _xyzquat_to_se3(xyzquat)
+
+
+def _se3_to_xyzquat(se3):
     translation = se3[:3, 3]
     rotmat = se3[:3, :3]
 
@@ -26,8 +40,7 @@ def se3_to_xyzquat(se3):
     return xyzquat
 
 
-@njit
-def xyzquat_to_se3(xyzquat):
+def _xyzquat_to_se3(xyzquat):
     translation = xyzquat[:3]
     quat = xyzquat[3:]
 
@@ -50,13 +63,13 @@ def mat_update(prev_mat, mat):
 
 @njit
 def fast_mat_inv(mat):
+    mat = np.ascontiguousarray(mat)
     ret = np.eye(4)
     ret[:3, :3] = mat[:3, :3].T
     ret[:3, 3] = -mat[:3, :3].T @ mat[:3, 3]
     return ret
 
 
-@njit
 def remap(x, old_min, old_max, new_min, new_max, clip=True):
     old_min = np.array(old_min)
     old_max = np.array(old_max)
