@@ -2,7 +2,7 @@
 
 ## Downloads
 ```bash
-pdm install -d -Gfourier -Gzed -Grelasense -v
+pdm install -d -Gfourier -Gdepthai -Grelasense -v
 ```
 
 

@@ -18,14 +18,14 @@ dependencies = [
     "omegaconf>=2.3.0",
     "torch~=2.4.1",
     "torchvision~=0.19.1",
-    "dex-retargeting @ git+ssh://git@github.com/yuxiang-gao/dex-retargeting.git@main",
+    "dex-retargeting @ git+https://github.com/yuxiang-gao/dex-retargeting.git@main",
     "pin-pink>=3.0.0",
     "rerun-sdk>=0.18.2",
     "meshcat>=0.3.2",
     "meshcat-shapes>=0.3.0",
     "numba>=0.60.0",
 ]
-requires-python = "~=3.10"
+requires-python = "~=3.10,<3.12"
 readme = "README.md"
 license = { text = "MIT" }
 
@@ -37,7 +37,6 @@ webrtc = [
     "aiohttp-cors>=0.7.0",
     "av>=12.3.0",
 ]
-zed = ["pyzed @ file:///usr/local/zed/pyzed-4.1-cp310-cp310-linux_x86_64.whl"]
 realsense = ["pyrealsense2>=2.55.1.6486"]
 fourier = ["fourier-grx-client==0.2.0a7", "fourier-dhx>=0.0.2"]
 depthai = [

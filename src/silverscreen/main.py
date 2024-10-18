@@ -196,6 +196,7 @@ def main(
                 if not record or recording is None:
                     logger.info("Disengaging.")
                     fsm.state = FSM.State.IDLE
+                    robot.pause_robot()
                     continue
                 fsm.next()
 
