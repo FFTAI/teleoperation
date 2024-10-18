@@ -311,6 +311,7 @@ class TeleopRobot(DexRobot, CameraMixin):
         return qpos
 
     def pause_robot(self):
+        logger.info("Pausing robot...")
         self.client.move_joints(ControlGroup.ALL, self.client.joint_positions, gravity_compensation=False)
 
 

@@ -271,7 +271,7 @@ def main(
                 if fsm.state == FSM.State.COLLECTING:
                     data_dict["action"]["hands"].append(filtered_hand_qpos)
                     data_dict["action"]["joints"].append(qpos)
-                    data_dict["action"]["wrist_pose"].append(np.hstack([left_pose, right_pose]))
+                    data_dict["action"]["ee_pose"].append(np.hstack([left_pose, right_pose]))
 
             if fsm.state == FSM.State.COLLECTING:
                 data_dict["timestamp"].append(timestamp)

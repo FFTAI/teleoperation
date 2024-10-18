@@ -87,6 +87,7 @@ class CamZed(CameraBase):
         )
         if gray:
             side_by_side = cv2.cvtColor(side_by_side, cv2.COLOR_RGB2GRAY)
+            side_by_side = cv2.cvtColor(side_by_side, cv2.COLOR_GRAY2RGB)
         with self.display_lock:
             np.copyto(self.display_image_array, side_by_side)
 

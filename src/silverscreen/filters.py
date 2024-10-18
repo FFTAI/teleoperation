@@ -106,10 +106,10 @@ class LPRotationFilter:
         if x.shape == (4, 4):
             x = x[:3, :3]
 
-        x = rotations.quaternion_from_matrix(x)
+        x = R.from_matrix(x).as_quat()
         next_x_quat = self.next(x)
 
-        return rotations.matrix_from_quaternion(next_x_quat)
+        return R.from_quat(next_x_quat).as_matrix()
 
     def reset(self):
         self.y = None
