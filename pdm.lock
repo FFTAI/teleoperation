@@ -5,7 +5,7 @@
 groups = ["default", "depthai", "dev", "fourier"]
 strategy = ["inherit_metadata"]
 lock_version = "4.5.0"
-content_hash = "sha256:18de5b5bfc587b8e54abcf18a8a253c566d894e2e0b662b8e5848a9145c6d4c6"
+content_hash = "sha256:eb12726eb1edd73c37c566358a1f6baf5eee13ddf7e28341e2b085f6ee458052"
 
 [[metadata.targets]]
 requires_python = ">=3.10,<3.12"

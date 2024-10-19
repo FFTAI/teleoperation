@@ -1,5 +1,6 @@
 import threading
 from abc import ABC, abstractmethod
+import multiprocessing as mp
 from multiprocessing import shared_memory
 from typing import Literal
 
@@ -20,7 +21,8 @@ class CameraBase(ABC):
         self.fps = fps
 
         self.resolution = resolution
-        self.shm = None
+        self.shms = {}
+        self.image_arrays = {}
 
     def with_display(
         self,
@@ -41,38 +43,80 @@ class CameraBase(ABC):
 
         num_images = 2 if mode == "stereo" else 1
         display_img_shape = (resolution_cropped[0], num_images * resolution_cropped[1], 3)
-        self.shm = shared_memory.SharedMemory(
+        self.shms["display"] = shared_memory.SharedMemory(
             create=True,
             size=np.prod(display_img_shape) * np.uint8().itemsize,  # type: ignore
         )
-        self.display_image_array = np.ndarray(
+        self.image_arrays["display"] = np.ndarray(
             shape=display_img_shape,
             dtype=np.uint8,
-            buffer=self.shm.buf,
+            buffer=self.shms["display"].buf,
         )
         self.display_lock = threading.Lock()
+        self.obs_lock = threading.Lock()
+
+        self._video_path = mp.Array("c", bytes(256))
+        self._flag_recording = mp.Value("i", 0)
+        self._flag_marker = mp.Value("b", False)
+        self._timestamp = mp.Value("d", 0)
+        self.stop_event = mp.Event()
         return self
 
     @property
-    def shared_memory_name(self) -> str:
-        if self.shm:
-            return self.shm.name
+    def shared_memory_names(self) -> dict[str, str]:
+        if self.shms:
+            return {name: shm.name for name, shm in self.shms.items()}
         else:
             raise ValueError("Shared memory not initialized.")
 
     @property
-    def shared_memory_size(self) -> int:
-        if self.shm:
-            return self.shm.size
+    def shared_memory_size(self) -> dict[str, int]:
+        if self.shms:
+            return {name: shm.size for name, shm in self.shms.items()}
         else:
             raise ValueError("Shared memory not initialized.")
+
+    @property
+    def timestamp(self) -> float:
+        with self._timestamp.get_lock():
+            return self._timestamp.value
+
+    @timestamp.setter
+    def timestamp(self, value: float):
+        with self._timestamp.get_lock():
+            self._timestamp.value = value
+
+    @property
+    def flag_marker(self) -> bool:
+        with self._flag_marker.get_lock():
+            return bool(self._flag_marker.value)
+
+    @flag_marker.setter
+    def flag_marker(self, value: bool):
+        with self._flag_marker.get_lock():
+            self._flag_marker.value = value
+
+    @property
+    def video_path(self) -> str:
+        with self._video_path.get_lock():
+            return self._video_path.value.decode()
+
+    @video_path.setter
+    def video_path(self, value: str):
+        with self._video_path.get_lock():
+            self._video_path.value = value.encode()
 
     @property
     def available_sources(self) -> list[str]:
-        raise NotImplementedError
+        return list(self.sources.keys())
+    
+
+    # @property
+    # def available_sources(self) -> list[str]:
+    #     raise NotImplementedError
     
     def send_to_display(self, data: dict[str, np.ndarray], marker=False):
-        if self.shm is None:
+        if "display" not in self.shms:
             return
         t, b, l, r = self.display_crop_sizes
         side_by_side = np.hstack(
@@ -92,7 +136,7 @@ class CameraBase(ABC):
             side_by_side = cv2.circle(side_by_side, (int(width // 2 * 0.5), int(hieght * 0.2)), 15, (255, 0, 0), -1)
             side_by_side = cv2.circle(side_by_side, (int(width // 2 * 1.5), int(hieght * 0.2)), 15, (255, 0, 0), -1)
         with self.display_lock:
-            np.copyto(self.display_image_array, side_by_side)
+            np.copyto(self.image_arrays["display"], side_by_side)
 
     # @property
     # def resolution(self) -> tuple[int, int]:
@@ -107,11 +151,16 @@ class CameraBase(ABC):
     # def img_width(self) -> int:
     #     return self.img_shape[1]
 
-    @abstractmethod
-    def start_recording(self, output_path: str): ...
+    def start_recording(self, output_path: str):
+        self.video_path = output_path
+        self.is_recording = True
+        with self._flag_recording.get_lock():
+            self._flag_recording.value = 1
 
-    @abstractmethod
-    def stop_recording(self): ...
+    def stop_recording(self):
+        with self._flag_recording.get_lock():
+            self._flag_recording.value = -1
+        self.is_recording = False
 
     @abstractmethod
     def grab(self, sources: list[str]) -> tuple[float, dict[str, np.ndarray]]:

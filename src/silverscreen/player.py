@@ -207,7 +207,7 @@ class TeleopRobot(DexRobot, CameraMixin):
         self.cam = make_camera("zed")  # TODO: implement a virtual camera
         self.tv = OpenTeleVision(
             self.cam.display_shape,
-            self.cam.shared_memory_name,
+            self.cam.shared_memory_names["display"],
             stream_mode="rgb_stereo",
             ngrok=False,
             cert_file=str(CERT_DIR / "cert.pem"),

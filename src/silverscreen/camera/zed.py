@@ -34,11 +34,6 @@ class CamZed(CameraBase):
         }
         self.runtime_parameters = sl.RuntimeParameters()
 
-        self._video_path = mp.Array("c", bytes(256))
-        self._flag_recording = mp.Value("i", 0)
-        self._flag_marker = mp.Value("b", False)
-        self._timestamp = mp.Value("d", 0)
-
     def start(self):
         self.process = mp.Process(target=self.run)
         self.process.daemon = True
@@ -66,17 +61,19 @@ class CamZed(CameraBase):
             print("Camera Open : " + repr(err) + ". Exit program.")
             exit()
 
-        while True:
+        while not self.stop_event.is_set():
             start = time.monotonic()
-            if self._flag_recording.value == 1:
-                output_path = self.video_path
-                recording_params = sl.RecordingParameters(output_path, sl.SVO_COMPRESSION_MODE.H264)
-                err = self.zed.enable_recording(recording_params)
-                if err != sl.ERROR_CODE.SUCCESS:
-                    logger.error(f"Failed to start recording: {err}")
-                self._flag_recording.value = 0
-            elif self._flag_recording.value == -1:
-                self.zed.disable_recording()
+            with self._flag_recording.get_lock():
+                if self._flag_recording.value == 1:
+                    output_path = self.video_path
+                    recording_params = sl.RecordingParameters(output_path, sl.SVO_COMPRESSION_MODE.H264)
+                    err = self.zed.enable_recording(recording_params)
+                    if err != sl.ERROR_CODE.SUCCESS:
+                        logger.error(f"Failed to start recording: {err}")
+                    self._flag_recording.value = 0
+                elif self._flag_recording.value == -1:
+                    self.zed.disable_recording()
+                    self._flag_recording.value = 0
 
             timestamp, images_dict = self.grab(sources=["left", "right"])
             self.timestamp = timestamp
@@ -86,50 +83,9 @@ class CamZed(CameraBase):
             taken = time.monotonic() - start
             time.sleep(max(1 / self.fps - taken, 0))
 
-    @property
-    def timestamp(self) -> float:
-        with self._timestamp.get_lock():
-            return self._timestamp.value
 
-    @timestamp.setter
-    def timestamp(self, value: float):
-        with self._timestamp.get_lock():
-            self._timestamp.value = value
 
-    @property
-    def flag_marker(self) -> bool:
-        with self._flag_marker.get_lock():
-            return bool(self._flag_marker.value)
 
-    @flag_marker.setter
-    def flag_marker(self, value: bool):
-        with self._flag_marker.get_lock():
-            self._flag_marker.value = value
-
-    @property
-    def video_path(self) -> str:
-        with self._video_path.get_lock():
-            return self._video_path.value.decode()
-
-    @video_path.setter
-    def video_path(self, value: str):
-        with self._video_path.get_lock():
-            self._video_path.value = value.encode()
-
-    @property
-    def available_sources(self) -> list[str]:
-        return list(self.sources.keys())
-
-    def start_recording(self, output_path: str):
-        self.video_path = output_path
-        self.is_recording = True
-        with self._flag_recording.get_lock():
-            self._flag_recording.value = 1
-
-    def stop_recording(self):
-        with self._flag_recording.get_lock():
-            self._flag_recording.value = -1
-        self.is_recording = False
 
     def grab(self, sources: list[str]) -> tuple[float, dict[str, np.ndarray]]:
         if self.zed.grab(self.runtime_parameters) == sl.ERROR_CODE.SUCCESS:
