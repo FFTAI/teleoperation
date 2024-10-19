@@ -10,7 +10,7 @@ joint_filter:
   beta: 10.0
 
 hand_filter:
-  min_cutoff: 0.0001
+  min_cutoff: 0.00001
   beta: 20.0
 
 head_filter:

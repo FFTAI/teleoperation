@@ -43,8 +43,8 @@ class RecordingInfo:
     @classmethod
     def from_session_path(cls, session_path: str):
         episode_id = get_episode_id(session_path)
-        episode_path = os.path.join(session_path, f"episode_{episode_id}.hdf5")
-        video_path = os.path.join(session_path, f"episode_{episode_id}")
+        episode_path = os.path.join(session_path, f"episode_{episode_id:06d}.hdf5")
+        video_path = os.path.join(session_path, f"episode_{episode_id:06d}")
         return cls(episode_id, session_path, episode_path, video_path)
 
     def __post_init__(self):
@@ -59,8 +59,8 @@ class RecordingInfo:
 
     def increment(self):
         self.episode_id += 1
-        self.episode_path = os.path.join(self.session_path, f"episode_{self.episode_id}.hdf5")
-        self.video_path = os.path.join(self.session_path, f"episode_{self.episode_id}")
+        self.episode_path = os.path.join(self.session_path, f"episode_{self.episode_id:06d}.hdf5")
+        self.video_path = os.path.join(self.session_path, f"episode_{self.episode_id:06d}")
 
 
 def make_data_dict():
@@ -153,7 +153,7 @@ def main(
             if fsm.state == FSM.State.COLLECTING or not record:
                 timestamp = robot.update_image()
             else:
-                timestamp = robot.update_image(gray=True)
+                timestamp = robot.update_image(marker=True)
 
             head_mat = head_filter.next_mat(head_mat)
 
@@ -267,7 +267,7 @@ def main(
                 or fsm.state == FSM.State.COLLECTING
             ):
                 filtered_hand_qpos = robot.control_hands(left_qpos, right_qpos)
-                qpos = robot.control_joints(gravity_compensation=True)
+                qpos = robot.control_joints(gravity_compensation=False) # TODO: add gravity compensation
 
                 if fsm.state == FSM.State.COLLECTING:
                     data_dict["action"]["hands"].append(filtered_hand_qpos)

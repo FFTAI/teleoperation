@@ -59,11 +59,13 @@ class CameraMixin:
     cam: CameraBase
     sim: bool
 
-    def update_image(self, gray=False):
+    def update_image(self, marker=False):
         """Send image to VR headset"""
-        timestamp, images_dict = self.cam.grab(sources=["left", "right"])
-        self.cam.send_to_display(images_dict, gray=gray)
-        return timestamp
+        # timestamp, images_dict = self.cam.grab(sources=["left", "right"])
+        # self.cam.send_to_display(images_dict, gray=gray)
+        # return timestamp
+        self.cam.flag_marker = marker
+        return self.cam.timestamp
 
     def observe_vision(self, mode: Literal["stereo", "rgbd"] = "stereo", resolution: tuple[int, int] = (240, 320)):
         if self.sim:

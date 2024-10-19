@@ -36,7 +36,7 @@ left:
   # target_link_human_indices: [[0, 0, 0, 0, 0], [4, 8, 12, 16, 20]]
 
   # A smaller alpha means stronger filtering, i.e. more smooth but also larger latency
-  low_pass_alpha: 0.3
+  low_pass_alpha: 0.5
 
 right:
   type: vector
@@ -73,4 +73,4 @@ right:
   target_link_human_indices: [[0, 0, 0, 0, 0], [4, 9, 14, 19, 24]]
 
   # A smaller alpha means stronger filtering, i.e. more smooth but also larger latency
-  low_pass_alpha: 0.3
+  low_pass_alpha: 0.5
