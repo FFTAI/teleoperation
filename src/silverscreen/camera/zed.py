@@ -80,8 +80,8 @@ class CamZed(CameraBase):
 
             timestamp, images_dict = self.grab(sources=["left", "right"])
             self.timestamp = timestamp
-            gray = self.flag_marker
-            self.send_to_display(images_dict, gray=gray)
+
+            self.send_to_display(images_dict, marker=self.flag_marker)
 
             taken = time.monotonic() - start
             time.sleep(max(1 / self.fps - taken, 0))
@@ -130,22 +130,6 @@ class CamZed(CameraBase):
         with self._flag_recording.get_lock():
             self._flag_recording.value = -1
         self.is_recording = False
-
-    def send_to_display(self, data: dict[str, np.ndarray], gray=False):
-        if self.shm is None:
-            return
-        t, b, l, r = self.display_crop_sizes
-        side_by_side = np.hstack(
-            (
-                data["left"][t : None if b is None else -b, l : None if r is None else -r],
-                data["right"][t : None if b is None else -b, r : None if l is None else -l],
-            )
-        )
-        if gray:
-            side_by_side = cv2.cvtColor(side_by_side, cv2.COLOR_RGB2GRAY)
-            side_by_side = cv2.cvtColor(side_by_side, cv2.COLOR_GRAY2RGB)
-        with self.display_lock:
-            np.copyto(self.display_image_array, side_by_side)
 
     def grab(self, sources: list[str]) -> tuple[float, dict[str, np.ndarray]]:
         if self.zed.grab(self.runtime_parameters) == sl.ERROR_CODE.SUCCESS:

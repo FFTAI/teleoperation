@@ -70,6 +70,29 @@ class CameraBase(ABC):
     @property
     def available_sources(self) -> list[str]:
         raise NotImplementedError
+    
+    def send_to_display(self, data: dict[str, np.ndarray], marker=False):
+        if self.shm is None:
+            return
+        t, b, l, r = self.display_crop_sizes
+        side_by_side = np.hstack(
+            (
+                data["left"][t : None if b is None else -b, l : None if r is None else -r],
+                data["right"][t : None if b is None else -b, r : None if l is None else -l],
+            )
+        )
+        # if marker:
+        #     side_by_side = cv2.cvtColor(side_by_side, cv2.COLOR_RGB2GRAY)
+        #     side_by_side = cv2.cvtColor(side_by_side, cv2.COLOR_GRAY2RGB)
+        if marker:
+            # draw markers on left and right frames
+            width = side_by_side.shape[1]
+            hieght = side_by_side.shape[0]
+
+            side_by_side = cv2.circle(side_by_side, (int(width // 2 * 0.5), int(hieght * 0.2)), 15, (255, 0, 0), -1)
+            side_by_side = cv2.circle(side_by_side, (int(width // 2 * 1.5), int(hieght * 0.2)), 15, (255, 0, 0), -1)
+        with self.display_lock:
+            np.copyto(self.display_image_array, side_by_side)
 
     # @property
     # def resolution(self) -> tuple[int, int]:
@@ -89,9 +112,6 @@ class CameraBase(ABC):
 
     @abstractmethod
     def stop_recording(self): ...
-
-    @abstractmethod
-    def send_to_display(self, data: dict[str, np.ndarray], gray=False): ...
 
     @abstractmethod
     def grab(self, sources: list[str]) -> tuple[float, dict[str, np.ndarray]]:
