@@ -26,7 +26,11 @@ hand:
   ip_left: "192.168.137.39"
   ip_right: "192.168.137.19"
 
+camera:
+    type: "oak"
+
 robot:
+  
   urdf_path: "gr1/urdf/robot.urdf"
   urdf_package_dirs: ["gr1/urdf", "gr1"]
   # urdf_path: "gr1_inspire/urdf/t2_collision.urdf"

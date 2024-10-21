@@ -21,6 +21,7 @@ from silverscreen.drivers.hands import FourierDexHand, InspireDexHand
 from silverscreen.preprocess import VuerPreprocessor
 from silverscreen.retarget.robot import DexRobot
 from silverscreen.television import OpenTeleVision
+from silverscreen.upsampler import Upsampler
 from silverscreen.utils import CERT_DIR, se3_to_xyzquat
 
 from .camera import make_camera
@@ -111,7 +112,7 @@ class ReplayRobot(DexRobot, CameraMixin):
 
         if not self.sim:
             logger.warning("Real robot mode.")
-            self.cam = make_camera("zed")
+            self.cam = make_camera(config.camera.type)
             self.client = RobotClient(namespace="gr/daq")
             self.left_hand = FourierDexHand(self.config.hand.ip_left)
             self.right_hand = FourierDexHand(self.config.hand.ip_right)
@@ -204,7 +205,7 @@ class TeleopRobot(DexRobot, CameraMixin):
         self.set_joint_positions([self.config.joint_names[i] for i in DEFAULT_INDEX], DEFAULT_QPOS, degrees=False)
         self.set_posture_target_from_current_configuration()
 
-        self.cam = make_camera("zed")  # TODO: implement a virtual camera
+        self.cam = make_camera(config.camera.type)  # TODO: implement a virtual camera
         self.tv = OpenTeleVision(
             self.cam.display_shape,
             self.cam.shared_memory_names["display"],
@@ -220,20 +221,23 @@ class TeleopRobot(DexRobot, CameraMixin):
             logger.warning("Real robot mode.")
 
             self.client = RobotClient(namespace="gr/daq")
+
             logger.info("Init robot client.")
             time.sleep(1.0)
             self.client.set_enable(True)
             time.sleep(1.0)
             # move to default position
             self.client.move_joints(DEFAULT_INDEX, positions=DEFAULT_QPOS, degrees=False, duration=1.0)
+            self.upsampler = Upsampler(self.client, target_hz=120, initial_command=self.client.joint_positions)
+            self.upsampler.start()
 
             logger.info("Init hands.")
             if self.hand_retarget.hand_type == "fourier":
                 self.left_hand = FourierDexHand(config.hand.ip_left)
                 self.right_hand = FourierDexHand(config.hand.ip_right)
-                with ThreadPoolExecutor(max_workers=2) as executor:
-                    executor.submit(self.left_hand.init)
-                    executor.submit(self.right_hand.init)
+                # with ThreadPoolExecutor(max_workers=2) as executor:
+                #     executor.submit(self.left_hand.init)
+                #     executor.submit(self.right_hand.init)
             elif self.hand_retarget.hand_type == "inspire":
                 self.left_hand = InspireDexHand(self.config.hand.ip_left)
                 self.right_hand = InspireDexHand(self.config.hand.ip_right)
@@ -283,13 +287,6 @@ class TeleopRobot(DexRobot, CameraMixin):
 
         return qpos, hand_qpos, ee_pose, head_pose
 
-    def end(self):
-        if not self.sim:
-            self.client.move_joints(DEFAULT_INDEX, positions=DEFAULT_QPOS, degrees=False, duration=1.0)
-            with ThreadPoolExecutor(max_workers=2) as executor:
-                executor.submit(self.left_hand.reset)
-                executor.submit(self.left_hand.reset)
-
     def control_hands(self, left_qpos: np.ndarray, right_qpos: np.ndarray):
         """Control real hands
 
@@ -308,13 +305,22 @@ class TeleopRobot(DexRobot, CameraMixin):
 
     def control_joints(self, gravity_compensation=True):
         qpos = self.joint_filter.next(time.time(), self.q_real)
-        self.client.move_joints(ControlGroup.ALL, qpos, degrees=False, gravity_compensation=gravity_compensation)
-
+        # self.client.move_joints(ControlGroup.ALL, qpos, degrees=False, gravity_compensation=gravity_compensation)
+        self.upsampler.put(qpos)
         return qpos
 
     def pause_robot(self):
         logger.info("Pausing robot...")
-        self.client.move_joints(ControlGroup.ALL, self.client.joint_positions, gravity_compensation=False)
+        # self.client.move_joints(ControlGroup.ALL, self.client.joint_positions, gravity_compensation=False)
+
+    def end(self):
+        if not self.sim:
+            self.upsampler.stop()
+            self.upsampler.join()
+            self.client.move_joints(DEFAULT_INDEX, positions=DEFAULT_QPOS, degrees=False, duration=1.0)
+            with ThreadPoolExecutor(max_workers=2) as executor:
+                executor.submit(self.left_hand.reset)
+                executor.submit(self.left_hand.reset)
 
 
 def main(data_dir: str, task: str = "01_cube_kitting", episode: int = 1, config: str = "config.yml"):

@@ -43,9 +43,6 @@ fourier = ["fourier-grx-client==0.2.0a8", "fourier-dhx>=0.0.2"]
 depthai = [
     "depthai-sdk>=1.15.0",
     "av>=13.1.0",
-    "mcap>=1.2.1",
-    "mcap>=1.2.1",
-    "mcap-ros1-support>=0.7.3",
 ]
 
 [tool.pdm]

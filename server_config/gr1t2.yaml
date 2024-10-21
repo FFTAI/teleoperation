@@ -248,6 +248,34 @@ upper_impedance_controller: # config for upbody impedance controller
       50.,
     ]
 
+  head_kp: [
+    10, 10, 10,
+  ]
+
+  head_kd: [
+    0.5, 0.5, 0.5,
+  ]
+
+  left_wrist_kp: [
+    112.06, 10, 10
+  ]
+
+  left_wrist_kd: [
+    3.7, 0.5, 0.5
+  ]
+
+  right_wrist_kp: [
+    112.06, 10, 10
+  ]
+
+  right_wrist_kd: [
+    3.7, 0.5, 0.5
+  ]
+
+
+
+  
+
 robot_config:
   robot_name: GR1T2
   root_joint_type: freeflyer
