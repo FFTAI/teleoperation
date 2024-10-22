@@ -39,6 +39,28 @@
         python get_python_api.py
         ```
 
+5. Setup `fourier-grx` 
+
+The fourier GR series robots are controlled by the `fourier-grx` package. The `fourier-grx` package is only available for Python 3.11. Thus, we suggest you to create a new virtual environment with Python 3.11 and install the package in the new environment. For more information, please refer to the [official Fourier GRX Documentation](https://fftai.github.io/fourier-grx-client)
+
+```bash
+    conda create -n grx python==3.11
+    conda activate grx
+    pip install grx-grx==1.0.0a18
+    cd ./server_config
+    grx run ./gr1t2.yaml --namespace gr/daq
+```
+
+Then in another terminal, you can run the following command to do the initial calibration, make sure the robot is in the initial position.
+
+```bash
+    conda activate grx
+    grx calibrate
+```
+
+After the calibration, there should be a `sensor_offset.json` file in the `./server_config` directory.
+
+
 ## Setup VisionPro
 
 The VisionPro setup is the same as the original [OpenTeleVision](https://github.com/OpenTeleVision/TeleVision/blob/main/README.md).
@@ -121,13 +143,16 @@ We'll be using `mkcert` to create a self-signed certificate. and `mkcert` is a s
 
 ## Usage
 
-### Setup robot
->
-> Note: If you are using the simulation mode, you can skip this step.
+### Start up the GRX server
 
-Since we are connecting to the Fourier GR1T2 humanoids, please follow the instructions about how to use the GR1T2 humanoids before running the script, and make sure the `fourier_grx` server is running if you want to control it. You can setup and control GR1T2 humanoids with the official [Fourier GRX Documentation](https://github.com/FFTAI/fourier-grx-client).
+Before starting the teleoperation, you need to start the GRX server. You can run the following command to start the GRX server:
 
-### Python script
+```bash
+    cd ./server_config
+    grx run ./gr1t2.yaml --namespace gr/daq
+```
+
+### Run the teleoperation script
 
 To start teleoperation with the default settings, simply run the following command in the terminal:
 
@@ -145,21 +170,50 @@ For data collection, you can use the following command:
 
 It will start the teleoperation in the simulation mode without control the waist and head of the robot. The `--record` flag will turn on the recording mode, which will save the recorded data in the `tests` directory.
 
-### Enter VR
+The available flags are:
+    - `session_name`: Name of the session.
+    - `--record`: Default to `False`. Turn on recording mode. The recorded data will be saved in the `tests` directory.
+    - `--waist`: Default to `False`. Turn on or off the retargeting of the robot's waist.
+    - `--head`: Default to `False`. Turn on or off the retargeting of the robot's head.
+    - `--sim`: Default to `False`. Start the teleoperation with simulation mode, which means the robot will not move, only show in the meshcat.
+    - `--wait_time`: Default to `1`. Set the wait time for user to initialize their hand pose to align with the robot's hand.
+   
+### Start the teleoperation
 
-After running the python command, you can open the browser on the VisionPro device and go to `https://192.168.1.100:8012?ws=wss://192.168.1.100:8012`. Or if you already in this website, you can refresh the page and click until see the camera image in the VR session.
+After running the python command, you can open the browser on the VisionPro device and go to `https://your-hostname.local:8012?ws=wss://your-hostname.local:8012`. Or if you already in this website, you can refresh the page and click until see the camera image in the VR session.
 
-Finallly, Click `Enter VR` and `Allow` to start the VR session.
+Finallly, Click the `Enter VR` button and give necessary permissions to start the VR session. Make sure to reset the Vision Pro tracking by long press the crown button on the Vision Pro device until you hear a sound.
 
-### Flag explanation
+After starting the script, the robot will move to its start position. The operator should try to  put their hands in the same start position (elbows 90 degree, hands open), and then hit the `Space` key to start the teleoperation.
+Afterwards, the operator can start the teleoperation by moving their hands in the VR session. The robot will mimic the operator's hand movements in real-time.
+To stop the teleoperation, the operator can hit the `Space` key again.
 
-- `--record`: Default to `False`. Turn on recording mode. The recorded data will be saved in the `tests` directory.
-- `--waist`: Default to `False`. Turn on or off the retargeting of the robot's waist.
-- `--head`: Default to `False`. Turn on or off the retargeting of the robot's head.
-- `--sim`: Default to `False`. Start the teleoperation with simulation mode, which means the robot will not move, only show in the meshcat.
-- `--wait_time`: Default to `1`. Set the wait time for user to initialize their hand pose to align with the robot's hand.
-- `session_name`: Name of the session.
 
+## Development
+
+We manage the development environment with the [pdm](https://pdm-project.org/en/latest/) package manager. Thus, please make sure to install `pdm` first following the [official guide](https://pdm-project.org/en/latest/#installation) here.
+
+```bash
+    pdm install -d -Gfourier -Gdepthai -v
+```
+
+To select the specific environment, you can run the following command:
+
+```bash
+    pdm use
+```
+
+And to activate the environment, you can run the following command:
+
+```bash
+    eval "$(pdm venv activate)"
+```
+
+You can run the following command to start the development environment:
+
+```bash
+    pdm run python -m silverscreen.main tests
+```
 
 ## Credits
 

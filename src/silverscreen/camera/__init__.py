@@ -1,8 +1,23 @@
 from __future__ import annotations
 
+from loguru import logger
+
 from .camera_base import CameraBase
-from .oak import CamOak
-from .zed import CamZed
+
+try:
+    from .oak import CamOak
+except ImportError:
+    logger.warning("OAK-D camera not available")
+
+try:
+    from .realsense import CamRealsense
+except ImportError:
+    logger.warning("RealSense camera not available")
+
+try:
+    from .zed import CamZed
+except ImportError:
+    logger.warning("ZED camera not available")
 
 
 def make_camera(camera_type: str, **kwargs) -> CameraBase:
