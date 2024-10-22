@@ -14,8 +14,10 @@ RECORD_DIR = DATA_DIR / "recordings"
 LOG_DIR = DATA_DIR / "logs"
 CERT_DIR = PROJECT_ROOT.parent.parent / "certs"
 
+
 def get_timestamp_utc():
     return datetime.now(timezone.utc)
+
 
 def se3_to_xyzquat(se3):
     se3 = np.asanyarray(se3).astype(float)

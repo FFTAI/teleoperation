@@ -18,6 +18,7 @@ from silverscreen.utils import CONFIG_DIR, RECORD_DIR, KeyboardListener
 
 np.set_printoptions(precision=2, suppress=True)
 
+
 class InitializationError(Exception):
     pass
 
@@ -268,7 +269,7 @@ def main(
             ):
                 if not sim:
                     filtered_hand_qpos = robot.control_hands(left_qpos, right_qpos)
-                    qpos = robot.control_joints(gravity_compensation=True) # TODO: add gravity compensation
+                    qpos = robot.control_joints(gravity_compensation=True)  # TODO: add gravity compensation
 
                 if fsm.state == FSM.State.COLLECTING:
                     data_dict["action"]["hands"].append(filtered_hand_qpos)

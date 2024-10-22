@@ -2,14 +2,10 @@ import threading
 import time
 from collections import deque
 
-
 import numpy as np
+from fourier_grx_client import ControlGroup, RobotClient
 from loguru import logger
 from scipy.interpolate import PchipInterpolator
-
-from typing import TYPE_CHECKING
-
-from fourier_grx_client import ControlGroup, RobotClient
 
 
 class CommandHistory:
@@ -64,7 +60,9 @@ def pchip_interpolate(timestamps: np.ndarray, commands: np.ndarray, target_hz: i
 
 
 class Upsampler(threading.Thread):
-    def __init__(self, client: RobotClient, target_hz: int = 200, dimension: int = 32, initial_command: np.ndarray | None = None):
+    def __init__(
+        self, client: RobotClient, target_hz: int = 200, dimension: int = 32, initial_command: np.ndarray | None = None
+    ):
         self.client = client
         self.dimension = dimension
         self.target_hz = target_hz

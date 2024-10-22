@@ -1,6 +1,6 @@
+import multiprocessing as mp
 import threading
 from abc import ABC, abstractmethod
-import multiprocessing as mp
 from multiprocessing import shared_memory
 from typing import Literal
 
@@ -109,12 +109,11 @@ class CameraBase(ABC):
     @property
     def available_sources(self) -> list[str]:
         return list(self.sources.keys())
-    
 
     # @property
     # def available_sources(self) -> list[str]:
     #     raise NotImplementedError
-    
+
     def send_to_display(self, data: dict[str, np.ndarray], marker=False):
         if "display" not in self.shms:
             return

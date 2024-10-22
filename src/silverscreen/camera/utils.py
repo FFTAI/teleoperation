@@ -1,13 +1,14 @@
-from pathlib import Path
-from PIL import Image
 import concurrent
+from pathlib import Path
 
 from loguru import logger
+from PIL import Image
 from tqdm import tqdm
+
 
 def save_image(img, key, frame_index, videos_dir: str):
     img = Image.fromarray(img)
-    path = Path(videos_dir)  / f"{key}_frame_{frame_index:06d}.png"
+    path = Path(videos_dir) / f"{key}_frame_{frame_index:06d}.png"
     path.parent.mkdir(parents=True, exist_ok=True)
     img.save(str(path), quality=100)
 
@@ -21,8 +22,8 @@ def save_images_threaded(queue, num_threads=4):
                 logger.info("Exiting save_images_threaded")
                 break
 
-            img, key, frame_index,videos_dir = frame_data
-            future = executor.submit(save_image, img, key, frame_index,videos_dir)
+            img, key, frame_index, videos_dir = frame_data
+            future = executor.submit(save_image, img, key, frame_index, videos_dir)
             futures.append(future)
 
         with tqdm(total=len(futures), desc="Writing images") as progress_bar:

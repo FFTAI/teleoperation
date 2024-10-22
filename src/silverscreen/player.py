@@ -11,7 +11,7 @@ import h5py
 import matplotlib.pyplot as plt
 import numpy as np
 import typer
-from fourier_grx_client import ControlGroup, RobotClient
+from fourier_grx_client import RobotClient
 from loguru import logger
 from omegaconf import DictConfig, OmegaConf
 from tqdm import tqdm
@@ -228,7 +228,9 @@ class TeleopRobot(DexRobot, CameraMixin):
             time.sleep(1.0)
             # move to default position
             self.client.move_joints(DEFAULT_INDEX, positions=DEFAULT_QPOS, degrees=False, duration=1.0)
-            self.upsampler = Upsampler(self.client, target_hz=config.upsampler.frequency, initial_command=self.client.joint_positions)
+            self.upsampler = Upsampler(
+                self.client, target_hz=config.upsampler.frequency, initial_command=self.client.joint_positions
+            )
             self.upsampler.start()
 
             logger.info("Init hands.")

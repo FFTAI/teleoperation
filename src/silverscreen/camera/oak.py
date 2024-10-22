@@ -1,20 +1,17 @@
 import multiprocessing as mp
-from multiprocessing import shared_memory
-from pathlib import Path
 import threading
 import time
 
 import cv2
-import numpy as np
-from loguru import logger
-from depthai_sdk import OakCamera, RecordType
-from depthai_sdk.classes.packets import FramePacket
-from depthai_sdk.classes.packet_handlers import RecordPacketHandler
-from depthai_sdk.record import RecordType, Record
 import depthai as dai
+import numpy as np
+from depthai_sdk import OakCamera
+from depthai_sdk.classes.packets import FramePacket
+from loguru import logger
 
 from silverscreen.camera.utils import save_images_threaded
 from silverscreen.utils import get_timestamp_utc
+
 from .camera_base import CameraBase
 
 

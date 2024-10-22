@@ -83,10 +83,6 @@ class CamZed(CameraBase):
             taken = time.monotonic() - start
             time.sleep(max(1 / self.fps - taken, 0))
 
-
-
-
-
     def grab(self, sources: list[str]) -> tuple[float, dict[str, np.ndarray]]:
         if self.zed.grab(self.runtime_parameters) == sl.ERROR_CODE.SUCCESS:
             if "left" in sources or "side_by_side" in sources:
