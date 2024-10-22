@@ -1,7 +1,6 @@
 from __future__ import annotations
 
 from .camera_base import CameraBase
-from .realsense import CamRealsense
 from .oak import CamOak
 from .zed import CamZed
 
