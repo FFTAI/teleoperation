@@ -8,19 +8,12 @@
     git clone https://gitee.com/FourierIntelligence/silverscreen.git
 ```
 
-2. Create a virtual environment
+2. Create a virtual environment and install the required packages
 
 ```bash
-    conda create -n silverscreen python==3.11
-    conda activate silverscreen
-```
-
-3. Install the required packages
-The environment setup could be done simply doen by using `pdm` package manager. Thus, please make sure to install `pdm` first.
-
-```bash
-    pip install pdm 
-    pdm install -d -Gfourier -Gdepthai -v
+    conda create -n teleop python==3.11
+    conda activate teleop
+    pip install -e '.[fourier,depthai,realsense]'
 ```
 
 4. (Optional) Install ZED SDK
@@ -36,7 +29,7 @@ The environment setup could be done simply doen by using `pdm` package manager. 
 
         ```bash
         # Activate the your virtual environment
-        conda activate silverscreen
+        conda activate teleop
 
         # install Python (x64 version) and the pip package manager. Then install the dependencies via pip in a terminal.
         python -m pip install cython numpy opencv-python pyopengl
@@ -81,10 +74,12 @@ We'll be using `mkcert` to create a self-signed certificate. and `mkcert` is a s
   **example usage:**
 
 ```bash
-    mkcert -install && mkcert -cert-file cert.pem -key-file key.pem 192.168.1.100 localhost 127.0.0.1
+    mkcert -install && mkcert -cert-file cert.pem -key-file key.pem 192.168.1.100 your-computer.local localhost 127.0.0.1
  ```
 
- > Attention: `192.168.1.100` is a fake IP address just for example, please replace it with your actual IP address
+ > Attention: `192.168.1.100` is a placeholder IP address just for example, please replace it with your actual IP address
+
+ > Tip: For Ubuntu machines, you can use the zeroconf address instead of the IP address for additional convenience. The zeroconf address is usually `$(hostname).local`. You can find it by running `echo "$(hostname).local"` in the terminal.
 
 4. Turn on firewall setup
 
@@ -164,3 +159,8 @@ Finallly, Click `Enter VR` and `Allow` to start the VR session.
 - `--sim`: Default to `False`. Start the teleoperation with simulation mode, which means the robot will not move, only show in the meshcat.
 - `--wait_time`: Default to `1`. Set the wait time for user to initialize their hand pose to align with the robot's hand.
 - `session_name`: Name of the session.
+
+
+## Credits
+
+This project is based on the amazing [OpenTeleVision](https://github.com/OpenTeleVision/TeleVision) project. We would like to thank the original authors for their contributions.
