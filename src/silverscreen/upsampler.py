@@ -44,7 +44,7 @@ class CommandHistory:
         return ts, commands
 
 
-def pchip_interpolate(timestamps: np.ndarray, commands: np.ndarray, target_hz: int = 200):
+def pchip_interpolate(timestamps: np.ndarray, commands: np.ndarray, target_hz: int = 200) -> np.ndarray:
     if len(timestamps) < 2:
         raise ValueError("At least two timestamps are required for interpolation")
 
@@ -52,24 +52,28 @@ def pchip_interpolate(timestamps: np.ndarray, commands: np.ndarray, target_hz: i
     num_steps = int(elapsed_time * target_hz)
 
     if num_steps < 2:
-        return timestamps, commands
+        return commands
 
     pchip = PchipInterpolator(timestamps, commands, axis=0)
 
     x_interp = np.linspace(timestamps[-2], timestamps[-1], num_steps)
 
-    commands = pchip(x_interp)
+    output = pchip(x_interp)
 
-    return commands
+    return output
 
 
 class Upsampler(threading.Thread):
-    def __init__(self, client: RobotClient, target_hz: int = 200, initial_command: np.ndarray | None = None):
+    def __init__(self, client: RobotClient, target_hz: int = 200, dimension: int = 32, initial_command: np.ndarray | None = None):
         self.client = client
+        self.dimension = dimension
         self.target_hz = target_hz
         self.target_dt = 1 / target_hz
         self.command_history = CommandHistory()
-        self.last_command = initial_command
+        if initial_command is not None and len(initial_command) == dimension:
+            self.last_command = initial_command
+        else:
+            self.last_command = None
         self.stop_event = threading.Event()
         self._cmd_lock = threading.Lock()
         super().__init__()
@@ -83,7 +87,7 @@ class Upsampler(threading.Thread):
             with self._cmd_lock:
                 if self.last_command is None:
                     return None
-                return [self.last_command]
+                return np.array([self.last_command])
 
         commands = pchip_interpolate(timestamps, commands, self.target_hz)
         return commands
@@ -92,7 +96,19 @@ class Upsampler(threading.Thread):
         self.stop_event.set()
 
     def _send_command(self, command: np.ndarray):
-        self.client.move_joints(ControlGroup.ALL, command, degrees=False, gravity_compensation=True)
+        if len(command) != self.dimension:
+            logger.warning(f"Sending wrong command: {command}")
+        try:
+            if self.client is not None:
+                self.client.move_joints(ControlGroup.ALL, command, degrees=False, gravity_compensation=True)
+            return True
+        except Exception as ex:
+            logger.warning(ex)
+            logger.warning(f"Failed cmd: {command}")
+            self.client.move_joints(
+                ControlGroup.ALL, self.client.joint_positions, degrees=False, gravity_compensation=False
+            )
+            return False
 
     def run(self):
         logger.info("Upsampler started")
@@ -100,14 +116,15 @@ class Upsampler(threading.Thread):
             if self.stop_event.is_set():
                 logger.info("Upsampler stopped.")
                 with self._cmd_lock:
-                    if self.last_command is not None:
-                        self.client.move_joints(
-                            ControlGroup.ALL, self.last_command, degrees=False, gravity_compensation=False
-                        )
-                    else:
-                        self.client.move_joints(
-                            ControlGroup.ALL, self.client.joint_positions, degrees=False, gravity_compensation=False
-                        )
+                    if self.client is not None:
+                        if self.last_command is not None:
+                            self.client.move_joints(
+                                ControlGroup.ALL, self.last_command, degrees=False, gravity_compensation=False
+                            )
+                        else:
+                            self.client.move_joints(
+                                ControlGroup.ALL, self.client.joint_positions, degrees=False, gravity_compensation=False
+                            )
                     break
             commands = self.get()
             if commands is None:
@@ -119,14 +136,7 @@ class Upsampler(threading.Thread):
                 time.sleep(self.target_dt)
                 continue
             for command in commands:
-                start = time.monotonic()
-                self._send_command(command)
-                with self._cmd_lock:
-                    self.last_command = command
-                taken = time.monotonic() - start
-                # logger.warning(f"Actual frequency: {1/taken:.2f} Hz")
-                # logger.warning(f"{self.last_command[[-2, -1]]}")
+                if self._send_command(command):
+                    with self._cmd_lock:
+                        self.last_command = command
                 time.sleep(self.target_dt)
-                
-                
-            

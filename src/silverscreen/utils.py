@@ -1,10 +1,8 @@
 from datetime import datetime, timezone
-from functools import cache
 from pathlib import Path
 
 import numpy as np
 from loguru import logger
-from numba import jit, njit
 from pynput import keyboard
 from scipy.spatial.transform import Rotation as R
 
@@ -56,7 +54,6 @@ def _xyzquat_to_se3(xyzquat):
     return se3
 
 
-@njit
 def mat_update(prev_mat, mat):
     if np.linalg.det(mat) == 0:
         return prev_mat
@@ -64,9 +61,8 @@ def mat_update(prev_mat, mat):
         return mat
 
 
-@njit
 def fast_mat_inv(mat):
-    mat = np.ascontiguousarray(mat)
+    mat = np.asarray(mat)
     ret = np.eye(4)
     ret[:3, :3] = mat[:3, :3].T
     ret[:3, 3] = -mat[:3, :3].T @ mat[:3, 3]

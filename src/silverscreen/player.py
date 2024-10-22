@@ -228,7 +228,7 @@ class TeleopRobot(DexRobot, CameraMixin):
             time.sleep(1.0)
             # move to default position
             self.client.move_joints(DEFAULT_INDEX, positions=DEFAULT_QPOS, degrees=False, duration=1.0)
-            self.upsampler = Upsampler(self.client, target_hz=120, initial_command=self.client.joint_positions)
+            self.upsampler = Upsampler(self.client, target_hz=config.upsampler.frequency, initial_command=self.client.joint_positions)
             self.upsampler.start()
 
             logger.info("Init hands.")
@@ -244,6 +244,9 @@ class TeleopRobot(DexRobot, CameraMixin):
                 with ThreadPoolExecutor(max_workers=2) as executor:
                     executor.submit(self.left_hand.reset)
                     executor.submit(self.right_hand.reset)
+        else:
+            self.upsampler = Upsampler(None, target_hz=config.upsampler.frequency)
+            self.upsampler.start()
 
     def start_recording(self, output_path: str):
         self.cam.start_recording(output_path)
@@ -304,8 +307,9 @@ class TeleopRobot(DexRobot, CameraMixin):
         return np.hstack([left, right])
 
     def control_joints(self, gravity_compensation=True):
-        qpos = self.joint_filter.next(time.time(), self.q_real)
+        # qpos = self.joint_filter.next(time.time(), self.q_real)
         # self.client.move_joints(ControlGroup.ALL, qpos, degrees=False, gravity_compensation=gravity_compensation)
+        qpos = self.q_real.copy()
         self.upsampler.put(qpos)
         return qpos
 

@@ -1,18 +1,18 @@
 import math
 
 import numpy as np
-from numba import jit, njit
+from numba import jit
 from scipy.spatial.transform import Rotation as R
 from scipy.spatial.transform import Slerp
 
 
-@njit
+@jit
 def smoothing_factor(t_e, cutoff):
     r = 2 * math.pi * cutoff * t_e
     return r / (r + 1)
 
 
-@njit
+@jit
 def exponential_smoothing(a, x, x_prev):
     return a * x + (1 - a) * x_prev
 

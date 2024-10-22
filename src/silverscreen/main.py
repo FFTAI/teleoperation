@@ -266,8 +266,9 @@ def main(
                 or fsm.state == FSM.State.EPISODE_STARTED
                 or fsm.state == FSM.State.COLLECTING
             ):
-                filtered_hand_qpos = robot.control_hands(left_qpos, right_qpos)
-                qpos = robot.control_joints(gravity_compensation=True) # TODO: add gravity compensation
+                if not sim:
+                    filtered_hand_qpos = robot.control_hands(left_qpos, right_qpos)
+                    qpos = robot.control_joints(gravity_compensation=True) # TODO: add gravity compensation
 
                 if fsm.state == FSM.State.COLLECTING:
                     data_dict["action"]["hands"].append(filtered_hand_qpos)
