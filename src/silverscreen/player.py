@@ -1,5 +1,6 @@
 from __future__ import annotations
 
+import logging
 import time
 from concurrent.futures import ThreadPoolExecutor
 from multiprocessing import Event, Queue
@@ -8,23 +9,22 @@ from threading import Lock
 from typing import Literal
 
 import h5py
+import hydra
 import matplotlib.pyplot as plt
 import numpy as np
-import typer
 from fourier_grx_client import RobotClient
-from loguru import logger
 from omegaconf import DictConfig, OmegaConf
 from tqdm import tqdm
 
 from silverscreen.camera.camera_base import CameraBase
-from silverscreen.drivers.hands import FourierDexHand, InspireDexHand
+from silverscreen.hands import FourierDexHand
 from silverscreen.preprocess import VuerPreprocessor
 from silverscreen.retarget.robot import DexRobot
 from silverscreen.television import OpenTeleVision
 from silverscreen.upsampler import Upsampler
 from silverscreen.utils import CERT_DIR, se3_to_xyzquat
 
-from .camera import make_camera
+logger = logging.getLogger(__name__)
 
 # fmt: off
 DEFAULT_INDEX =list(range(12, 32))
@@ -100,11 +100,11 @@ class CameraMixin:
 
 
 class ReplayRobot(DexRobot, CameraMixin):
-    def __init__(self, config: DictConfig, dt=1 / 60, sim=True, show_fpv=False):
+    def __init__(self, cfg: DictConfig, dt=1 / 60, sim=True, show_fpv=False):
         self.sim = sim
         self.show_fpv = show_fpv
-        config.robot.visualize = True
-        super().__init__(config)
+        cfg.robot.visualize = True
+        super().__init__(cfg)
 
         self.dt = dt
 
@@ -112,7 +112,11 @@ class ReplayRobot(DexRobot, CameraMixin):
 
         if not self.sim:
             logger.warning("Real robot mode.")
-            self.cam = make_camera(config.camera.type)
+            self.cam = (
+                hydra.utils.instantiate(cfg.camera.instance)
+                .with_display(cfg.camera.display.mode, cfg.camera.display.resolution, cfg.camera.display.crop_sizes)
+                .start()
+            )
             self.client = RobotClient(namespace="gr/daq")
             self.left_hand = FourierDexHand(self.config.hand.ip_left)
             self.right_hand = FourierDexHand(self.config.hand.ip_right)
@@ -196,16 +200,21 @@ class TeleopRobot(DexRobot, CameraMixin):
     toggle_streaming = Event()
     image_lock = Lock()
 
-    def __init__(self, config: DictConfig, dt=1 / 60, sim=True, show_fpv=False):
-        super().__init__(config)
+    def __init__(self, cfg: DictConfig, how_fpv=False):
+        super().__init__(cfg)
 
-        self.sim = sim
+        self.sim = cfg.sim
+        self.dt = 1 / cfg.frequency
 
         # update joint positions in pinocchio
         self.set_joint_positions([self.config.joint_names[i] for i in DEFAULT_INDEX], DEFAULT_QPOS, degrees=False)
         self.set_posture_target_from_current_configuration()
 
-        self.cam = make_camera(config.camera.type)  # TODO: implement a virtual camera
+        self.cam = (
+            hydra.utils.instantiate(cfg.camera.instance)
+            .with_display(cfg.camera.display.mode, cfg.camera.display.resolution, cfg.camera.display.crop_sizes)
+            .start()
+        )
         self.tv = OpenTeleVision(
             self.cam.display_shape,
             self.cam.shared_memory_names["display"],
@@ -229,25 +238,24 @@ class TeleopRobot(DexRobot, CameraMixin):
             # move to default position
             self.client.move_joints(DEFAULT_INDEX, positions=DEFAULT_QPOS, degrees=False, duration=1.0)
             self.upsampler = Upsampler(
-                self.client, target_hz=config.upsampler.frequency, initial_command=self.client.joint_positions
+                self.client, target_hz=cfg.upsampler.frequency, initial_command=self.client.joint_positions
             )
             self.upsampler.start()
 
             logger.info("Init hands.")
-            if self.hand_retarget.hand_type == "fourier":
-                self.left_hand = FourierDexHand(config.hand.ip_left)
-                self.right_hand = FourierDexHand(config.hand.ip_right)
-                # with ThreadPoolExecutor(max_workers=2) as executor:
-                #     executor.submit(self.left_hand.init)
-                #     executor.submit(self.right_hand.init)
-            elif self.hand_retarget.hand_type == "inspire":
-                self.left_hand = InspireDexHand(self.config.hand.ip_left)
-                self.right_hand = InspireDexHand(self.config.hand.ip_right)
+            self.left_hand = hydra.utils.instantiate(
+                cfg.hand,
+            )
+
+            self.left_hand = hydra.utils.instantiate(cfg.hand.left_hand)
+            self.right_hand = hydra.utils.instantiate(cfg.hand.right_hand)
+
+            if self.hand_retarget.hand_type == "inspire":
                 with ThreadPoolExecutor(max_workers=2) as executor:
                     executor.submit(self.left_hand.reset)
                     executor.submit(self.right_hand.reset)
         else:
-            self.upsampler = Upsampler(None, target_hz=config.upsampler.frequency)
+            self.upsampler = Upsampler(None, target_hz=cfg.upsampler.frequency)
             self.upsampler.start()
 
     def start_recording(self, output_path: str):

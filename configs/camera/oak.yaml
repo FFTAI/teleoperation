@@ -1,0 +1,8 @@
+instance:
+  _target_: silverscreen.camera.CamOak
+  index: 0
+  fps: 60
+display:
+  mode: "stereo"
+  resolution: [720, 1280]
+  crop_sizes: [0, 0, 0, 0]

@@ -1,10 +1,12 @@
+import logging
 import socket
 import time
 from collections.abc import Sequence
 from typing import Protocol
 
 from fourier_dhx.sdk.DexHand import DexHand
-from loguru import logger
+
+logger = logging.getLogger(__name__)
 
 
 class Hand(Protocol):

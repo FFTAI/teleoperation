@@ -24,6 +24,7 @@
 # ------------------
 
 import asyncio
+import logging
 import multiprocessing as mp
 import time
 from multiprocessing.shared_memory import SharedMemory
@@ -31,10 +32,10 @@ from threading import Lock
 from typing import Literal
 
 import numpy as np
-from loguru import logger
 from vuer import Vuer
 from vuer.schemas import Hands, ImageBackground
 
+logger = logging.getLogger(__name__)
 image_lock = Lock()
 
 

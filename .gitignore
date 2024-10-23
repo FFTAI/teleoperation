@@ -353,3 +353,4 @@ cython_debug/
 certs/
 data/
 sensor_offset.json
+outputs/

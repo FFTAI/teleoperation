@@ -1,3 +1,4 @@
+import logging
 import multiprocessing as mp
 import threading
 import time
@@ -7,12 +8,13 @@ import depthai as dai
 import numpy as np
 from depthai_sdk import OakCamera
 from depthai_sdk.classes.packets import FramePacket
-from loguru import logger
 
 from silverscreen.camera.utils import save_images_threaded
 from silverscreen.utils import get_timestamp_utc
 
 from .camera_base import CameraBase
+
+logger = logging.getLogger(__name__)
 
 
 class CamOak(CameraBase):

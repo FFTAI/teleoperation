@@ -1,10 +1,12 @@
+import logging
 from datetime import datetime, timezone
 from pathlib import Path
 
 import numpy as np
-from loguru import logger
 from pynput import keyboard
 from scipy.spatial.transform import Rotation as R
+
+logger = logging.getLogger(__name__)
 
 PROJECT_ROOT = Path(__file__).resolve().parent
 ASSET_DIR = PROJECT_ROOT.parent.parent / "assets"

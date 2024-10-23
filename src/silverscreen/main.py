@@ -1,20 +1,23 @@
+import datetime
+import logging
 import os
 import time
 from dataclasses import dataclass
 from glob import glob
 from pathlib import Path
-from typing import Annotated
 
 import h5py
+import hydra
 import numpy as np
-import typer
-from loguru import logger
 from omegaconf import DictConfig, OmegaConf
 
 from silverscreen.filters import LPRotationFilter
 from silverscreen.player import TeleopRobot
 from silverscreen.state_machine import FSM
 from silverscreen.utils import CONFIG_DIR, RECORD_DIR, KeyboardListener
+
+logger = logging.getLogger(__name__)
+OmegaConf.register_new_resolver("eval", eval, replace=True)
 
 np.set_printoptions(precision=2, suppress=True)
 
@@ -87,34 +90,23 @@ def make_data_dict():
     return data_dict
 
 
+@hydra.main(config_path=str(CONFIG_DIR), config_name="teleop_gr1", version_base="1.2")
 def main(
-    session_name: Annotated[str, typer.Argument(help="Name of the session")],
-    waist: bool = False,
-    head: bool = False,
-    sim: bool = False,
-    record: bool = False,
-    wait_time: float = 1.0,
-    verbose: bool = False,
+    cfg: DictConfig,
 ):
-    default_config = Path(CONFIG_DIR) / "body" / "gr1.yaml"
-    config = DictConfig(OmegaConf.load(default_config))
+    if not cfg.use_waist:
+        cfg.robot.joints_to_lock.extend(cfg.robot.waist_joints)
 
-    config.wait_time = wait_time
-
-    if not waist:
-        config.robot.joints_to_lock.append("waist_pitch_joint")
-
-    if not head:
-        config.robot.joints_to_lock.append("head_pitch_joint")
-        config.robot.joints_to_lock.append("head_yaw_joint")
-
-    print("Joints to lock: ", config.robot.joints_to_lock)
+    if not cfg.use_head:
+        cfg.robot.joints_to_lock.extend(cfg.robot.head_joints)
 
     recording = None
     data_dict = make_data_dict()
 
-    if record:
-        session_path = RECORD_DIR / session_name
+    session_name = datetime.datetime.now().strftime("%Y-%m-%d_%H-%M-%S")
+    if cfg.recording.enabled:
+        session_path = RECORD_DIR / cfg.recording.task_name / session_name
+        logger.info(f"Recording session: {session_path}")
         os.makedirs(session_path, exist_ok=True)
 
         recording = RecordingInfo.from_session_path(str(session_path))
@@ -123,7 +115,7 @@ def main(
 
     act = False
 
-    robot = TeleopRobot(config, dt=1 / config.frequency, sim=sim)  # type: ignore
+    robot = TeleopRobot(cfg)  # type: ignore
 
     listener = KeyboardListener()
     listener.start()
@@ -131,7 +123,7 @@ def main(
     def trigger():
         return listener.space_pressed
 
-    head_filter = LPRotationFilter(config.head_filter.alpha)
+    head_filter = LPRotationFilter(cfg.head_filter.alpha)
 
     logger.info("Waiting for connection.")
 
@@ -151,14 +143,14 @@ def main(
                 right_qpos,
             ) = robot.step()
 
-            if fsm.state == FSM.State.COLLECTING or not record:
+            if fsm.state == FSM.State.COLLECTING or not cfg.recording.enabled:
                 timestamp = robot.update_image()
             else:
                 timestamp = robot.update_image(marker=True)
 
             head_mat = head_filter.next_mat(head_mat)
 
-            robot.solve(left_pose, right_pose, head_mat, dt=1 / config.frequency)
+            robot.solve(left_pose, right_pose, head_mat, dt=1 / cfg.frequency)
 
             robot.set_hand_joints(left_qpos, right_qpos)
 
@@ -178,10 +170,10 @@ def main(
             if start_timer is None:
                 raise InitializationError("start_timer is None")
 
-            if time.time() - start_timer < config.wait_time:
+            if time.time() - start_timer < cfg.wait_time:
                 logger.info(f"Waiting for trigger. Time elapsed: {time.time() - start_timer:.2f}")
 
-            if fsm.state == FSM.State.STARTED and time.time() - start_timer > config.wait_time and trigger():
+            if fsm.state == FSM.State.STARTED and time.time() - start_timer > cfg.wait_time and trigger():
                 logger.info("Trigger detected")
 
                 fsm.next()
@@ -194,7 +186,7 @@ def main(
                 act = True
                 fsm.next()
             elif fsm.state == FSM.State.ENGAGED and trigger():
-                if not record or recording is None:
+                if not cfg.recording.enabled or recording is None:
                     logger.info("Disengaging.")
                     fsm.state = FSM.State.IDLE
                     robot.pause_robot()
@@ -202,7 +194,7 @@ def main(
                 fsm.next()
 
             elif fsm.state == FSM.State.IDLE and trigger():
-                if not record or recording is None:
+                if not cfg.recording.enabled or recording is None:
                     logger.info("Engaging.")
                     fsm.state = FSM.State.ENGAGED
                     continue
@@ -210,7 +202,7 @@ def main(
                 fsm.next()
 
             elif fsm.state == FSM.State.EPISODE_STARTED:
-                if not record or recording is None:
+                if not cfg.recording.enabled or recording is None:
                     raise InitializationError("Recording not initialized.")
                 collection_start = time.time()
 
@@ -225,7 +217,7 @@ def main(
                 fsm.next()
 
             elif fsm.state == FSM.State.EPISODE_ENDED:
-                if not record or recording is None:
+                if not cfg.recording.enabled or recording is None:
                     raise InitializationError("Recording not initialized.")
                 robot.pause_robot()
 
@@ -267,14 +259,14 @@ def main(
                 or fsm.state == FSM.State.EPISODE_STARTED
                 or fsm.state == FSM.State.COLLECTING
             ):
-                if not sim:
+                if not cfg.sim:
                     filtered_hand_qpos = robot.control_hands(left_qpos, right_qpos)
                     qpos = robot.control_joints(gravity_compensation=True)  # TODO: add gravity compensation
 
-                if fsm.state == FSM.State.COLLECTING:
-                    data_dict["action"]["hands"].append(filtered_hand_qpos)
-                    data_dict["action"]["joints"].append(qpos)
-                    data_dict["action"]["ee_pose"].append(np.hstack([left_pose, right_pose]))
+                    if fsm.state == FSM.State.COLLECTING:
+                        data_dict["action"]["hands"].append(filtered_hand_qpos)
+                        data_dict["action"]["joints"].append(qpos)
+                        data_dict["action"]["ee_pose"].append(np.hstack([left_pose, right_pose]))
 
             if fsm.state == FSM.State.COLLECTING:
                 data_dict["timestamp"].append(timestamp)
@@ -304,7 +296,7 @@ def main(
             exec_time = time.time() - start
             # print(f"Execution time: {1/exec_time:.2f} hz")
             # print(max(0, 1 / config.frequency - exec_time))
-            time.sleep(max(0, 1 / config.frequency - exec_time))
+            time.sleep(max(0, 1 / cfg.frequency - exec_time))
 
     except KeyboardInterrupt:
         robot.stop_recording()
@@ -315,4 +307,4 @@ def main(
 
 
 if __name__ == "__main__":
-    typer.run(main)
+    main()

@@ -1,26 +1,20 @@
-from pathlib import Path
-
 import numpy as np
-import yaml
 from dex_retargeting.retargeting_config import RetargetingConfig
+from omegaconf import DictConfig, OmegaConf
 
-from silverscreen.constants import tip_indices
-from silverscreen.utils import ASSET_DIR, CONFIG_DIR, remap
+from silverscreen.utils import ASSET_DIR, remap
 
 
 class HandRetarget:
-    def __init__(self, config_name: str, tip_indices=tip_indices) -> None:
+    def __init__(self, cfg: DictConfig) -> None:
         assets_dir = ASSET_DIR
-        config_dir = CONFIG_DIR / "hand"
         RetargetingConfig.set_default_urdf_dir(assets_dir)
-        with (Path(config_dir) / config_name).open("r") as f:
-            cfg = yaml.safe_load(f)
-        left_retargeting_config = RetargetingConfig.from_dict(cfg["left"])
-        right_retargeting_config = RetargetingConfig.from_dict(cfg["right"])
+        left_retargeting_config = RetargetingConfig.from_dict(cfg=OmegaConf.to_container(cfg["left"], resolve=True))
+        right_retargeting_config = RetargetingConfig.from_dict(cfg=OmegaConf.to_container(cfg["right"], resolve=True))
         self.left_retargeting = left_retargeting_config.build()
         self.right_retargeting = right_retargeting_config.build()
-        self.hand_type = cfg["hand_type"]
-        self.tip_indices = tip_indices
+        self.hand_type = cfg.type
+        self.tip_indices = cfg.tip_indices
 
     @property
     def left_joint_names(self):
@@ -31,8 +25,8 @@ class HandRetarget:
         return self.right_retargeting.joint_names
 
     def retarget(self, left_landmarks: np.ndarray, right_landmarks: np.ndarray):
-        left_qpos = self.left_retargeting.retarget(left_landmarks[tip_indices])
-        right_qpos = self.right_retargeting.retarget(right_landmarks[tip_indices])
+        left_qpos = self.left_retargeting.retarget(left_landmarks[self.tip_indices])
+        right_qpos = self.right_retargeting.retarget(right_landmarks[self.tip_indices])
         return left_qpos, right_qpos
 
     def qpos_to_real(self, left_qpos, right_qpos):

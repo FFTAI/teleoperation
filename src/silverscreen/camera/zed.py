@@ -1,12 +1,14 @@
+import logging
 import multiprocessing as mp
 import time
 
 import cv2
 import numpy as np
 import pyzed.sl as sl
-from loguru import logger
 
 from .camera_base import CameraBase
+
+logger = logging.getLogger(__name__)
 
 # resolution = (720, 1280)
 # crop_size_w = 1

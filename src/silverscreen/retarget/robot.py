@@ -56,10 +56,9 @@ class IKRobot(RobotWrapper):
         return pin.XYZQUATToSE3(xyzquat)
 
     def build_tasks(self):
-        start_link = "base_link"
         r_hand_task = pink.tasks.RelativeFrameTask(
-            "right_end_effector_link",
-            start_link,
+            self.config.inverse_kinematic.right_end_effector_link,
+            self.config.inverse_kinematic.root_link,
             position_cost=50.0,
             orientation_cost=10.0,
             gain=0.7,
@@ -67,8 +66,8 @@ class IKRobot(RobotWrapper):
         )
 
         l_hand_task = pink.tasks.RelativeFrameTask(
-            "left_end_effector_link",
-            start_link,
+            self.config.inverse_kinematic.left_end_effector_link,
+            self.config.inverse_kinematic.root_link,
             position_cost=50.0,
             orientation_cost=10.0,
             gain=0.7,
@@ -76,8 +75,8 @@ class IKRobot(RobotWrapper):
         )
 
         head_task = pink.tasks.RelativeFrameTask(
-            "head_yaw_link",
-            "base_link",
+            self.config.inverse_kinematic.head_link,
+            self.config.inverse_kinematic.root_link,
             position_cost=0.0,
             orientation_cost=1.0,
             gain=0.5,
@@ -160,7 +159,7 @@ class DexRobot(IKRobot):
         self.hand_filter = OneEuroFilter(min_cutoff=config.hand_filter.min_cutoff, beta=config.hand_filter.beta)
         self.joint_filter = OneEuroFilter(min_cutoff=config.joint_filter.min_cutoff, beta=config.joint_filter.beta)
 
-        self.hand_retarget = HandRetarget(config.hand.config)
+        self.hand_retarget = HandRetarget(config.hand)
 
     def hand_action_convert(self, left_qpos, right_qpos, filtering=True) -> tuple[np.ndarray, np.ndarray]:
         left_qpos_real, right_qpos_real = self.hand_retarget.qpos_to_real(left_qpos, right_qpos)

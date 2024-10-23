@@ -1,8 +1,11 @@
 from __future__ import annotations
 
-from loguru import logger
+import logging
 
 from .camera_base import CameraBase
+
+logger = logging.getLogger(__name__)
+
 
 try:
     from .oak import CamOak

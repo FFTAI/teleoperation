@@ -1,4 +1,17 @@
-hand_type: fourier
+type: "fourier"
+left_hand:
+  _target_: silverscreen.hands.FourierDexHand
+  hand_ip: "192.168.137.39"
+
+right_hand:
+  _target_: silverscreen.hands.FourierDexHand
+  hand_ip: "192.168.137.19"
+  
+prefix_left: "L_"
+prefix_right: "R_"
+
+tip_indices: [4, 9, 14, 19, 24]
+
 left:
   type: vector
   urdf_path: gr1/urdf/fourier_left_hand.urdf

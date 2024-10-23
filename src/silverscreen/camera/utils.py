@@ -1,9 +1,11 @@
 import concurrent
+import logging
 from pathlib import Path
 
-from loguru import logger
 from PIL import Image
 from tqdm import tqdm
+
+logger = logging.getLogger(__name__)
 
 
 def save_image(img, key, frame_index, videos_dir: str):

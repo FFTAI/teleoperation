@@ -1,11 +1,13 @@
+import logging
 import threading
 import time
 from collections import deque
 
 import numpy as np
 from fourier_grx_client import ControlGroup, RobotClient
-from loguru import logger
 from scipy.interpolate import PchipInterpolator
+
+logger = logging.getLogger(__name__)
 
 
 class CommandHistory:

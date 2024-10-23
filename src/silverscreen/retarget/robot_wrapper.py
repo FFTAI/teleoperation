@@ -1,17 +1,19 @@
 import itertools
+import logging
 from collections.abc import Sequence
 
 import numpy as np
 import pink
 import pinocchio as pin
-from loguru import logger
 from omegaconf import DictConfig, OmegaConf
 
 from silverscreen.utils import ASSET_DIR
 
+logger = logging.getLogger(__name__)
+
 
 class RobotWrapper:
-    def __init__(self, config: DictConfig | str, open_viz: bool = False):
+    def __init__(self, config: DictConfig | str):
         if isinstance(config, str):
             self.config = OmegaConf.load(config).robot
         else:
@@ -68,7 +70,7 @@ class RobotWrapper:
                 self.robot.model, self.robot.collision_model, self.robot.visual_model
             )
             self.robot.setVisualizer(self.viz, init=False)
-            self.viz.initViewer(open=open_viz, loadModel=True)
+            self.viz.initViewer(open=False, loadModel=True)
 
             self.viz.displayCollisions(self.config.display_collisions)
 

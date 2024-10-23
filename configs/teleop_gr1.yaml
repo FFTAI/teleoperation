@@ -1,0 +1,35 @@
+defaults:
+  - hand: fourier
+  - robot: gr1
+  - camera: oak
+  - _self_
+
+debug: false
+sim: false
+wait_time: 5.0
+frequency: 50
+use_waist: false
+use_head: false
+
+
+recording:
+  enabled: false
+  task_name: ""
+
+joint_filter:
+  min_cutoff: 0.01
+  beta: 10.0
+
+hand_filter:
+  min_cutoff: 0.001
+  beta: 50.0
+
+head_filter:
+  alpha: 0.7
+
+upsampler:
+  frequency: 120
+
+# hydra:
+#   job_logging: colorlog
+#   hydra_logging: colorlog

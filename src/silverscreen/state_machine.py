@@ -1,6 +1,7 @@
+import logging
 from enum import Enum
 
-from loguru import logger
+logger = logging.getLogger(__name__)
 
 
 class FSM:
