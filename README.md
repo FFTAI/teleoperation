@@ -73,7 +73,9 @@ Apple restricts WebXR access on non-HTTPS connections. To test the application l
 2. A router.
 3. VisionPro connected to the same network with the Ubuntu machine.
 
-> Note: Make sure to connect both the VisionPro and the Ubuntu machine to the router, ensuring they are on the same network, and proceed with the self-signed certificate setup.
+> [!NOTE] 
+> Please ensure that both the VisionPro and the Ubuntu machine are on the same network.
+
 
 ### 🔐 Self-Signed Certificate:
 
@@ -99,9 +101,11 @@ We'll be using `mkcert` to create a self-signed certificate. and `mkcert` is a s
     mkcert -install && mkcert -cert-file cert.pem -key-file key.pem 192.168.1.100 your-computer.local localhost 127.0.0.1
  ```
 
- > Attention: `192.168.1.100` is a placeholder IP address just for example, please replace it with your actual IP address
+ > [!IMPORTANT] 
+ > `192.168.1.100` is a placeholder IP address just for example, please replace it with your actual IP address
 
- > Tip: For Ubuntu machines, you can use the zeroconf address instead of the IP address for additional convenience. The zeroconf address is usually `$(hostname).local`. You can find it by running `echo "$(hostname).local"` in the terminal.
+ > [!TIP] 
+ > For Ubuntu machines, you can use the zeroconf address instead of the IP address for additional convenience. The zeroconf address is usually `$(hostname).local`. You can find it by running `echo "$(hostname).local"` in the terminal.
 
 4. Turn on firewall setup
 
@@ -129,11 +133,10 @@ We'll be using `mkcert` to create a self-signed certificate. and `mkcert` is a s
 
   Settings > Apps > Safari > Advanced > Feature Flags > Enable WebXR Related Features
 
-  > Note: For some general setting up questions on visionpro could be found in the [VisionPro Setting FAQ](./visionpro_setting_FAQ.md).
+  > [!NOTE]
+  > For some general setting up questions on visionpro could be found in the [VisionPro Setting FAQ](./visionpro_setting_FAQ.md).
   
 6. open the browser on Safari on VisionPro and go to <https://192.168.1.100:8012?ws=wss://192.168.1.100:8012>
-
-> Attention: `192.168.1.100` is a fake IP address just for example, please replace it with your actual IP address
 
   You will see the message "Your connection is not secure" because we are using a self-signed certificate. Click "Advanced" and then "proceed to website". You will be prompted to accept the certificate.
 
@@ -142,7 +145,8 @@ We'll be using `mkcert` to create a self-signed certificate. and `mkcert` is a s
 7. Run the python script on the Ubuntu machine. Please see the [Usage](#usage) section for more details.
 
 
-> Note: You should be able to use this with Oculus Quest 2 as well. The setup process is more involved, but you should be able to stream using adb follwoing [this issue](https://github.com/OpenTeleVision/TeleVision/issues/12#issue-2401541144).
+> [!NOTE] 
+> You should be able to use this with Oculus Quest 2 as well. The setup process is more involved, but you should be able to stream using adb follwoing [this issue](https://github.com/OpenTeleVision/TeleVision/issues/12#issue-2401541144).
 
 ## 🕹️ Usage
 
@@ -165,7 +169,8 @@ To record data:
     python -m silverscreen.main tests --record
 ```
 
-> Caution: If you are using the real robot with Fourier GRX, please make sure to leave enough empty space between the robot and the table to avoid the robot arm collide with the table. The robot resume to the initial position before and after the teleoperation session.
+> [!CAUTION] 
+> If you are using the real robot with Fourier GRX, please make sure to leave enough empty space between the robot and the table to avoid the robot arm collide with the table. The robot resume to the initial position before and after the teleoperation session.
 
 
 The available flags are:
@@ -226,7 +231,7 @@ If you find this project useful, please consider citing it:
 @misc{silverscreen,
   author = {Yuxiang Gao, Fourier Co Ltd},
   title = {Silverscreen},
-  year = {2022},
+  year = {2024},
   publisher = {GitHub},
   journal = {GitHub repository},
   howpublished = {\url{https://github.com/FFTAI/silverscreen}}
