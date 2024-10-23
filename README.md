@@ -1,6 +1,6 @@
 # silverscreen
 
-## Environment Setup
+## 🚀 Environment Setup
 
 1. Clone the official repository
 
@@ -61,11 +61,11 @@ Then in another terminal, you can run the following command to do the initial ca
 After the calibration, there should be a `sensor_offset.json` file in the `./server_config` directory.
 
 
-## Setup VisionPro
+## 👓 Setup VisionPro
 
 The VisionPro setup is the same as the original [OpenTeleVision](https://github.com/OpenTeleVision/TeleVision/blob/main/README.md).
 
-### Setup for connecting VisionPro to the local machine
+### 🌐 Local Machine Connection:
 
 Apple restricts WebXR access on non-HTTPS connections. To test the application locally, you need to set up a self-signed certificate and install it on the client device. Here's what you'll need:
 
@@ -75,7 +75,7 @@ Apple restricts WebXR access on non-HTTPS connections. To test the application l
 
 > Note: Make sure to connect both the VisionPro and the Ubuntu machine to the router, ensuring they are on the same network, and proceed with the self-signed certificate setup.
 
-### Self-signed certificate setup
+### 🔐 Self-Signed Certificate:
 
 We'll be using `mkcert` to create a self-signed certificate. and `mkcert` is a simple tool for making locally-trusted development certificates. It requires no configuration. Here's how to set it up:
 
@@ -141,11 +141,12 @@ We'll be using `mkcert` to create a self-signed certificate. and `mkcert` is a s
 
 7. Run the python script on the Ubuntu machine. Please see the [Usage](#usage) section for more details.
 
-## Usage
+
+> Note: You should be able to use this with Oculus Quest 2 as well. The setup process is more involved, but you should be able to stream using adb follwoing [this issue](https://github.com/OpenTeleVision/TeleVision/issues/12#issue-2401541144).
+
+## 🕹️ Usage
 
 ### Start up the GRX server
-
-Before starting the teleoperation, you need to start the GRX server. You can run the following command to start the GRX server:
 
 ```bash
     cd ./server_config
@@ -154,21 +155,18 @@ Before starting the teleoperation, you need to start the GRX server. You can run
 
 ### Run the teleoperation script
 
-To start teleoperation with the default settings, simply run the following command in the terminal:
-
 ```bash
     python -m silverscreen.main tests
 ```
 
-For data collection, you can use the following command:
+To record data:
 
 ```bash
     python -m silverscreen.main tests --record
 ```
 
-> Caution: If you are using the real robot with Fourier GRX, please make sure to leave a empty space between the robot and the table to avoid the robot arm collide with the table. The robot arm will lite it arm up directly after you running the script.
+> Caution: If you are using the real robot with Fourier GRX, please make sure to leave enough empty space between the robot and the table to avoid the robot arm collide with the table. The robot resume to the initial position before and after the teleoperation session.
 
-It will start the teleoperation in the simulation mode without control the waist and head of the robot. The `--record` flag will turn on the recording mode, which will save the recorded data in the `tests` directory.
 
 The available flags are:
     - `session_name`: Name of the session.
@@ -184,12 +182,13 @@ After running the python command, you can open the browser on the VisionPro devi
 
 Finallly, Click the `Enter VR` button and give necessary permissions to start the VR session. Make sure to reset the Vision Pro tracking by long press the crown button on the Vision Pro device until you hear a sound.
 
-After starting the script, the robot will move to its start position. The operator should try to  put their hands in the same start position (elbows 90 degree, hands open), and then hit the `Space` key to start the teleoperation.
+After starting the script, the robot will move to its start position. The operator should try to  put their hands in the same start position (elbows 90 degree, hands open), and then hit the `Space` key to start the teleoperation.🦾
+
 Afterwards, the operator can start the teleoperation by moving their hands in the VR session. The robot will mimic the operator's hand movements in real-time.
 To stop the teleoperation, the operator can hit the `Space` key again.
 
 
-## Development
+## 🛠️ Development
 
 We manage the development environment with the [pdm](https://pdm-project.org/en/latest/) package manager. Thus, please make sure to install `pdm` first following the [official guide](https://pdm-project.org/en/latest/#installation) here.
 
@@ -215,6 +214,21 @@ You can run the following command to start the development environment:
     pdm run python -m silverscreen.main tests
 ```
 
-## Credits
+## 🙏 Credits
 
 This project is based on the amazing [OpenTeleVision](https://github.com/OpenTeleVision/TeleVision) project. We would like to thank the original authors for their contributions.
+
+## 📖 Citation
+
+If you find this project useful, please consider citing it:
+
+```bibtex
+@misc{silverscreen,
+  author = {Yuxiang Gao, Fourier Co Ltd},
+  title = {Silverscreen},
+  year = {2022},
+  publisher = {GitHub},
+  journal = {GitHub repository},
+  howpublished = {\url{https://github.com/FFTAI/silverscreen}}
+}
+```
