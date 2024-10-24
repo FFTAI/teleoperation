@@ -1,4 +1,5 @@
 import logging
+import math
 import threading
 import time
 from collections import deque
@@ -47,7 +48,7 @@ def pchip_interpolate(timestamps: np.ndarray, commands: np.ndarray, target_hz: i
         raise ValueError("At least two timestamps are required for interpolation")
 
     elapsed_time = timestamps[-1] - timestamps[-2]
-    num_steps = int(elapsed_time * target_hz)
+    num_steps = math.ceil(elapsed_time * target_hz)
 
     if num_steps < 2:
         return commands

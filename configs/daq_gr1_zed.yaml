@@ -1,0 +1,33 @@
+defaults:
+  - hand: fourier
+  - robot: gr1
+  - camera: zed
+  - _self_
+  - override hydra/job_logging: colorlog
+  - override hydra/hydra_logging: colorlog
+
+debug: false
+sim: false
+wait_time: 5.0
+frequency: 50
+use_waist: false
+use_head: false
+
+
+recording:
+  enabled: true
+  task_name: "default"
+
+joint_filter:
+  min_cutoff: 0.01
+  beta: 10.0
+
+hand_filter:
+  min_cutoff: 0.001
+  beta: 50.0
+
+head_filter:
+  alpha: 0.7
+
+upsampler:
+  frequency: 120

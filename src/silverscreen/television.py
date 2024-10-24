@@ -105,7 +105,7 @@ class OpenTeleVision:
             self.head_matrix_shared[:] = event.value["camera"]["matrix"]
             self.aspect_shared.value = event.value["camera"]["aspect"]
         except Exception as e:
-            logger.trace(f"Error in on_cam_move: {e}")
+            logger.debug(f"Error in on_cam_move: {e}")
             pass
 
     async def on_hand_move(self, event, session, fps=60):
@@ -119,7 +119,7 @@ class OpenTeleVision:
                 logger.success("first hand received")
 
         except Exception as e:
-            logger.trace(f"Error in on_hand_move: {e}")
+            logger.debug(f"Error in on_hand_move: {e}")
             pass
 
     async def main_image(self, session, fps=60):
