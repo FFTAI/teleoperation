@@ -133,7 +133,7 @@ def main(
     i = 0
     try:
         while True:
-            start = time.time()
+            start = time.monotonic()
             # ----- update readings -----
             (
                 head_mat,
@@ -183,8 +183,11 @@ def main(
                 robot.processor.calibrate(robot, head_mat, left_pose, right_pose)
                 fsm.next()
             elif fsm.state == FSM.State.CALIBRATED:
+                robot.init_control_joints()
                 act = True
                 fsm.next()
+                continue
+
             elif fsm.state == FSM.State.ENGAGED and trigger():
                 if not cfg.recording.enabled or recording is None:
                     logger.info("Disengaging.")
@@ -293,8 +296,8 @@ def main(
                 # print("--------------------")
                 # print(data_dict)
 
-            exec_time = time.time() - start
-            # print(f"Execution time: {1/exec_time:.2f} hz")
+            exec_time = time.monotonic() - start
+            # logger.info(f"Execution time: {1/exec_time:.2f} hz")
             # print(max(0, 1 / config.frequency - exec_time))
             time.sleep(max(0, 1 / cfg.frequency - exec_time))
 

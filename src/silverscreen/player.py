@@ -12,7 +12,7 @@ import h5py
 import hydra
 import matplotlib.pyplot as plt
 import numpy as np
-from fourier_grx_client import RobotClient
+from fourier_grx_client import ControlGroup, RobotClient
 from omegaconf import DictConfig, OmegaConf
 from tqdm import tqdm
 
@@ -322,6 +322,9 @@ class TeleopRobot(DexRobot, CameraMixin):
         qpos = self.q_real.copy()
         self.upsampler.put(qpos)
         return qpos
+
+    def init_control_joints(self):
+        self.client.move_joints(ControlGroup.ALL, self.q_real, degrees=False, duration=0.5, blocking=True)
 
     def pause_robot(self):
         logger.info("Pausing robot...")

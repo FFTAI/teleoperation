@@ -33,7 +33,7 @@ class CamOak(CameraBase):
         self.stop_event.clear()
         self.processes = []
         self.processes.append(threading.Thread(target=self.run, daemon=True))
-        self.processes.append(mp.Process(target=save_images_threaded, args=(self.save_queue, 4)))
+        self.processes.append(mp.Process(target=save_images_threaded, args=(self.save_queue, 4), daemon=True))
         for p in self.processes:
             p.start()
         # self.run()
@@ -42,7 +42,7 @@ class CamOak(CameraBase):
     def _make_camera(self):
         if self.oak is not None:
             self.oak.close()
-        oak = OakCamera(args={"irDotBrightness": 500})
+        oak = OakCamera()
         left = oak.create_camera("left", resolution="720p", fps=60)
         right = oak.create_camera("right", resolution="720p", fps=60)
         q_display = (
