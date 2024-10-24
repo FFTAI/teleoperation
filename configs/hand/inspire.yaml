@@ -1,4 +1,16 @@
-hand_type: inspire
+type: "inspire"
+left_hand:
+  _target_: silverscreen.hands.InspireDexHand
+  ip: "192.168.137.39"
+
+right_hand:
+  _target_: silverscreen.hands.InspireDexHand
+  ip: "192.168.137.19"
+  
+prefix_left: "L_"
+prefix_right: "R_"
+
+tip_indices: [4, 9, 14, 19, 24]
 left:
   type: vector
   urdf_path: inspire_hand/inspire_hand_left.urdf

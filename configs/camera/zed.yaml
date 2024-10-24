@@ -1,6 +1,7 @@
-_target_: silverscreen.camera.CamZed
-index: 0
-fps: 60
+instance:
+  _target_: silverscreen.camera.CamZed
+  index: 0
+  fps: 60
 display:
   mode: "stereo"
   resolution: [720, 1280]

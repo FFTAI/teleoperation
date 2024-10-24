@@ -15,8 +15,8 @@ use_head: false
 
 
 recording:
-  enabled: false
-  task_name: "teleop"
+  enabled: true
+  task_name: "default"
 
 joint_filter:
   min_cutoff: 0.01
@@ -31,7 +31,3 @@ head_filter:
 
 upsampler:
   frequency: 120
-
-hydra:
-  run:
-    dir: outputs/${recording.task_name}/${now:%Y-%m-%d_%H-%M-%S}

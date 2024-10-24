@@ -1,7 +1,7 @@
 defaults:
   - hand: fourier
   - robot: gr1
-  - camera: oak
+  - camera: zed
   - _self_
   - override hydra/job_logging: colorlog
   - override hydra/hydra_logging: colorlog

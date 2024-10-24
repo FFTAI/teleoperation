@@ -111,7 +111,7 @@ class InspireDexHand:
     def reset(self):
         self.set_positions([1000, 1000, 1000, 1000, 1000, 1000])
 
-    def set_positions(self, positions: Sequence[int], wait_reply=True):
+    def set_positions(self, positions: Sequence[int], wait_reply=False):
         """Set positions of the hand.
 
         Args:
