@@ -16,10 +16,37 @@ RECORD_DIR = DATA_DIR / "recordings"
 LOG_DIR = DATA_DIR / "logs"
 CERT_DIR = PROJECT_ROOT.parent.parent / "certs"
 
+def format_episode_id(episode_id):
+    return f"{episode_id:09d}"
 
 def get_timestamp_utc():
     return datetime.now(timezone.utc)
 
+
+def se3_to_xyzortho6d(se3):
+    """
+    Convert SE(3) to continuous 6D rotation representation.
+    """
+    so3 = se3[:3, :3]
+    xyz = se3[:3, 3]
+    ortho6d = so3_to_ortho6d(so3)
+    return np.concatenate([xyz, ortho6d])
+
+def so3_to_ortho6d(so3):
+    """
+    Convert to continuous 6D rotation representation adapted from
+    On the Continuity of Rotation Representations in Neural Networks
+    https://arxiv.org/pdf/1812.07035.pdf
+    https://github.com/papagina/RotationContinuity/blob/master/sanity_test/code/tools.py
+    """
+    return so3[:, :2].transpose().reshape(-1)
+
+def ortho6d_to_so3(ortho6d):
+    """
+    Convert from continuous 6D rotation representation to SO(3)
+    """
+    # TODO
+    raise NotImplementedError
 
 def se3_to_xyzquat(se3):
     se3 = np.asanyarray(se3).astype(float)

@@ -1,4 +1,7 @@
+import logging
+
 import numpy as np
+from omegaconf import DictConfig
 
 from .constants import (
     grd_yup2grd_zup,
@@ -10,9 +13,12 @@ from .constants import (
 )
 from .utils import fast_mat_inv, mat_update
 
+logger = logging.getLogger(__name__)
+
 
 class VuerPreprocessor:
-    def __init__(self, hand_type="inspire"):
+    def __init__(self, cfg: DictConfig):
+        self.cfg = cfg
         self.vuer_head_mat = np.array([[1, 0, 0, 0], [0, 1, 0, 1.5], [0, 0, 1, -0.2], [0, 0, 0, 1]], dtype=float)
         self.vuer_right_wrist_mat = np.array(
             [[1, 0, 0, 0.3], [0, 1, 0, 0.7], [0, 0, 1, -0.2], [0, 0, 0, 1]], dtype=float
@@ -23,28 +29,29 @@ class VuerPreprocessor:
 
         self.offset = np.array([0.1, 0, -0.6], dtype=float)
 
-        if hand_type == "inspire":
+        if cfg.hand_type == "inspire":
             self.hand2fingers_left = hand2inspire
             self.hand2fingers_right = hand2inspire
-        elif hand_type == "fourier":
+        elif cfg.hand_type == "fourier":
             self.hand2fingers_left = hand2fourier_left
             self.hand2fingers_right = hand2fourier_right
 
-    def calibrate(self, robot, head_mat, left_wrist_pose, right_wrist_pose):
+    def calibrate(self, robot, head_mat, left_wrist_translation, right_wrist_translation):
         q = robot.q0.copy()
-        q[robot.get_idx_q_from_name("right_elbow_pitch_joint")] = -np.pi / 2
-        q[robot.get_idx_q_from_name("left_elbow_pitch_joint")] = -np.pi / 2
-        robot_head_pose = robot.frame_placement(q, "head_yaw_link")
-        robot_left_ee_pose = robot.frame_placement(q, "left_end_effector_link")
-        robot_right_ee_pose = robot.frame_placement(q, "right_end_effector_link")
+        # TODO: config this to enable calibration for ddifferent robots
+        q[robot.get_idx_q_from_name(self.cfg.named_links.right_elbow_pitch_joint)] = -np.pi / 2
+        q[robot.get_idx_q_from_name(self.cfg.named_links.left_elbow_pitch_joint)] = -np.pi / 2
+        robot_head_pose = robot.frame_placement(q, self.cfg.named_links.head_link)
+        robot_left_ee_pose = robot.frame_placement(q, self.cfg.named_links.left_end_effector_link)
+        robot_right_ee_pose = robot.frame_placement(q, self.cfg.named_links.right_end_effector_link)
 
-        left_offset = robot_left_ee_pose.translation - left_wrist_pose[:3]
-        right_offset = robot_right_ee_pose.translation - right_wrist_pose[:3]
+        left_offset = robot_left_ee_pose.translation - left_wrist_translation
+        right_offset = robot_right_ee_pose.translation - right_wrist_translation
 
         self.offset += np.mean([left_offset, right_offset], axis=0)
         self.offset[1] = 0.0
         self.offset[0] = 0.1
-        print(self.offset)
+        logger.info(f"Calibration result: {self.offset}")
 
     def process(self, tv):
         self.vuer_head_mat = mat_update(self.vuer_head_mat, tv.head_matrix.copy())

@@ -22,7 +22,7 @@ from silverscreen.preprocess import VuerPreprocessor
 from silverscreen.retarget.robot import DexRobot
 from silverscreen.television import OpenTeleVision
 from silverscreen.upsampler import Upsampler
-from silverscreen.utils import CERT_DIR, se3_to_xyzquat
+from silverscreen.utils import CERT_DIR, se3_to_xyzortho6d, se3_to_xyzquat
 
 logger = logging.getLogger(__name__)
 
@@ -43,15 +43,18 @@ def get_ee_pose(
 ):
     left_ee_pose = client.get_transform(left_link, base_link)
     right_ee_pose = client.get_transform(right_link, base_link)
-    left_ee_pose = se3_to_xyzquat(left_ee_pose)
-    right_ee_pose = se3_to_xyzquat(right_ee_pose)
+    # left_ee_pose = se3_to_xyzquat(left_ee_pose)
+    # right_ee_pose = se3_to_xyzquat(right_ee_pose)
+    left_ee_pose = se3_to_xyzortho6d(left_ee_pose)
+    right_ee_pose = se3_to_xyzortho6d(right_ee_pose)
 
     return np.hstack([left_ee_pose, right_ee_pose])
 
 
 def get_head_pose(client, head_link="head_yaw_link", base_link="base_link"):
     head_pose = client.get_transform(head_link, base_link)
-    head_pose = se3_to_xyzquat(head_pose)
+    # head_pose = se3_to_xyzquat(head_pose)
+    head_pose = se3_to_xyzortho6d(head_pose)
 
     return head_pose
 
@@ -224,7 +227,7 @@ class TeleopRobot(DexRobot, CameraMixin):
             key_file=str(CERT_DIR / "key.pem"),
         )
 
-        self.processor = VuerPreprocessor(hand_type=self.hand_retarget.hand_type)
+        self.processor = VuerPreprocessor(cfg.preprocessor)
 
         if not self.sim:
             logger.warning("Real robot mode.")
@@ -273,15 +276,15 @@ class TeleopRobot(DexRobot, CameraMixin):
         """
         head_mat, left_wrist_mat, right_wrist_mat, left_hand_mat, right_hand_mat = self.processor.process(self.tv)
 
-        left_pose = se3_to_xyzquat(left_wrist_mat)
-        right_pose = se3_to_xyzquat(right_wrist_mat)
+        # left_pose = se3_to_xyzquat(left_wrist_mat)
+        # right_pose = se3_to_xyzquat(right_wrist_mat)
 
         left_qpos, right_qpos = self.hand_retarget.retarget(left_hand_mat, right_hand_mat)
 
         return (
             head_mat,
-            left_pose,
-            right_pose,
+            left_wrist_mat,
+            right_wrist_mat,
             left_qpos,
             right_qpos,
         )

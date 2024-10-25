@@ -10,7 +10,7 @@ logger = logging.getLogger(__name__)
 
 def save_image(img, key, frame_index, videos_dir: str):
     img = Image.fromarray(img)
-    path = Path(videos_dir) / f"{key}_frame_{frame_index:06d}.png"
+    path = Path(videos_dir) / f"{key}_frame_{frame_index:09d}.png"
     path.parent.mkdir(parents=True, exist_ok=True)
     img.save(str(path), quality=100)
 

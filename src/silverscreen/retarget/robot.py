@@ -36,9 +36,10 @@ class IKRobot(RobotWrapper):
         if self.viz:
             import meshcat.geometry as g
 
-            # self.viz.viewer["left_ee_target"].set_object(g.Box([0.1, 0.1, 0.1]))
-            # self.viz.viewer["right_ee_target"].set_object(g.Box([0.1, 0.1, 0.1]))
-            self.viz.viewer["head"].set_object(g.Box([0.1, 0.1, 0.1]))
+            if config.debug:
+                self.viz.viewer["left_ee_target"].set_object(g.Box([0.1, 0.1, 0.1]))
+                self.viz.viewer["right_ee_target"].set_object(g.Box([0.1, 0.1, 0.1]))
+                self.viz.viewer["head"].set_object(g.Box([0.1, 0.1, 0.1]))
             self.viz.display(self.configuration.q)
 
         self.build_tasks()
@@ -57,8 +58,8 @@ class IKRobot(RobotWrapper):
 
     def build_tasks(self):
         r_hand_task = pink.tasks.RelativeFrameTask(
-            self.config.inverse_kinematic.right_end_effector_link,
-            self.config.inverse_kinematic.root_link,
+            self.config.named_links.right_end_effector_link,
+            self.config.named_links.root_link,
             position_cost=50.0,
             orientation_cost=10.0,
             gain=0.7,
@@ -66,8 +67,8 @@ class IKRobot(RobotWrapper):
         )
 
         l_hand_task = pink.tasks.RelativeFrameTask(
-            self.config.inverse_kinematic.left_end_effector_link,
-            self.config.inverse_kinematic.root_link,
+            self.config.named_links.left_end_effector_link,
+            self.config.named_links.root_link,
             position_cost=50.0,
             orientation_cost=10.0,
             gain=0.7,
@@ -75,8 +76,8 @@ class IKRobot(RobotWrapper):
         )
 
         head_task = pink.tasks.RelativeFrameTask(
-            self.config.inverse_kinematic.head_link,
-            self.config.inverse_kinematic.root_link,
+            self.config.named_links.head_link,
+            self.config.named_links.root_link,
             position_cost=0.0,
             orientation_cost=1.0,
             gain=0.5,
@@ -113,8 +114,11 @@ class IKRobot(RobotWrapper):
         head_target: np.ndarray | None,
         dt: float,
     ):
-        right_target = pin.XYZQUATToSE3(right_target)
-        left_target = pin.XYZQUATToSE3(left_target)
+        # right_target = pin.XYZQUATToSE3(right_target)
+        # left_target = pin.XYZQUATToSE3(left_target)
+
+        right_target = pin.SE3(translation=right_target[:3, 3], rotation=right_target[:3, :3])
+        left_target = pin.SE3(translation=left_target[:3, 3], rotation=left_target[:3, :3])
 
         left_target.translation = left_target.translation * self.config.body_scaling_factor
         right_target.translation = right_target.translation * self.config.body_scaling_factor

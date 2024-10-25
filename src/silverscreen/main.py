@@ -2,7 +2,7 @@ import datetime
 import logging
 import os
 import time
-from dataclasses import dataclass
+from dataclasses import asdict, dataclass, field
 from glob import glob
 from pathlib import Path
 
@@ -11,10 +11,18 @@ import hydra
 import numpy as np
 from omegaconf import DictConfig, OmegaConf
 
+from silverscreen.data_collection import EpisodeDataDict, RecordingInfo, get_episode_id
 from silverscreen.filters import LPRotationFilter
 from silverscreen.player import TeleopRobot
 from silverscreen.state_machine import FSM
-from silverscreen.utils import CONFIG_DIR, RECORD_DIR, KeyboardListener
+from silverscreen.utils import (
+    CONFIG_DIR,
+    RECORD_DIR,
+    KeyboardListener,
+    format_episode_id,
+    get_timestamp_utc,
+    so3_to_ortho6d,
+)
 
 logger = logging.getLogger(__name__)
 OmegaConf.register_new_resolver("eval", eval, replace=True)
@@ -29,71 +37,11 @@ class InitializationError(Exception):
 PROJECT_ROOT = Path(__file__).resolve().parent.parent
 
 
-def get_episode_id(session_path: str) -> int:
-    """glob existing episodes and extract their IDs, and return the next episode ID"""
-    episodes = glob(f"{session_path}/*.hdf5")
-    if not episodes:
-        return 0
-    return max([int(ep.split("_")[-1].split(".")[0]) for ep in episodes]) + 1
-
-
-@dataclass
-class RecordingInfo:
-    episode_id: int
-    session_path: str
-    episode_path: str
-    video_path: str
-
-    @classmethod
-    def from_session_path(cls, session_path: str):
-        episode_id = get_episode_id(session_path)
-        episode_path = os.path.join(session_path, f"episode_{episode_id:06d}.hdf5")
-        video_path = os.path.join(session_path, f"episode_{episode_id:06d}")
-        return cls(episode_id, session_path, episode_path, video_path)
-
-    def __post_init__(self):
-        os.makedirs(
-            self.session_path,
-            exist_ok=True,
-        )
-        # os.makedirs(
-        #     self.images_path,
-        #     exist_ok=True,
-        # )
-
-    def increment(self):
-        self.episode_id += 1
-        self.episode_path = os.path.join(self.session_path, f"episode_{self.episode_id:06d}.hdf5")
-        self.video_path = os.path.join(self.session_path, f"episode_{self.episode_id:06d}")
-
-
-def make_data_dict():
-    # TODO: make this configurable
-    camera_names = ["left", "right"]
-    depth_camera_names = ["left"]
-    data_dict = {
-        "timestamp": [],
-        "obs": {"qpos": [], "hand_qpos": [], "ee_pose": [], "head_pose": []},
-        "action": {
-            "joints": [],
-            "hands": [],
-            "ee_pose": [],
-        },
-    }
-
-    for cam in camera_names:
-        data_dict["obs"][f"camera_{cam}"] = []
-
-    for cam in depth_camera_names:
-        data_dict["obs"][f"depth_{cam}"] = []
-
-    return data_dict
-
-
 @hydra.main(config_path=str(CONFIG_DIR), config_name="teleop_gr1", version_base="1.2")
 def main(
     cfg: DictConfig,
 ):
+    logger.info(f"Hydra output directory  : {hydra.core.hydra_config.HydraConfig.get().runtime.output_dir}")
     if not cfg.use_waist:
         cfg.robot.joints_to_lock.extend(cfg.robot.waist_joints)
 
@@ -101,19 +49,18 @@ def main(
         cfg.robot.joints_to_lock.extend(cfg.robot.head_joints)
 
     recording = None
-    data_dict = make_data_dict()
+    fsm = FSM()
+    act = False
 
+    data_dict = None
     session_name = datetime.datetime.now().strftime("%Y-%m-%d_%H-%M-%S")
+
     if cfg.recording.enabled:
         session_path = RECORD_DIR / cfg.recording.task_name / session_name
+        recording = RecordingInfo.from_session_path(str(session_path))
+        data_dict = EpisodeDataDict.new(recording.episode_id, cfg.recording.camera_names)
         logger.info(f"Recording session: {session_path}")
         os.makedirs(session_path, exist_ok=True)
-
-        recording = RecordingInfo.from_session_path(str(session_path))
-
-    fsm = FSM()
-
-    act = False
 
     robot = TeleopRobot(cfg)  # type: ignore
 
@@ -137,24 +84,24 @@ def main(
             # ----- update readings -----
             (
                 head_mat,
-                left_pose,
-                right_pose,
+                leftt_wrist_mat,
+                right_wrist_mat,
                 left_qpos,
                 right_qpos,
             ) = robot.step()
 
             if fsm.state == FSM.State.COLLECTING or not cfg.recording.enabled:
-                timestamp = robot.update_image()
+                _ = robot.update_image()
             else:
-                timestamp = robot.update_image(marker=True)
+                _ = robot.update_image(marker=True)
 
             head_mat = head_filter.next_mat(head_mat)
 
-            robot.solve(left_pose, right_pose, head_mat, dt=1 / cfg.frequency)
+            robot.solve(leftt_wrist_mat, right_wrist_mat, head_mat, dt=1 / cfg.frequency)
 
             robot.set_hand_joints(left_qpos, right_qpos)
 
-            if robot.viz:
+            if robot.viz and cfg.debug:
                 robot.viz.viewer["head"].set_transform(head_mat)
 
             robot.update_display()
@@ -180,7 +127,7 @@ def main(
             elif fsm.state == FSM.State.CALIBRATING:
                 logger.info("Calibrating.")
                 # TODO: average over multiple frames
-                robot.processor.calibrate(robot, head_mat, left_pose, right_pose)
+                robot.processor.calibrate(robot, head_mat, leftt_wrist_mat[3, :3], right_wrist_mat[3, :3])
                 fsm.next()
             elif fsm.state == FSM.State.CALIBRATED:
                 robot.init_control_joints()
@@ -207,42 +154,48 @@ def main(
             elif fsm.state == FSM.State.EPISODE_STARTED:
                 if not cfg.recording.enabled or recording is None:
                     raise InitializationError("Recording not initialized.")
-                collection_start = time.time()
+                # collection_start = time.time()
 
                 robot.start_recording(str(recording.video_path))
 
-                data_dict = make_data_dict()
+                data_dict = EpisodeDataDict.new(recording.episode_id, cfg.recording.camera_names)
 
-                logger.info(f"Episode {recording.episode_id} started.")
+                logger.info(f"Episode {recording.episode_id} started at {data_dict.timestamp[-1]}")
                 fsm.next()
                 continue
             elif fsm.state == FSM.State.COLLECTING and trigger():
                 fsm.next()
 
             elif fsm.state == FSM.State.EPISODE_ENDED:
-                if not cfg.recording.enabled or recording is None:
+                if not cfg.recording.enabled or recording is None or data_dict is None:
                     raise InitializationError("Recording not initialized.")
                 robot.pause_robot()
 
-                episode_length = time.time() - collection_start  # type: ignore
+                # episode_length = time.time() - collection_start  # type: ignore
 
                 logger.info(
-                    f"Episode {recording.episode_id} took {episode_length:.2f} seconds. Saving data to {recording.episode_path}"
+                    f"Episode {recording.episode_id} took {data_dict.duration:.2f} seconds. Saving data to {recording.episode_path}"
                 )
 
                 # check for inhomogeneous data
                 try:
                     with h5py.File(recording.episode_path, "w", rdcc_nbytes=1024**2 * 2) as f:
-                        obs = f.create_group("obs")
+                        state = f.create_group("state")
                         action = f.create_group("action")
 
-                        f.create_dataset("timestamp", data=data_dict["timestamp"])
+                        f.create_dataset("timestamp", data=data_dict.timestamp)
 
-                        for name in data_dict["obs"]:
-                            obs.create_dataset(name, data=data_dict["obs"][name])
+                        for name, data in asdict(data_dict.state).items():
+                            state.create_dataset(name, data=data)
 
-                        for name in data_dict["action"]:
-                            action.create_dataset(name, data=data_dict["action"][name])
+                        for name, data in asdict(data_dict.action).items():
+                            action.create_dataset(name, data=data)
+
+                        f.attrs["episode_id"] = format_episode_id(recording.episode_id)
+                        f.attrs["task_name"] = cfg.recording.task_name
+                        f.attrs["camera_names"] = cfg.recording.camera_names
+                        f.attrs["episode_length"] = data_dict.length
+                        f.attrs["episode_duration"] = data_dict.duration
 
                 except Exception as e:
                     logger.error(f"Error saving episode: {e}")
@@ -266,24 +219,17 @@ def main(
                     filtered_hand_qpos = robot.control_hands(left_qpos, right_qpos)
                     qpos = robot.control_joints(gravity_compensation=True)  # TODO: add gravity compensation
 
-                    if fsm.state == FSM.State.COLLECTING:
-                        data_dict["action"]["hands"].append(filtered_hand_qpos)
-                        data_dict["action"]["joints"].append(qpos)
-                        data_dict["action"]["ee_pose"].append(np.hstack([left_pose, right_pose]))
+                    if fsm.state == FSM.State.COLLECTING and data_dict is not None:
+                        data_dict.stamp()
+                        left_pose = so3_to_ortho6d(leftt_wrist_mat)
+                        right_pose = so3_to_ortho6d(right_wrist_mat)
+                        head_pose = so3_to_ortho6d(head_mat)
+                        data_dict.add_action(filtered_hand_qpos, qpos, np.hstack([left_pose, right_pose, head_pose]))
 
-            if fsm.state == FSM.State.COLLECTING:
-                data_dict["timestamp"].append(timestamp)
-
+            if fsm.state == FSM.State.COLLECTING and data_dict is not None:
                 qpos, hand_qpos, ee_pose, head_pose = robot.observe()
 
-                data_dict["obs"]["qpos"].append(qpos)
-                data_dict["obs"]["hand_qpos"].append(hand_qpos)
-                data_dict["obs"]["ee_pose"].append(ee_pose)
-                data_dict["obs"]["head_pose"].append(head_pose)
-
-                # for cam in camera_names:
-                #     data_dict["obs"][f"camera_{cam}"].append(i)
-
+                data_dict.add_state(hand_qpos, qpos, np.hstack([ee_pose, head_pose]))
                 i += 1
 
                 # print("--------------------")

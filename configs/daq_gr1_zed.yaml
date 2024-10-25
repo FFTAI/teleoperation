@@ -31,3 +31,11 @@ head_filter:
 
 upsampler:
   frequency: 120
+
+preprocessor:
+  hand_type: ${hand.type}
+  named_links: ${robot.named_links}
+
+hydra:
+  run:
+    dir: outputs/${recording.task_name}/${now:%Y-%m-%d_%H-%M-%S}
