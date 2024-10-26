@@ -69,7 +69,7 @@ class CameraMixin:
         # timestamp, images_dict = self.cam.grab(sources=["left", "right"])
         # self.cam.send_to_display(images_dict, gray=gray)
         # return timestamp
-        self.cam.flag_marker = marker
+        # self.cam.flag_marker = marker
         return self.cam.timestamp
 
     def observe_vision(self, mode: Literal["stereo", "rgbd"] = "stereo", resolution: tuple[int, int] = (240, 320)):
@@ -216,12 +216,12 @@ class TeleopRobot(DexRobot, CameraMixin):
 
         self.cam = (
             hydra.utils.instantiate(cfg.camera.instance)
-            .with_display(cfg.camera.display.mode, cfg.camera.display.resolution, cfg.camera.display.crop_sizes)
+            # .with_display(cfg.camera.display.mode, cfg.camera.display.resolution, cfg.camera.display.crop_sizes)
             .start()
         )
         self.tv = OpenTeleVision(
-            self.cam.display_shape,
-            self.cam.shared_memory_names["display"],
+            self.cam.display.shape,
+            self.cam.display.shm_name,
             stream_mode="rgb_stereo",
             ngrok=False,
             cert_file=str(CERT_DIR / "cert.pem"),
