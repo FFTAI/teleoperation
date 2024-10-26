@@ -17,12 +17,13 @@ from omegaconf import DictConfig, OmegaConf
 from tqdm import tqdm
 
 from silverscreen.camera.camera_base import CameraBase
+from silverscreen.camera.utils import post_process
 from silverscreen.hands import FourierDexHand
 from silverscreen.preprocess import VuerPreprocessor
 from silverscreen.retarget.robot import DexRobot
 from silverscreen.television import OpenTeleVision
 from silverscreen.upsampler import Upsampler
-from silverscreen.utils import CERT_DIR, se3_to_xyzortho6d, se3_to_xyzquat
+from silverscreen.utils import CERT_DIR, se3_to_xyzortho6d
 
 logger = logging.getLogger(__name__)
 
@@ -84,7 +85,7 @@ class CameraMixin:
             raise ValueError("Invalid mode.")
 
         _, image_dict = self.cam.grab(sources=sources)
-        image_dict = self.cam.post_process(image_dict, resolution, (0, 0, 0, 1280 - 960))
+        image_dict = post_process(image_dict, resolution, (0, 0, 0, 1280 - 960))
 
         images = None
         if mode == "stereo":

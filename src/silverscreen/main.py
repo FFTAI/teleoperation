@@ -159,6 +159,7 @@ def main(
                 robot.start_recording(str(recording.video_path))
 
                 data_dict = EpisodeDataDict.new(recording.episode_id, cfg.recording.camera_names)
+                data_dict.stamp()
 
                 logger.info(f"Episode {recording.episode_id} started at {data_dict.timestamp[-1]}")
                 fsm.next()
@@ -220,7 +221,6 @@ def main(
                     qpos = robot.control_joints(gravity_compensation=True)  # TODO: add gravity compensation
 
                     if fsm.state == FSM.State.COLLECTING and data_dict is not None:
-                        data_dict.stamp()
                         left_pose = so3_to_ortho6d(leftt_wrist_mat)
                         right_pose = so3_to_ortho6d(right_wrist_mat)
                         head_pose = so3_to_ortho6d(head_mat)
