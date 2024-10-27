@@ -332,6 +332,7 @@ class TeleopRobot(DexRobot, CameraMixin):
 
     def pause_robot(self):
         logger.info("Pausing robot...")
+        self.upsampler.pause()
         # self.client.move_joints(ControlGroup.ALL, self.client.joint_positions, gravity_compensation=False)
 
     def end(self):

@@ -76,10 +76,21 @@ class Upsampler(threading.Thread):
         else:
             self.last_command = None
         self.stop_event = threading.Event()
+        self.pause_event = threading.Event()
+        self.unpause_event = threading.Event()
         self._cmd_lock = threading.Lock()
         super().__init__()
 
+    def pause(self):
+        self.pause_event.set()
+
+    def unpause(self):
+        if self.pause_event.is_set():
+            self.unpause_event.set()
+
     def put(self, command: np.ndarray):
+        if self.pause_event.is_set():
+            self.unpause()
         self.command_history.put(command)
 
     def get(self):
@@ -114,6 +125,17 @@ class Upsampler(threading.Thread):
     def run(self):
         logger.info("Upsampler started")
         while True:
+            if self.pause_event.is_set():
+                logger.info("Upsampler paused.")
+                self.pause_event.clear()
+                self.client.move_joints(
+                                ControlGroup.ALL, self.last_command, degrees=False, gravity_compensation=False
+                            )
+                self.last_command = None
+                self.command_history = CommandHistory()
+                self.unpause_event.wait()
+                self.unpause_event.clear()
+                continue
             if self.stop_event.is_set():
                 logger.info("Upsampler stopped.")
                 with self._cmd_lock:
