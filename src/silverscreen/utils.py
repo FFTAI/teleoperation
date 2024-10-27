@@ -207,3 +207,16 @@ def encode_video_frames(
             f"Video encoding did not work. File not found: {video_path}. "
             f"Try running the command manually to debug: `{''.join(ffmpeg_cmd)}`"
         )
+
+
+def match_timestamps(candidate, ref):
+    closest_indices = []
+    # candidate = np.sort(candidate)
+    for t in ref:
+        idx = np.searchsorted(candidate, t, side="left")
+        if idx > 0 and (idx == len(candidate) or np.fabs(t - candidate[idx - 1]) < np.fabs(t - candidate[idx])):
+            closest_indices.append(idx - 1)
+        else:
+            closest_indices.append(idx)
+    # print("closest_indices: ", len(closest_indices))
+    return np.array(closest_indices)
