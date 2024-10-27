@@ -46,11 +46,11 @@ class CameraOak:
     @property
     def timestamp(self) -> float:
         return self._timestamp
-    
+
     @timestamp.setter
     def timestamp(self, value: float):
         self._timestamp = value
-    
+
     @property
     def video_path(self) -> str:
         with self._video_path.get_lock():
@@ -83,7 +83,7 @@ class CameraOak:
                     p: FramePacket = self.q_display.get(block=False)
 
                     left_frame = cv2.cvtColor(p[self.sources["left"]].frame, cv2.COLOR_GRAY2RGB)
-                    right_frame = cv2.cvtColor(p[self.sources["left"]].frame, cv2.COLOR_GRAY2RGB)
+                    right_frame = cv2.cvtColor(p[self.sources["right"]].frame, cv2.COLOR_GRAY2RGB)
                     self.display.put({"left": left_frame, "right": right_frame}, marker=self.is_recording)
                 except:
                     pass
@@ -106,7 +106,7 @@ class CameraOak:
 
         self.processes = []
         self.processes.append(threading.Thread(target=self.run, daemon=True))
-        self.processes.append(mp.Process(target=save_images_threaded, args=(self.save_queue, 4), daemon=True))
+        self.recorder.start()
         for p in self.processes:
             p.start()
         return self
@@ -153,8 +153,7 @@ class CameraOak:
 
     def close(self):
         self.stop_event.set()
-        if self.save_queue is not None:
-            self.save_queue.put(None)
+        self.recorder.stop()
         if self.oak is not None:
             self.oak.close()
         if self.processes is not None:

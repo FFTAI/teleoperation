@@ -159,9 +159,8 @@ def main(
                 robot.start_recording(str(recording.video_path))
 
                 data_dict = EpisodeDataDict.new(recording.episode_id, cfg.recording.camera_names)
-                data_dict.stamp()
 
-                logger.info(f"Episode {recording.episode_id} started at {data_dict.timestamp[-1]}")
+                logger.info(f"Episode {recording.episode_id} started")
                 fsm.next()
                 continue
             elif fsm.state == FSM.State.COLLECTING and trigger():
@@ -187,14 +186,14 @@ def main(
                         f.create_dataset("timestamp", data=data_dict.timestamp)
 
                         for name, data in asdict(data_dict.state).items():
-                            state.create_dataset(name, data=data)
+                            state.create_dataset(name, data=np.asanyarray(data))
 
                         for name, data in asdict(data_dict.action).items():
-                            action.create_dataset(name, data=data)
+                            action.create_dataset(name, data=np.asanyarray(data))
 
                         f.attrs["episode_id"] = format_episode_id(recording.episode_id)
-                        f.attrs["task_name"] = cfg.recording.task_name
-                        f.attrs["camera_names"] = cfg.recording.camera_names
+                        f.attrs["task_name"] = str(cfg.recording.task_name)
+                        f.attrs["camera_names"] = list(cfg.recording.camera_names)
                         f.attrs["episode_length"] = data_dict.length
                         f.attrs["episode_duration"] = data_dict.duration
 
@@ -221,6 +220,7 @@ def main(
                     qpos = robot.control_joints(gravity_compensation=True)  # TODO: add gravity compensation
 
                     if fsm.state == FSM.State.COLLECTING and data_dict is not None:
+                        data_dict.stamp()
                         left_pose = so3_to_ortho6d(left_wrist_mat)
                         right_pose = so3_to_ortho6d(right_wrist_mat)
                         head_pose = so3_to_ortho6d(head_mat)
