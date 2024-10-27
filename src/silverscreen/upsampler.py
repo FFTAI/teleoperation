@@ -77,7 +77,7 @@ class Upsampler(threading.Thread):
             self.last_command = None
         self.stop_event = threading.Event()
         self.pause_event = threading.Event()
-        self.unpause_event = threading.Event()
+        self.paused = False
         self._cmd_lock = threading.Lock()
         super().__init__()
 
@@ -85,11 +85,15 @@ class Upsampler(threading.Thread):
         self.pause_event.set()
 
     def unpause(self):
-        if self.pause_event.is_set():
-            self.unpause_event.set()
+        logger.info("Upsampler unpaused.")
+        self.last_command = None
+        self.command_history = CommandHistory()
+        self.pause_event.clear()
+        self.paused = False
 
     def put(self, command: np.ndarray):
         if self.pause_event.is_set():
+            logger.info("Upsampler paused, unpausing.")
             self.unpause()
         self.command_history.put(command)
 
@@ -125,16 +129,14 @@ class Upsampler(threading.Thread):
     def run(self):
         logger.info("Upsampler started")
         while True:
-            if self.pause_event.is_set():
+            if self.pause_event.is_set() and not self.paused:
+                self.paused = True
                 logger.info("Upsampler paused.")
-                self.pause_event.clear()
                 self.client.move_joints(
-                                ControlGroup.ALL, self.last_command, degrees=False, gravity_compensation=False
-                            )
+                    ControlGroup.ALL, self.client.joint_positions, degrees=False, gravity_compensation=False
+                )
                 self.last_command = None
                 self.command_history = CommandHistory()
-                self.unpause_event.wait()
-                self.unpause_event.clear()
                 continue
             if self.stop_event.is_set():
                 logger.info("Upsampler stopped.")
