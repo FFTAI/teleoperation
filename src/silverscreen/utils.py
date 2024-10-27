@@ -212,11 +212,19 @@ def encode_video_frames(
 def match_timestamps(candidate, ref):
     closest_indices = []
     # candidate = np.sort(candidate)
+    already_matched = set()
     for t in ref:
         idx = np.searchsorted(candidate, t, side="left")
         if idx > 0 and (idx == len(candidate) or np.fabs(t - candidate[idx - 1]) < np.fabs(t - candidate[idx])):
-            closest_indices.append(idx - 1)
-        else:
+            idx = idx - 1
+        if idx not in already_matched:
             closest_indices.append(idx)
+            already_matched.add(idx)
+        else:
+            print("Duplicate timestamp found: ", t, " trying to use next closest timestamp")
+            if idx + 1 not in already_matched:
+                closest_indices.append(idx + 1)
+                already_matched.add(idx + 1)
+            
     # print("closest_indices: ", len(closest_indices))
     return np.array(closest_indices)

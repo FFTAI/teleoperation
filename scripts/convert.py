@@ -9,9 +9,9 @@ from silverscreen.data_collection import EpisodeDataDict
 from tqdm import tqdm
 
 RECORDING_DIR = (Path(__file__).parent.parent / Path("data/recordings/nv-cola/")).resolve()
-SESSIONS = ["2024-10-27_12-19-06"]
+SESSIONS = ["2024-10-27_15-34-07"]
 
-OUT_DIR = (Path(__file__).parent.parent / Path("data/exports/nv-cola/setup-1")).resolve()
+OUT_DIR = (Path(__file__).parent.parent / Path("data/exports/nv-cola/setup-3")).resolve()
 
 print(RECORDING_DIR)
 print(OUT_DIR)
@@ -61,20 +61,25 @@ with h5py.File(str(OUT_DIR / "trainable_data.hdf5"), "w", rdcc_nbytes=1024**2 * 
             episode_data = data.create_group(f"{output_id:09d}")
             with h5py.File(RECORDING_DIR / s / f"episode_{id}.hdf5", "r") as f:
                 data_ts = np.asarray(f["timestamp"])
+                non_duplicate = np.where(np.diff(data_ts) > 0)[0]
                 image_ts = np.asarray([ts + data_ts[0] for ts in image_timestamps[id]])
-                matched = match_timestamps(data_ts, image_ts)
+                image_ts = filter(lambda x: x < data_ts[-1], image_ts)
+                matched = match_timestamps(data_ts[non_duplicate], image_ts)
                 matched_ts = data_ts[matched]
+
                 metadata_dict["trajectory_durations"].append(matched_ts[-1] - matched_ts[0])
                 metadata_dict["trajectory_ids"].append(f.attrs["episode_id"])
                 metadata_dict["trajectory_lengths"].append(len(matched_ts))
-                metadata_dict["whitelist"].append(True)
+                if id in [1, 15, 16, 48, 65]:
+                    metadata_dict["whitelist"].append(False)
+                else:
+                    metadata_dict["whitelist"].append(True)
 
                 action = episode_data.create_group("action")
                 state = episode_data.create_group("state")
                 for k in ["hand", "pose", "robot"]:
                     action.create_dataset(k, data=f[f"action/{k}"][matched])
                     state.create_dataset(k, data=f[f"state/{k}"][matched])
-
                 episode_data.create_dataset("timestamp", data=f["timestamp"][matched])
 
     metadata.create_dataset("trajectory_durations", data=metadata_dict["trajectory_durations"])
