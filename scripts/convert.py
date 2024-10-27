@@ -68,7 +68,7 @@ with h5py.File(str(OUT_DIR / "trainable_data.hdf5"), "w", rdcc_nbytes=1024**2 * 
                 matched_ts = data_ts[matched]
 
                 metadata_dict["trajectory_durations"].append(matched_ts[-1] - matched_ts[0])
-                metadata_dict["trajectory_ids"].append(f.attrs["episode_id"])
+                metadata_dict["trajectory_ids"].append(f"{output_id:09d}")
                 metadata_dict["trajectory_lengths"].append(len(matched_ts))
                 if id in [1, 15, 16, 48, 65]:
                     metadata_dict["whitelist"].append(False)
