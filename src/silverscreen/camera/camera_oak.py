@@ -138,7 +138,9 @@ class CameraOak:
         )
         stereo.node.initialConfig.set(config)
 
-        q_obs = oak.queue([color, stereo], max_size=30).configure_syncing(threshold_ms=int((1000 / 30) / 2)).get_queue()
+        q_obs = (
+            oak.queue([color, stereo], max_size=120).configure_syncing(threshold_ms=int((1000 / 30) / 2)).get_queue()
+        )
 
         self.sources = {
             "rgb": color,

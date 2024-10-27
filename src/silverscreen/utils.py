@@ -1,6 +1,8 @@
 import logging
 from datetime import datetime, timezone
 from pathlib import Path
+import subprocess
+from typing import OrderedDict
 
 import numpy as np
 from pynput import keyboard
@@ -16,8 +18,10 @@ RECORD_DIR = DATA_DIR / "recordings"
 LOG_DIR = DATA_DIR / "logs"
 CERT_DIR = PROJECT_ROOT.parent.parent / "certs"
 
+
 def format_episode_id(episode_id):
     return f"{episode_id:09d}"
+
 
 def get_timestamp_utc():
     return datetime.now(timezone.utc)
@@ -32,6 +36,7 @@ def se3_to_xyzortho6d(se3):
     ortho6d = so3_to_ortho6d(so3)
     return np.concatenate([xyz, ortho6d])
 
+
 def so3_to_ortho6d(so3):
     """
     Convert to continuous 6D rotation representation adapted from
@@ -41,12 +46,14 @@ def so3_to_ortho6d(so3):
     """
     return so3[:, :2].transpose().reshape(-1)
 
+
 def ortho6d_to_so3(ortho6d):
     """
     Convert from continuous 6D rotation representation to SO(3)
     """
     # TODO
     raise NotImplementedError
+
 
 def se3_to_xyzquat(se3):
     se3 = np.asanyarray(se3).astype(float)
@@ -145,3 +152,58 @@ class KeyboardListener:
 
     def stop(self):
         self.listener.stop()
+
+
+def encode_video_frames(
+    imgs_dir: Path,
+    video_path: Path,
+    fps: int,
+    vcodec: str = "libsvtav1",
+    pix_fmt: str = "yuv420p",
+    g: int | None = 2,
+    crf: int | None = 30,
+    fast_decode: int = 0,
+    log_level: str | None = "error",
+    overwrite: bool = False,
+) -> None:
+    """More info on ffmpeg arguments tuning on `benchmark/video/README.md`"""
+    video_path = Path(video_path)
+    video_path.parent.mkdir(parents=True, exist_ok=True)
+
+    ffmpeg_args = OrderedDict(
+        [
+            ("-f", "image2"),
+            ("-r", str(fps)),
+            ("-i", str(Path(imgs_dir) / "rgb_frame_%09d.png")),
+            # ("-vcodec", vcodec),
+            ("-pix_fmt", pix_fmt),
+        ]
+    )
+
+    if g is not None:
+        ffmpeg_args["-g"] = str(g)
+
+    if crf is not None:
+        ffmpeg_args["-crf"] = str(crf)
+
+    if fast_decode:
+        key = "-svtav1-params" if vcodec == "libsvtav1" else "-tune"
+        value = f"fast-decode={fast_decode}" if vcodec == "libsvtav1" else "fastdecode"
+        ffmpeg_args[key] = value
+
+    if log_level is not None:
+        ffmpeg_args["-loglevel"] = str(log_level)
+
+    ffmpeg_args = [item for pair in ffmpeg_args.items() for item in pair]
+    if overwrite:
+        ffmpeg_args.append("-y")
+
+    ffmpeg_cmd = ["ffmpeg"] + ffmpeg_args + [str(video_path)]
+    # redirect stdin to subprocess.DEVNULL to prevent reading random keyboard inputs from terminal
+    subprocess.run(ffmpeg_cmd, check=True, stdin=subprocess.DEVNULL)
+
+    if not video_path.exists():
+        raise OSError(
+            f"Video encoding did not work. File not found: {video_path}. "
+            f"Try running the command manually to debug: `{''.join(ffmpeg_cmd)}`"
+        )
