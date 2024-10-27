@@ -84,7 +84,7 @@ def main(
             # ----- update readings -----
             (
                 head_mat,
-                leftt_wrist_mat,
+                left_wrist_mat,
                 right_wrist_mat,
                 left_qpos,
                 right_qpos,
@@ -97,7 +97,7 @@ def main(
 
             head_mat = head_filter.next_mat(head_mat)
 
-            robot.solve(leftt_wrist_mat, right_wrist_mat, head_mat, dt=1 / cfg.frequency)
+            robot.solve(left_wrist_mat, right_wrist_mat, head_mat, dt=1 / cfg.frequency)
 
             robot.set_hand_joints(left_qpos, right_qpos)
 
@@ -127,7 +127,7 @@ def main(
             elif fsm.state == FSM.State.CALIBRATING:
                 logger.info("Calibrating.")
                 # TODO: average over multiple frames
-                robot.processor.calibrate(robot, head_mat, leftt_wrist_mat[3, :3], right_wrist_mat[3, :3])
+                robot.processor.calibrate(robot, head_mat, left_wrist_mat[:3, 3], right_wrist_mat[:3, 3])
                 fsm.next()
             elif fsm.state == FSM.State.CALIBRATED:
                 robot.init_control_joints()
@@ -221,7 +221,7 @@ def main(
                     qpos = robot.control_joints(gravity_compensation=True)  # TODO: add gravity compensation
 
                     if fsm.state == FSM.State.COLLECTING and data_dict is not None:
-                        left_pose = so3_to_ortho6d(leftt_wrist_mat)
+                        left_pose = so3_to_ortho6d(left_wrist_mat)
                         right_pose = so3_to_ortho6d(right_wrist_mat)
                         head_pose = so3_to_ortho6d(head_mat)
                         data_dict.add_action(filtered_hand_qpos, qpos, np.hstack([left_pose, right_pose, head_pose]))
