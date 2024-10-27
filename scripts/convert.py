@@ -1,17 +1,27 @@
+import argparse
 import os
 import sys
-import h5py
 from pathlib import Path
 
+import h5py
 import numpy as np
-from silverscreen.utils import encode_video_frames, match_timestamps
-from silverscreen.data_collection import EpisodeDataDict
 from tqdm import tqdm
 
-RECORDING_DIR = (Path(__file__).parent.parent / Path("data/recordings/nv-cola/")).resolve()
-SESSIONS = ["2024-10-27_15-34-07"]
+from silverscreen.utils import encode_video_frames, match_timestamps
 
-OUT_DIR = (Path(__file__).parent.parent / Path("data/exports/nv-cola/setup-3")).resolve()
+parser = argparse.ArgumentParser()
+parser.add_argument("--session", "-s", type=str, help="Session name")
+parser.add_argument("--export_name", "-n", type=str, help="Export name")
+args = parser.parse_args()
+
+
+RECORDING_DIR = (Path(__file__).parent.parent / Path("data/recordings/nv-cola/")).resolve()
+
+SESSIONS = [args.session]
+
+OUT_DIR = (Path(__file__).parent.parent / Path(f"data/exports/nv-cola/{args.export_name}")).resolve()
+
+EXCLUDE_IDS = [2, 7, 17, 18]
 
 print(RECORDING_DIR)
 print(OUT_DIR)
@@ -70,7 +80,7 @@ with h5py.File(str(OUT_DIR / "trainable_data.hdf5"), "w", rdcc_nbytes=1024**2 * 
                 metadata_dict["trajectory_durations"].append(matched_ts[-1] - matched_ts[0])
                 metadata_dict["trajectory_ids"].append(f"{output_id:09d}")
                 metadata_dict["trajectory_lengths"].append(len(matched_ts))
-                if id in [1, 15, 16, 48, 65]:
+                if int(id) in EXCLUDE_IDS:
                     metadata_dict["whitelist"].append(False)
                 else:
                     metadata_dict["whitelist"].append(True)
