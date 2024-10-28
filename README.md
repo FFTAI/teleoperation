@@ -46,7 +46,7 @@ The fourier GR series robots are controlled by the `fourier-grx` package. The `f
 ```bash
     conda create -n grx python==3.11
     conda activate grx
-    pip install grx-grx==1.0.0a18
+    pip install fourier-grx==1.0.0a19
     cd ./server_config
     grx run ./gr1t2.yaml --namespace gr/daq
 ```
