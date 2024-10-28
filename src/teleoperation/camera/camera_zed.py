@@ -8,9 +8,7 @@ import cv2
 import numpy as np
 import pyzed.sl as sl
 
-from teleoperation.camera.camera_base import DisplayCamera, RecordCamera
-from teleoperation.camera.utils import save_images_threaded
-from teleoperation.utils import get_timestamp_utc
+from teleoperation.camera.camera_base import DisplayCamera
 
 logger = logging.getLogger(__name__)
 

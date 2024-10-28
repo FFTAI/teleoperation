@@ -1,6 +1,5 @@
 import logging
 import multiprocessing as mp
-import queue
 import threading
 import time
 from typing import Literal
@@ -10,7 +9,6 @@ import numpy as np
 import pyrealsense2 as rs
 
 from teleoperation.camera.camera_base import DisplayCamera, RecordCamera
-from teleoperation.camera.utils import save_images_threaded
 from teleoperation.utils import get_timestamp_utc
 
 logger = logging.getLogger(__name__)

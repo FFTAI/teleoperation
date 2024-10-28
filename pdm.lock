@@ -5,7 +5,7 @@
 groups = ["default", "depthai", "dev", "fourier", "realsense"]
 strategy = ["inherit_metadata"]
 lock_version = "4.5.0"
-content_hash = "sha256:26a736ce1939c4fe2ba14c71f0a8727ff45e5a0cfa6c11c9b05720171634f5e7"
+content_hash = "sha256:33809cbcd21d37a47cf8f968e6540cef99f2c179234a815657bd0deb6179326f"
 
 [[metadata.targets]]
 requires_python = ">=3.10,<3.12"
@@ -709,11 +709,8 @@ files = [
 
 [[package]]
 name = "dex-retargeting"
-version = "0.4.4"
-requires_python = ">=3.7,<3.12"
-git = "https://github.com/yuxiang-gao/dex-retargeting.git"
-ref = "main"
-revision = "103791553a2eb72c2a15bbcc702335b94ad6cdb7"
+version = "0.4.5"
+requires_python = "<3.13,>=3.7"
 summary = "Hand pose retargeting for dexterous robot hand."
 groups = ["default"]
 dependencies = [
@@ -726,6 +723,9 @@ dependencies = [
     "pyyaml>=6.0.0",
     "torch",
     "trimesh>=4.4.0",
+]
+files = [
+    {file = "dex_retargeting-0.4.5-py3-none-any.whl", hash = "sha256:be3812e75d3ef11fea5050b4b9f9f569f08e7ff26f423e92d46d9014743b3eae"},
 ]
 
 [[package]]

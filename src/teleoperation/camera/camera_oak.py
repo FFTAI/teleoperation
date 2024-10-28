@@ -10,7 +10,6 @@ from depthai_sdk import OakCamera
 from depthai_sdk.classes.packets import FramePacket
 
 from teleoperation.camera.camera_base import DisplayCamera, RecordCamera
-from teleoperation.camera.utils import save_images_threaded
 from teleoperation.utils import get_timestamp_utc
 
 logger = logging.getLogger(__name__)

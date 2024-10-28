@@ -1,8 +1,8 @@
 import logging
+import subprocess
+from collections import OrderedDict
 from datetime import datetime, timezone
 from pathlib import Path
-import subprocess
-from typing import OrderedDict
 
 import numpy as np
 from pynput import keyboard
@@ -225,6 +225,6 @@ def match_timestamps(candidate, ref):
             if idx + 1 not in already_matched:
                 closest_indices.append(idx + 1)
                 already_matched.add(idx + 1)
-            
+
     # print("closest_indices: ", len(closest_indices))
     return np.array(closest_indices)

@@ -2,8 +2,7 @@ import datetime
 import logging
 import os
 import time
-from dataclasses import asdict, dataclass, field
-from glob import glob
+from dataclasses import asdict
 from pathlib import Path
 
 import h5py
@@ -11,7 +10,7 @@ import hydra
 import numpy as np
 from omegaconf import DictConfig, OmegaConf
 
-from teleoperation.data_collection import EpisodeDataDict, RecordingInfo, get_episode_id
+from teleoperation.data_collection import EpisodeDataDict, RecordingInfo
 from teleoperation.filters import LPRotationFilter
 from teleoperation.player import TeleopRobot
 from teleoperation.state_machine import FSM
@@ -20,9 +19,7 @@ from teleoperation.utils import (
     RECORD_DIR,
     KeyboardListener,
     format_episode_id,
-    get_timestamp_utc,
     se3_to_xyzortho6d,
-    so3_to_ortho6d,
 )
 
 logger = logging.getLogger(__name__)

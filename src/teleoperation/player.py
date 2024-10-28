@@ -241,7 +241,10 @@ class TeleopRobot(DexRobot, CameraMixin):
             # move to default position
             self.client.move_joints(DEFAULT_INDEX, positions=DEFAULT_QPOS, degrees=False, duration=1.0)
             self.upsampler = Upsampler(
-                self.client, target_hz=cfg.upsampler.frequency, initial_command=self.client.joint_positions, gravity_compensation=cfg.upsampler.gravity_compensation
+                self.client,
+                target_hz=cfg.upsampler.frequency,
+                initial_command=self.client.joint_positions,
+                gravity_compensation=cfg.upsampler.gravity_compensation,
             )
             self.upsampler.start()
 
