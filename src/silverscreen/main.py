@@ -217,7 +217,7 @@ def main(
             ):
                 if not cfg.sim:
                     filtered_hand_qpos = robot.control_hands(left_qpos, right_qpos)
-                    qpos = robot.control_joints(gravity_compensation=True)  # TODO: add gravity compensation
+                    qpos = robot.control_joints()  # TODO: add gravity compensation
 
                     if fsm.state == FSM.State.COLLECTING and data_dict is not None:
                         data_dict.stamp()

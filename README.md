@@ -13,7 +13,7 @@
 ```bash
     conda create -n teleop python==3.11
     conda activate teleop
-    pip install -e '.[fourier,depthai,realsense]'
+    pip install -e '.[fourier,realsense]'
 ```
 
 4. (Optional) Install ZED SDK
@@ -39,7 +39,7 @@
         python get_python_api.py
         ```
 
-5. Setup `fourier-grx` 
+5. Setup `fourier-grx`
 
 The fourier GR series robots are controlled by the `fourier-grx` package. The `fourier-grx` package is only available for Python 3.11. Thus, we suggest you to create a new virtual environment with Python 3.11 and install the package in the new environment. For more information, please refer to the [official Fourier GRX Documentation](https://fftai.github.io/fourier-grx-client)
 
@@ -60,12 +60,11 @@ Then in another terminal, you can run the following command to do the initial ca
 
 After the calibration, there should be a `sensor_offset.json` file in the `./server_config` directory.
 
-
 ## 👓 Setup VisionPro
 
 The VisionPro setup is the same as the original [OpenTeleVision](https://github.com/OpenTeleVision/TeleVision/blob/main/README.md).
 
-### 🌐 Local Machine Connection:
+### 🌐 Local Machine Connection
 
 Apple restricts WebXR access on non-HTTPS connections. To test the application locally, you need to set up a self-signed certificate and install it on the client device. Here's what you'll need:
 
@@ -73,11 +72,10 @@ Apple restricts WebXR access on non-HTTPS connections. To test the application l
 2. A router.
 3. VisionPro connected to the same network with the Ubuntu machine.
 
-> [!NOTE] 
+> [!NOTE]
 > Please ensure that both the VisionPro and the Ubuntu machine are on the same network.
 
-
-### 🔐 Self-Signed Certificate:
+### 🔐 Self-Signed Certificate
 
 We'll be using `mkcert` to create a self-signed certificate. and `mkcert` is a simple tool for making locally-trusted development certificates. It requires no configuration. Here's how to set it up:
 
@@ -101,10 +99,10 @@ We'll be using `mkcert` to create a self-signed certificate. and `mkcert` is a s
     mkcert -install && mkcert -cert-file cert.pem -key-file key.pem 192.168.1.100 your-computer.local localhost 127.0.0.1
  ```
 
- > [!IMPORTANT] 
+ > [!IMPORTANT]
  > `192.168.1.100` is a placeholder IP address just for example, please replace it with your actual IP address
 
- > [!TIP] 
+ > [!TIP]
  > For Ubuntu machines, you can use the zeroconf address instead of the IP address for additional convenience. The zeroconf address is usually `$(hostname).local`. You can find it by running `echo "$(hostname).local"` in the terminal.
 
 4. Turn on firewall setup
@@ -144,8 +142,7 @@ We'll be using `mkcert` to create a self-signed certificate. and `mkcert` is a s
 
 7. Run the python script on the Ubuntu machine. Please see the [Usage](#usage) section for more details.
 
-
-> [!NOTE] 
+> [!NOTE]
 > You should be able to use this with Oculus Quest 2 as well. The setup process is more involved, but you should be able to stream using adb follwoing [this issue](https://github.com/OpenTeleVision/TeleVision/issues/12#issue-2401541144).
 
 ## 🕹️ Usage
@@ -159,28 +156,21 @@ We'll be using `mkcert` to create a self-signed certificate. and `mkcert` is a s
 
 ### Run the teleoperation script
 
+We manage the config with [Hydra](https://hydra.cc/docs/intro/). You can select config files and override with hydra's [override syntax](https://hydra.cc/docs/advanced/override_grammar/basic/).
+
 ```bash
-    python -m teleoperation.main tests
+    python -m teleoperation.main --config-name teleop_gr1 use_waist=false use_head=false camera=realsense
 ```
 
 To record data:
 
 ```bash
-    python -m teleoperation.main tests --record
+    python -m teleoperation.main --config-name daq_gr1 recording.task_name=${task_name}
 ```
 
-> [!CAUTION] 
+> [!CAUTION]
 > If you are using the real robot with Fourier GRX, please make sure to leave enough empty space between the robot and the table to avoid the robot arm collide with the table. The robot resume to the initial position before and after the teleoperation session.
 
-
-The available flags are:
-    - `session_name`: Name of the session.
-    - `--record`: Default to `False`. Turn on recording mode. The recorded data will be saved in the `tests` directory.
-    - `--waist`: Default to `False`. Turn on or off the retargeting of the robot's waist.
-    - `--head`: Default to `False`. Turn on or off the retargeting of the robot's head.
-    - `--sim`: Default to `False`. Start the teleoperation with simulation mode, which means the robot will not move, only show in the meshcat.
-    - `--wait_time`: Default to `1`. Set the wait time for user to initialize their hand pose to align with the robot's hand.
-   
 ### Start the teleoperation
 
 After running the python command, you can open the browser on the VisionPro device and go to `https://your-hostname.local:8012?ws=wss://your-hostname.local:8012`. Or if you already in this website, you can refresh the page and click until see the camera image in the VR session.
@@ -192,13 +182,12 @@ After starting the script, the robot will move to its start position. The operat
 Afterwards, the operator can start the teleoperation by moving their hands in the VR session. The robot will mimic the operator's hand movements in real-time.
 To stop the teleoperation, the operator can hit the `Space` key again.
 
-
 ## 🛠️ Development
 
 We manage the development environment with the [pdm](https://pdm-project.org/en/latest/) package manager. Thus, please make sure to install `pdm` first following the [official guide](https://pdm-project.org/en/latest/#installation) here.
 
 ```bash
-    pdm install -d -Gfourier -Gdepthai -v
+    pdm install -d -Gfourier -Gdepthai -Grealsense -v
 ```
 
 To select the specific environment, you can run the following command:

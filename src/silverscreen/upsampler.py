@@ -64,12 +64,13 @@ def pchip_interpolate(timestamps: np.ndarray, commands: np.ndarray, target_hz: i
 
 class Upsampler(threading.Thread):
     def __init__(
-        self, client: RobotClient, target_hz: int = 200, dimension: int = 32, initial_command: np.ndarray | None = None
+        self, client: RobotClient, target_hz: int = 200, dimension: int = 32, initial_command: np.ndarray | None = None, gravity_compensation: bool = False
     ):
         self.client = client
         self.dimension = dimension
         self.target_hz = target_hz
         self.target_dt = 1 / target_hz
+        self.gravity_compensation = gravity_compensation
         self.command_history = CommandHistory()
         if initial_command is not None and len(initial_command) == dimension:
             self.last_command = initial_command
@@ -116,7 +117,7 @@ class Upsampler(threading.Thread):
             logger.warning(f"Sending wrong command: {command}")
         try:
             if self.client is not None:
-                self.client.move_joints(ControlGroup.ALL, command, degrees=False, gravity_compensation=True)
+                self.client.move_joints(ControlGroup.ALL, command, degrees=False, gravity_compensation=self.gravity_compensation)
             return True
         except Exception as ex:
             logger.warning(ex)

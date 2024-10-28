@@ -241,7 +241,7 @@ class TeleopRobot(DexRobot, CameraMixin):
             # move to default position
             self.client.move_joints(DEFAULT_INDEX, positions=DEFAULT_QPOS, degrees=False, duration=1.0)
             self.upsampler = Upsampler(
-                self.client, target_hz=cfg.upsampler.frequency, initial_command=self.client.joint_positions
+                self.client, target_hz=cfg.upsampler.frequency, initial_command=self.client.joint_positions, gravity_compensation=cfg.upsampler.gravity_compensation
             )
             self.upsampler.start()
 
@@ -319,7 +319,7 @@ class TeleopRobot(DexRobot, CameraMixin):
 
         return np.hstack([left, right])
 
-    def control_joints(self, gravity_compensation=True):
+    def control_joints(self):
         # qpos = self.joint_filter.next(time.time(), self.q_real)
         # self.client.move_joints(ControlGroup.ALL, qpos, degrees=False, gravity_compensation=gravity_compensation)
         qpos = self.q_real.copy()

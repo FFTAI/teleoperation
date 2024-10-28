@@ -13,7 +13,6 @@ frequency: 50
 use_waist: false
 use_head: false
 
-
 recording:
   enabled: true
   task_name: "default"
@@ -31,6 +30,7 @@ head_filter:
 
 upsampler:
   frequency: 120
+  gravity_compensation: true
 
 preprocessor:
   hand_type: ${hand.type}
