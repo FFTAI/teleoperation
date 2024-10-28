@@ -30,7 +30,6 @@ class CameraOak:
         self.display = DisplayCamera(display_mode, display_resolution, display_crop_sizes)
         self.recorder = RecordCamera()
         self.stop_event = mp.Event()
-        self.save_queue = mp.Queue(maxsize=30)
 
         self.oak = None
         self.q_display = None

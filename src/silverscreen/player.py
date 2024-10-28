@@ -16,7 +16,6 @@ from fourier_grx_client import ControlGroup, RobotClient
 from omegaconf import DictConfig, OmegaConf
 from tqdm import tqdm
 
-from silverscreen.camera.camera_base import CameraBase
 from silverscreen.camera.utils import post_process
 from silverscreen.hands import FourierDexHand
 from silverscreen.preprocess import VuerPreprocessor

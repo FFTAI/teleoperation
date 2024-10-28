@@ -19,6 +19,7 @@ MIN_DISTANCE_MM = 150
 MAX_DISTANCE = MAX_DISTANCE_MM / 1000
 MIN_DISTANCE = MIN_DISTANCE_MM / 1000
 
+
 class CameraZed:
     def __init__(
         self,
@@ -33,7 +34,6 @@ class CameraZed:
         self.display = DisplayCamera(display_mode, display_resolution, display_crop_sizes)
         # self.recorder = RecordCamera()
         self.stop_event = mp.Event()
-        # self.save_queue = mp.Queue(maxsize=30)
 
         self.zed, self.sources, self.runtime_parameters = self._make_camera()
 
@@ -177,7 +177,6 @@ class CameraZed:
 
         return zed, sources, runtime_parameters
 
-    
     def close(self):
         self.stop_event.set()
         if self.zed is not None:
