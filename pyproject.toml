@@ -1,6 +1,6 @@
 [project]
 name = "teleoperation"
-version = "0.2.0"
+version = "0.3.0"
 description = "Teleoperation for Fourier Robots"
 authors = [{ name = "Yuxiang Gao", email = "yuxiang.gao@fftai.com" }]
 dependencies = [
@@ -42,10 +42,7 @@ webrtc = [
 ]
 realsense = ["pyrealsense2>=2.55.1.6486"]
 fourier = ["fourier-grx-client==0.2.0a8", "fourier-dhx>=0.0.2"]
-depthai = [
-    "depthai-sdk>=1.15.0",
-    "av>=13.1.0",
-]
+depthai = ["depthai-sdk>=1.15.0", "av>=13.1.0"]
 
 [tool.pdm]
 distribution = true
