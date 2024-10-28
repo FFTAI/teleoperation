@@ -9,8 +9,8 @@ import typer
 from omegaconf import DictConfig, OmegaConf
 from tqdm import tqdm
 
-from silverscreen.player import ReplayRobot
-from silverscreen.utils import CONFIG_DIR, PROJECT_ROOT
+from teleoperation.player import ReplayRobot
+from teleoperation.utils import CONFIG_DIR, PROJECT_ROOT
 
 DATA_DIR = (PROJECT_ROOT.parent / "data/").resolve()
 RECORD_DIR = (DATA_DIR / "recordings/").resolve()

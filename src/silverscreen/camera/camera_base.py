@@ -6,11 +6,11 @@ from typing import Literal
 import cv2
 import numpy as np
 
-from silverscreen.camera.utils import save_images_threaded
+from teleoperation.camera.utils import save_images_threaded
 
 
 class RecordCamera:
-    def __init__(self, num_processes: int = 1, num_threads: int = 4, queue_size: int=30):
+    def __init__(self, num_processes: int = 1, num_threads: int = 4, queue_size: int = 30):
         super().__init__()
         self.num_processes = num_processes
         self.num_threads = num_threads

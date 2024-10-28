@@ -1,5 +1,5 @@
 [project]
-name = "silverscreen"
+name = "teleoperation"
 version = "0.2.0"
 description = "Teleoperation for Fourier Robots"
 authors = [{ name = "Yuxiang Gao", email = "yuxiang.gao@fftai.com" }]

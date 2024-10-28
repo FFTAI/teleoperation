@@ -16,13 +16,13 @@ from fourier_grx_client import ControlGroup, RobotClient
 from omegaconf import DictConfig, OmegaConf
 from tqdm import tqdm
 
-from silverscreen.camera.utils import post_process
-from silverscreen.hands import FourierDexHand
-from silverscreen.preprocess import VuerPreprocessor
-from silverscreen.retarget.robot import DexRobot
-from silverscreen.television import OpenTeleVision
-from silverscreen.upsampler import Upsampler
-from silverscreen.utils import CERT_DIR, se3_to_xyzortho6d
+from teleoperation.camera.utils import post_process
+from teleoperation.hands import FourierDexHand
+from teleoperation.preprocess import VuerPreprocessor
+from teleoperation.retarget.robot import DexRobot
+from teleoperation.television import OpenTeleVision
+from teleoperation.upsampler import Upsampler
+from teleoperation.utils import CERT_DIR, se3_to_xyzortho6d
 
 logger = logging.getLogger(__name__)
 

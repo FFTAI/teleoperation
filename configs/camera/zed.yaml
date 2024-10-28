@@ -1,5 +1,5 @@
 instance:
-  _target_: silverscreen.camera.camera_zed.CameraZed
+  _target_: teleoperation.camera.camera_zed.CameraZed
   index: 0
   fps: 60
   display_mode: "stereo"

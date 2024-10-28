@@ -1,10 +1,10 @@
 type: "inspire"
 left_hand:
-  _target_: silverscreen.hands.InspireDexHand
+  _target_: teleoperation.hands.InspireDexHand
   ip: "192.168.137.39"
 
 right_hand:
-  _target_: silverscreen.hands.InspireDexHand
+  _target_: teleoperation.hands.InspireDexHand
   ip: "192.168.137.19"
   
 prefix_left: "L_"

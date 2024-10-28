@@ -9,8 +9,8 @@ import pinocchio as pin
 import qpsolvers
 from omegaconf import DictConfig
 
-from silverscreen.filters import LPRotationFilter, OneEuroFilter
-from silverscreen.retarget.hand import HandRetarget
+from teleoperation.filters import LPRotationFilter, OneEuroFilter
+from teleoperation.retarget.hand import HandRetarget
 
 from .robot_wrapper import RobotWrapper
 

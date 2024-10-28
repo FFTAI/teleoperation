@@ -1,5 +1,5 @@
 instance:
-  _target_: silverscreen.camera.camera_oak.CameraOak
+  _target_: teleoperation.camera.camera_oak.CameraOak
   index: 0
   fps: 60
 

@@ -9,9 +9,9 @@ import depthai as dai
 from depthai_sdk import OakCamera
 from depthai_sdk.classes.packets import FramePacket
 
-from silverscreen.camera.camera_base import DisplayCamera, RecordCamera
-from silverscreen.camera.utils import save_images_threaded
-from silverscreen.utils import get_timestamp_utc
+from teleoperation.camera.camera_base import DisplayCamera, RecordCamera
+from teleoperation.camera.utils import save_images_threaded
+from teleoperation.utils import get_timestamp_utc
 
 logger = logging.getLogger(__name__)
 

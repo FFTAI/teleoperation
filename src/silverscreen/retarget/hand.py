@@ -2,7 +2,7 @@ import numpy as np
 from dex_retargeting.retargeting_config import RetargetingConfig
 from omegaconf import DictConfig, OmegaConf
 
-from silverscreen.utils import ASSET_DIR, remap
+from teleoperation.utils import ASSET_DIR, remap
 
 
 class HandRetarget:

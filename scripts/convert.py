@@ -7,7 +7,7 @@ import h5py
 import numpy as np
 from tqdm import tqdm
 
-from silverscreen.utils import encode_video_frames, match_timestamps
+from teleoperation.utils import encode_video_frames, match_timestamps
 
 parser = argparse.ArgumentParser()
 parser.add_argument("--session", "-s", type=str, help="Session name")

@@ -11,11 +11,11 @@ import hydra
 import numpy as np
 from omegaconf import DictConfig, OmegaConf
 
-from silverscreen.data_collection import EpisodeDataDict, RecordingInfo, get_episode_id
-from silverscreen.filters import LPRotationFilter
-from silverscreen.player import TeleopRobot
-from silverscreen.state_machine import FSM
-from silverscreen.utils import (
+from teleoperation.data_collection import EpisodeDataDict, RecordingInfo, get_episode_id
+from teleoperation.filters import LPRotationFilter
+from teleoperation.player import TeleopRobot
+from teleoperation.state_machine import FSM
+from teleoperation.utils import (
     CONFIG_DIR,
     RECORD_DIR,
     KeyboardListener,

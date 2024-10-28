@@ -1,11 +1,11 @@
-# silverscreen
+# teleoperation
 
 ## 🚀 Environment Setup
 
 1. Clone the official repository
 
 ```bash
-    git clone https://gitee.com/FourierIntelligence/silverscreen.git
+    git clone https://gitee.com/FourierIntelligence/teleoperation.git
 ```
 
 2. Create a virtual environment and install the required packages
@@ -160,13 +160,13 @@ We'll be using `mkcert` to create a self-signed certificate. and `mkcert` is a s
 ### Run the teleoperation script
 
 ```bash
-    python -m silverscreen.main tests
+    python -m teleoperation.main tests
 ```
 
 To record data:
 
 ```bash
-    python -m silverscreen.main tests --record
+    python -m teleoperation.main tests --record
 ```
 
 > [!CAUTION] 
@@ -216,7 +216,7 @@ And to activate the environment, you can run the following command:
 You can run the following command to start the development environment:
 
 ```bash
-    pdm run python -m silverscreen.main tests
+    pdm run python -m teleoperation.main tests
 ```
 
 ## 🙏 Credits
@@ -228,12 +228,12 @@ This project is based on the amazing [OpenTeleVision](https://github.com/OpenTel
 If you find this project useful, please consider citing it:
 
 ```bibtex
-@misc{silverscreen,
+@misc{teleoperation,
   author = {Yuxiang Gao, Fourier Co Ltd},
-  title = {Silverscreen},
+  title = {teleoperation},
   year = {2024},
   publisher = {GitHub},
   journal = {GitHub repository},
-  howpublished = {\url{https://github.com/FFTAI/silverscreen}}
+  howpublished = {\url{https://github.com/FFTAI/teleoperation}}
 }
 ```

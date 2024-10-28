@@ -7,7 +7,7 @@ import pink
 import pinocchio as pin
 from omegaconf import DictConfig, OmegaConf
 
-from silverscreen.utils import ASSET_DIR
+from teleoperation.utils import ASSET_DIR
 
 logger = logging.getLogger(__name__)
 

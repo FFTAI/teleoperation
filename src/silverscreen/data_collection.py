@@ -4,7 +4,7 @@ from glob import glob
 
 import numpy as np
 
-from silverscreen.utils import get_timestamp_utc
+from teleoperation.utils import get_timestamp_utc
 
 
 def get_episode_id(session_path: str) -> int:

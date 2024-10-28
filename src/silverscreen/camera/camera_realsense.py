@@ -9,9 +9,9 @@ import cv2
 import numpy as np
 import pyrealsense2 as rs
 
-from silverscreen.camera.camera_base import DisplayCamera, RecordCamera
-from silverscreen.camera.utils import save_images_threaded
-from silverscreen.utils import get_timestamp_utc
+from teleoperation.camera.camera_base import DisplayCamera, RecordCamera
+from teleoperation.camera.utils import save_images_threaded
+from teleoperation.utils import get_timestamp_utc
 
 logger = logging.getLogger(__name__)
 

@@ -1,5 +1,5 @@
 instance:
-  _target_: silverscreen.camera.camera_realsense.CameraRealsense
+  _target_: teleoperation.camera.camera_realsense.CameraRealsense
   index: 0
   fps: 60
 
