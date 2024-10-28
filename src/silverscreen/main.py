@@ -21,6 +21,7 @@ from teleoperation.utils import (
     KeyboardListener,
     format_episode_id,
     get_timestamp_utc,
+    se3_to_xyzortho6d,
     so3_to_ortho6d,
 )
 
@@ -221,9 +222,9 @@ def main(
 
                     if fsm.state == FSM.State.COLLECTING and data_dict is not None:
                         data_dict.stamp()
-                        left_pose = so3_to_ortho6d(left_wrist_mat)
-                        right_pose = so3_to_ortho6d(right_wrist_mat)
-                        head_pose = so3_to_ortho6d(head_mat)
+                        left_pose = se3_to_xyzortho6d(left_wrist_mat)
+                        right_pose = se3_to_xyzortho6d(right_wrist_mat)
+                        head_pose = se3_to_xyzortho6d(head_mat)
                         data_dict.add_action(filtered_hand_qpos, qpos, np.hstack([left_pose, right_pose, head_pose]))
 
             if fsm.state == FSM.State.COLLECTING and data_dict is not None:
