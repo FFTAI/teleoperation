@@ -18,7 +18,7 @@ dependencies = [
     "omegaconf>=2.3.0",
     "torch~=2.4.1",
     "torchvision~=0.19.1",
-    "dex-retargeting @ git+https://github.com/yuxiang-gao/dex-retargeting.git@main",
+    "dex-retargeting==0.4.5",
     "pin-pink>=3.0.0",
     "rerun-sdk>=0.18.2",
     "meshcat>=0.3.2",
