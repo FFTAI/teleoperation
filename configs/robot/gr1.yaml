@@ -1,4 +1,4 @@
-urdf_path: "gr1/urdf/robot.urdf"
+urdf_path: "gr1/urdf/GR1T2_fourier_hand_6dof.urdf"
 urdf_package_dirs: ["gr1/urdf", "gr1"]
 # urdf_path: "gr1_inspire/urdf/t2_collision.urdf"
 # urdf_package_dirs: ["gr1_inspire/urdf"]

@@ -13,7 +13,7 @@ prefix_right: "R_"
 tip_indices: [4, 9, 14, 19, 24]
 left:
   type: vector
-  urdf_path: inspire_hand/inspire_hand_left.urdf
+  urdf_path: gr1/urdf/inspire_hand_left.urdf
   # urdf_path: gr1_inspire/urdf/T2-dex.urdf
   wrist_link_name: "hand_base_link"
 
@@ -51,7 +51,7 @@ left:
 
 right:
   type: vector
-  urdf_path: inspire_hand/inspire_hand_right.urdf
+  urdf_path: gr1/urdf/inspire_hand_right.urdf
   # urdf_path: gr1_inspire/urdf/T2-dex.urdf
   wrist_link_name: "hand_base_link"
 

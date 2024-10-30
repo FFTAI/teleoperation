@@ -6,6 +6,14 @@ defaults:
   - override hydra/job_logging: colorlog
   - override hydra/hydra_logging: colorlog
 
+# robot:
+#   urdf_path: "gr1/urdf/GR1T2_fourier_hand_6dof.urdf"
+# hand:
+#   left:
+#     urdf_path: gr1/urdf/fourier_hand_left.urdf
+#   right:
+#     urdf_path: gr1/urdf/fourier_hand_right.urdf
+
 debug: false
 sim: false
 wait_time: 5.0

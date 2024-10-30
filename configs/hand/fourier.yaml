@@ -14,22 +14,21 @@ tip_indices: [4, 9, 14, 19, 24]
 
 left:
   type: vector
-  urdf_path: gr1/urdf/fourier_left_hand.urdf
-  # urdf_path: gr1_inspire/urdf/T2-dex.urdf
-  wrist_link_name: "l_hand_base_link"
+  urdf_path: gr1/urdf/fourier_left_hand_6dof.urdf
+  wrist_link_name: "L_hand_base_link"
 
   # Target refers to the retargeting target, which is the robot hand
   # target_joint_names: null
   target_origin_link_names:
     [
-      "l_hand_base_link",
-      "l_hand_base_link",
-      "l_hand_base_link",
-      "l_hand_base_link",
-      "l_hand_base_link",
+      "L_hand_base_link",
+      "L_hand_base_link",
+      "L_hand_base_link",
+      "L_hand_base_link",
+      "L_hand_base_link",
     ]
   target_task_link_names:
-    ["L_thumb_tip", "L_index_tip", "L_middle_tip", "L_ring_tip", "L_pinky_tip"]
+    ["L_thumb_tip_link", "L_index_tip_link", "L_middle_tip_link", "L_ring_tip_link", "L_pinky_tip_link"]
 
   target_joint_names:
     [
@@ -53,22 +52,22 @@ left:
 
 right:
   type: vector
-  urdf_path: gr1/urdf/fourier_right_hand.urdf
+  urdf_path: gr1/urdf/fourier_right_hand_6dof.urdf
   # urdf_path: gr1_inspire/urdf/T2-dex.urdf
-  wrist_link_name: "r_hand_base_link"
+  wrist_link_name: "R_hand_base_link"
 
   # Target refers to the retargeting target, which is the robot hand
   # target_joint_names: null
   target_origin_link_names:
     [
-      "r_hand_base_link",
-      "r_hand_base_link",
-      "r_hand_base_link",
-      "r_hand_base_link",
-      "r_hand_base_link",
+      "R_hand_base_link",
+      "R_hand_base_link",
+      "R_hand_base_link",
+      "R_hand_base_link",
+      "R_hand_base_link",
     ]
   target_task_link_names:
-    ["R_thumb_tip", "R_index_tip", "R_middle_tip", "R_ring_tip", "R_pinky_tip"]
+    ["R_thumb_tip_link", "R_index_tip_link", "R_middle_tip_link", "R_ring_tip_link", "R_pinky_tip_link"]
   target_joint_names:
     [
       "R_pinky_proximal_joint",
