@@ -354,3 +354,4 @@ certs/
 data/
 sensor_offset.json
 outputs/
+*.bk

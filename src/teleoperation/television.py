@@ -122,7 +122,7 @@ class OpenTeleVision:
             logger.debug(f"Error in on_hand_move: {e}")
             pass
 
-    async def main_image(self, session, fps=60):
+    async def main_image(self, session, fps=30):
         session.upsert @ Hands(fps=fps, stream=True, key="hands", showLeft=False, showRight=False)  # type: ignore
         end_time = time.time()
         while True:

@@ -310,7 +310,7 @@ class TeleopRobot(DexRobot, CameraMixin):
         qpos = self.client.joint_positions
         # qvel = self.client.joint_velocities
         left_qpos, right_qpos = self.left_hand.get_positions(), self.right_hand.get_positions()
-        left_qpos, right_qpos = self.hand_retarget.real_to_qpos(left_qpos, right_qpos)
+        # left_qpos, right_qpos = self.hand_retarget.real_to_qpos(left_qpos, right_qpos)
         hand_qpos = np.hstack([left_qpos, right_qpos])
         ee_pose = get_ee_pose(self.client)
         head_pose = get_head_pose(self.client)

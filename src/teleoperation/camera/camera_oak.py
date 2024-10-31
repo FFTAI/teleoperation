@@ -3,7 +3,7 @@ import multiprocessing as mp
 import threading
 import time
 from typing import Literal
-
+import queue
 import cv2
 import depthai as dai
 from depthai_sdk import OakCamera
@@ -83,8 +83,10 @@ class CameraOak:
                     left_frame = cv2.cvtColor(p[self.sources["left"]].frame, cv2.COLOR_GRAY2RGB)
                     right_frame = cv2.cvtColor(p[self.sources["right"]].frame, cv2.COLOR_GRAY2RGB)
                     self.display.put({"left": left_frame, "right": right_frame}, marker=self.is_recording)
-                except:
+                except queue.Empty:
                     pass
+                except Exception as e:
+                    logger.exception(e)
 
                 if self.is_recording:
                     try:
@@ -93,8 +95,10 @@ class CameraOak:
                         depth_frame = p_obs[self.sources["depth"]].frame
                         self.recorder.put({"rgb": rgb_frame, "depth": depth_frame}, self.frame_id, self.video_path)
                         self.frame_id += 1
-                    except:
+                    except queue.Empty:
                         pass
+                    except Exception as e:
+                        logger.exception(e)
 
                 taken = time.monotonic() - start
                 time.sleep(max(1 / self.fps - taken, 0))
@@ -119,7 +123,7 @@ class CameraOak:
             oak.queue([left, right], max_size=3).configure_syncing(threshold_ms=int((1000 / 60) / 2)).get_queue()
         )
 
-        color = oak.create_camera("CAM_A", resolution="1200p", encode="mjpeg", fps=30)
+        color = oak.create_camera("CAM_A", resolution="1080p", encode="mjpeg", fps=30)
         color.config_color_camera(isp_scale=(2, 3))
         stereo = oak.create_stereo(left=left, right=right, resolution="720p", fps=30)
         stereo.config_stereo(align=color, subpixel=True, lr_check=True)
