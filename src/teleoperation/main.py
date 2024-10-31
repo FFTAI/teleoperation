@@ -88,11 +88,6 @@ def main(
                 right_qpos,
             ) = robot.step()
 
-            if fsm.state == FSM.State.COLLECTING or not cfg.recording.enabled:
-                _ = robot.update_image()
-            else:
-                _ = robot.update_image(marker=True)
-
             head_mat = head_filter.next_mat(head_mat)
 
             robot.solve(left_wrist_mat, right_wrist_mat, head_mat, dt=1 / cfg.frequency)

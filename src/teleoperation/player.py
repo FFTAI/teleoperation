@@ -6,7 +6,7 @@ from concurrent.futures import ThreadPoolExecutor
 from multiprocessing import Event, Queue
 from pathlib import Path
 from threading import Lock
-from typing import Literal
+from typing import Any, Literal
 
 import h5py
 import hydra
@@ -60,16 +60,8 @@ def get_head_pose(client, head_link="head_yaw_link", base_link="base_link"):
 
 
 class CameraMixin:
-    cam: CameraBase
+    cam: Any  # TODO: defnine a protocol for this
     sim: bool
-
-    def update_image(self, marker=False):
-        """Send image to VR headset"""
-        # timestamp, images_dict = self.cam.grab(sources=["left", "right"])
-        # self.cam.send_to_display(images_dict, gray=gray)
-        # return timestamp
-        # self.cam.flag_marker = marker
-        return self.cam.timestamp
 
     def observe_vision(self, mode: Literal["stereo", "rgbd"] = "stereo", resolution: tuple[int, int] = (240, 320)):
         if self.sim:
