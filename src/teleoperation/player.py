@@ -334,9 +334,9 @@ class TeleopRobot(DexRobot, CameraMixin):
         return np.hstack([left, right])
 
     def control_joints(self):
-        # qpos = self.joint_filter.next(time.time(), self.q_real)
+        qpos = self.joint_filter.next(time.time(), self.q_real)
         # self.client.move_joints(ControlGroup.ALL, qpos, degrees=False, gravity_compensation=gravity_compensation)
-        qpos = self.q_real.copy()
+        # qpos = self.q_real.copy()
         self.upsampler.put(qpos)
         return qpos
 

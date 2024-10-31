@@ -119,7 +119,7 @@ class CameraOak:
             oak.queue([left, right], max_size=3).configure_syncing(threshold_ms=int((1000 / 60) / 2)).get_queue()
         )
 
-        color = oak.create_camera("CAM_A", resolution="1080p", encode="mjpeg", fps=30)
+        color = oak.create_camera("CAM_A", resolution="1200p", encode="mjpeg", fps=30)
         color.config_color_camera(isp_scale=(2, 3))
         stereo = oak.create_stereo(left=left, right=right, resolution="720p", fps=30)
         stereo.config_stereo(align=color, subpixel=True, lr_check=True)
