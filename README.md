@@ -5,18 +5,18 @@
 1. Clone the official repository
 
 ```bash
-    git clone https://gitee.com/FourierIntelligence/teleoperation.git
+    git clone https://github.com/FFTAI/teleoperation.git
 ```
 
 2. Create a virtual environment and install the required packages
 
 ```bash
-    conda create -n teleop python==3.11
+    conda create -n teleop python==3.11.10
     conda activate teleop
     pip install -e '.[fourier,realsense]'
 ```
 
-4. (Optional) Install ZED SDK
+3. (Optional) Install ZED SDK
 
     The ZED setup composes with two parts:
 
@@ -39,7 +39,7 @@
         python get_python_api.py
         ```
 
-5. Setup `fourier-grx`
+4. Setup `fourier-grx`
 
 The fourier GR series robots are controlled by the `fourier-grx` package. The `fourier-grx` package is only available for Python 3.11. Thus, we suggest you to create a new virtual environment with Python 3.11 and install the package in the new environment. For more information, please refer to the [official Fourier GRX Documentation](https://fftai.github.io/fourier-grx-client)
 
