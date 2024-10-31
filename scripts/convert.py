@@ -11,17 +11,18 @@ from teleoperation.utils import encode_video_frames, match_timestamps
 
 parser = argparse.ArgumentParser()
 parser.add_argument("--session", "-s", type=str, help="Session name")
-parser.add_argument("--export_name", "-n", type=str, help="Export name")
+parser.add_argument("--export_name", "-e", type=str, help="Export name")
+parser.add_argument("--task_name", "-n", type=str, help="Task name")
 args = parser.parse_args()
 
 
-RECORDING_DIR = (Path(__file__).parent.parent / Path("data/recordings/nv-cola/")).resolve()
+RECORDING_DIR = (Path(__file__).parent.parent / Path(f"data/recordings/{args.task_name}/")).resolve()
 
 SESSIONS = [args.session]
 
-OUT_DIR = (Path(__file__).parent.parent / Path(f"data/exports/nv-cola/{args.export_name}")).resolve()
+OUT_DIR = (Path(__file__).parent.parent / Path(f"data/exports/{args.task_name}/{args.export_name}")).resolve()
 
-EXCLUDE_IDS = [2, 7, 17, 18]
+EXCLUDE_IDS = []
 
 print(RECORDING_DIR)
 print(OUT_DIR)
