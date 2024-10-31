@@ -1,42 +1,25 @@
 defaults:
+  - teleop
   - hand: fourier
   - robot: gr1
   - camera: oak
   - _self_
-  - override hydra/job_logging: colorlog
-  - override hydra/hydra_logging: colorlog
+
 
 debug: false
+debug_hand: false
 sim: false
-wait_time: 5.0
+wait_time: 3.0
 frequency: 60
 use_waist: false
 use_head: false
+
 
 recording:
   enabled: true
   task_name: "default"
   camera_names: ["ego_view", "ego_view_depth"]
 
-joint_filter:
-  min_cutoff: 0.01
-  beta: 10.0
-
-hand_filter:
-  min_cutoff: 0.001
-  beta: 50.0
-
-head_filter:
-  alpha: 0.7
-
 upsampler:
   frequency: 120
   gravity_compensation: true
-
-preprocessor:
-  hand_type: ${hand.type}
-  named_links: ${robot.named_links}
-
-hydra:
-  run:
-    dir: outputs/${recording.task_name}/${now:%Y-%m-%d_%H-%M-%S}

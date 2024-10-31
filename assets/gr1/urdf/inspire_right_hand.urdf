@@ -1,16 +1,16 @@
-<?xml version="1.0" encoding="utf-8"?>
+<robot
+  name="inspire_right_hand">
 
-<!-- 08012024-alpha-1 -->
+  <mujoco>
+    <compiler meshdir="../meshes/inspire_hand" discardvisual="false" />
+  </mujoco>
 
-<robot name="inspire_right_hand">
-  <!-- <joint 
-    name="R_base_link_joint" 
-    type="fixed">
-    <origin
-    xyz="0 0 -0.022"
-    rpy="0 0 0" />
-    <parent link="right_end_effector_link"/>
-    <child link="R_hand_base_link"/>
+
+  <!-- [CAUTION] uncomment when convert to mujoco -->
+  <!-- <link name="world"></link>
+  <joint name="floating_base_joint" type="floating">
+    <parent link="world" />
+    <child link="pelvis" />
   </joint> -->
 
   <link name="R_hand_base_link">
@@ -31,14 +31,22 @@
     <visual>
       <origin
         xyz="0 0 0"
-        rpy="1.570796 0 -1.570796" />
+        rpy="0 0 0" />
       <geometry>
         <mesh filename="../meshes/inspire_hand/base_link_r.STL" />
       </geometry>
       <material name="">
-        <color rgba="1 1 1 1" />
+        <color rgba="0.1 0.1 0.1 1" />
       </material>
     </visual>
+    <collision>
+      <origin
+        xyz="0 0 0"
+        rpy="0 0 0" />
+      <geometry>
+        <mesh filename="../meshes/inspire_hand/base_link_r.STL" />
+      </geometry>
+    </collision>
   </link>
 
   <link name="R_thumb_proximal_base">
@@ -64,17 +72,25 @@
         <mesh filename="../meshes/inspire_hand/Link11_r.STL" />
       </geometry>
       <material name="">
-        <color rgba="1 1 1 1" />
+        <color rgba="0.1 0.1 0.1 1" />
       </material>
     </visual>
+    <collision>
+      <origin
+        xyz="0 0 0"
+        rpy="0 0 0" />
+      <geometry>
+        <mesh filename="../meshes/inspire_hand/Link11_r.STL" />
+      </geometry>
+    </collision>
   </link>
 
   <joint
     name="R_thumb_proximal_yaw_joint"
     type="revolute">
     <origin
-      xyz="0.02045 0.01696 -0.0691"
-      rpy="0 3.1416 0" />
+      xyz="-0.01696 -0.0691 -0.02045"
+      rpy="1.5708 -1.5708 0" />
     <parent
       link="R_hand_base_link" />
     <child
@@ -111,9 +127,17 @@
         <mesh filename="../meshes/inspire_hand/Link12_r.STL" />
       </geometry>
       <material name="">
-        <color rgba="1 1 1 1" />
+        <color rgba="0.1 0.1 0.1 1" />
       </material>
     </visual>
+    <collision>
+      <origin
+        xyz="0 0 0"
+        rpy="0 0 0" />
+      <geometry>
+        <mesh filename="../meshes/inspire_hand/Link12_r.STL" />
+      </geometry>
+    </collision>
   </link>
 
   <joint
@@ -129,8 +153,8 @@
     <axis
       xyz="0 0 1" />
     <limit
-      lower="-0.1"
-      upper="0.6"
+      lower="0.0"
+      upper="0.5"
       effort="1"
       velocity="0.5" />
   </joint>
@@ -158,9 +182,17 @@
         <mesh filename="../meshes/inspire_hand/Link13_r.STL" />
       </geometry>
       <material name="">
-        <color rgba="1 1 1 1" />
+        <color rgba="0.1 0.1 0.1 1" />
       </material>
     </visual>
+    <collision>
+      <origin
+        xyz="0 0 0"
+        rpy="0 0 0" />
+      <geometry>
+        <mesh filename="../meshes/inspire_hand/Link13_r.STL" />
+      </geometry>
+    </collision>
   </link>
 
   <joint
@@ -209,9 +241,17 @@
         <mesh filename="../meshes/inspire_hand/Link14_r.STL" />
       </geometry>
       <material name="">
-        <color rgba="1 1 1 1" />
+        <color rgba="0.1 0.1 0.1 1" />
       </material>
     </visual>
+    <collision>
+      <origin
+        xyz="0 0 0"
+        rpy="0 0 0" />
+      <geometry>
+        <mesh filename="../meshes/inspire_hand/Link14_r.STL" />
+      </geometry>
+    </collision>
   </link>
 
   <joint
@@ -237,14 +277,13 @@
       offset="0" />
   </joint>
 
-
   <link name="R_thumb_tip">
     <visual>
       <origin
         xyz="0 0 0"
         rpy="0 0 0" />
       <geometry>
-        <sphere radius="0.005" />
+        <sphere radius="0.005"/>
       </geometry>
       <material name="green">
         <color rgba="0 1 0 1" />
@@ -252,12 +291,10 @@
     </visual>
   </link>
   <joint name="R_thumb_tip_joint" type="fixed">
-    <parent link="R_thumb_distal" />
-    <child link="R_thumb_tip" />
-    <origin rpy="0 0 0" xyz="0.015 0.013 -0.004" />
+    <parent link="R_thumb_distal"/>
+    <child link="R_thumb_tip"/>
+    <origin rpy="0 0 0" xyz="0.015 0.013 -0.004"/>
   </joint>
-
-
 
   <link name="R_index_proximal">
     <inertial>
@@ -282,17 +319,25 @@
         <mesh filename="../meshes/inspire_hand/Link15_r.STL" />
       </geometry>
       <material name="">
-        <color rgba="1 1 1 1" />
+        <color rgba="0.1 0.1 0.1 1" />
       </material>
     </visual>
+    <collision>
+      <origin
+        xyz="0 0 0"
+        rpy="0 0 0" />
+      <geometry>
+        <mesh filename="../meshes/inspire_hand/Link15_r.STL" />
+      </geometry>
+    </collision>
   </link>
 
   <joint
     name="R_index_proximal_joint"
     type="revolute">
     <origin
-      xyz="0.032268 0.00028533 -0.13653"
-      rpy="-1.5359 0 -1.5708" />
+      xyz="0.00028533 -0.13653 -0.032268"
+      rpy="-3.1067 0 0" />
     <parent
       link="R_hand_base_link" />
     <child
@@ -329,9 +374,17 @@
         <mesh filename="../meshes/inspire_hand/Link16_r.STL" />
       </geometry>
       <material name="">
-        <color rgba="1 1 1 1" />
+        <color rgba="0.1 0.1 0.1 1" />
       </material>
     </visual>
+    <collision>
+      <origin
+        xyz="0 0 0"
+        rpy="0 0 0" />
+      <geometry>
+        <mesh filename="../meshes/inspire_hand/Link16_r.STL" />
+      </geometry>
+    </collision>
   </link>
 
   <joint
@@ -357,15 +410,13 @@
       offset="0" />
   </joint>
 
-
-
   <link name="R_index_tip">
     <visual>
       <origin
         xyz="0 0 0"
         rpy="0 0 0" />
       <geometry>
-        <sphere radius="0.005" />
+        <sphere radius="0.005"/>
       </geometry>
       <material name="green">
         <color rgba="0 1 0 1" />
@@ -373,13 +424,10 @@
     </visual>
   </link>
   <joint name="R_index_tip_joint" type="fixed">
-    <parent link="R_index_intermediate" />
-    <child link="R_index_tip" />
-    <origin rpy="0 0 0" xyz="-0.005 0.04 -0.004" />
+    <parent link="R_index_intermediate"/>
+    <child link="R_index_tip"/>
+    <origin rpy="0 0 0" xyz="-0.005 0.04 -0.004"/>
   </joint>
-
-
-
 
   <link name="R_middle_proximal">
     <inertial>
@@ -404,17 +452,25 @@
         <mesh filename="../meshes/inspire_hand/Link17_r.STL" />
       </geometry>
       <material name="">
-        <color rgba="1 1 1 1" />
+        <color rgba="0.1 0.1 0.1 1" />
       </material>
     </visual>
+    <collision>
+      <origin
+        xyz="0 0 0"
+        rpy="0 0 0" />
+      <geometry>
+        <mesh filename="../meshes/inspire_hand/Link17_r.STL" />
+      </geometry>
+    </collision>
   </link>
 
   <joint
     name="R_middle_proximal_joint"
     type="revolute">
     <origin
-      xyz="0.01295 0.00028533 -0.1371"
-      rpy="-1.5708 0 -1.5708" />
+      xyz="0.00028533 -0.1371 -0.01295"
+      rpy="-3.1416 0 0" />
     <parent
       link="R_hand_base_link" />
     <child
@@ -451,9 +507,17 @@
         <mesh filename="../meshes/inspire_hand/Link18_r.STL" />
       </geometry>
       <material name="">
-        <color rgba="1 1 1 1" />
+        <color rgba="0.1 0.1 0.1 1" />
       </material>
     </visual>
+    <collision>
+      <origin
+        xyz="0 0 0"
+        rpy="0 0 0" />
+      <geometry>
+        <mesh filename="../meshes/inspire_hand/Link18_r.STL" />
+      </geometry>
+    </collision>
   </link>
 
   <joint
@@ -479,14 +543,13 @@
       offset="0" />
   </joint>
 
-
   <link name="R_middle_tip">
     <visual>
       <origin
         xyz="0 0 0"
         rpy="0 0 0" />
       <geometry>
-        <sphere radius="0.005" />
+        <sphere radius="0.005"/>
       </geometry>
       <material name="green">
         <color rgba="0 1 0 1" />
@@ -494,12 +557,10 @@
     </visual>
   </link>
   <joint name="R_middle_tip_joint" type="fixed">
-    <parent link="R_middle_intermediate" />
-    <child link="R_middle_tip" />
-    <origin rpy="0 0 0" xyz="-0.005 0.045 -0.004" />
+    <parent link="R_middle_intermediate"/>
+    <child link="R_middle_tip"/>
+    <origin rpy="0 0 0" xyz="-0.005 0.045 -0.004"/>
   </joint>
-
-
 
   <link name="R_ring_proximal">
     <inertial>
@@ -524,17 +585,25 @@
         <mesh filename="../meshes/inspire_hand/Link19_r.STL" />
       </geometry>
       <material name="">
-        <color rgba="1 1 1 1" />
+        <color rgba="0.1 0.1 0.1 1" />
       </material>
     </visual>
+    <collision>
+      <origin
+        xyz="0 0 0"
+        rpy="0 0 0" />
+      <geometry>
+        <mesh filename="../meshes/inspire_hand/Link19_r.STL" />
+      </geometry>
+    </collision>
   </link>
 
   <joint
     name="R_ring_proximal_joint"
     type="revolute">
     <origin
-      xyz="-0.0062872 0.00028533 -0.13691"
-      rpy="-1.6232 0 -1.5708" />
+      xyz="0.00028533 -0.13691 0.0062872"
+      rpy="3.0892 0 0" />
     <parent
       link="R_hand_base_link" />
     <child
@@ -571,9 +640,17 @@
         <mesh filename="../meshes/inspire_hand/Link20_r.STL" />
       </geometry>
       <material name="">
-        <color rgba="1 1 1 1" />
+        <color rgba="0.1 0.1 0.1 1" />
       </material>
     </visual>
+    <collision>
+      <origin
+        xyz="0 0 0"
+        rpy="0 0 0" />
+      <geometry>
+        <mesh filename="../meshes/inspire_hand/Link20_r.STL" />
+      </geometry>
+    </collision>
   </link>
 
   <joint
@@ -599,14 +676,13 @@
       offset="0" />
   </joint>
 
-
   <link name="R_ring_tip">
     <visual>
       <origin
         xyz="0 0 0"
         rpy="0 0 0" />
       <geometry>
-        <sphere radius="0.005" />
+        <sphere radius="0.005"/>
       </geometry>
       <material name="green">
         <color rgba="0 1 0 1" />
@@ -614,12 +690,10 @@
     </visual>
   </link>
   <joint name="R_ring_tip_joint" type="fixed">
-    <parent link="R_ring_intermediate" />
-    <child link="R_ring_tip" />
-    <origin rpy="0 0 0" xyz="-0.002 0.04 -0.004" />
+    <parent link="R_ring_intermediate"/>
+    <child link="R_ring_tip"/>
+    <origin rpy="0 0 0" xyz="-0.002 0.04 -0.004"/>
   </joint>
-
-
 
   <link name="R_pinky_proximal">
     <inertial>
@@ -644,17 +718,25 @@
         <mesh filename="../meshes/inspire_hand/Link21_r.STL" />
       </geometry>
       <material name="">
-        <color rgba="1 1 1 1" />
+        <color rgba="0.1 0.1 0.1 1" />
       </material>
     </visual>
+    <collision>
+      <origin
+        xyz="0 0 0"
+        rpy="0 0 0" />
+      <geometry>
+        <mesh filename="../meshes/inspire_hand/Link21_r.STL" />
+      </geometry>
+    </collision>
   </link>
 
   <joint
     name="R_pinky_proximal_joint"
     type="revolute">
     <origin
-      xyz="-0.025488 0.00028533 -0.13571"
-      rpy="-1.6739 0 -1.5708" />
+      xyz="0.00028533 -0.13571 0.025488"
+      rpy="3.0369 0 0" />
     <parent
       link="R_hand_base_link" />
     <child
@@ -691,9 +773,17 @@
         <mesh filename="../meshes/inspire_hand/Link22_r.STL" />
       </geometry>
       <material name="">
-        <color rgba="1 1 1 1" />
+        <color rgba="0.1 0.1 0.1 1" />
       </material>
     </visual>
+    <collision>
+      <origin
+        xyz="0 0 0"
+        rpy="0 0 0" />
+      <geometry>
+        <mesh filename="../meshes/inspire_hand/Link22_r.STL" />
+      </geometry>
+    </collision>
   </link>
 
   <joint
@@ -719,14 +809,13 @@
       offset="0" />
   </joint>
 
-
   <link name="R_pinky_tip">
     <visual>
       <origin
         xyz="0 0 0"
         rpy="0 0 0" />
       <geometry>
-        <sphere radius="0.005" />
+        <sphere radius="0.005"/>
       </geometry>
       <material name="green">
         <color rgba="0 1 0 1" />
@@ -734,9 +823,8 @@
     </visual>
   </link>
   <joint name="R_pinky_tip_joint" type="fixed">
-    <parent link="R_pinky_intermediate" />
-    <child link="R_pinky_tip" />
-    <origin rpy="0 0 0" xyz="-0.002 0.032 -0.004" />
+    <parent link="R_pinky_intermediate"/>
+    <child link="R_pinky_tip"/>
+    <origin rpy="0 0 0" xyz="-0.002 0.032 -0.004"/>
   </joint>
-
 </robot>
