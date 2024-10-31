@@ -40,7 +40,7 @@ left:
       "L_thumb_proximal_yaw_joint",
     ]
   # finger_tip_link_names: [ "thumb_tip",  "index_tip", "middle_tip", "ring_tip", "pinky_tip" ]
-  scaling_factor: 1.12
+  scaling_factor: 1.35
 
   # Source refers to the retargeting input, which usually corresponds to the human hand
   # The joint indices of human hand joint which corresponds to each link in the target_link_names
@@ -77,7 +77,7 @@ right:
       "R_thumb_proximal_yaw_joint",
     ]
   # finger_tip_link_names: [ "thumb_tip",  "index_tip", "middle_tip", "ring_tip", "pinky_tip" ]
-  scaling_factor: 1.12
+  scaling_factor: 1.35
 
   # Source refers to the retargeting input, which usually corresponds to the human hand
   # The joint indices of human hand joint which corresponds to each link in the target_link_names

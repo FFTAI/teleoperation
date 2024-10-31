@@ -165,20 +165,40 @@ def encode_video_frames(
     fast_decode: int = 0,
     log_level: str | None = "error",
     overwrite: bool = False,
+    start_frame: int = 0,
+    end_frame: int = -1,
 ) -> None:
     """More info on ffmpeg arguments tuning on `benchmark/video/README.md`"""
     video_path = Path(video_path)
     video_path.parent.mkdir(parents=True, exist_ok=True)
 
-    ffmpeg_args = OrderedDict(
-        [
-            ("-f", "image2"),
-            ("-r", str(fps)),
-            ("-i", str(Path(imgs_dir) / "rgb_frame_%09d.png")),
-            # ("-vcodec", vcodec),
-            ("-pix_fmt", pix_fmt),
-        ]
-    )
+    if start_frame > 0 and end_frame != -1:
+        ffmpeg_inputs = []
+        images = imgs_dir.glob("rgb_frame_*.png")
+        for img in images:
+            id = int(img.stem.split("_")[-1])
+            if id > start_frame and (end_frame == -1 or id < end_frame):
+                ffmpeg_inputs.append(("-i", str(img)))
+
+        ffmpeg_args = OrderedDict(
+            [
+                ("-f", "image2"),
+                ("-r", str(fps)),
+                *ffmpeg_inputs,
+                # ("-vcodec", vcodec),
+                ("-pix_fmt", pix_fmt),
+            ]
+        )
+    else:
+        ffmpeg_args = OrderedDict(
+            [
+                ("-f", "image2"),
+                ("-r", str(fps)),
+                ("-i", str(Path(imgs_dir) / "rgb_frame_%09d.png")),
+                # ("-vcodec", vcodec),
+                ("-pix_fmt", pix_fmt),
+            ]
+        )
 
     if g is not None:
         ffmpeg_args["-g"] = str(g)

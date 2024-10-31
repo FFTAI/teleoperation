@@ -37,7 +37,7 @@ class CameraOak:
 
         self.episode_id = 0
         self.frame_id = 0
-        self.is_recording = False
+        self.is_recording = threading.Event()
         self._video_path = mp.Array("c", bytes(256))
         self._timestamp = 0
 
@@ -62,11 +62,11 @@ class CameraOak:
     def start_recording(self, output_path: str):
         self.frame_id = 0
         self.video_path = output_path
-        self.is_recording = True
+        self.is_recording.set()
 
     def stop_recording(self):
+        self.is_recording.clear()
         self.frame_id = 0
-        self.is_recording = False
 
     def run(self):
         oak, q_display, q_obs = self._make_camera()
@@ -88,7 +88,7 @@ class CameraOak:
                 except Exception as e:
                     logger.exception(e)
 
-                if self.is_recording:
+                if self.is_recording.is_set():
                     try:
                         p_obs: FramePacket = self.q_obs.get(block=False)
                         rgb_frame = cv2.cvtColor(p_obs[self.sources["rgb"]].frame, cv2.COLOR_BGR2RGB)
