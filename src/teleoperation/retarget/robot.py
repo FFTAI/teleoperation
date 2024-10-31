@@ -34,12 +34,23 @@ class IKRobot(RobotWrapper):
         self.right_orientation_filter = LPRotationFilter(self.config.orientation_filter.alpha)
 
         if self.viz:
+            from itertools import product
+
             import meshcat.geometry as g
 
             if config.debug:
                 self.viz.viewer["left_ee_target"].set_object(g.Box([0.1, 0.1, 0.1]))
                 self.viz.viewer["right_ee_target"].set_object(g.Box([0.1, 0.1, 0.1]))
                 self.viz.viewer["head"].set_object(g.Box([0.1, 0.1, 0.1]))
+
+            if config.get("debug_hand", False):
+                for side, finger in product(["left", "right"], range(26)):
+                    if finger == 0:
+                        self.viz.viewer[f"{side}_hand/{finger}"].set_object(g.Box([0.02, 0.02, 0.02]))
+                    else:
+                        self.viz.viewer[f"{side}_hand/{finger}"].set_object(g.Sphere(0.01))
+                    if side == "left":
+                        self.viz.viewer[f"{side}_hand/{finger}"].set_property("color", [1, 0, 0, 1])
             self.viz.display(self.configuration.q)
 
         self.build_tasks()

@@ -29,12 +29,15 @@ class VuerPreprocessor:
 
         self.offset = np.array([0.1, 0, -0.6], dtype=float)
 
+        self.wrist2left = np.array([[0, 0, -1, 0], [-1, 0, 0, 0], [0, 1, 0, 0], [0, 0, 0, 1]], dtype=float)
+        self.wrist2right = np.array([[0, 0, -1, 0], [1, 0, 0, 0], [0, -1, 0, 0], [0, 0, 0, 1]], dtype=float)
+
         if cfg.hand_type == "inspire":
-            self.hand2fingers_left = hand2inspire
-            self.hand2fingers_right = hand2inspire
+            self.hand2fingers_left = np.array([[0, -1, 0, 0], [0, 0, -1, 0], [1, 0, 0, 0], [0, 0, 0, 1]], dtype=float)
+            self.hand2fingers_right = np.array([[0, -1, 0, 0], [0, 0, -1, 0], [1, 0, 0, 0], [0, 0, 0, 1]], dtype=float)
         elif cfg.hand_type == "fourier":
-            self.hand2fingers_left = hand2fourier_left
-            self.hand2fingers_right = hand2fourier_right
+            self.hand2fingers_left = np.array([[0, 0, -1, 0], [-1, 0, 0, 0], [0, 1, 0, 0], [0, 0, 0, 1]], dtype=float)
+            self.hand2fingers_right = np.array([[0, 0, -1, 0], [1, 0, 0, 0], [0, -1, 0, 0], [0, 0, 0, 1]], dtype=float)
 
     def calibrate(self, robot, head_mat, left_wrist_translation, right_wrist_translation):
         q = robot.q0.copy()
@@ -63,14 +66,14 @@ class VuerPreprocessor:
         right_wrist_mat = grd_yup2grd_zup @ self.vuer_right_wrist_mat @ fast_mat_inv(grd_yup2grd_zup)
         left_wrist_mat = grd_yup2grd_zup @ self.vuer_left_wrist_mat @ fast_mat_inv(grd_yup2grd_zup)
 
-        rel_left_wrist_mat = left_wrist_mat @ hand2left
+        rel_left_wrist_mat = left_wrist_mat @ self.wrist2left
         # rel_left_wrist_mat[0:3, 3] = rel_left_wrist_mat[0:3, 3] - head_mat[0:3, 3]
         # z_offset = max(head_mat[2, 3] - 0.6, 0)
         # rel_left_wrist_mat[2, 3] = rel_left_wrist_mat[2, 3] - head_mat[2, 3]
         # rel_left_wrist_mat[0:3, 3] += np.array([0.1, 0, -0.6])
         rel_left_wrist_mat[0:3, 3] += self.offset
 
-        rel_right_wrist_mat = right_wrist_mat @ hand2right  # wTr = wTh @ hTr
+        rel_right_wrist_mat = right_wrist_mat @ self.wrist2right  # wTr = wTh @ hTr
         # rel_right_wrist_mat[2, 3] = rel_right_wrist_mat[2, 3] - head_mat[2, 3]
         # rel_right_wrist_mat[0:3, 3] += np.array([0.1, 0, -0.6])
         # rel_right_wrist_mat[0:3, 3] = rel_right_wrist_mat[0:3, 3] - head_mat[0:3, 3]

@@ -43,6 +43,7 @@ joint_names:
 
 visualize: false
 debug: ${debug}
+debug_hand: ${debug_hand}
 display_collisions: false
 displayed_frames:
   # - "right_ee_frame"

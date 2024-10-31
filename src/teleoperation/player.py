@@ -271,6 +271,25 @@ class TeleopRobot(DexRobot, CameraMixin):
         """
         head_mat, left_wrist_mat, right_wrist_mat, left_hand_mat, right_hand_mat = self.processor.process(self.tv)
 
+        if self.viz and self.config.get("debug_hand", False):
+            from itertools import product
+
+            left_wrist_display = left_wrist_mat.copy()
+            right_wrist_display = right_wrist_mat.copy()
+            self.viz.viewer["left_hand/0"].set_transform(right_wrist_display)
+            self.viz.viewer["right_hand/0"].set_transform(right_wrist_display)
+            for side, finger in product(["left", "right"], range(25)):
+                if side == "left":
+                    landmark_tf = np.eye(4)
+                    landmark_tf[:3, 3] = left_hand_mat[finger]
+                    transform = left_wrist_display @ landmark_tf
+                    self.viz.viewer[f"{side}_hand/{finger}"].set_transform(transform)
+                else:
+                    landmark_tf = np.eye(4)
+                    landmark_tf[:3, 3] = right_hand_mat[finger]
+                    transform = right_wrist_display @ landmark_tf
+                    self.viz.viewer[f"{side}_hand/{finger}"].set_transform(transform)
+
         # left_pose = se3_to_xyzquat(left_wrist_mat)
         # right_pose = se3_to_xyzquat(right_wrist_mat)
 
