@@ -1,12 +1,23 @@
-hand_type: fourier
+type: "fourier"
+left_hand:
+  _target_: teleoperation.hands.FourierDexHand
+  hand_ip: "192.168.137.39"
+
+right_hand:
+  _target_: teleoperation.hands.FourierDexHand
+  hand_ip: "192.168.137.19"
+  
+prefix_left: "L_"
+prefix_right: "R_"
+
+tip_indices: [4, 9, 14, 19, 24]
 left:
   type: DexPilot
-  urdf_path: gr1/urdf/fourier_left_hand.urdf
-  # urdf_path: gr1_inspire/urdf/T2-dex.urdf
-  wrist_link_name: "l_hand_base_link"
+  urdf_path: gr1/urdf/fourier_left_hand_6dof.urdf
+  wrist_link_name: "L_hand_base_link"
 
   finger_tip_link_names:
-    ["L_thumb_tip", "L_index_tip", "L_middle_tip", "L_ring_tip", "L_pinky_tip"]
+    ["L_thumb_tip_link", "L_index_tip_link", "L_middle_tip_link", "L_ring_tip_link", "L_pinky_tip_link"]
 
   target_joint_names:
     [
@@ -17,20 +28,19 @@ left:
       "L_thumb_proximal_pitch_joint",
       "L_thumb_proximal_yaw_joint",
     ]
-  # finger_tip_link_names: [ "thumb_tip",  "index_tip", "middle_tip", "ring_tip", "pinky_tip" ]
   scaling_factor: 0.85
+  # target_link_human_indices: [[0, 0, 0, 0, 0], [4, 9, 14, 19, 24]]
 
   # A smaller alpha means stronger filtering, i.e. more smooth but also larger latency
   low_pass_alpha: 0.2
 
 right:
   type: DexPilot
-  urdf_path: gr1/urdf/fourier_right_hand.urdf
-  # urdf_path: gr1_inspire/urdf/T2-dex.urdf
-  wrist_link_name: "r_hand_base_link"
+  urdf_path: gr1/urdf/fourier_right_hand_6dof.urdf
+  wrist_link_name: "R_hand_base_link"
 
   finger_tip_link_names:
-    ["R_thumb_tip", "R_index_tip", "R_middle_tip", "R_ring_tip", "R_pinky_tip"]
+    ["R_thumb_tip_link", "R_index_tip_link", "R_middle_tip_link", "R_ring_tip_link", "R_pinky_tip_link"]
   target_joint_names:
     [
       "R_pinky_proximal_joint",
@@ -40,8 +50,7 @@ right:
       "R_thumb_proximal_pitch_joint",
       "R_thumb_proximal_yaw_joint",
     ]
-  # finger_tip_link_names: [ "thumb_tip",  "index_tip", "middle_tip", "ring_tip", "pinky_tip" ]
   scaling_factor: 0.85
-
+  # target_link_human_indices: [[0, 0, 0, 0, 0], [4, 9, 14, 19, 24]]
   # A smaller alpha means stronger filtering, i.e. more smooth but also larger latency
   low_pass_alpha: 0.2

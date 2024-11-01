@@ -1,8 +1,13 @@
+import logging
+import time
+
 import numpy as np
 from dex_retargeting.retargeting_config import RetargetingConfig
 from omegaconf import DictConfig, OmegaConf
 
 from teleoperation.utils import ASSET_DIR, remap
+
+logger = logging.getLogger(__name__)
 
 
 class HandRetarget:
@@ -25,8 +30,32 @@ class HandRetarget:
         return self.right_retargeting.joint_names
 
     def retarget(self, left_landmarks: np.ndarray, right_landmarks: np.ndarray):
-        left_qpos = self.left_retargeting.retarget(left_landmarks[self.tip_indices])
-        right_qpos = self.right_retargeting.retarget(right_landmarks[self.tip_indices])
+        left_input = left_landmarks[self.tip_indices]
+        right_input = right_landmarks[self.tip_indices]
+
+        if self.left_retargeting.optimizer.retargeting_type.lower() == "dexpilot":
+            # for dexpilot, we need to calculate vector between each tip
+            left_input_processed = []
+            for i in range(len(self.tip_indices)):
+                for j in range(i + 1, len(self.tip_indices)):
+                    left_input_processed.append(left_input[j] - left_input[i])
+            for i in range(len(self.tip_indices)):
+                left_input_processed.append(left_input[i] - left_landmarks[0])
+            left_input = np.array(left_input_processed)
+
+        if self.right_retargeting.optimizer.retargeting_type.lower() == "dexpilot":
+            # for dexpilot, we need to calculate vector between each tip
+            right_input_processed = []
+            for i in range(len(self.tip_indices)):
+                for j in range(i + 1, len(self.tip_indices)):
+                    right_input_processed.append(right_input[j] - right_input[i])
+
+            for i in range(len(self.tip_indices)):
+                right_input_processed.append(right_input[i] - right_landmarks[0])
+            right_input = np.array(right_input_processed)
+
+        left_qpos = self.left_retargeting.retarget(left_input)
+        right_qpos = self.right_retargeting.retarget(right_input)
         return left_qpos, right_qpos
 
     def qpos_to_real(self, left_qpos, right_qpos):

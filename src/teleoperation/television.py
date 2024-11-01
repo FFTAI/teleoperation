@@ -111,15 +111,24 @@ class OpenTeleVision:
     async def on_hand_move(self, event, session, fps=60):
         try:
             self.left_wrist_shared[:] = np.array(event.value["leftHand"]).flatten()
-            self.right_wrist_shared[:] = np.array(event.value["rightHand"]).flatten()
             self.left_landmarks_shared[:] = np.array(event.value["leftLandmarks"]).flatten()
+            if not self._connected.value:
+                self._connected.value = True
+                logger.info("first hand received")
+
+        except Exception as e:
+            logger.debug(f"Error in on_hand_move left: {e}")
+            pass
+
+        try:
+            self.right_wrist_shared[:] = np.array(event.value["rightHand"]).flatten()
             self.right_landmarks_shared[:] = np.array(event.value["rightLandmarks"]).flatten()
             if not self._connected.value:
                 self._connected.value = True
-                logger.success("first hand received")
+                logger.info("first hand received")
 
         except Exception as e:
-            logger.debug(f"Error in on_hand_move: {e}")
+            logger.debug(f"Error in on_hand_move right: {e}")
             pass
 
     async def main_image(self, session, fps=30):
