@@ -33,7 +33,7 @@ class CameraRealsense:
 
         self.episode_id = 0
         self.frame_id = 0
-        self.is_recording = False
+        self.is_recording = threading.Event()
         self._video_path = mp.Array("c", bytes(256))
         self._timestamp = 0
 
@@ -58,11 +58,11 @@ class CameraRealsense:
     def start_recording(self, output_path: str):
         self.frame_id = 0
         self.video_path = output_path
-        self.is_recording = True
+        self.is_recording.set()
 
     def stop_recording(self):
+        self.is_recording.clear()
         self.frame_id = 0
-        self.is_recording = False
 
     def run(self):
         self.camera = self._make_camera()
@@ -77,13 +77,18 @@ class CameraRealsense:
                     color_image = np.asanyarray(color_frame.get_data())
                     color_image_rgb = cv2.cvtColor(color_image, cv2.COLOR_BGR2RGB)
 
-                    self.display.put({"left": color_image_rgb, "right": color_image_rgb}, marker=self.is_recording)
+                    self.display.put(
+                        {"left": color_image_rgb, "right": color_image_rgb}, marker=self.is_recording.is_set()
+                    )
 
-                    if self.is_recording:
+                    if self.is_recording.is_set():
                         depth_frame = frames.get_depth_frame()
                         depth_image = np.asanyarray(depth_frame.get_data())
                         self.recorder.put(
-                            {"rgb": color_image_rgb, "depth": depth_image}, self.frame_id, self.video_path
+                            {"rgb": color_image_rgb, "depth": depth_image},
+                            self.frame_id,
+                            self.video_path,
+                            self.timestamp,
                         )
                         self.frame_id += 1
                 except:
