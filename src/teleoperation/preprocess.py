@@ -53,7 +53,7 @@ class VuerPreprocessor:
 
         self.offset += np.mean([left_offset, right_offset], axis=0)
         self.offset[1] = 0.0
-        self.offset[0] = 0.1
+        # self.offset[0] = 0.1
         logger.info(f"Calibration result: {self.offset}")
 
     def process(self, tv):

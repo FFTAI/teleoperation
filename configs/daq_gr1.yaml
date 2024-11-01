@@ -1,6 +1,6 @@
 defaults:
   - teleop
-  - hand: fourier
+  - hand: fourier_dexpilot
   - robot: gr1
   - camera: oak
   - _self_
