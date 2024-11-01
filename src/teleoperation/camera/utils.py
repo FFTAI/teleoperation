@@ -16,6 +16,14 @@ def save_image(img, key, frame_index, videos_dir: str):
     img.save(str(path), quality=100)
 
 
+def save_timestamp(timestamp, key, frame_index, videos_dir: str):
+    path = Path(videos_dir) / f"{key}_timestamp.txt"
+    path.parent.mkdir(parents=True, exist_ok=True)
+    with open(path, "a") as f:
+        # append timestamp to file
+        f.write(f"{frame_index:09d},{timestamp}\n")
+
+
 def save_images_threaded(queue, num_threads=4):
     with concurrent.futures.ThreadPoolExecutor(max_workers=num_threads) as executor:
         futures = []
@@ -25,9 +33,11 @@ def save_images_threaded(queue, num_threads=4):
                 logger.info("Exiting save_images_threaded")
                 break
 
-            img, key, frame_index, videos_dir = frame_data
+            img, key, frame_index, videos_dir, timestamp = frame_data
             future = executor.submit(save_image, img, key, frame_index, videos_dir)
+            save_timestamp_future = executor.submit(save_timestamp, timestamp, key, frame_index, videos_dir)
             futures.append(future)
+            futures.append(save_timestamp_future)
 
         with tqdm(total=len(futures), desc="Writing images") as progress_bar:
             concurrent.futures.wait(futures)

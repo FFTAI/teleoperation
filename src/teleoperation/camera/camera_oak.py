@@ -82,7 +82,7 @@ class CameraOak:
 
                     left_frame = cv2.cvtColor(p[self.sources["left"]].frame, cv2.COLOR_GRAY2RGB)
                     right_frame = cv2.cvtColor(p[self.sources["right"]].frame, cv2.COLOR_GRAY2RGB)
-                    self.display.put({"left": left_frame, "right": right_frame}, marker=self.is_recording)
+                    self.display.put({"left": left_frame, "right": right_frame}, marker=self.is_recording.is_set())
                 except queue.Empty:
                     pass
                 except Exception as e:
@@ -93,7 +93,12 @@ class CameraOak:
                         p_obs: FramePacket = self.q_obs.get(block=False)
                         rgb_frame = cv2.cvtColor(p_obs[self.sources["rgb"]].frame, cv2.COLOR_BGR2RGB)
                         depth_frame = p_obs[self.sources["depth"]].frame
-                        self.recorder.put({"rgb": rgb_frame, "depth": depth_frame}, self.frame_id, self.video_path)
+                        self.recorder.put(
+                            {"rgb": rgb_frame, "depth": depth_frame},
+                            self.frame_id,
+                            self.video_path,
+                            timestamp=self.timestamp,
+                        )
                         self.frame_id += 1
                     except queue.Empty:
                         pass

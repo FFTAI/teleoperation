@@ -17,9 +17,9 @@ class RecordCamera:
         self.save_queue = mp.Queue(maxsize=queue_size)
         self.processes = []
 
-    def put(self, frames: dict[str, np.ndarray], frame_id: int, video_path: str):
+    def put(self, frames: dict[str, np.ndarray], frame_id: int, video_path: str, timestamp: float):
         for key, frame in frames.items():
-            self.save_queue.put((frame, key, frame_id, video_path))
+            self.save_queue.put((frame, key, frame_id, video_path, timestamp))
 
     def start(self):
         for _ in range(self.num_processes):
