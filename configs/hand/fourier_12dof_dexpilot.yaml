@@ -37,10 +37,10 @@ left:
       "L_thumb_proximal_yaw_joint"
 
     ]
-  scaling_factor: 1.0
+  scaling_factor: 1.1
 
   # A smaller alpha means stronger filtering, i.e. more smooth but also larger latency
-  low_pass_alpha: 0.5
+  low_pass_alpha: 0.3
 
 right:
   type: DexPilot
@@ -64,6 +64,6 @@ right:
       "R_thumb_proximal_pitch_joint",
       "R_thumb_proximal_yaw_joint"
     ]
-  scaling_factor: 1.0
+  scaling_factor: 1.1
   # A smaller alpha means stronger filtering, i.e. more smooth but also larger latency
-  low_pass_alpha: 0.5
+  low_pass_alpha: 0.3
