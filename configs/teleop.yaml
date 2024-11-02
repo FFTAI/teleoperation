@@ -4,12 +4,12 @@ defaults:
   - override hydra/hydra_logging: colorlog
 
 # robot:
-#   urdf_path: "gr1/urdf/GR1T2_inspire_hand.urdf"
+#   urdf_path: "urdf/GR1T2_inspire_hand.urdf"
 # hand:
 #   left:
-#     urdf_path: gr1/urdf/fourier_hand_left.urdf
+#     urdf_path: urdf/fourier_hand_left.urdf
 #   right:
-#     urdf_path: gr1/urdf/fourier_hand_right.urdf
+#     urdf_path: urdf/fourier_hand_right.urdf
 
 debug: false
 debug_hand: false

@@ -15,7 +15,7 @@ prefix_right: "R_"
 tip_indices: [4, 9, 14, 19, 24]
 left:
   type: DexPilot
-  urdf_path: fourier_hand_12dof/urdf/fourier_left_hand_12dof.urdf
+  urdf_path: urdf/fourier_left_hand_12dof.urdf
   wrist_link_name: "L_hand_base_link"
 
   finger_tip_link_names:
@@ -44,7 +44,7 @@ left:
 
 right:
   type: DexPilot
-  urdf_path: fourier_hand_12dof/urdf/fourier_right_hand_12dof.urdf
+  urdf_path: urdf/fourier_right_hand_12dof.urdf
   wrist_link_name: "R_hand_base_link"
 
   finger_tip_link_names:
