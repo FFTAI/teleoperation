@@ -1,0 +1,17 @@
+defaults:
+  - teleop
+  - hand: fourier_12dof_dexpilot
+  - robot: gr1
+  - camera: oak
+  - _self_
+
+robot:
+  urdf_path: "gr1/urdf/GR1T2_fourier_hand_12dof.urdf"
+
+debug: false
+debug_hand: false
+sim: false
+wait_time: 3.0
+frequency: 60
+use_waist: false
+use_head: false

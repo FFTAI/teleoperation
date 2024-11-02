@@ -355,3 +355,4 @@ data/
 sensor_offset.json
 outputs/
 *.bk
+.DS_Store

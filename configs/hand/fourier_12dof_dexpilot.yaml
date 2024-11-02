@@ -1,0 +1,69 @@
+type: "fourier"
+left_hand:
+  _target_: teleoperation.hands.FourierDexHand
+  hand_ip: "192.168.137.39"
+  version: "12dof"
+
+right_hand:
+  _target_: teleoperation.hands.FourierDexHand
+  hand_ip: "192.168.137.19"
+  version: "12dof"
+  
+prefix_left: "L_"
+prefix_right: "R_"
+
+tip_indices: [4, 9, 14, 19, 24]
+left:
+  type: DexPilot
+  urdf_path: fourier_hand_12dof/urdf/fourier_left_hand_12dof.urdf
+  wrist_link_name: "L_hand_base_link"
+
+  finger_tip_link_names:
+    ["L_thumb_tip_link", "L_index_tip_link", "L_middle_tip_link", "L_ring_tip_link", "L_pinky_tip_link"]
+
+  target_joint_names:
+    [
+      "L_index_intermediate_joint",
+      "L_index_proximal_joint",
+      "L_index_metacarpal_joint",
+      "L_middle_intermediate_joint",
+      "L_middle_proximal_joint",
+      "L_ring_intermediate_joint",
+      "L_ring_proximal_joint",
+      "L_pinky_intermediate_joint",
+      "L_pinky_proximal_joint",
+      "L_thumb_distal_joint",
+      "L_thumb_proximal_pitch_joint",
+      "L_thumb_proximal_yaw_joint"
+
+    ]
+  scaling_factor: 1.0
+
+  # A smaller alpha means stronger filtering, i.e. more smooth but also larger latency
+  low_pass_alpha: 0.5
+
+right:
+  type: DexPilot
+  urdf_path: fourier_hand_12dof/urdf/fourier_right_hand_12dof.urdf
+  wrist_link_name: "R_hand_base_link"
+
+  finger_tip_link_names:
+    ["R_thumb_tip_link", "R_index_tip_link", "R_middle_tip_link", "R_ring_tip_link", "R_pinky_tip_link"]
+  target_joint_names:
+    [
+      "R_index_intermediate_joint",
+      "R_index_proximal_joint",
+      "R_index_metacarpal_joint",
+      "R_middle_intermediate_joint",
+      "R_middle_proximal_joint",
+      "R_ring_intermediate_joint",
+      "R_ring_proximal_joint",
+      "R_pinky_intermediate_joint",
+      "R_pinky_proximal_joint",
+      "R_thumb_distal_joint",
+      "R_thumb_proximal_pitch_joint",
+      "R_thumb_proximal_yaw_joint"
+    ]
+  scaling_factor: 1.0
+  # A smaller alpha means stronger filtering, i.e. more smooth but also larger latency
+  low_pass_alpha: 0.5
