@@ -1,0 +1,3687 @@
+
+<?xml version="1.0" encoding="utf-8"?>
+<!-- This URDF was automatically created by SolidWorks to URDF Exporter! Originally created by Stephen Brawner (brawner@gmail.com) 
+     Commit Version: 1.6.0-4-g7f85cfe  Build Version: 1.6.7995.38578
+     For more information, please see http://wiki.ros.org/sw_urdf_exporter -->
+<robot
+  name="openloong_fourier_hand_6dof">
+  <link
+    name="link_base">
+    <inertial>
+      <origin
+        xyz="-0.00566408091466776 -0.00133667630166884 0.238293481606008"
+        rpy="0 0 0" />
+      <mass
+        value="22.4467502062003" />
+      <inertia
+        ixx="0.1843438399826"
+        ixy="7.94346004348978E-05"
+        ixz="0.00193300223762352"
+        iyy="0.134064963415545"
+        iyz="0.00144356843579135"
+        izz="0.0958878629844258" />
+    </inertial>
+    <visual>
+      <origin
+        xyz="0 0 0"
+        rpy="0 0 0" />
+      <geometry>
+        <mesh
+          filename="../meshes/qinglong/link_base.STL" />
+      </geometry>
+      <material
+        name="">
+        <color
+          rgba="0.752941176470588 0.752941176470588 0.752941176470588 1" />
+      </material>
+    </visual>
+    <collision>
+      <origin
+        xyz="0 0 0"
+        rpy="0 0 0" />
+      <geometry>
+        <mesh
+          filename="../meshes/qinglong/link_base.STL" />
+      </geometry>
+    </collision>
+  </link>
+  <joint
+    name="J_ankel_l_roll"
+    type="revolute">
+    <origin
+      xyz="0 0 0"
+      rpy="0 0 0" />
+    <parent
+      link="Link_ankel_l_pitch" />
+    <child
+      link="Link_ankel_l_roll" />
+    <axis
+      xyz="1 0 0" />
+    <limit
+      lower="0"
+      upper="0"
+      effort="0"
+      velocity="0" />
+  </joint>
+  <link
+    name="Link_head_yaw">
+    <inertial>
+      <origin
+        xyz="4.69738137276465E-12 -0.00208140021911013 0.04480099405169"
+        rpy="0 0 0" />
+      <mass
+        value="0.842488957938416" />
+      <inertia
+        ixx="0.000435422823318246"
+        ixy="-1.28483434558163E-14"
+        ixz="1.54605779803535E-10"
+        iyy="0.000608491815175479"
+        iyz="2.64007200234943E-07"
+        izz="0.000452397785407257" />
+    </inertial>
+    <visual>
+      <origin
+        xyz="0 0 0"
+        rpy="0 0 0" />
+      <geometry>
+        <mesh
+          filename="../meshes/qinglong/Link_head_yaw.STL" />
+      </geometry>
+      <material
+        name="">
+        <color
+          rgba="0.898039215686275 0.917647058823529 0.929411764705882 1" />
+      </material>
+    </visual>
+    <collision>
+      <origin
+        xyz="0 0 0"
+        rpy="0 0 0" />
+      <geometry>
+        <mesh
+          filename="../meshes/qinglong/Link_head_yaw.STL" />
+      </geometry>
+    </collision>
+  </link>
+  <joint
+    name="J_head_yaw"
+    type="revolute">
+    <origin
+      xyz="0.00900000000000002 0 0.4063968020067"
+      rpy="0 0 0" />
+    <parent
+      link="link_base" />
+    <child
+      link="Link_head_yaw" />
+    <axis
+      xyz="0 0 1" />
+    <limit
+      lower="0"
+      upper="0"
+      effort="0"
+      velocity="0" />
+  </joint>
+  <link
+    name="Link_head_pitch">
+    <inertial>
+      <origin
+        xyz="0.0205686258428538 0.0330035066056983 0.125003351659062"
+        rpy="0 0 0" />
+      <mass
+        value="1.39424582331633" />
+      <inertia
+        ixx="0.00412564223593578"
+        ixy="-6.0692693275533E-07"
+        ixz="-0.00101653098024732"
+        iyy="0.00348767283296822"
+        iyz="1.65012222900755E-06"
+        izz="0.00337886891202042" />
+    </inertial>
+    <visual>
+      <origin
+        xyz="0 0 0"
+        rpy="0 0 0" />
+      <geometry>
+        <mesh
+          filename="../meshes/qinglong/Link_head_pitch.STL" />
+      </geometry>
+      <material
+        name="">
+        <color
+          rgba="0.698039215686274 0.698039215686274 0.698039215686274 1" />
+      </material>
+    </visual>
+    <collision>
+      <origin
+        xyz="0 0 0"
+        rpy="0 0 0" />
+      <geometry>
+        <mesh
+          filename="../meshes/qinglong/Link_head_pitch.STL" />
+      </geometry>
+    </collision>
+  </link>
+  <joint
+    name="J_head_pitch"
+    type="revolute">
+    <origin
+      xyz="0 -0.0345999999999997 0.0484999999999999"
+      rpy="0 0 0" />
+    <parent
+      link="Link_head_yaw" />
+    <child
+      link="Link_head_pitch" />
+    <axis
+      xyz="0 -1 0" />
+    <limit
+      lower="0"
+      upper="0"
+      effort="0"
+      velocity="0" />
+  </joint>
+  <link
+    name="Link_arm_r_01">
+    <inertial>
+      <origin
+        xyz="0.00306103992428783 -0.0383760600630054 -1.81717575487017E-06"
+        rpy="0 0 0" />
+      <mass
+        value="0.488683452297115" />
+      <inertia
+        ixx="0.00037481845811573"
+        ixy="2.02496074584571E-06"
+        ixz="2.39028618279379E-09"
+        iyy="0.000538767520656145"
+        iyz="-2.30315009422164E-08"
+        izz="0.000563891087137933" />
+    </inertial>
+    <visual>
+      <origin
+        xyz="0 0 0"
+        rpy="0 0 0" />
+      <geometry>
+        <mesh
+          filename="../meshes/qinglong/Link_arm_r_01.STL" />
+      </geometry>
+      <material
+        name="">
+        <color
+          rgba="0.776470588235294 0.756862745098039 0.737254901960784 1" />
+      </material>
+    </visual>
+    <collision>
+      <origin
+        xyz="0 0 0"
+        rpy="0 0 0" />
+      <geometry>
+        <mesh
+          filename="../meshes/qinglong/Link_arm_r_01.STL" />
+      </geometry>
+    </collision>
+  </link>
+  <joint
+    name="J_arm_r_01"
+    type="revolute">
+    <origin
+      xyz="0.00400000000000002 -0.1616 0.3921968020067"
+      rpy="0 0 0" />
+    <parent
+      link="link_base" />
+    <child
+      link="Link_arm_r_01" />
+    <axis
+      xyz="0 -1 0" />
+    <limit
+      lower="0"
+      upper="0"
+      effort="0"
+      velocity="0" />
+  </joint>
+  <link
+    name="Link_arm_r_02">
+    <inertial>
+      <origin
+        xyz="-0.0419581666072356 -0.0671009746690074 0"
+        rpy="0 0 0" />
+      <mass
+        value="0.438100942686731" />
+      <inertia
+        ixx="0.000776436731636843"
+        ixy="-1.05290238452029E-05"
+        ixz="-6.07193760189231E-20"
+        iyy="0.000517682618364092"
+        iyz="-1.95770139171321E-19"
+        izz="0.00101807303378178" />
+    </inertial>
+    <visual>
+      <origin
+        xyz="0 0 0"
+        rpy="0 0 0" />
+      <geometry>
+        <mesh
+          filename="../meshes/qinglong/Link_arm_r_02.STL" />
+      </geometry>
+      <material
+        name="">
+        <color
+          rgba="0.698039215686274 0.698039215686274 0.698039215686274 1" />
+      </material>
+    </visual>
+    <collision>
+      <origin
+        xyz="0 0 0"
+        rpy="0 0 0" />
+      <geometry>
+        <mesh
+          filename="../meshes/qinglong/Link_arm_r_02.STL" />
+      </geometry>
+    </collision>
+  </link>
+  <joint
+    name="J_arm_r_02"
+    type="revolute">
+    <origin
+      xyz="0.0415999999999998 -0.041 0"
+      rpy="0 0 0" />
+    <parent
+      link="Link_arm_r_01" />
+    <child
+      link="Link_arm_r_02" />
+    <axis
+      xyz="1 0 0" />
+    <limit
+      lower="0"
+      upper="0"
+      effort="0"
+      velocity="0" />
+  </joint>
+  <link
+    name="Link_arm_r_03">
+    <inertial>
+      <origin
+        xyz="-0.00110239832858215 -0.144522432241565 0.0156499754163099"
+        rpy="0 0 0" />
+      <mass
+        value="0.526568254309573" />
+      <inertia
+        ixx="0.00114097134287865"
+        ixy="7.7768658178583E-06"
+        ixz="-2.19480149971844E-06"
+        iyy="0.000396170468570368"
+        iyz="-9.47414277256924E-05"
+        izz="0.00110166328490636" />
+    </inertial>
+    <visual>
+      <origin
+        xyz="0 0 0"
+        rpy="0 0 0" />
+      <geometry>
+        <mesh
+          filename="../meshes/qinglong/Link_arm_r_03.STL" />
+      </geometry>
+      <material
+        name="">
+        <color
+          rgba="1 1 1 1" />
+      </material>
+    </visual>
+    <collision>
+      <origin
+        xyz="0 0 0"
+        rpy="0 0 0" />
+      <geometry>
+        <mesh
+          filename="../meshes/qinglong/Link_arm_r_03.STL" />
+      </geometry>
+    </collision>
+  </link>
+  <joint
+    name="J_arm_r_03"
+    type="revolute">
+    <origin
+      xyz="-0.0416 -0.1226 0"
+      rpy="0 0 0" />
+    <parent
+      link="Link_arm_r_02" />
+    <child
+      link="Link_arm_r_03" />
+    <axis
+      xyz="0 -1 0" />
+    <limit
+      lower="0"
+      upper="0"
+      effort="0"
+      velocity="0" />
+  </joint>
+  <link
+    name="Link_arm_r_04">
+    <inertial>
+      <origin
+        xyz="-0.0388315709050854 -0.0599422560905681 -0.0208239016979334"
+        rpy="0 0 0" />
+      <mass
+        value="0.252073603542901" />
+      <inertia
+        ixx="0.000300623377939519"
+        ixy="-1.84878494824105E-05"
+        ixz="-7.0107968586841E-06"
+        iyy="0.000285766932026538"
+        iyz="4.65644968593821E-05"
+        izz="0.000450928649536578" />
+    </inertial>
+    <visual>
+      <origin
+        xyz="0 0 0"
+        rpy="0 0 0" />
+      <geometry>
+        <mesh
+          filename="../meshes/qinglong/Link_arm_r_04.STL" />
+      </geometry>
+      <material
+        name="">
+        <color
+          rgba="1 1 1 1" />
+      </material>
+    </visual>
+    <collision>
+      <origin
+        xyz="0 0 0"
+        rpy="0 0 0" />
+      <geometry>
+        <mesh
+          filename="../meshes/qinglong/Link_arm_r_04.STL" />
+      </geometry>
+    </collision>
+  </link>
+  <joint
+    name="J_arm_r_04"
+    type="revolute">
+    <origin
+      xyz="0.0353000000000001 -0.1774 0.024"
+      rpy="0 0 0" />
+    <parent
+      link="Link_arm_r_03" />
+    <child
+      link="Link_arm_r_04" />
+    <axis
+      xyz="-1 0 0" />
+    <limit
+      lower="0"
+      upper="0"
+      effort="0"
+      velocity="0" />
+  </joint>
+  <link
+    name="Link_arm_r_05">
+    <inertial>
+      <origin
+        xyz="0.00167601370196788 -0.083893304133924 -5.566470630846E-05"
+        rpy="0 0 0" />
+      <mass
+        value="0.168745055560144" />
+      <inertia
+        ixx="0.000621918391710588"
+        ixy="-4.61978343068119E-06"
+        ixz="9.3719991645824E-08"
+        iyy="7.80631945578874E-05"
+        iyz="4.30375438325517E-07"
+        izz="0.00057247490348733" />
+    </inertial>
+    <visual>
+      <origin
+        xyz="0 0 0"
+        rpy="0 0 0" />
+      <geometry>
+        <mesh
+          filename="../meshes/qinglong/Link_arm_r_05.STL" />
+      </geometry>
+      <material
+        name="">
+        <color
+          rgba="1 1 1 1" />
+      </material>
+    </visual>
+    <collision>
+      <origin
+        xyz="0 0 0"
+        rpy="0 0 0" />
+      <geometry>
+        <mesh
+          filename="../meshes/qinglong/Link_arm_r_05.STL" />
+      </geometry>
+    </collision>
+  </link>
+  <joint
+    name="J_arm_r_05"
+    type="revolute">
+    <origin
+      xyz="-0.0352999999999998 -0.1035 -0.024"
+      rpy="0 0 0" />
+    <parent
+      link="Link_arm_r_04" />
+    <child
+      link="Link_arm_r_05" />
+    <axis
+      xyz="0 -1 0" />
+    <limit
+      lower="0"
+      upper="0"
+      effort="0"
+      velocity="0" />
+  </joint>
+  <link
+    name="Link_arm_r_06">
+    <inertial>
+      <origin
+        xyz="-0.0260776548825597 8.95877202755635E-07 0.00166373234012211"
+        rpy="0 0 0" />
+      <mass
+        value="0.0549930360703545" />
+      <inertia
+        ixx="2.8595773901269E-05"
+        ixy="1.51282505620595E-10"
+        ixz="-4.21398214314385E-08"
+        iyy="3.08209507481789E-05"
+        iyz="-4.73377396614522E-10"
+        izz="2.06188406655241E-05" />
+    </inertial>
+    <visual>
+      <origin
+        xyz="0 0 0"
+        rpy="0 0 0" />
+      <geometry>
+        <mesh
+          filename="../meshes/qinglong/Link_arm_r_06.STL" />
+      </geometry>
+      <material
+        name="">
+        <color
+          rgba="1 1 1 1" />
+      </material>
+    </visual>
+    <collision>
+      <origin
+        xyz="0 0 0"
+        rpy="0 0 0" />
+      <geometry>
+        <mesh
+          filename="../meshes/qinglong/Link_arm_r_06.STL" />
+      </geometry>
+    </collision>
+  </link>
+  <joint
+    name="J_arm_r_06"
+    type="revolute">
+    <origin
+      xyz="0.0265000000000002 -0.196750000000001 0"
+      rpy="0 0 0" />
+    <parent
+      link="Link_arm_r_05" />
+    <child
+      link="Link_arm_r_06" />
+    <axis
+      xyz="-1 0 0" />
+    <limit
+      lower="0"
+      upper="0"
+      effort="0"
+      velocity="0" />
+  </joint>
+  <link
+    name="Link_arm_r_07">
+    <inertial>
+      <origin
+        xyz="-5.96827519350196E-09 -0.0365022581591028 -0.0277852789224901"
+        rpy="0 0 0" />
+      <mass
+        value="0.041917125704658" />
+      <inertia
+        ixx="3.84999287441764E-05"
+        ixy="8.92633232615633E-12"
+        ixz="-1.48646667014319E-12"
+        iyy="1.64609861519304E-05"
+        iyz="9.54640189227898E-06"
+        izz="3.23841253768633E-05" />
+    </inertial>
+    <visual>
+      <origin
+        xyz="0 0 0"
+        rpy="0 0 0" />
+      <geometry>
+        <mesh
+          filename="../meshes/qinglong/Link_arm_r_07.STL" />
+      </geometry>
+      <material
+        name="">
+        <color
+          rgba="0.898039215686275 0.917647058823529 0.929411764705882 1" />
+      </material>
+    </visual>
+    <collision>
+      <origin
+        xyz="0 0 0"
+        rpy="0 0 0" />
+      <geometry>
+        <mesh
+          filename="../meshes/qinglong/Link_arm_r_07.STL" />
+      </geometry>
+    </collision>
+  </link>
+  <joint
+    name="J_arm_r_07"
+    type="revolute">
+    <origin
+      xyz="-0.0265 0 0.0318"
+      rpy="0 0 0" />
+    <parent
+      link="Link_arm_r_06" />
+    <child
+      link="Link_arm_r_07" />
+    <axis
+      xyz="0 0 1" />
+    <limit
+      lower="0"
+      upper="0"
+      effort="0"
+      velocity="0" />
+  </joint>
+  
+  <link name ="right_end_effector_link" >
+    <inertial>
+      <origin
+        xyz="0 0 -0.00606"
+        rpy="0 0 0" />
+        <mass
+        value="0.018" />
+      <inertia
+        ixx="4.57e-6"
+        ixy="0"
+        ixz="0"
+        iyy="4.57e-6"
+        iyz="0"
+        izz="4.57e-6" />
+    </inertial>
+    <visual>
+      <origin
+        xyz="0 0 0"
+        rpy="0 0 0" />
+        <geometry>
+        <mesh
+          filename="../meshes/qinglong/end_effector_link.STL" />
+      </geometry>
+      <material
+        name="">
+        <color
+          rgba="0.898039215686275 0.917647058823529 0.929411764705882 1" />
+      </material>
+    </visual>
+    <collision>
+      <origin
+        xyz="0 0 0"
+        rpy="0 0 0" />
+        <geometry>
+        <mesh
+          filename="../meshes/qinglong/end_effector_link.STL" />
+      </geometry>
+      </collision>
+  </link>
+  <joint name="right_end_effector_joint" type="fixed">
+    <parent link="Link_arm_r_07" />
+    <child link="right_end_effector_link" />
+    <origin xyz="-0.0282 -0.082 -0.00345" rpy="-1.57 0 0" />
+  </joint>
+
+
+
+  <link
+    name="R_hand_base_link">
+    <inertial>
+      <origin
+        xyz="-0.00046411 0.00916118 -0.04313895"
+        rpy="0 0 0" />
+      <mass
+        value="0.306" />
+      <inertia
+        ixx="0.00030404"
+        ixy="4.9E-07"
+        ixz="-3E-08"
+        iyy="0.00041091"
+        iyz="1E-08"
+        izz="0.00019509" />
+    </inertial>
+    <visual>
+      <origin
+        xyz="0 0 0"
+        rpy="0 0 0" />
+      <geometry>
+        <mesh
+          filename="../meshes/fourier_hand_6dof/R_hand_base_link.STL" />
+      </geometry>
+      <material
+        name="">
+        <color
+          rgba="0.86667 0.86667 0.8902 1" />
+      </material>
+    </visual>
+    <collision>
+      <origin
+        xyz="0 0 0"
+        rpy="0 0 0" />
+      <geometry>
+        <mesh
+          filename="../meshes/fourier_hand_6dof/R_hand_base_link.STL" />
+      </geometry>
+    </collision>
+  </link>
+  <joint
+    name="R_hand_base_joint"
+    type="fixed">
+    <origin
+      xyz="0.028 0.028 0.0088"
+      rpy="0 0 0" />
+    <parent
+      link="right_end_effector_link" />
+    <child
+      link="R_hand_base_link" />
+    <axis
+      xyz="0 0 0" />
+  </joint>
+  <link
+    name="R_thumb_proximal_base_link">
+    <inertial>
+      <origin
+        xyz="0.01102125 -2.455E-05 -0.00077678"
+        rpy="0 0 0" />
+      <mass
+        value="0.00948218" />
+      <inertia
+        ixx="3E-07"
+        ixy="1E-08"
+        ixz="4E-08"
+        iyy="9.5E-07"
+        iyz="1E-08"
+        izz="9.7E-07" />
+    </inertial>
+    <visual>
+      <origin
+        xyz="0 0 0"
+        rpy="0 0 0" />
+      <geometry>
+        <mesh
+          filename="../meshes/fourier_hand_6dof/R_thumb_proximal_base_link.STL" />
+      </geometry>
+      <material
+        name="">
+        <color
+          rgba="0.8902 0.8902 0.91373 1" />
+      </material>
+    </visual>
+    <collision>
+      <origin
+        xyz="0 0 0"
+        rpy="0 0 0" />
+      <geometry>
+        <mesh
+          filename="../meshes/fourier_hand_6dof/R_thumb_proximal_base_link.STL" />
+      </geometry>
+    </collision>
+  </link>
+  <joint
+    name="R_thumb_proximal_yaw_joint"
+    type="revolute">
+    <origin
+      xyz="0.021995 0.015502 -0.024995"
+      rpy="3.1416 0 0" />
+    <parent
+      link="R_hand_base_link" />
+    <child
+      link="R_thumb_proximal_base_link" />
+    <axis
+      xyz="0 0 1" />
+    <limit
+      lower="-1.74"
+      upper="0"
+      effort="10"
+      velocity="0.8" />
+  </joint>
+  <link
+    name="R_thumb_proximal_link">
+    <inertial>
+      <origin
+        xyz="0.03218903 0.000287 -2.839E-05"
+        rpy="0 0 0" />
+      <mass
+        value="0.07405243" />
+      <inertia
+        ixx="1.132E-05"
+        ixy="-1.7E-07"
+        ixz="4E-08"
+        iyy="3.228E-05"
+        iyz="-1E-08"
+        izz="3.419E-05" />
+    </inertial>
+    <visual>
+      <origin
+        xyz="0 0 0"
+        rpy="0 0 0" />
+      <geometry>
+        <mesh
+          filename="../meshes/fourier_hand_6dof/R_thumb_proximal_link.STL" />
+      </geometry>
+      <material
+        name="">
+        <color
+          rgba="0.86667 0.86667 0.8902 1" />
+      </material>
+    </visual>
+    <collision>
+      <origin
+        xyz="0 0 0"
+        rpy="0 0 0" />
+      <geometry>
+        <mesh
+          filename="../meshes/fourier_hand_6dof/R_thumb_proximal_link.STL" />
+      </geometry>
+    </collision>
+  </link>
+  <joint
+    name="R_thumb_proximal_pitch_joint"
+    type="revolute">
+    <origin
+      xyz="0.02175 0 0"
+      rpy="1.5709 1.221E-05 0" />
+    <parent
+      link="R_thumb_proximal_base_link" />
+    <child
+      link="R_thumb_proximal_link" />
+    <axis
+      xyz="0 0 1" />
+    <limit
+      lower="0"
+      upper="1.22"
+      effort="10"
+      velocity="0.8" />
+  </joint>
+  <link
+    name="R_thumb_distal_link">
+    <inertial>
+      <origin
+        xyz="0.01373199 -0.00277415 0"
+        rpy="0 0 0" />
+      <mass
+        value="0.01974135" />
+      <inertia
+        ixx="9E-07"
+        ixy="-9E-08"
+        ixz="0"
+        iyy="2.33E-06"
+        iyz="0"
+        izz="2.19E-06" />
+    </inertial>
+    <visual>
+      <origin
+        xyz="0 0 0"
+        rpy="0 0 0" />
+      <geometry>
+        <mesh
+          filename="../meshes/fourier_hand_6dof/R_thumb_distal_link.STL" />
+      </geometry>
+      <material
+        name="">
+        <color
+          rgba="0.86667 0.86667 0.8902 1" />
+      </material>
+    </visual>
+    <collision>
+      <origin
+        xyz="0 0 0"
+        rpy="0 0 0" />
+      <geometry>
+        <mesh
+          filename="../meshes/fourier_hand_6dof/R_thumb_distal_link.STL" />
+      </geometry>
+    </collision>
+  </link>
+  <joint
+    name="R_thumb_distal_joint"
+    type="revolute">
+    <origin
+      xyz="0.061444 0.0082822 0"
+      rpy="0 0 1.221E-05" />
+    <parent
+      link="R_thumb_proximal_link" />
+    <child
+      link="R_thumb_distal_link" />
+    <axis
+      xyz="0 0 1" />
+    <limit
+      lower="0"
+      upper="1.23"
+      effort="10"
+      velocity="0.8" />
+    <mimic
+      joint="R_thumb_proximal_pitch_joint"
+      multiplier="0.974"
+      offset="0" />
+  </joint>
+
+  <link name="R_thumb_tip_link">
+    <visual>
+      <origin
+        xyz="0 0 0"
+        rpy="0 0 0" />
+      <geometry>
+        <sphere radius="0.005" />
+      </geometry>
+      <material name="yellow">
+        <color rgba="0.9 1 0 1" />
+      </material>
+    </visual>
+  </link>
+  <joint name="R_thumb_tip_joint" type="fixed">
+    <parent link="R_thumb_distal_link" />
+    <child link="R_thumb_tip_link" />
+    <origin rpy="0 0 0" xyz="0.031 0 0" />
+  </joint>
+
+
+  <link
+    name="R_index_proximal_link">
+    <inertial>
+      <origin
+        xyz="0.00959983 0.0004431 2.96E-06"
+        rpy="0 0 0" />
+      <mass
+        value="0.01911771" />
+      <inertia
+        ixx="8.6E-07"
+        ixy="1.2E-07"
+        ixz="0"
+        iyy="3.71E-06"
+        iyz="0"
+        izz="3.85E-06" />
+    </inertial>
+    <visual>
+      <origin
+        xyz="0 0 0"
+        rpy="0 0 0" />
+      <geometry>
+        <mesh
+          filename="../meshes/fourier_hand_6dof/R_index_proximal_link.STL" />
+      </geometry>
+      <material
+        name="">
+        <color
+          rgba="0.8902 0.8902 0.91373 1" />
+      </material>
+    </visual>
+    <collision>
+      <origin
+        xyz="0 0 0"
+        rpy="0 0 0" />
+      <geometry>
+        <mesh
+          filename="../meshes/fourier_hand_6dof/R_index_proximal_link.STL" />
+      </geometry>
+    </collision>
+  </link>
+  <joint
+    name="R_index_proximal_joint"
+    type="revolute">
+    <origin
+      xyz="0.026864 0.012307 -0.095892"
+      rpy="-3.1403 1.5184 0.0013039" />
+    <parent
+      link="R_hand_base_link" />
+    <child
+      link="R_index_proximal_link" />
+    <axis
+      xyz="0 0 1" />
+    <limit
+      lower="-1.57"
+      upper="0"
+      effort="10"
+      velocity="0.8" />
+  </joint>
+  <link
+    name="R_index_intermediate_link">
+    <inertial>
+      <origin
+        xyz="0.01800441 0.00299919 -9.23E-06"
+        rpy="0 0 0" />
+      <mass
+        value="0.01292544" />
+      <inertia
+        ixx="3.7E-07"
+        ixy="2.5E-07"
+        ixz="0"
+        iyy="2.01E-06"
+        iyz="0"
+        izz="2.04E-06" />
+    </inertial>
+    <visual>
+      <origin
+        xyz="0 0 0"
+        rpy="0 0 0" />
+      <geometry>
+        <mesh
+          filename="../meshes/fourier_hand_6dof/R_index_intermediate_link.STL" />
+      </geometry>
+      <material
+        name="">
+        <color
+          rgba="0.79216 0.81961 0.93333 1" />
+      </material>
+    </visual>
+    <collision>
+      <origin
+        xyz="0 0 0"
+        rpy="0 0 0" />
+      <geometry>
+        <mesh
+          filename="../meshes/fourier_hand_6dof/R_index_intermediate_link.STL" />
+      </geometry>
+    </collision>
+  </link>
+  <joint
+    name="R_index_intermediate_joint"
+    type="revolute">
+    <origin
+      xyz="0.031532 -0.0054551 0"
+      rpy="0 0 0" />
+    <parent
+      link="R_index_proximal_link" />
+    <child
+      link="R_index_intermediate_link" />
+    <axis
+      xyz="0 0 1" />
+    <limit
+      lower="-1.74"
+      upper="0"
+      effort="10"
+      velocity="0.8" />
+    <mimic
+      joint="R_index_proximal_joint"
+      multiplier="1.128"
+      offset="0" />
+  </joint>
+
+  <link name="R_index_tip_link">
+    <visual>
+      <origin
+        xyz="0 0 0"
+        rpy="0 0 0" />
+      <geometry>
+        <sphere radius="0.005" />
+      </geometry>
+      <material name="yellow">
+        <color rgba="0.9 1 0 1" />
+      </material>
+    </visual>
+  </link>
+  <joint name="R_index_tip_joint" type="fixed">
+    <parent link="R_index_intermediate_link" />
+    <child link="R_index_tip_link" />
+    <origin rpy="0 0 0" xyz="0.038 -0.0015 0" />
+  </joint>
+
+
+  <link
+    name="R_middle_proximal_link">
+    <inertial>
+      <origin
+        xyz="0.00955708 0.00071862 2.96E-06"
+        rpy="0 0 0" />
+      <mass
+        value="0.01911771" />
+      <inertia
+        ixx="8.6E-07"
+        ixy="6E-08"
+        ixz="0"
+        iyy="3.72E-06"
+        iyz="0"
+        izz="3.85E-06" />
+    </inertial>
+    <visual>
+      <origin
+        xyz="0 0 0"
+        rpy="0 0 0" />
+      <geometry>
+        <mesh
+          filename="../meshes/fourier_hand_6dof/R_middle_proximal_link.STL" />
+      </geometry>
+      <material
+        name="">
+        <color
+          rgba="0.8902 0.8902 0.91373 1" />
+      </material>
+    </visual>
+    <collision>
+      <origin
+        xyz="0 0 0"
+        rpy="0 0 0" />
+      <geometry>
+        <mesh
+          filename="../meshes/fourier_hand_6dof/R_middle_proximal_link.STL" />
+      </geometry>
+    </collision>
+  </link>
+  <joint
+    name="R_middle_proximal_joint"
+    type="revolute">
+    <origin
+      xyz="0.0084962 0.012307 -0.097896"
+      rpy="-1.7476 1.5707 1.394" />
+    <parent
+      link="R_hand_base_link" />
+    <child
+      link="R_middle_proximal_link" />
+    <axis
+      xyz="0 0 1" />
+    <limit
+      lower="-1.57"
+      upper="0"
+      effort="10"
+      velocity="0.8" />
+  </joint>
+  <link
+    name="R_middle_intermediate_link">
+    <inertial>
+      <origin
+        xyz="0.02128 0.0040831 -9.98E-06"
+        rpy="0 0 0" />
+      <mass
+        value="0.01535" />
+      <inertia
+        ixx="4.1E-07"
+        ixy="2.2E-07"
+        ixz="0"
+        iyy="3.28E-06"
+        iyz="0"
+        izz="3.29E-06" />
+    </inertial>
+    <visual>
+      <origin
+        xyz="0 0 0"
+        rpy="0 0 0" />
+      <geometry>
+        <mesh
+          filename="../meshes/fourier_hand_6dof/R_middle_intermediate_link.STL" />
+      </geometry>
+      <material
+        name="">
+        <color
+          rgba="0.86667 0.86667 0.8902 1" />
+      </material>
+    </visual>
+    <collision>
+      <origin
+        xyz="0 0 0"
+        rpy="0 0 0" />
+      <geometry>
+        <mesh
+          filename="../meshes/fourier_hand_6dof/R_middle_intermediate_link.STL" />
+      </geometry>
+    </collision>
+  </link>
+  <joint
+    name="R_middle_intermediate_joint"
+    type="revolute">
+    <origin
+      xyz="0.031662 -0.0046408 0"
+      rpy="0 0 0" />
+    <parent
+      link="R_middle_proximal_link" />
+    <child
+      link="R_middle_intermediate_link" />
+    <axis
+      xyz="0 0 1" />
+    <limit
+      lower="-1.74"
+      upper="0"
+      effort="10"
+      velocity="0.8" />
+    <mimic
+      joint="R_middle_proximal_joint"
+      multiplier="1.131"
+      offset="0" />
+  </joint>
+
+  <link name="R_middle_tip_link">
+    <visual>
+      <origin
+        xyz="0 0 0"
+        rpy="0 0 0" />
+      <geometry>
+        <sphere radius="0.005" />
+      </geometry>
+      <material name="yellow">
+        <color rgba="0.9 1 0 1" />
+      </material>
+    </visual>
+  </link>
+  <joint name="R_middle_tip_joint" type="fixed">
+    <parent link="R_middle_intermediate_link" />
+    <child link="R_middle_tip_link" />
+    <origin rpy="0 0 0" xyz="0.045 0.0005 0" />
+  </joint>
+
+
+  <link
+    name="R_ring_proximal_link">
+    <inertial>
+      <origin
+        xyz="0.00959986 0.00044244 2.96E-06"
+        rpy="0 0 0" />
+      <mass
+        value="0.01911771" />
+      <inertia
+        ixx="8.6E-07"
+        ixy="1.2E-07"
+        ixz="0"
+        iyy="3.71E-06"
+        iyz="0"
+        izz="3.85E-06" />
+    </inertial>
+    <visual>
+      <origin
+        xyz="0 0 0"
+        rpy="0 0 0" />
+      <geometry>
+        <mesh
+          filename="../meshes/fourier_hand_6dof/R_ring_proximal_link.STL" />
+      </geometry>
+      <material
+        name="">
+        <color
+          rgba="0.8902 0.8902 0.91373 1" />
+      </material>
+    </visual>
+    <collision>
+      <origin
+        xyz="0 0 0"
+        rpy="0 0 0" />
+      <geometry>
+        <mesh
+          filename="../meshes/fourier_hand_6dof/R_ring_proximal_link.STL" />
+      </geometry>
+    </collision>
+  </link>
+  <joint
+    name="R_ring_proximal_joint"
+    type="revolute">
+    <origin
+      xyz="-0.009965 0.012307 -0.097841"
+      rpy="0 1.5184 3.1416" />
+    <parent
+      link="R_hand_base_link" />
+    <child
+      link="R_ring_proximal_link" />
+    <axis
+      xyz="0 0 1" />
+    <limit
+      lower="-1.57"
+      upper="0"
+      effort="10"
+      velocity="0.8" />
+  </joint>
+  <link
+    name="R_ring_intermediate_link">
+    <inertial>
+      <origin
+        xyz="0.018005 0.002998 -9.23E-06"
+        rpy="0 0 0" />
+      <mass
+        value="0.012925" />
+      <inertia
+        ixx="3.7E-07"
+        ixy="2.5E-07"
+        ixz="0"
+        iyy="2.01E-06"
+        iyz="0"
+        izz="2.04E-06" />
+    </inertial>
+    <visual>
+      <origin
+        xyz="0 0 0"
+        rpy="0 0 0" />
+      <geometry>
+        <mesh
+          filename="../meshes/fourier_hand_6dof/R_ring_intermediate_link.STL" />
+      </geometry>
+      <material
+        name="">
+        <color
+          rgba="0.29804 0.29804 0.29804 1" />
+      </material>
+    </visual>
+    <collision>
+      <origin
+        xyz="0 0 0"
+        rpy="0 0 0" />
+      <geometry>
+        <mesh
+          filename="../meshes/fourier_hand_6dof/R_ring_intermediate_link.STL" />
+      </geometry>
+    </collision>
+  </link>
+  <joint
+    name="R_ring_intermediate_joint"
+    type="revolute">
+    <origin
+      xyz="0.031531 -0.0054572 0"
+      rpy="0 0 0" />
+    <parent
+      link="R_ring_proximal_link" />
+    <child
+      link="R_ring_intermediate_link" />
+    <axis
+      xyz="0 0 1" />
+    <limit
+      lower="-1.74"
+      upper="0"
+      effort="10"
+      velocity="0.8" />
+    <mimic
+      joint="R_ring_proximal_joint"
+      multiplier="1.143"
+      offset="0" />
+  </joint>
+
+  <link name="R_ring_tip_link">
+    <visual>
+      <origin
+        xyz="0 0 0"
+        rpy="0 0 0" />
+      <geometry>
+        <sphere radius="0.005" />
+      </geometry>
+      <material name="green">
+        <color rgba="0.9 1 0 1" />
+      </material>
+    </visual>
+  </link>
+  <joint name="R_ring_tip_joint" type="fixed">
+    <parent link="R_ring_intermediate_link" />
+    <child link="R_ring_tip_link" />
+    <origin rpy="0 0 0" xyz="0.038 -0.0015 0" />
+  </joint>
+
+
+  <link
+    name="R_pinky_proximal_link">
+    <inertial>
+      <origin
+        xyz="0.00964414 9.378E-05 2.96E-06"
+        rpy="0 0 0" />
+      <mass
+        value="0.01911771" />
+      <inertia
+        ixx="8.8E-07"
+        ixy="2E-07"
+        ixz="0"
+        iyy="3.7E-06"
+        iyz="0"
+        izz="3.85E-06" />
+    </inertial>
+    <visual>
+      <origin
+        xyz="0 0 0"
+        rpy="0 0 0" />
+      <geometry>
+        <mesh
+          filename="../meshes/fourier_hand_6dof/R_pinky_proximal_link.STL" />
+      </geometry>
+      <material
+        name="">
+        <color
+          rgba="0.8902 0.8902 0.91373 1" />
+      </material>
+    </visual>
+    <collision>
+      <origin
+        xyz="0 0 0"
+        rpy="0 0 0" />
+      <geometry>
+        <mesh
+          filename="../meshes/fourier_hand_6dof/R_pinky_proximal_link.STL" />
+      </geometry>
+    </collision>
+  </link>
+  <joint
+    name="R_pinky_proximal_joint"
+    type="revolute">
+    <origin
+      xyz="-0.028232 0.012307 -0.095916"
+      rpy="-0.00065397 1.4661 3.1409" />
+    <parent
+      link="R_hand_base_link" />
+    <child
+      link="R_pinky_proximal_link" />
+    <axis
+      xyz="0 0 1" />
+    <limit
+      lower="-1.57"
+      upper="0"
+      effort="10"
+      velocity="0.8" />
+  </joint>
+  <link
+    name="R_pinky_intermediate_link">
+    <inertial>
+      <origin
+        xyz="0.0160962 0.00118598 -8.72E-06"
+        rpy="0 0 0" />
+      <mass
+        value="0.00568707" />
+      <inertia
+        ixx="1.7E-07"
+        ixy="1.3E-07"
+        ixz="0"
+        iyy="6.2E-07"
+        iyz="0"
+        izz="6.7E-07" />
+    </inertial>
+    <visual>
+      <origin
+        xyz="0 0 0"
+        rpy="0 0 0" />
+      <geometry>
+        <mesh
+          filename="../meshes/fourier_hand_6dof/R_pinky_intermediate_link.STL" />
+      </geometry>
+      <material
+        name="">
+        <color
+          rgba="0.79216 0.81961 0.93333 1" />
+      </material>
+    </visual>
+    <collision>
+      <origin
+        xyz="0 0 0"
+        rpy="0 0 0" />
+      <geometry>
+        <mesh
+          filename="../meshes/fourier_hand_6dof/R_pinky_intermediate_link.STL" />
+      </geometry>
+    </collision>
+  </link>
+  <joint
+    name="R_pinky_intermediate_joint"
+    type="revolute">
+    <origin
+      xyz="0.031338 -0.0064763 0"
+      rpy="0 0 6.7976E-05" />
+    <parent
+      link="R_pinky_proximal_link" />
+    <child
+      link="R_pinky_intermediate_link" />
+    <axis
+      xyz="0 0 1" />
+    <limit
+      lower="-1.74"
+      upper="0"
+      effort="10"
+      velocity="0.8" />
+    <mimic
+      joint="R_pinky_proximal_joint"
+      multiplier="1.129"
+      offset="0" />
+  </joint>
+
+  <link name="R_pinky_tip_link">
+    <visual>
+      <origin
+        xyz="0 0 0"
+        rpy="0 0 0" />
+      <geometry>
+        <sphere radius="0.005" />
+      </geometry>
+      <material name="yellow">
+        <color rgba="0.9 1 0 1" />
+      </material>
+    </visual>
+  </link>
+  <joint name="R_pinky_tip_joint" type="fixed">
+    <parent link="R_pinky_intermediate_link" />
+    <child link="R_pinky_tip_link" />
+    <origin rpy="0 0 0" xyz="0.031 -0.004 0" />
+  </joint>
+
+
+  <link name="R_hand_camera_frame_link">
+    <inertial>
+      <origin
+        xyz="0 0 0"
+        rpy="0 0 0" />
+      <mass
+        value="0.026" />
+      <inertia
+        ixx="1.0625E-5"
+        ixy="-8E-7"
+        ixz="-1.13E-5"
+        iyy="3.145E-5"
+        iyz="-7.3E-7"
+        izz="2.694E-5" />
+    </inertial>
+    <visual>
+      <origin
+        xyz="0 0 0"
+        rpy="0 0 0" />
+      <geometry>
+        <mesh
+          filename="../meshes/qinglong/right_hand_camera_frame.STL" />
+      </geometry>
+      <material
+        name="">
+        <color
+          rgba="0.776470588235294 0.756862745098039 0.737254901960784 1" />
+      </material>
+    </visual>
+    <collision>
+      <origin
+        xyz="0 0 0"
+        rpy="0 0 0" />
+      <geometry>
+        <mesh
+          filename="../meshes/qinglong/right_hand_camera_frame.STL" />
+      </geometry>
+    </collision>
+  </link>
+  <joint name="R_hand_camera_frame_joint" type="fixed">
+    <parent link="R_hand_base_link" />
+    <child link="R_hand_camera_frame_link" />
+    <origin rpy="0 0 0" xyz="-0.0282 -0.027 -0.011" />
+  </joint>
+
+
+
+
+  <link
+    name="Link_arm_l_01">
+    <inertial>
+      <origin
+        xyz="-0.00306103992428784 0.0383760600630055 -1.81717575522405E-06"
+        rpy="0 0 0" />
+      <mass
+        value="0.488683452297115" />
+      <inertia
+        ixx="0.00037481845811573"
+        ixy="2.02496074584545E-06"
+        ixz="-2.39028618281594E-09"
+        iyy="0.000538767520656144"
+        iyz="2.30315009421196E-08"
+        izz="0.000563891087137934" />
+    </inertial>
+    <visual>
+      <origin
+        xyz="0 0 0"
+        rpy="0 0 0" />
+      <geometry>
+        <mesh
+          filename="../meshes/qinglong/Link_arm_l_01.STL" />
+      </geometry>
+      <material
+        name="">
+        <color
+          rgba="0.776470588235294 0.756862745098039 0.737254901960784 1" />
+      </material>
+    </visual>
+    <collision>
+      <origin
+        xyz="0 0 0"
+        rpy="0 0 0" />
+      <geometry>
+        <mesh
+          filename="../meshes/qinglong/Link_arm_l_01.STL" />
+      </geometry>
+    </collision>
+  </link>
+  <joint
+    name="J_arm_l_01"
+    type="revolute">
+    <origin
+      xyz="0.00399999999999998 0.1616 0.3921968020067"
+      rpy="0 0 0" />
+    <parent
+      link="link_base" />
+    <child
+      link="Link_arm_l_01" />
+    <axis
+      xyz="0 1 0" />
+    <limit
+      lower="0"
+      upper="0"
+      effort="0"
+      velocity="0" />
+  </joint>
+  <link
+    name="Link_arm_l_02">
+    <inertial>
+      <origin
+        xyz="0.0419581666072356 0.0671009746690073 -2.08166817117217E-17"
+        rpy="0 0 0" />
+      <mass
+        value="0.438100942686731" />
+      <inertia
+        ixx="0.000776436731636842"
+        ixy="-1.05290238452029E-05"
+        ixz="6.96644831734306E-21"
+        iyy="0.000517682618364092"
+        iyz="-1.29428522757643E-19"
+        izz="0.00101807303378178" />
+    </inertial>
+    <visual>
+      <origin
+        xyz="0 0 0"
+        rpy="0 0 0" />
+      <geometry>
+        <mesh
+          filename="../meshes/qinglong/Link_arm_l_02.STL" />
+      </geometry>
+      <material
+        name="">
+        <color
+          rgba="0.698039215686274 0.698039215686274 0.698039215686274 1" />
+      </material>
+    </visual>
+    <collision>
+      <origin
+        xyz="0 0 0"
+        rpy="0 0 0" />
+      <geometry>
+        <mesh
+          filename="../meshes/qinglong/Link_arm_l_02.STL" />
+      </geometry>
+    </collision>
+  </link>
+  <joint
+    name="J_arm_l_02"
+    type="revolute">
+    <origin
+      xyz="-0.0415999999999999 0.041 0"
+      rpy="0 0 0" />
+    <parent
+      link="Link_arm_l_01" />
+    <child
+      link="Link_arm_l_02" />
+    <axis
+      xyz="-1 0 0" />
+    <limit
+      lower="0"
+      upper="0"
+      effort="0"
+      velocity="0" />
+  </joint>
+  <link
+    name="Link_arm_l_03">
+    <inertial>
+      <origin
+        xyz="0.00110239829332219 0.144522432128136 0.015649975471864"
+        rpy="0 0 0" />
+      <mass
+        value="0.526568255096362" />
+      <inertia
+        ixx="0.00114097134446283"
+        ixy="7.77686564743536E-06"
+        ixz="2.19480065340387E-06"
+        iyy="0.000396170470423335"
+        iyz="9.47414277578497E-05"
+        izz="0.00110166328501093" />
+    </inertial>
+    <visual>
+      <origin
+        xyz="0 0 0"
+        rpy="0 0 0" />
+      <geometry>
+        <mesh
+          filename="../meshes/qinglong/Link_arm_l_03.STL" />
+      </geometry>
+      <material
+        name="">
+        <color
+          rgba="1 1 1 1" />
+      </material>
+    </visual>
+    <collision>
+      <origin
+        xyz="0 0 0"
+        rpy="0 0 0" />
+      <geometry>
+        <mesh
+          filename="../meshes/qinglong/Link_arm_l_03.STL" />
+      </geometry>
+    </collision>
+  </link>
+  <joint
+    name="J_arm_l_03"
+    type="revolute">
+    <origin
+      xyz="0.0416 0.1226 0"
+      rpy="0 0 0" />
+    <parent
+      link="Link_arm_l_02" />
+    <child
+      link="Link_arm_l_03" />
+    <axis
+      xyz="0 1 0" />
+    <limit
+      lower="0"
+      upper="0"
+      effort="0"
+      velocity="0" />
+  </joint>
+  <link
+    name="Link_arm_l_04">
+    <inertial>
+      <origin
+        xyz="0.0388315709050855 0.0599422560905682 -0.0208239016979334"
+        rpy="0 0 0" />
+      <mass
+        value="0.252073603542901" />
+      <inertia
+        ixx="0.000300623377939519"
+        ixy="-1.84878494824108E-05"
+        ixz="7.01079685868417E-06"
+        iyy="0.000285766932026538"
+        iyz="-4.65644968593822E-05"
+        izz="0.000450928649536578" />
+    </inertial>
+    <visual>
+      <origin
+        xyz="0 0 0"
+        rpy="0 0 0" />
+      <geometry>
+        <mesh
+          filename="../meshes/qinglong/Link_arm_l_04.STL" />
+      </geometry>
+      <material
+        name="">
+        <color
+          rgba="1 1 1 1" />
+      </material>
+    </visual>
+    <collision>
+      <origin
+        xyz="0 0 0"
+        rpy="0 0 0" />
+      <geometry>
+        <mesh
+          filename="../meshes/qinglong/Link_arm_l_04.STL" />
+      </geometry>
+    </collision>
+  </link>
+  <joint
+    name="J_arm_l_04"
+    type="revolute">
+    <origin
+      xyz="-0.0353000000000001 0.1774 0.024"
+      rpy="0 0 0" />
+    <parent
+      link="Link_arm_l_03" />
+    <child
+      link="Link_arm_l_04" />
+    <axis
+      xyz="1 0 0" />
+    <limit
+      lower="0"
+      upper="0"
+      effort="0"
+      velocity="0" />
+  </joint>
+  <link
+    name="Link_arm_l_05">
+    <inertial>
+      <origin
+        xyz="-0.00167601370075857 0.0838933041321169 -5.56647060477727E-05"
+        rpy="0 0 0" />
+      <mass
+        value="0.168745055566936" />
+      <inertia
+        ixx="0.000621918391736996"
+        ixy="-4.61978343038923E-06"
+        ixz="-9.37199918058353E-08"
+        iyy="7.8063194556227E-05"
+        iyz="-4.303754408943E-07"
+        izz="0.000572474903513859" />
+    </inertial>
+    <visual>
+      <origin
+        xyz="0 0 0"
+        rpy="0 0 0" />
+      <geometry>
+        <mesh
+          filename="../meshes/qinglong/Link_arm_l_05.STL" />
+      </geometry>
+      <material
+        name="">
+        <color
+          rgba="1 1 1 1" />
+      </material>
+    </visual>
+    <collision>
+      <origin
+        xyz="0 0 0"
+        rpy="0 0 0" />
+      <geometry>
+        <mesh
+          filename="../meshes/qinglong/Link_arm_l_05.STL" />
+      </geometry>
+    </collision>
+  </link>
+  <joint
+    name="J_arm_l_05"
+    type="revolute">
+    <origin
+      xyz="0.0352999999999998 0.1035 -0.024"
+      rpy="0 0 0" />
+    <parent
+      link="Link_arm_l_04" />
+    <child
+      link="Link_arm_l_05" />
+    <axis
+      xyz="0 1 0" />
+    <limit
+      lower="0"
+      upper="0"
+      effort="0"
+      velocity="0" />
+  </joint>
+  <link
+    name="Link_arm_l_06">
+    <inertial>
+      <origin
+        xyz="0.0260776549021198 -8.95881985152336E-07 0.00166373234102161"
+        rpy="0 0 0" />
+      <mass
+        value="0.0549930361239256" />
+      <inertia
+        ixx="2.85957739018633E-05"
+        ixy="1.51276784884593E-10"
+        ixz="4.21398225237938E-08"
+        iyy="3.08209507706383E-05"
+        iyz="4.73376695018687E-10"
+        izz="2.06188406889275E-05" />
+    </inertial>
+    <visual>
+      <origin
+        xyz="0 0 0"
+        rpy="0 0 0" />
+      <geometry>
+        <mesh
+          filename="../meshes/qinglong/Link_arm_l_06.STL" />
+      </geometry>
+      <material
+        name="">
+        <color
+          rgba="1 1 1 1" />
+      </material>
+    </visual>
+    <collision>
+      <origin
+        xyz="0 0 0"
+        rpy="0 0 0" />
+      <geometry>
+        <mesh
+          filename="../meshes/qinglong/Link_arm_l_06.STL" />
+      </geometry>
+    </collision>
+  </link>
+  <joint
+    name="J_arm_l_06"
+    type="revolute">
+    <origin
+      xyz="-0.0265000000000002 0.196750000000001 0"
+      rpy="0 0 0" />
+    <parent
+      link="Link_arm_l_05" />
+    <child
+      link="Link_arm_l_06" />
+    <axis
+      xyz="1 0 0" />
+    <limit
+      lower="0"
+      upper="0"
+      effort="0"
+      velocity="0" />
+  </joint>
+  <link
+    name="Link_arm_l_07">
+    <inertial>
+      <origin
+        xyz="5.96827533227984E-09 0.0365022581591027 -0.0277852789224903"
+        rpy="0 0 0" />
+      <mass
+        value="0.0419171257046578" />
+      <inertia
+        ixx="3.84999287441764E-05"
+        ixy="8.92633242936984E-12"
+        ixz="1.48646661213849E-12"
+        iyy="1.64609861519306E-05"
+        iyz="-9.5464018922791E-06"
+        izz="3.23841253768633E-05" />
+    </inertial>
+    <visual>
+      <origin
+        xyz="0 0 0"
+        rpy="0 0 0" />
+      <geometry>
+        <mesh
+          filename="../meshes/qinglong/Link_arm_l_07.STL" />
+      </geometry>
+      <material
+        name="">
+        <color
+          rgba="0.898039215686275 0.917647058823529 0.929411764705882 1" />
+      </material>
+    </visual>
+    <collision>
+      <origin
+        xyz="0 0 0"
+        rpy="0 0 0" />
+      <geometry>
+        <mesh
+          filename="../meshes/qinglong/Link_arm_l_07.STL" />
+      </geometry>
+    </collision>
+  </link>
+  <joint
+    name="J_arm_l_07"
+    type="revolute">
+    <origin
+      xyz="0.0265 0 0.0318"
+      rpy="0 0 0" />
+    <parent
+      link="Link_arm_l_06" />
+    <child
+      link="Link_arm_l_07" />
+    <axis
+      xyz="0 0 1" />
+    <limit
+      lower="0"
+      upper="0"
+      effort="0"
+      velocity="0" />
+  </joint>
+
+  <link name ="left_end_effector_link" >
+    <inertial>
+      <origin
+        xyz="0 0 -0.00606"
+        rpy="0 0 0" />
+        <mass
+        value="0.018" />
+      <inertia
+        ixx="4.57e-6"
+        ixy="0"
+        ixz="0"
+        iyy="4.57e-6"
+        iyz="0"
+        izz="4.57e-6" />
+    </inertial>
+    <visual>
+      <origin
+        xyz="0 0 0"
+        rpy="0 0 0" />
+        <geometry>
+        <mesh
+          filename="../meshes/qinglong/end_effector_link.STL" />
+      </geometry>
+      <material
+        name="">
+        <color
+          rgba="0.898039215686275 0.917647058823529 0.929411764705882 1" />
+      </material>
+    </visual>
+    <collision>
+      <origin
+        xyz="0 0 0"
+        rpy="0 0 0" />
+        <geometry>
+        <mesh
+          filename="../meshes/qinglong/end_effector_link.STL" />
+      </geometry>
+      </collision>
+  </link>
+  <joint name="left_end_effector_joint" type="fixed">
+    <parent link="Link_arm_l_07" />
+    <child link="left_end_effector_link" />
+    <origin xyz="-0.0282 0.082 -0.06" rpy="1.57 0 0" />
+  </joint>
+
+  <link
+    name="L_hand_base_link">
+    <inertial>
+      <origin
+        xyz="-0.0004466 -0.009158 -0.04325"
+        rpy="0 0 0" />
+      <mass
+        value="0.306" />
+      <inertia
+        ixx="0.0003042"
+        ixy="-5E-07"
+        ixz="1E-07"
+        iyy="0.0004110"
+        iyz="4E-08"
+        izz="0.0001951" />
+    </inertial>
+    <visual>
+      <origin
+        xyz="0 0 0"
+        rpy="0 0 0" />
+      <geometry>
+        <mesh
+          filename="../meshes/fourier_hand_6dof/L_hand_base_link.STL" />
+      </geometry>
+      <material
+        name="">
+        <color
+          rgba="0.86667 0.86667 0.8902 1" />
+      </material>
+    </visual>
+    <collision>
+      <origin
+        xyz="0 0 0"
+        rpy="0 0 0" />
+      <geometry>
+        <mesh
+          filename="../meshes/fourier_hand_6dof/L_hand_base_link.STL" />
+      </geometry>
+    </collision>
+  </link>
+  <joint
+    name="L_hand_base_joint"
+    type="fixed">
+    <origin
+      xyz="0.028 0.028 0.009"
+      rpy="0 0 0" />
+    <parent
+      link="left_end_effector_link" />
+    <child
+      link="L_hand_base_link" />
+    <axis
+      xyz="0 0 0" />
+  </joint>
+  <link
+    name="L_thumb_proximal_base_link">
+    <inertial>
+      <origin
+        xyz="0.011017 -2.4767E-05 0.00077605"
+        rpy="0 0 0" />
+      <mass
+        value="0.00948527" />
+      <inertia
+        ixx="3E-07"
+        ixy="1E-08"
+        ixz="-4E-08"
+        iyy="9.5E-07"
+        iyz="-1E-08"
+        izz="9.7E-07" />
+    </inertial>
+    <visual>
+      <origin
+        xyz="0 0 0"
+        rpy="0 0 0" />
+      <geometry>
+        <mesh
+          filename="../meshes/fourier_hand_6dof/L_thumb_proximal_base_link.STL" />
+      </geometry>
+      <material
+        name="">
+        <color
+          rgba="0.8902 0.8902 0.91373 1" />
+      </material>
+    </visual>
+    <collision>
+      <origin
+        xyz="0 0 0"
+        rpy="0 0 0" />
+      <geometry>
+        <mesh
+          filename="../meshes/fourier_hand_6dof/L_thumb_proximal_base_link.STL" />
+      </geometry>
+    </collision>
+  </link>
+  <joint
+    name="L_thumb_proximal_yaw_joint"
+    type="revolute">
+    <origin
+      xyz="0.022 -0.015498 -0.025093"
+      rpy="0 -1.221E-05 0" />
+    <parent
+      link="L_hand_base_link" />
+    <child
+      link="L_thumb_proximal_base_link" />
+    <axis
+      xyz="0 0 1" />
+    <limit
+      lower="-1.74"
+      upper="0"
+      effort="10"
+      velocity="0.8" />
+  </joint>
+  <link
+    name="L_thumb_proximal_link">
+    <inertial>
+      <origin
+        xyz="0.03196306 -0.00014118 -2.861E-05"
+        rpy="0 0 0" />
+      <mass
+        value="0.07347612" />
+      <inertia
+        ixx="1.131E-05"
+        ixy="1E-07"
+        ixz="4E-08"
+        iyy="3.183E-05"
+        iyz="-1E-08"
+        izz="3.376E-05" />
+    </inertial>
+    <visual>
+      <origin
+        xyz="0 0 0"
+        rpy="0 0 0" />
+      <geometry>
+        <mesh
+          filename="../meshes/fourier_hand_6dof/L_thumb_proximal_link.STL" />
+      </geometry>
+      <material
+        name="">
+        <color
+          rgba="0.86667 0.86667 0.8902 1" />
+      </material>
+    </visual>
+    <collision>
+      <origin
+        xyz="0 0 0"
+        rpy="0 0 0" />
+      <geometry>
+        <mesh
+          filename="../meshes/fourier_hand_6dof/L_thumb_proximal_link.STL" />
+      </geometry>
+    </collision>
+  </link>
+  <joint
+    name="L_thumb_proximal_pitch_joint"
+    type="revolute">
+    <origin
+      xyz="0.02175 0 0"
+      rpy="-1.5707 0 0" />
+    <parent
+      link="L_thumb_proximal_base_link" />
+    <child
+      link="L_thumb_proximal_link" />
+    <axis
+      xyz="0 0 1" />
+    <limit
+      lower="0"
+      upper="1.22"
+      effort="10"
+      velocity="0.8" />
+  </joint>
+  <link
+    name="L_thumb_distal_link">
+    <inertial>
+      <origin
+        xyz="0.01321529 -0.00326134 0"
+        rpy="0 0 0" />
+      <mass
+        value="0.02031766" />
+      <inertia
+        ixx="9.2E-07"
+        ixy="-9E-08"
+        ixz="0"
+        iyy="2.48E-06"
+        iyz="0"
+        izz="2.34E-06" />
+    </inertial>
+    <visual>
+      <origin
+        xyz="0 0 0"
+        rpy="0 0 0" />
+      <geometry>
+        <mesh
+          filename="../meshes/fourier_hand_6dof/L_thumb_distal_link.STL" />
+      </geometry>
+      <material
+        name="">
+        <color
+          rgba="0.79216 0.81961 0.93333 1" />
+      </material>
+    </visual>
+    <collision>
+      <origin
+        xyz="0 0 0"
+        rpy="0 0 0" />
+      <geometry>
+        <mesh
+          filename="../meshes/fourier_hand_6dof/L_thumb_distal_link.STL" />
+      </geometry>
+    </collision>
+  </link>
+  <joint
+    name="L_thumb_distal_joint"
+    type="revolute">
+    <origin
+      xyz="0.061549 0.0074616 0"
+      rpy="0 0 1.221E-05" />
+    <parent
+      link="L_thumb_proximal_link" />
+    <child
+      link="L_thumb_distal_link" />
+    <axis
+      xyz="0 0 1" />
+    <limit
+      lower="0"
+      upper="1.23"
+      effort="10"
+      velocity="0.8" />
+    <mimic
+      joint="L_thumb_proximal_pitch_joint"
+      multiplier="0.974"
+      offset="0" />
+  </joint>
+
+  <link name="L_thumb_tip_link">
+    <visual>
+      <origin
+        xyz="0 0 0"
+        rpy="0 0 0" />
+      <geometry>
+        <sphere radius="0.005" />
+      </geometry>
+      <material name="yellow">
+        <color rgba="0.9 1 0 1" />
+      </material>
+    </visual>
+  </link>
+  <joint name="L_thumb_tip_joint" type="fixed">
+    <parent link="L_thumb_distal_link" />
+    <child link="L_thumb_tip_link" />
+    <origin rpy="0 0 0" xyz="0.031 -0.001 0" />
+  </joint>
+
+
+  <link
+    name="L_index_proximal_link">
+    <inertial>
+      <origin
+        xyz="0.0095993 0.000443 2.96E-06"
+        rpy="0 0 0" />
+      <mass
+        value="0.019117" />
+      <inertia
+        ixx="8.6E-07"
+        ixy="1.2E-07"
+        ixz="0"
+        iyy="3.71E-06"
+        iyz="0"
+        izz="3.85E-06" />
+    </inertial>
+    <visual>
+      <origin
+        xyz="0 0 0"
+        rpy="0 0 0" />
+      <geometry>
+        <mesh
+          filename="../meshes/fourier_hand_6dof/L_index_proximal_link.STL" />
+      </geometry>
+      <material
+        name="">
+        <color
+          rgba="0.86667 0.86667 0.8902 1" />
+      </material>
+    </visual>
+    <collision>
+      <origin
+        xyz="0 0 0"
+        rpy="0 0 0" />
+      <geometry>
+        <mesh
+          filename="../meshes/fourier_hand_6dof/L_index_proximal_link.STL" />
+      </geometry>
+    </collision>
+  </link>
+  <joint
+    name="L_index_proximal_joint"
+    type="revolute">
+    <origin
+      xyz="0.026869 -0.012293 -0.095989"
+      rpy="0.0013057 1.5184 0.0013039" />
+    <parent
+      link="L_hand_base_link" />
+    <child
+      link="L_index_proximal_link" />
+    <axis
+      xyz="0 0 1" />
+    <limit
+      lower="-1.57"
+      upper="0"
+      effort="10"
+      velocity="0.8" />
+  </joint>
+  <link
+    name="L_index_intermediate_link">
+    <inertial>
+      <origin
+        xyz="0.01800421 0.00300042 -9.23E-06"
+        rpy="0 0 0" />
+      <mass
+        value="0.01292544" />
+      <inertia
+        ixx="3.7E-07"
+        ixy="2.5E-07"
+        ixz="0"
+        iyy="2.01E-06"
+        iyz="0"
+        izz="2.04E-06" />
+    </inertial>
+    <visual>
+      <origin
+        xyz="0 0 0"
+        rpy="0 0 0" />
+      <geometry>
+        <mesh
+          filename="../meshes/fourier_hand_6dof/L_index_intermediate_link.STL" />
+      </geometry>
+      <material
+        name="">
+        <color
+          rgba="0.79216 0.81961 0.93333 1" />
+      </material>
+    </visual>
+    <collision>
+      <origin
+        xyz="0 0 0"
+        rpy="0 0 0" />
+      <geometry>
+        <mesh
+          filename="../meshes/fourier_hand_6dof/L_index_intermediate_link.STL" />
+      </geometry>
+    </collision>
+  </link>
+  <joint
+    name="L_index_intermediate_joint"
+    type="revolute">
+    <origin
+      xyz="0.031532 -0.0054551 0"
+      rpy="0 0 -6.8256E-05" />
+    <parent
+      link="L_index_proximal_link" />
+    <child
+      link="L_index_intermediate_link" />
+    <axis
+      xyz="0 0 1" />
+    <limit
+      lower="-1.74"
+      upper="0"
+      effort="10"
+      velocity="0.8" />
+    <mimic
+      joint="L_index_proximal_joint"
+      multiplier="1.128"
+      offset="0" />
+  </joint>
+
+  <link name="L_index_tip_link">
+    <visual>
+      <origin
+        xyz="0 0 0"
+        rpy="0 0 0" />
+      <geometry>
+        <sphere radius="0.005" />
+      </geometry>
+      <material name="yellow">
+        <color rgba="0.9 1 0 1" />
+      </material>
+    </visual>
+  </link>
+  <joint name="L_index_tip_joint" type="fixed">
+    <parent link="L_index_intermediate_link" />
+    <child link="L_index_tip_link" />
+    <origin rpy="0 0 0" xyz="0.038 -0.0015 0" />
+  </joint>
+
+
+  <link
+    name="L_middle_proximal_link">
+    <inertial>
+      <origin
+        xyz="0.00955708 0.00071862 2.96E-06"
+        rpy="0 0 0" />
+      <mass
+        value="0.01911771" />
+      <inertia
+        ixx="8.6E-07"
+        ixy="6E-08"
+        ixz="0"
+        iyy="3.72E-06"
+        iyz="0"
+        izz="3.85E-06" />
+    </inertial>
+    <visual>
+      <origin
+        xyz="0 0 0"
+        rpy="0 0 0" />
+      <geometry>
+        <mesh
+          filename="../meshes/fourier_hand_6dof/L_middle_proximal_link.STL" />
+      </geometry>
+      <material
+        name="">
+        <color
+          rgba="0.8902 0.8902 0.91373 1" />
+      </material>
+    </visual>
+    <collision>
+      <origin
+        xyz="0 0 0"
+        rpy="0 0 0" />
+      <geometry>
+        <mesh
+          filename="../meshes/fourier_hand_6dof/L_middle_proximal_link.STL" />
+      </geometry>
+    </collision>
+  </link>
+  <joint
+    name="L_middle_proximal_joint"
+    type="revolute">
+    <origin
+      xyz="0.0085012 -0.012293 -0.097993"
+      rpy="1.394 1.5707 1.394" />
+    <parent
+      link="L_hand_base_link" />
+    <child
+      link="L_middle_proximal_link" />
+    <axis
+      xyz="0 0 1" />
+    <limit
+      lower="-1.57"
+      upper="0"
+      effort="10"
+      velocity="0.8" />
+  </joint>
+  <link
+    name="L_middle_intermediate_link">
+    <inertial>
+      <origin
+        xyz="0.02127931 0.00408456 -9.98E-06"
+        rpy="0 0 0" />
+      <mass
+        value="0.01535007" />
+      <inertia
+        ixx="4.1E-07"
+        ixy="2.2E-07"
+        ixz="0"
+        iyy="3.28E-06"
+        iyz="0"
+        izz="3.29E-06" />
+    </inertial>
+    <visual>
+      <origin
+        xyz="0 0 0"
+        rpy="0 0 0" />
+      <geometry>
+        <mesh
+          filename="../meshes/fourier_hand_6dof/L_middle_intermediate_link.STL" />
+      </geometry>
+      <material
+        name="">
+        <color
+          rgba="0.79216 0.81961 0.93333 1" />
+      </material>
+    </visual>
+    <collision>
+      <origin
+        xyz="0 0 0"
+        rpy="0 0 0" />
+      <geometry>
+        <mesh
+          filename="../meshes/fourier_hand_6dof/L_middle_intermediate_link.STL" />
+      </geometry>
+    </collision>
+  </link>
+  <joint
+    name="L_middle_intermediate_joint"
+    type="revolute">
+    <origin
+      xyz="0.031662 -0.0046408 0"
+      rpy="0 0 -6.835E-05" />
+    <parent
+      link="L_middle_proximal_link" />
+    <child
+      link="L_middle_intermediate_link" />
+    <axis
+      xyz="0 0 1" />
+    <limit
+      lower="-1.74"
+      upper="0"
+      effort="10"
+      velocity="0.8" />
+    <mimic
+      joint="L_middle_proximal_joint"
+      multiplier="1.131"
+      offset="0" />
+  </joint>
+
+  <link name="L_middle_tip_link">
+    <visual>
+      <origin
+        xyz="0 0 0"
+        rpy="0 0 0" />
+      <geometry>
+        <sphere radius="0.005" />
+      </geometry>
+      <material name="yellow">
+        <color rgba="0.9 1 0 1" />
+      </material>
+    </visual>
+  </link>
+  <joint name="L_middle_tip_joint" type="fixed">
+    <parent link="L_middle_intermediate_link" />
+    <child link="L_middle_tip_link" />
+    <origin rpy="0 0 0" xyz="0.045 0.0005 0" />
+  </joint>
+
+
+  <link
+    name="L_ring_proximal_link">
+    <inertial>
+      <origin
+        xyz="0.00959983 0.0004431 2.96E-06"
+        rpy="0 0 0" />
+      <mass
+        value="0.01911771" />
+      <inertia
+        ixx="8.6E-07"
+        ixy="1.2E-07"
+        ixz="0"
+        iyy="3.71E-06"
+        iyz="0"
+        izz="3.85E-06" />
+    </inertial>
+    <visual>
+      <origin
+        xyz="0 0 0"
+        rpy="0 0 0" />
+      <geometry>
+        <mesh
+          filename="../meshes/fourier_hand_6dof/L_ring_proximal_link.STL" />
+      </geometry>
+      <material
+        name="">
+        <color
+          rgba="0.8902 0.8902 0.91373 1" />
+      </material>
+    </visual>
+    <collision>
+      <origin
+        xyz="0 0 0"
+        rpy="0 0 0" />
+      <geometry>
+        <mesh
+          filename="../meshes/fourier_hand_6dof/L_ring_proximal_link.STL" />
+      </geometry>
+    </collision>
+  </link>
+  <joint
+    name="L_ring_proximal_joint"
+    type="revolute">
+    <origin
+      xyz="-0.00996 -0.012293 -0.097938"
+      rpy="3.1403 1.5184 3.1403" />
+    <parent
+      link="L_hand_base_link" />
+    <child
+      link="L_ring_proximal_link" />
+    <axis
+      xyz="0 0 1" />
+    <limit
+      lower="-1.57"
+      upper="0"
+      effort="10"
+      velocity="0.8" />
+  </joint>
+  <link
+    name="L_ring_intermediate_link">
+    <inertial>
+      <origin
+        xyz="0.01800421 0.00300042 -9.23E-06"
+        rpy="0 0 0" />
+      <mass
+        value="0.01292544" />
+      <inertia
+        ixx="3.7E-07"
+        ixy="2.5E-07"
+        ixz="0"
+        iyy="2.01E-06"
+        iyz="0"
+        izz="2.04E-06" />
+    </inertial>
+    <visual>
+      <origin
+        xyz="0 0 0"
+        rpy="0 0 0" />
+      <geometry>
+        <mesh
+          filename="../meshes/fourier_hand_6dof/L_ring_intermediate_link.STL" />
+      </geometry>
+      <material
+        name="">
+        <color
+          rgba="0.79216 0.81961 0.93333 1" />
+      </material>
+    </visual>
+    <collision>
+      <origin
+        xyz="0 0 0"
+        rpy="0 0 0" />
+      <geometry>
+        <mesh
+          filename="../meshes/fourier_hand_6dof/L_ring_intermediate_link.STL" />
+      </geometry>
+    </collision>
+  </link>
+  <joint
+    name="L_ring_intermediate_joint"
+    type="revolute">
+    <origin
+      xyz="0.031532 -0.0054551 0"
+      rpy="0 0 -6.8256E-05" />
+    <parent
+      link="L_ring_proximal_link" />
+    <child
+      link="L_ring_intermediate_link" />
+    <axis
+      xyz="0 0 1" />
+    <limit
+      lower="-1.74"
+      upper="0"
+      effort="10"
+      velocity="0.8" />
+    <mimic
+      joint="L_ring_proximal_joint"
+      multiplier="1.143"
+      offset="0" />
+  </joint>
+
+  <link name="L_ring_tip_link">
+    <visual>
+      <origin
+        xyz="0 0 0"
+        rpy="0 0 0" />
+      <geometry>
+        <sphere radius="0.005" />
+      </geometry>
+      <material name="green">
+        <color rgba="0.9 1 0 1" />
+      </material>
+    </visual>
+  </link>
+  <joint name="L_ring_tip_joint" type="fixed">
+    <parent link="L_ring_intermediate_link" />
+    <child link="L_ring_tip_link" />
+    <origin rpy="0 0 0" xyz="0.038 -0.002 0" />
+  </joint>
+
+
+  <link
+    name="L_pinky_proximal_link">
+    <inertial>
+      <origin
+        xyz="0.00964414 9.378E-05 2.96E-06"
+        rpy="0 0 0" />
+      <mass
+        value="0.01911771" />
+      <inertia
+        ixx="8.8E-07"
+        ixy="2E-07"
+        ixz="0"
+        iyy="3.7E-06"
+        iyz="0"
+        izz="3.85E-06" />
+    </inertial>
+    <visual>
+      <origin
+        xyz="0 0 0"
+        rpy="0 0 0" />
+      <geometry>
+        <mesh
+          filename="../meshes/fourier_hand_6dof/L_pinky_proximal_link.STL" />
+      </geometry>
+      <material
+        name="">
+        <color
+          rgba="0.8902 0.8902 0.91373 1" />
+      </material>
+    </visual>
+    <collision>
+      <origin
+        xyz="0 0 0"
+        rpy="0 0 0" />
+      <geometry>
+        <mesh
+          filename="../meshes/fourier_hand_6dof/L_pinky_proximal_link.STL" />
+      </geometry>
+    </collision>
+  </link>
+  <joint
+    name="L_pinky_proximal_joint"
+    type="revolute">
+    <origin
+      xyz="-0.028227 -0.012293 -0.096013"
+      rpy="3.1409 1.4661 3.1409" />
+    <parent
+      link="L_hand_base_link" />
+    <child
+      link="L_pinky_proximal_link" />
+    <axis
+      xyz="0 0 1" />
+    <limit
+      lower="-1.57"
+      upper="0"
+      effort="10"
+      velocity="0.8" />
+  </joint>
+  <link
+    name="L_pinky_intermediate_link">
+    <inertial>
+      <origin
+        xyz="0.01609604 0.00118817 -8.72E-06"
+        rpy="0 0 0" />
+      <mass
+        value="0.00568707" />
+      <inertia
+        ixx="1.7E-07"
+        ixy="1.3E-07"
+        ixz="0"
+        iyy="6.2E-07"
+        iyz="0"
+        izz="6.7E-07" />
+    </inertial>
+    <visual>
+      <origin
+        xyz="0 0 0"
+        rpy="0 0 0" />
+      <geometry>
+        <mesh
+          filename="../meshes/fourier_hand_6dof/L_pinky_intermediate_link.STL" />
+      </geometry>
+      <material
+        name="">
+        <color
+          rgba="0.79216 0.81961 0.93333 1" />
+      </material>
+    </visual>
+    <collision>
+      <origin
+        xyz="0 0 0"
+        rpy="0 0 0" />
+      <geometry>
+        <mesh
+          filename="../meshes/fourier_hand_6dof/L_pinky_intermediate_link.STL" />
+      </geometry>
+    </collision>
+  </link>
+  <joint
+    name="L_pinky_intermediate_joint"
+    type="revolute">
+    <origin
+      xyz="0.031338 -0.0064763 0"
+      rpy="0 0 -6.7976E-05" />
+    <parent
+      link="L_pinky_proximal_link" />
+    <child
+      link="L_pinky_intermediate_link" />
+    <axis
+      xyz="0 0 1" />
+    <limit
+      lower="-1.74"
+      upper="0"
+      effort="10"
+      velocity="0.8" />
+    <mimic
+      joint="L_pinky_proximal_joint"
+      multiplier="1.129"
+      offset="0" />
+  </joint>
+
+  <link name="L_pinky_tip_link">
+    <visual>
+      <origin
+        xyz="0 0 0"
+        rpy="0 0 0" />
+      <geometry>
+        <sphere radius="0.005" />
+      </geometry>
+      <material name="yellow">
+        <color rgba="0.9 1 0 1" />
+      </material>
+    </visual>
+  </link>
+  <joint name="L_pinky_tip_joint" type="fixed">
+    <parent link="L_pinky_intermediate_link" />
+    <child link="L_pinky_tip_link" />
+    <origin rpy="0 0 0" xyz="0.031 -0.0040 0" />
+  </joint>
+
+
+
+  <link name="L_hand_camera_frame_link">
+    <inertial>
+      <origin
+        xyz="0 0 0"
+        rpy="0 0 0" />
+      <mass
+        value="0.026" />
+      <inertia
+        ixx="1.0625E-5"
+        ixy="-8E-7"
+        ixz="-1.13E-5"
+        iyy="3.145E-5"
+        iyz="-7.3E-7"
+        izz="2.694E-5" />
+    </inertial>
+    <visual>
+      <origin
+        xyz="0 0 0"
+        rpy="0 0 0" />
+      <geometry>
+        <mesh
+          filename="../meshes/qinglong/left_hand_camera_frame.STL" />
+      </geometry>
+      <material
+        name="">
+        <color
+          rgba="0.776470588235294 0.756862745098039 0.737254901960784 1" />
+      </material>
+    </visual>
+    <collision>
+      <origin
+        xyz="0 0 0"
+        rpy="0 0 0" />
+      <geometry>
+        <mesh
+          filename="../meshes/qinglong/left_hand_camera_frame.STL" />
+      </geometry>
+    </collision>
+  </link>
+  <joint name="L_hand_camera_frame_joint" type="fixed">
+    <parent link="L_hand_base_link" />
+    <child link="L_hand_camera_frame_link" />
+    <origin rpy="0 0 0" xyz="-0.0282 -0.027 -0.011" />
+  </joint>
+
+
+
+
+  <link
+    name="Link_waist_pitch">
+    <inertial>
+      <origin
+        xyz="-0.000734963811175396 0.0499254920811827 -2.96953338428385E-05"
+        rpy="0 0 0" />
+      <mass
+        value="2.69116704726516" />
+      <inertia
+        ixx="0.00397800636892887"
+        ixy="-1.44798188177083E-05"
+        ixz="4.11097146650939E-08"
+        iyy="0.00472821208712805"
+        iyz="7.20138543722165E-06"
+        izz="0.00496603410071634" />
+    </inertial>
+    <visual>
+      <origin
+        xyz="0 0 0"
+        rpy="0 0 0" />
+      <geometry>
+        <mesh
+          filename="../meshes/qinglong/Link_waist_pitch.STL" />
+      </geometry>
+      <material
+        name="">
+        <color
+          rgba="0.698039215686274 0.698039215686274 0.698039215686274 1" />
+      </material>
+    </visual>
+    <collision>
+      <origin
+        xyz="0 0 0"
+        rpy="0 0 0" />
+      <geometry>
+        <mesh
+          filename="../meshes/qinglong/Link_waist_pitch.STL" />
+      </geometry>
+    </collision>
+  </link>
+  <joint
+    name="J_waist_pitch"
+    type="revolute">
+    <origin
+      xyz="0 -0.06525 0"
+      rpy="0 0 0" />
+    <parent
+      link="link_base" />
+    <child
+      link="Link_waist_pitch" />
+    <axis
+      xyz="0 -1 0" />
+    <limit
+      lower="0"
+      upper="0"
+      effort="0"
+      velocity="0" />
+  </joint>
+  <link
+    name="Link_waist_roll">
+    <inertial>
+      <origin
+        xyz="-0.00374238184848977 -0.00100000000000012 -0.0168559062332806"
+        rpy="0 0 0" />
+      <mass
+        value="2.97531935225011" />
+      <inertia
+        ixx="0.0049952337185666"
+        ixy="3.09085947905672E-19"
+        ixz="-0.000311919825898497"
+        iyy="0.00739713923984891"
+        iyz="-4.3197907772768E-19"
+        izz="0.00675810349266387" />
+    </inertial>
+    <visual>
+      <origin
+        xyz="0 0 0"
+        rpy="0 0 0" />
+      <geometry>
+        <mesh
+          filename="../meshes/qinglong/Link_waist_roll.STL" />
+      </geometry>
+      <material
+        name="">
+        <color
+          rgba="0.890196078431372 0.890196078431372 0.913725490196078 1" />
+      </material>
+    </visual>
+    <collision>
+      <origin
+        xyz="0 0 0"
+        rpy="0 0 0" />
+      <geometry>
+        <mesh
+          filename="../meshes/qinglong/Link_waist_roll.STL" />
+      </geometry>
+    </collision>
+  </link>
+  <joint
+    name="J_waist_roll"
+    type="revolute">
+    <origin
+      xyz="-0.0639999999999999 0.0655000000000001 0"
+      rpy="0 0 0" />
+    <parent
+      link="Link_waist_pitch" />
+    <child
+      link="Link_waist_roll" />
+    <axis
+      xyz="1 0 0" />
+    <limit
+      lower="0"
+      upper="0"
+      effort="0"
+      velocity="0" />
+  </joint>
+  <link
+    name="Link_waist_yaw">
+    <inertial>
+      <origin
+        xyz="-0.0961717032778698 -0.00100001526539125 -0.057836219484642"
+        rpy="0 0 0" />
+      <mass
+        value="7.32070278634172" />
+      <inertia
+        ixx="0.0207388321159334"
+        ixy="-2.31405774877267E-09"
+        ixz="0.000713021519481106"
+        iyy="0.0124331503582675"
+        iyz="-6.12982140906193E-10"
+        izz="0.0198909174012354" />
+    </inertial>
+    <visual>
+      <origin
+        xyz="0 0 0"
+        rpy="0 0 0" />
+      <geometry>
+        <mesh
+          filename="../meshes/qinglong/Link_waist_yaw.STL" />
+      </geometry>
+      <material
+        name="">
+        <color
+          rgba="0.890196078431372 0.890196078431372 0.913725490196078 1" />
+      </material>
+    </visual>
+    <collision>
+      <origin
+        xyz="0 0 0"
+        rpy="0 0 0" />
+      <geometry>
+        <mesh
+          filename="../meshes/qinglong/Link_waist_yaw.STL" />
+      </geometry>
+    </collision>
+  </link>
+  <joint
+    name="J_waist_yaw"
+    type="revolute">
+    <origin
+      xyz="0.0675 0 -0.098"
+      rpy="0 0 0" />
+    <parent
+      link="Link_waist_roll" />
+    <child
+      link="Link_waist_yaw" />
+    <axis
+      xyz="0 0 1" />
+    <limit
+      lower="0"
+      upper="0"
+      effort="0"
+      velocity="0" />
+  </joint>
+  <link
+    name="Link_hip_r_roll">
+    <inertial>
+      <origin
+        xyz="0.0757253047536757 -0.00106157222365873 0.0165906561542056"
+        rpy="0 0 0" />
+      <mass
+        value="2.13140569612715" />
+      <inertia
+        ixx="0.00213521534585745"
+        ixy="4.73350508629278E-09"
+        ixz="-6.67683779798915E-05"
+        iyy="0.0026026301232189"
+        iyz="7.08979081657494E-07"
+        izz="0.0030035823945497" />
+    </inertial>
+    <visual>
+      <origin
+        xyz="0 0 0"
+        rpy="0 0 0" />
+      <geometry>
+        <mesh
+          filename="../meshes/qinglong/Link_hip_r_roll.STL" />
+      </geometry>
+      <material
+        name="">
+        <color
+          rgba="0 0.784313725490196 0.454901960784314 1" />
+      </material>
+    </visual>
+    <collision>
+      <origin
+        xyz="0 0 0"
+        rpy="0 0 0" />
+      <geometry>
+        <mesh
+          filename="../meshes/qinglong/Link_hip_r_roll.STL" />
+      </geometry>
+    </collision>
+  </link>
+  <joint
+    name="J_hip_r_roll"
+    type="revolute">
+    <origin
+      xyz="-0.0875000000000002 -0.12 -0.069"
+      rpy="0 0 0" />
+    <parent
+      link="Link_waist_yaw" />
+    <child
+      link="Link_hip_r_roll" />
+    <axis
+      xyz="1 0 0" />
+    <limit
+      lower="0"
+      upper="0"
+      effort="0"
+      velocity="0" />
+  </joint>
+  <link
+    name="Link_hip_r_yaw">
+    <inertial>
+      <origin
+        xyz="-3.09107568013944E-08 -0.00713559582159481 -0.100634718476597"
+        rpy="0 0 0" />
+      <mass
+        value="3.41148951995246" />
+      <inertia
+        ixx="0.00606677949299606"
+        ixy="-1.31370307256919E-09"
+        ixz="-2.79506325681398E-09"
+        iyy="0.00762884684154079"
+        iyz="-0.000139465547804805"
+        izz="0.00538785699411221" />
+    </inertial>
+    <visual>
+      <origin
+        xyz="0 0 0"
+        rpy="0 0 0" />
+      <geometry>
+        <mesh
+          filename="../meshes/qinglong/Link_hip_r_yaw.STL" />
+      </geometry>
+      <material
+        name="">
+        <color
+          rgba="0.898039215686275 0.917647058823529 0.929411764705882 1" />
+      </material>
+    </visual>
+    <collision>
+      <origin
+        xyz="0 0 0"
+        rpy="0 0 0" />
+      <geometry>
+        <mesh
+          filename="../meshes/qinglong/Link_hip_r_yaw.STL" />
+      </geometry>
+    </collision>
+  </link>
+  <joint
+    name="J_hip_r_yaw"
+    type="revolute">
+    <origin
+      xyz="0.0822499999999999 -0.00100000000000014 -0.00999999999999979"
+      rpy="0 0 0" />
+    <parent
+      link="Link_hip_r_roll" />
+    <child
+      link="Link_hip_r_yaw" />
+    <axis
+      xyz="0 0 -1" />
+    <limit
+      lower="0"
+      upper="0"
+      effort="0"
+      velocity="0" />
+  </joint>
+  <link
+    name="Link_hip_r_pitch">
+    <inertial>
+      <origin
+        xyz="0.00108560557515246 -0.0549696964218019 -0.145354011340228"
+        rpy="0 0 0" />
+      <mass
+        value="5.16070553013962" />
+      <inertia
+        ixx="0.0323230308786263"
+        ixy="9.80470210357928E-05"
+        ixz="-0.000706653106640556"
+        iyy="0.0326242324542119"
+        iyz="-0.00254817053104528"
+        izz="0.0091406786228152" />
+    </inertial>
+    <visual>
+      <origin
+        xyz="0 0 0"
+        rpy="0 0 0" />
+      <geometry>
+        <mesh
+          filename="../meshes/qinglong/Link_hip_r_pitch.STL" />
+      </geometry>
+      <material
+        name="">
+        <color
+          rgba="0.698039215686274 0.698039215686274 0.698039215686274 1" />
+      </material>
+    </visual>
+    <collision>
+      <origin
+        xyz="0 0 0"
+        rpy="0 0 0" />
+      <geometry>
+        <mesh
+          filename="../meshes/qinglong/Link_hip_r_pitch.STL" />
+      </geometry>
+    </collision>
+  </link>
+  <joint
+    name="J_hip_r_pitch"
+    type="revolute">
+    <origin
+      xyz="0 0.0367500000000017 -0.105499999999997"
+      rpy="0 0 0" />
+    <parent
+      link="Link_hip_r_yaw" />
+    <child
+      link="Link_hip_r_pitch" />
+    <axis
+      xyz="0 1 0" />
+    <limit
+      lower="0"
+      upper="0"
+      effort="0"
+      velocity="0" />
+  </joint>
+  <link
+    name="Link_knee_r_pitch">
+    <inertial>
+      <origin
+        xyz="-0.00964252401224999 2.9337775377114E-06 -0.136006330094515"
+        rpy="0 0 0" />
+      <mass
+        value="2.9694290903808" />
+      <inertia
+        ixx="0.0203040407425462"
+        ixy="-1.28920125802692E-05"
+        ixz="0.000134492663571075"
+        iyy="0.0205962586203784"
+        iyz="0.000105933454656284"
+        izz="0.00198500840815325" />
+    </inertial>
+    <visual>
+      <origin
+        xyz="0 0 0"
+        rpy="0 0 0" />
+      <geometry>
+        <mesh
+          filename="../meshes/qinglong/Link_knee_r_pitch.STL" />
+      </geometry>
+      <material
+        name="">
+        <color
+          rgba="0.666666666666667 0.698039215686274 0.768627450980392 1" />
+      </material>
+    </visual>
+    <collision>
+      <origin
+        xyz="0 0 0"
+        rpy="0 0 0" />
+      <geometry>
+        <mesh
+          filename="../meshes/qinglong/Link_knee_r_pitch.STL" />
+      </geometry>
+    </collision>
+  </link>
+  <joint
+    name="J_knee_r_pitch"
+    type="revolute">
+    <origin
+      xyz="0 -0.0112500000000011 -0.399999999999998"
+      rpy="0 0 0" />
+    <parent
+      link="Link_hip_r_pitch" />
+    <child
+      link="Link_knee_r_pitch" />
+    <axis
+      xyz="0 -1 0" />
+    <limit
+      lower="0"
+      upper="0"
+      effort="0"
+      velocity="0" />
+  </joint>
+  <link
+    name="Link_ankel_r_pitch">
+    <inertial>
+      <origin
+        xyz="-6.1835397913157E-12 -1.26552892429355E-07 -2.46821811877851E-08"
+        rpy="0 0 0" />
+      <mass
+        value="0.10144508022271" />
+      <inertia
+        ixx="2.71751979161982E-05"
+        ixy="-1.00229181372021E-14"
+        ixz="8.17521734609712E-13"
+        iyy="6.11180014046399E-06"
+        iyz="-2.62851021153687E-11"
+        izz="2.65650459497425E-05" />
+    </inertial>
+    <visual>
+      <origin
+        xyz="0 0 0"
+        rpy="0 0 0" />
+      <geometry>
+        <mesh
+          filename="../meshes/qinglong/Link_ankel_r_pitch.STL" />
+      </geometry>
+      <material
+        name="">
+        <color
+          rgba="0.529411764705882 0.549019607843137 0.549019607843137 1" />
+      </material>
+    </visual>
+    <collision>
+      <origin
+        xyz="0 0 0"
+        rpy="0 0 0" />
+      <geometry>
+        <mesh
+          filename="../meshes/qinglong/Link_ankel_r_pitch.STL" />
+      </geometry>
+    </collision>
+  </link>
+  <joint
+    name="J_ankel_r_pitch"
+    type="revolute">
+    <origin
+      xyz="0 0 -0.38699995414781"
+      rpy="0 0 0" />
+    <parent
+      link="Link_knee_r_pitch" />
+    <child
+      link="Link_ankel_r_pitch" />
+    <axis
+      xyz="0 -1 0" />
+    <limit
+      lower="0"
+      upper="0"
+      effort="0"
+      velocity="0" />
+  </joint>
+  <link
+    name="Link_ankel_r_roll">
+    <inertial>
+      <origin
+        xyz="0.0410775329080222 -8.91524453844328E-08 -0.0439087457277507"
+        rpy="0 0 0" />
+      <mass
+        value="0.752288032199131" />
+      <inertia
+        ixx="0.000380973011443938"
+        ixy="7.30761566074891E-10"
+        ixz="-0.000182212317995493"
+        iyy="0.00255885479922235"
+        iyz="-3.39086860578494E-10"
+        izz="0.00260754477137008" />
+    </inertial>
+    <visual>
+      <origin
+        xyz="0 0 0"
+        rpy="0 0 0" />
+      <geometry>
+        <mesh
+          filename="../meshes/qinglong/Link_ankel_r_roll.STL" />
+      </geometry>
+      <material
+        name="">
+        <color
+          rgba="0.898039215686275 0.917647058823529 0.929411764705882 1" />
+      </material>
+    </visual>
+    <collision>
+      <origin
+        xyz="0 0 0"
+        rpy="0 0 0" />
+      <geometry>
+        <mesh
+          filename="../meshes/qinglong/Link_ankel_r_roll.STL" />
+      </geometry>
+    </collision>
+  </link>
+  <joint
+    name="J_ankel_r_roll"
+    type="revolute">
+    <origin
+      xyz="0 0 0"
+      rpy="0 0 0" />
+    <parent
+      link="Link_ankel_r_pitch" />
+    <child
+      link="Link_ankel_r_roll" />
+    <axis
+      xyz="1 0 0" />
+    <limit
+      lower="0"
+      upper="0"
+      effort="0"
+      velocity="0" />
+  </joint>
+  <link
+    name="Link_hipl_l_roll">
+    <inertial>
+      <origin
+        xyz="0.0757253216075054 -0.000938430687799585 0.0165906194355341"
+        rpy="0 0 0" />
+      <mass
+        value="2.13140372383763" />
+      <inertia
+        ixx="0.00213521554596314"
+        ixy="-5.51153023605447E-09"
+        ixz="-6.67681340478682E-05"
+        iyy="0.00260263039148536"
+        iyz="-7.08639975070745E-07"
+        izz="0.00300358137105003" />
+    </inertial>
+    <visual>
+      <origin
+        xyz="0 0 0"
+        rpy="0 0 0" />
+      <geometry>
+        <mesh
+          filename="../meshes/qinglong/Link_hipl_l_roll.STL" />
+      </geometry>
+      <material
+        name="">
+        <color
+          rgba="0.898039215686275 0.917647058823529 0.929411764705882 1" />
+      </material>
+    </visual>
+    <collision>
+      <origin
+        xyz="0 0 0"
+        rpy="0 0 0" />
+      <geometry>
+        <mesh
+          filename="../meshes/qinglong/Link_hipl_l_roll.STL" />
+      </geometry>
+    </collision>
+  </link>
+  <joint
+    name="J_hipl_l_roll"
+    type="revolute">
+    <origin
+      xyz="-0.0874999999999999 0.12 -0.069"
+      rpy="0 0 0" />
+    <parent
+      link="Link_waist_yaw" />
+    <child
+      link="Link_hipl_l_roll" />
+    <axis
+      xyz="1 0 0" />
+    <limit
+      lower="0"
+      upper="0"
+      effort="0"
+      velocity="0" />
+  </joint>
+  <link
+    name="Link_hip_l_yaw">
+    <inertial>
+      <origin
+        xyz="-3.17155943313496E-08 0.00713575105427466 -0.100634723940741"
+        rpy="0 0 0" />
+      <mass
+        value="3.41148871386944" />
+      <inertia
+        ixx="0.0060667946874117"
+        ixy="-2.76075625297684E-09"
+        ixz="-2.11235894682359E-09"
+        iyy="0.00762885037297133"
+        iyz="0.000139478218727117"
+        izz="0.0053878652355611" />
+    </inertial>
+    <visual>
+      <origin
+        xyz="0 0 0"
+        rpy="0 0 0" />
+      <geometry>
+        <mesh
+          filename="../meshes/qinglong/Link_hip_l_yaw.STL" />
+      </geometry>
+      <material
+        name="">
+        <color
+          rgba="0.898039215686275 0.917647058823529 0.929411764705882 1" />
+      </material>
+    </visual>
+    <collision>
+      <origin
+        xyz="0 0 0"
+        rpy="0 0 0" />
+      <geometry>
+        <mesh
+          filename="../meshes/qinglong/Link_hip_l_yaw.STL" />
+      </geometry>
+    </collision>
+  </link>
+  <joint
+    name="J_hip_l_yaw"
+    type="revolute">
+    <origin
+      xyz="0.0822499999999996 -0.00100000000000014 -0.00999999999999979"
+      rpy="0 0 0" />
+    <parent
+      link="Link_hipl_l_roll" />
+    <child
+      link="Link_hip_l_yaw" />
+    <axis
+      xyz="0 0 -1" />
+    <limit
+      lower="0"
+      upper="0"
+      effort="0"
+      velocity="0" />
+  </joint>
+  <link
+    name="Link_hip_l_pitch">
+    <inertial>
+      <origin
+        xyz="0.00108562466102341 0.0549696980303018 -0.145354085882896"
+        rpy="0 0 0" />
+      <mass
+        value="5.16070472907551" />
+      <inertia
+        ixx="0.0323230546472867"
+        ixy="-9.80501718379917E-05"
+        ixz="-0.000706652577863796"
+        iyy="0.0326242553251301"
+        iyz="0.00254817131250341"
+        izz="0.00914067843241846" />
+    </inertial>
+    <visual>
+      <origin
+        xyz="0 0 0"
+        rpy="0 0 0" />
+      <geometry>
+        <mesh
+          filename="../meshes/qinglong/Link_hip_l_pitch.STL" />
+      </geometry>
+      <material
+        name="">
+        <color
+          rgba="0.698039215686274 0.698039215686274 0.698039215686274 1" />
+      </material>
+    </visual>
+    <collision>
+      <origin
+        xyz="0 0 0"
+        rpy="0 0 0" />
+      <geometry>
+        <mesh
+          filename="../meshes/qinglong/Link_hip_l_pitch.STL" />
+      </geometry>
+    </collision>
+  </link>
+  <joint
+    name="J_hip_l_pitch"
+    type="revolute">
+    <origin
+      xyz="0 -0.0367500000000018 -0.105499999999997"
+      rpy="0 0 0" />
+    <parent
+      link="Link_hip_l_yaw" />
+    <child
+      link="Link_hip_l_pitch" />
+    <axis
+      xyz="0 -1 0" />
+    <limit
+      lower="0"
+      upper="0"
+      effort="0"
+      velocity="0" />
+  </joint>
+  <link
+    name="Link_knee_l_pitch">
+    <inertial>
+      <origin
+        xyz="-0.00964249249775778 -2.86836759579023E-06 -0.13600588956554"
+        rpy="0 0 0" />
+      <mass
+        value="2.96942124497803" />
+      <inertia
+        ixx="0.0203038077966304"
+        ixy="1.28896055576642E-05"
+        ixz="0.000134469725385279"
+        iyy="0.0205960293530759"
+        iyz="-0.00010596497829881"
+        izz="0.00198500315505743" />
+    </inertial>
+    <visual>
+      <origin
+        xyz="0 0 0"
+        rpy="0 0 0" />
+      <geometry>
+        <mesh
+          filename="../meshes/qinglong/Link_knee_l_pitch.STL" />
+      </geometry>
+      <material
+        name="">
+        <color
+          rgba="0.666666666666667 0.698039215686274 0.768627450980392 1" />
+      </material>
+    </visual>
+    <collision>
+      <origin
+        xyz="0 0 0"
+        rpy="0 0 0" />
+      <geometry>
+        <mesh
+          filename="../meshes/qinglong/Link_knee_l_pitch.STL" />
+      </geometry>
+    </collision>
+  </link>
+  <joint
+    name="J_knee_l_pitch"
+    type="revolute">
+    <origin
+      xyz="0 0.0112500000000008 -0.399999999999998"
+      rpy="0 0 0" />
+    <parent
+      link="Link_hip_l_pitch" />
+    <child
+      link="Link_knee_l_pitch" />
+    <axis
+      xyz="0 1 0" />
+    <limit
+      lower="0"
+      upper="0"
+      effort="0"
+      velocity="0" />
+  </joint>
+  <link
+    name="Link_ankel_l_pitch">
+    <inertial>
+      <origin
+        xyz="-6.1835397913157E-12 1.26552695586812E-07 6.70221655951764E-08"
+        rpy="0 0 0" />
+      <mass
+        value="0.101445236317181" />
+      <inertia
+        ixx="2.7175210971248E-05"
+        ixy="1.00229096612547E-14"
+        ixz="8.17521723129228E-13"
+        iyy="6.1118083692897E-06"
+        iyz="2.62851021038164E-11"
+        izz="2.6565063657382E-05" />
+    </inertial>
+    <visual>
+      <origin
+        xyz="0 0 0"
+        rpy="0 0 0" />
+      <geometry>
+        <mesh
+          filename="../meshes/qinglong/Link_ankel_l_pitch.STL" />
+      </geometry>
+      <material
+        name="">
+        <color
+          rgba="0.529411764705882 0.549019607843137 0.549019607843137 1" />
+      </material>
+    </visual>
+    <collision>
+      <origin
+        xyz="0 0 0"
+        rpy="0 0 0" />
+      <geometry>
+        <mesh
+          filename="../meshes/qinglong/Link_ankel_l_pitch.STL" />
+      </geometry>
+    </collision>
+  </link>
+  <joint
+    name="J_ankel_l_pitch"
+    type="revolute">
+    <origin
+      xyz="0 0 -0.38700004585219"
+      rpy="0 0 0" />
+    <parent
+      link="Link_knee_l_pitch" />
+    <child
+      link="Link_ankel_l_pitch" />
+    <axis
+      xyz="0 1 0" />
+    <limit
+      lower="0"
+      upper="0"
+      effort="0"
+      velocity="0" />
+  </joint>
+  <link
+    name="Link_ankel_l_roll">
+    <inertial>
+      <origin
+        xyz="0.0410774483045839 -2.93180864030518E-08 -0.0439087022610487"
+        rpy="0 0 0" />
+      <mass
+        value="0.752288293573809" />
+      <inertia
+        ixx="0.000380974720834993"
+        ixy="-3.58580385648956E-10"
+        ixz="-0.000182210771781068"
+        iyy="0.00255884757927972"
+        iyz="8.32190064301698E-10"
+        izz="0.00260753668120447" />
+    </inertial>
+    <visual>
+      <origin
+        xyz="0 0 0"
+        rpy="0 0 0" />
+      <geometry>
+        <mesh
+          filename="../meshes/qinglong/Link_ankel_l_roll.STL" />
+      </geometry>
+      <material
+        name="">
+        <color
+          rgba="0.898039215686275 0.917647058823529 0.929411764705882 1" />
+      </material>
+    </visual>
+    <collision>
+      <origin
+        xyz="0 0 0"
+        rpy="0 0 0" />
+      <geometry>
+        <mesh
+          filename="../meshes/qinglong/Link_ankel_l_roll.STL" />
+      </geometry>
+    </collision>
+  </link>
+  <joint
+    name="J_ankel_l_roll"
+    type="revolute">
+    <origin
+      xyz="0 0 0"
+      rpy="0 0 0" />
+    <parent
+      link="Link_ankel_l_pitch" />
+    <child
+      link="Link_ankel_l_roll" />
+    <axis
+      xyz="1 0 0" />
+    <limit
+      lower="0"
+      upper="0"
+      effort="0"
+      velocity="0" />
+  </joint>
+</robot>
