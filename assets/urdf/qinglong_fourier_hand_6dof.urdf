@@ -1,4 +1,3 @@
-
 <?xml version="1.0" encoding="utf-8"?>
 <!-- This URDF was automatically created by SolidWorks to URDF Exporter! Originally created by Stephen Brawner (brawner@gmail.com) 
      Commit Version: 1.6.0-4-g7f85cfe  Build Version: 1.6.7995.38578
@@ -45,24 +44,6 @@
       </geometry>
     </collision>
   </link>
-  <joint
-    name="J_ankel_l_roll"
-    type="revolute">
-    <origin
-      xyz="0 0 0"
-      rpy="0 0 0" />
-    <parent
-      link="Link_ankel_l_pitch" />
-    <child
-      link="Link_ankel_l_roll" />
-    <axis
-      xyz="1 0 0" />
-    <limit
-      lower="0"
-      upper="0"
-      effort="0"
-      velocity="0" />
-  </joint>
   <link
     name="Link_head_yaw">
     <inertial>
@@ -116,10 +97,10 @@
     <axis
       xyz="0 0 1" />
     <limit
-      lower="0"
-      upper="0"
-      effort="0"
-      velocity="0" />
+      lower="-1.5708"
+      upper="1.5708"
+      effort="26"
+      velocity="109.8" />
   </joint>
   <link
     name="Link_head_pitch">
@@ -174,10 +155,10 @@
     <axis
       xyz="0 -1 0" />
     <limit
-      lower="0"
-      upper="0"
-      effort="0"
-      velocity="0" />
+      lower="-0.7854"
+      upper="0.7854"
+      effort="26"
+      velocity="109.8" />
   </joint>
   <link
     name="Link_arm_r_01">
@@ -232,10 +213,10 @@
     <axis
       xyz="0 -1 0" />
     <limit
-      lower="0"
-      upper="0"
-      effort="0"
-      velocity="0" />
+      lower="-2.96706"
+      upper="2.96706"
+      effort="80"
+      velocity="3.14" />
   </joint>
   <link
     name="Link_arm_r_02">
@@ -290,10 +271,10 @@
     <axis
       xyz="1 0 0" />
     <limit
-      lower="0"
-      upper="0"
-      effort="0"
-      velocity="0" />
+      lower="-1.83260"
+      upper="1.83260"
+      effort="80"
+      velocity="3.14" />
   </joint>
   <link
     name="Link_arm_r_03">
@@ -348,10 +329,10 @@
     <axis
       xyz="0 -1 0" />
     <limit
-      lower="0"
-      upper="0"
-      effort="0"
-      velocity="0" />
+      lower="-2.96706"
+      upper="2.96706"
+      effort="48"
+      velocity="3.14" />
   </joint>
   <link
     name="Link_arm_r_04">
@@ -407,9 +388,9 @@
       xyz="-1 0 0" />
     <limit
       lower="0"
-      upper="0"
-      effort="0"
-      velocity="0" />
+      upper="2.96706"
+      effort="48"
+      velocity="3.14" />
   </joint>
   <link
     name="Link_arm_r_05">
@@ -464,10 +445,10 @@
     <axis
       xyz="0 -1 0" />
     <limit
-      lower="0"
-      upper="0"
-      effort="0"
-      velocity="0" />
+      lower="-2.96706"
+      upper="2.96706"
+      effort="12.4"
+      velocity="6.28" />
   </joint>
   <link
     name="Link_arm_r_06">
@@ -522,10 +503,10 @@
     <axis
       xyz="-1 0 0" />
     <limit
-      lower="0"
-      upper="0"
-      effort="0"
-      velocity="0" />
+      lower="-1.8326"
+      upper="1.8326"
+      effort="12.4"
+      velocity="6.28" />
   </joint>
   <link
     name="Link_arm_r_07">
@@ -580,10 +561,10 @@
     <axis
       xyz="0 0 1" />
     <limit
-      lower="0"
-      upper="0"
-      effort="0"
-      velocity="0" />
+      lower="-1.04720"
+      upper="1.04720"
+      effort="12.4"
+      velocity="6.28" />
   </joint>
   
   <link name ="right_end_effector_link" >
@@ -1550,10 +1531,10 @@
     <axis
       xyz="0 1 0" />
     <limit
-      lower="0"
-      upper="0"
-      effort="0"
-      velocity="0" />
+      lower="-2.96706"
+      upper="2.96706"
+      effort="80"
+      velocity="3.14" />
   </joint>
   <link
     name="Link_arm_l_02">
@@ -1608,10 +1589,10 @@
     <axis
       xyz="-1 0 0" />
     <limit
-      lower="0"
-      upper="0"
-      effort="0"
-      velocity="0" />
+      lower="-1.83260"
+      upper="1.83260"
+      effort="80"
+      velocity="3.14" />
   </joint>
   <link
     name="Link_arm_l_03">
@@ -1666,10 +1647,10 @@
     <axis
       xyz="0 1 0" />
     <limit
-      lower="0"
-      upper="0"
-      effort="0"
-      velocity="0" />
+      lower="-2.96706"
+      upper="2.96706"
+      effort="48"
+      velocity="3.14" />
   </joint>
   <link
     name="Link_arm_l_04">
@@ -1725,9 +1706,9 @@
       xyz="1 0 0" />
     <limit
       lower="0"
-      upper="0"
-      effort="0"
-      velocity="0" />
+      upper="2.96706"
+      effort="48"
+      velocity="3.14" />
   </joint>
   <link
     name="Link_arm_l_05">
@@ -1782,10 +1763,10 @@
     <axis
       xyz="0 1 0" />
     <limit
-      lower="0"
-      upper="0"
-      effort="0"
-      velocity="0" />
+      lower="-2.96706"
+      upper="2.96706"
+      effort="12.4"
+      velocity="6.28" />
   </joint>
   <link
     name="Link_arm_l_06">
@@ -1840,10 +1821,10 @@
     <axis
       xyz="1 0 0" />
     <limit
-      lower="0"
-      upper="0"
-      effort="0"
-      velocity="0" />
+      lower="-1.8326"
+      upper="1.8326"
+      effort="12.4"
+      velocity="6.28" />
   </joint>
   <link
     name="Link_arm_l_07">
@@ -1898,10 +1879,10 @@
     <axis
       xyz="0 0 1" />
     <limit
-      lower="0"
-      upper="0"
-      effort="0"
-      velocity="0" />
+      lower="-1.04720"
+      upper="1.04720"
+      effort="12.4"
+      velocity="6.28" />
   </joint>
 
   <link name ="left_end_effector_link" >
@@ -2867,10 +2848,10 @@
     <axis
       xyz="0 -1 0" />
     <limit
-      lower="0"
-      upper="0"
-      effort="0"
-      velocity="0" />
+      lower="-0.29671"
+      upper="0.78540"
+      effort="315"
+      velocity="3.72" />
   </joint>
   <link
     name="Link_waist_roll">
@@ -2925,10 +2906,10 @@
     <axis
       xyz="1 0 0" />
     <limit
-      lower="0"
-      upper="0"
-      effort="0"
-      velocity="0" />
+      lower="-0.69813"
+      upper="0.69813"
+      effort="315"
+      velocity="3.72" />
   </joint>
   <link
     name="Link_waist_yaw">
@@ -2983,10 +2964,10 @@
     <axis
       xyz="0 0 1" />
     <limit
-      lower="0"
-      upper="0"
-      effort="0"
-      velocity="0" />
+      lower="-0.78540"
+      upper="0.78540"
+      effort="121"
+      velocity="5.92" />
   </joint>
   <link
     name="Link_hip_r_roll">
@@ -3041,10 +3022,10 @@
     <axis
       xyz="1 0 0" />
     <limit
-      lower="0"
-      upper="0"
-      effort="0"
-      velocity="0" />
+      lower="-0.17453"
+      upper="0.43633"
+      effort="320"
+      velocity="20.94" />
   </joint>
   <link
     name="Link_hip_r_yaw">
@@ -3099,10 +3080,10 @@
     <axis
       xyz="0 0 -1" />
     <limit
-      lower="0"
-      upper="0"
-      effort="0"
-      velocity="0" />
+      lower="-0.69813"
+      upper="0.69813"
+      effort="160"
+      velocity="19.63" />
   </joint>
   <link
     name="Link_hip_r_pitch">
@@ -3157,10 +3138,10 @@
     <axis
       xyz="0 1 0" />
     <limit
-      lower="0"
-      upper="0"
-      effort="0"
-      velocity="0" />
+      lower="-0.78540"
+      upper="1.83260"
+      effort="396"
+      velocity="19.16" />
   </joint>
   <link
     name="Link_knee_r_pitch">
@@ -3215,10 +3196,10 @@
     <axis
       xyz="0 -1 0" />
     <limit
-      lower="0"
-      upper="0"
-      effort="0"
-      velocity="0" />
+      lower="-2.35619"
+      upper="0.08727"
+      effort="396"
+      velocity="19.16" />
   </joint>
   <link
     name="Link_ankel_r_pitch">
@@ -3273,10 +3254,10 @@
     <axis
       xyz="0 -1 0" />
     <limit
-      lower="0"
-      upper="0"
-      effort="0"
-      velocity="0" />
+      lower="-0.43633"
+      upper="0.61087"
+      effort="58.5"
+      velocity="48.8" />
   </joint>
   <link
     name="Link_ankel_r_roll">
@@ -3331,10 +3312,10 @@
     <axis
       xyz="1 0 0" />
     <limit
-      lower="0"
-      upper="0"
-      effort="0"
-      velocity="0" />
+      lower="-0.43633"
+      upper="0.43633"
+      effort="58.5"
+      velocity="48.8" />
   </joint>
   <link
     name="Link_hipl_l_roll">
@@ -3389,10 +3370,10 @@
     <axis
       xyz="1 0 0" />
     <limit
-      lower="0"
-      upper="0"
-      effort="0"
-      velocity="0" />
+      lower="-0.17453"
+      upper="0.43633"
+      effort="320"
+      velocity="20.94" />
   </joint>
   <link
     name="Link_hip_l_yaw">
@@ -3447,10 +3428,10 @@
     <axis
       xyz="0 0 -1" />
     <limit
-      lower="0"
-      upper="0"
-      effort="0"
-      velocity="0" />
+      lower="-0.69813"
+      upper="0.69813"
+      effort="160"
+      velocity="19.63" />
   </joint>
   <link
     name="Link_hip_l_pitch">
@@ -3505,10 +3486,10 @@
     <axis
       xyz="0 -1 0" />
     <limit
-      lower="0"
-      upper="0"
-      effort="0"
-      velocity="0" />
+      lower="-0.78540"
+      upper="1.83260"
+      effort="396"
+      velocity="19.16" />
   </joint>
   <link
     name="Link_knee_l_pitch">
@@ -3563,10 +3544,10 @@
     <axis
       xyz="0 1 0" />
     <limit
-      lower="0"
-      upper="0"
-      effort="0"
-      velocity="0" />
+      lower="-2.35619"
+      upper="0.08727"
+      effort="396"
+      velocity="19.16" />
   </joint>
   <link
     name="Link_ankel_l_pitch">
@@ -3621,10 +3602,10 @@
     <axis
       xyz="0 1 0" />
     <limit
-      lower="0"
-      upper="0"
-      effort="0"
-      velocity="0" />
+      lower="-0.43644"
+      upper="0.61087"
+      effort="58.5"
+      velocity="48.8" />
   </joint>
   <link
     name="Link_ankel_l_roll">
@@ -3679,9 +3660,9 @@
     <axis
       xyz="1 0 0" />
     <limit
-      lower="0"
-      upper="0"
-      effort="0"
-      velocity="0" />
+      lower="-0.43633"
+      upper="0.43633"
+      effort="58.5"
+      velocity="48.8" />
   </joint>
 </robot>

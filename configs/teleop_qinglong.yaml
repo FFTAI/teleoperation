@@ -1,0 +1,15 @@
+defaults:
+  - teleop
+  - hand: fourier_dexpilot
+  - robot: qinglong
+  - camera: realsense
+  - _self_
+
+
+debug: false
+debug_hand: false
+sim: false
+wait_time: 3.0
+frequency: 60
+use_waist: false
+use_head: false
