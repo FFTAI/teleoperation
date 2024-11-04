@@ -3,6 +3,12 @@ urdf_package_dirs: ["urdf"]
 # urdf_path: "gr1_inspire/urdf/t2_collision.urdf"
 # urdf_package_dirs: ["gr1_inspire/urdf"]
 
+controlled_joint_indices: "${eval:'list(range(12, 32))'}"
+default_qpos: "${eval:'np.array([
+    0.0, 0.0, 0.0,
+    0.0, 0.0, 0.0,
+    -np.pi / 12, 0.1, 0, -np.pi / 2, 0, 0, 0,
+    -np.pi / 12, -0.1, 0, -np.pi / 2, 0, 0, 0])'}"
 joint_names:
   [
     "left_hip_roll_joint",
@@ -48,8 +54,8 @@ display_collisions: false
 displayed_frames:
   # - "right_ee_frame"
   # - "left_ee_frame"
-  - "r_hand_base_link"
-  - "l_hand_base_link"
+  - "R_hand_base_link"
+  - "L_hand_base_link"
   - "base_link"
   - "torso_link"
   - "head_yaw_link"

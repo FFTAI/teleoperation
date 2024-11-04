@@ -24,7 +24,15 @@ from teleoperation.utils import (
 )
 
 logger = logging.getLogger(__name__)
-OmegaConf.register_new_resolver("eval", eval, replace=True)
+
+
+def numpy_eval(x):
+    import numpy as np  # noqa: F401
+
+    return eval(x)
+
+
+OmegaConf.register_new_resolver("eval", numpy_eval, replace=True)
 
 np.set_printoptions(precision=2, suppress=True)
 

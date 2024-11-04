@@ -26,17 +26,6 @@ from teleoperation.utils import CERT_DIR, se3_to_xyzortho6d
 
 logger = logging.getLogger(__name__)
 
-# fmt: off
-DEFAULT_INDEX =list(range(12, 32))
-DEFAULT_QPOS= np.array([
-    0.0, 0.0, 0.0,
-    0.0, 0.0, 0.0,
-    -np.pi / 12, 0.1, 0, -np.pi / 2, 0, 0, 0,
-    -np.pi / 12, -0.1, 0, -np.pi / 2, 0, 0, 0
-
-])
-# fmt: on
-
 
 def get_ee_pose(
     client: RobotClient, left_link="left_end_effector_link", right_link="right_end_effector_link", base_link="base_link"
@@ -126,8 +115,14 @@ class ReplayRobot(DexRobot, CameraMixin):
 
             time.sleep(1.0)
 
-            self.client.move_joints(DEFAULT_INDEX, DEFAULT_QPOS, degrees=False, duration=1.0)
-            self.set_joint_positions([self.config.joint_names[i] for i in DEFAULT_INDEX], DEFAULT_QPOS, degrees=False)
+            self.client.move_joints(
+                self.config.controlled_joint_indices, self.config.default_qpos, degrees=False, duration=1.0
+            )
+            self.set_joint_positions(
+                [self.config.joint_names[i] for i in self.config.controlled_joint_indices],
+                self.config.default_qpos,
+                degrees=False,
+            )
 
     def observe(self):
         if self.sim:
@@ -169,8 +164,8 @@ class ReplayRobot(DexRobot, CameraMixin):
             plt.close("all")
         if not self.sim:
             self.client.move_joints(
-                DEFAULT_INDEX,
-                DEFAULT_QPOS,
+                self.config.controlled_joint_indices,
+                self.config.default_qpos,
                 degrees=False,
                 duration=1.0,
             )
@@ -202,7 +197,11 @@ class TeleopRobot(DexRobot, CameraMixin):
         self.dt = 1 / cfg.frequency
 
         # update joint positions in pinocchio
-        self.set_joint_positions([self.config.joint_names[i] for i in DEFAULT_INDEX], DEFAULT_QPOS, degrees=False)
+        self.set_joint_positions(
+            [self.config.joint_names[i] for i in self.config.controlled_joint_indices],
+            self.config.default_qpos,
+            degrees=False,
+        )
         self.set_posture_target_from_current_configuration()
 
         self.cam = (
@@ -231,7 +230,9 @@ class TeleopRobot(DexRobot, CameraMixin):
             self.client.set_enable(True)
             time.sleep(1.0)
             # move to default position
-            self.client.move_joints(DEFAULT_INDEX, positions=DEFAULT_QPOS, degrees=False, duration=1.0)
+            self.client.move_joints(
+                self.config.controlled_joint_indices, positions=self.config.default_qpos, degrees=False, duration=1.0
+            )
             self.upsampler = Upsampler(
                 self.client,
                 target_hz=cfg.upsampler.frequency,
@@ -352,7 +353,9 @@ class TeleopRobot(DexRobot, CameraMixin):
         if not self.sim:
             self.upsampler.stop()
             self.upsampler.join()
-            self.client.move_joints(DEFAULT_INDEX, positions=DEFAULT_QPOS, degrees=False, duration=1.0)
+            self.client.move_joints(
+                self.config.controlled_joint_indices, positions=self.config.default_qpos, degrees=False, duration=1.0
+            )
             with ThreadPoolExecutor(max_workers=2) as executor:
                 executor.submit(self.left_hand.reset)
                 executor.submit(self.left_hand.reset)
