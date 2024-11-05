@@ -1,0 +1,16 @@
+instance:
+  _target_: teleoperation.camera.camera_multi.CameraRealsenseMulti
+  cameras:
+    top: 239722071918
+    left_wrist: 419122271348
+    right_wrist: 419122271585
+  camera_config:
+    fps: 30
+    width: 640
+    height: 480
+    use_depth: true
+  display_config:
+    key: "top"
+    mode: "mono"
+    resolution: [480, 640]
+    crop_sizes: [0, 0, 0, 0]

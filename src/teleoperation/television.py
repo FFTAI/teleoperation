@@ -54,6 +54,8 @@ class OpenTeleVision:
         self.stream_mode = stream_mode
         if self.stream_mode == "rgb_stereo":
             self.img_shape = (img_shape[0], img_shape[1] * 2, 3)
+        else:
+            self.img_shape = (img_shape[0], img_shape[1], 3)
         self.img_height, self.img_width = img_shape[:2]
 
         if ngrok:

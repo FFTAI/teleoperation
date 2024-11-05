@@ -209,10 +209,11 @@ class TeleopRobot(DexRobot, CameraMixin):
             # .with_display(cfg.camera.display.mode, cfg.camera.display.resolution, cfg.camera.display.crop_sizes)
             .start()
         )
+
         self.tv = OpenTeleVision(
             self.cam.display.shape,
             self.cam.display.shm_name,
-            stream_mode="rgb_stereo",
+            stream_mode=f"rgb_{self.cam.display.mode}",
             ngrok=False,
             cert_file=str(CERT_DIR / "cert.pem"),
             key_file=str(CERT_DIR / "key.pem"),

@@ -3,6 +3,6 @@ instance:
   index: 0
   fps: 60
 
-  display_mode: "stereo"
+  display_mode: "mono"
   display_resolution: [480, 640]
   display_crop_sizes: [0, 0, 0, 0]
