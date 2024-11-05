@@ -125,6 +125,14 @@ named_links:
   left_end_effector_link: "left_end_effector_link"
   right_end_effector_link: "right_end_effector_link"
   head_link: "J_head_pitch"
-  left_elbow_pitch_joint: "Link_arm_l_07"
-  right_elbow_pitch_joint: "Link_arm_r_07"
+  # left_elbow_pitch_joint: "Link_arm_l_04"
+  # right_elbow_pitch_joint: "Link_arm_r_04"
+
+calibration_pose:
+  Link_arm_l_02: "${numpy_eval:'np.pi / 2'}"
+  Link_arm_r_02: "${numpy_eval:'np.pi / 2'}"
+  Link_arm_l_03: "${numpy_eval:'np.pi / 2'}"
+  Link_arm_r_03: "${numpy_eval:'-np.pi / 2'}"
+  Link_arm_l_04: "${numpy_eval:'np.pi / 2'}"
+  Link_arm_r_04: "${numpy_eval:'np.pi / 2'}"
   

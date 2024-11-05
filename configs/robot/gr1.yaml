@@ -136,6 +136,10 @@ named_links:
   left_end_effector_link: "left_end_effector_link"
   right_end_effector_link: "right_end_effector_link"
   head_link: "head_yaw_link"
-  left_elbow_pitch_joint: "left_elbow_pitch_joint"
-  right_elbow_pitch_joint: "right_elbow_pitch_joint"
+  # left_elbow_pitch_joint: "left_elbow_pitch_joint"
+  # right_elbow_pitch_joint: "right_elbow_pitch_joint"
   
+
+calibration_pose:
+  left_elbow_pitch_joint: "${numpy_eval:'np.pi / 2'}"
+  right_elbow_pitch_joint: "${numpy_eval:'np.pi / 2'}"

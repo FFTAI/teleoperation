@@ -42,8 +42,9 @@ class VuerPreprocessor:
     def calibrate(self, robot, head_mat, left_wrist_translation, right_wrist_translation):
         q = robot.q0.copy()
         # TODO: config this to enable calibration for ddifferent robots
-        q[robot.get_idx_q_from_name(self.cfg.named_links.right_elbow_pitch_joint)] = -np.pi / 2
-        q[robot.get_idx_q_from_name(self.cfg.named_links.left_elbow_pitch_joint)] = -np.pi / 2
+        for joint, angle in self.cfg.calibration_pose:
+            q[robot.get_idx_q_from_name(joint)] = angle
+
         robot_head_pose = robot.frame_placement(q, self.cfg.named_links.head_link)
         robot_left_ee_pose = robot.frame_placement(q, self.cfg.named_links.left_end_effector_link)
         robot_right_ee_pose = robot.frame_placement(q, self.cfg.named_links.right_end_effector_link)

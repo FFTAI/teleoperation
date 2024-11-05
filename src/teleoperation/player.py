@@ -277,6 +277,8 @@ class TeleopRobot(DexRobot, CameraMixin):
 
             left_wrist_display = left_wrist_mat.copy()
             right_wrist_display = right_wrist_mat.copy()
+            left_wrist_display[:3, 3] *= self.config.body_scaling_factor
+            right_wrist_display[:3, 3] *= self.config.body_scaling_factor
             self.viz.viewer["left_hand/0"].set_transform(right_wrist_display)
             self.viz.viewer["right_hand/0"].set_transform(right_wrist_display)
             for side, finger in product(["left", "right"], range(25)):
