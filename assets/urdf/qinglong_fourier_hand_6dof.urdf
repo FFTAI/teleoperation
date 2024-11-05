@@ -570,46 +570,46 @@
   <link name ="right_end_effector_link" >
     <inertial>
       <origin
-        xyz="0 0 -0.00606"
+        xyz="-2.9583E-09 2.8286E-10 0.0059591"
         rpy="0 0 0" />
-        <mass
-        value="0.018" />
+      <mass
+        value="0.018343" />
       <inertia
-        ixx="4.57e-6"
-        ixy="0"
-        ixz="0"
-        iyy="4.57e-6"
-        iyz="0"
-        izz="4.57e-6" />
+        ixx="4.5707E-06"
+        ixy="-1.2736E-14"
+        ixz="-2.005E-14"
+        iyy="4.5707E-06"
+        iyz="-6.9774E-14"
+        izz="8.5864E-06" />
     </inertial>
     <visual>
       <origin
         xyz="0 0 0"
         rpy="0 0 0" />
-        <geometry>
+      <geometry>
         <mesh
-          filename="../meshes/qinglong/end_effector_link.STL" />
+          filename="../meshes/qinglong/right_end_effecotr_link.STL" />
       </geometry>
       <material
         name="">
         <color
-          rgba="0.898039215686275 0.917647058823529 0.929411764705882 1" />
+          rgba="1 1 1 1" />
       </material>
     </visual>
     <collision>
       <origin
         xyz="0 0 0"
         rpy="0 0 0" />
-        <geometry>
+      <geometry>
         <mesh
-          filename="../meshes/qinglong/end_effector_link.STL" />
+          filename="../meshes/qinglong/right_end_effecotr_link.STL" />
       </geometry>
-      </collision>
+    </collision>
   </link>
   <joint name="right_end_effector_joint" type="fixed">
     <parent link="Link_arm_r_07" />
     <child link="right_end_effector_link" />
-    <origin xyz="-0.0282 -0.082 -0.00345" rpy="-1.57 0 0" />
+    <origin xyz="0.0 -0.0760 -0.031" rpy="-1.57 0 0" />
   </joint>
 
 
@@ -658,7 +658,7 @@
     name="R_hand_base_joint"
     type="fixed">
     <origin
-      xyz="0.028 0.028 0.0088"
+      xyz="0 0 0.0045"
       rpy="0 0 0" />
     <parent
       link="right_end_effector_link" />
@@ -1451,7 +1451,7 @@
         rpy="0 0 0" />
       <geometry>
         <mesh
-          filename="../meshes/qinglong/right_hand_camera_frame.STL" />
+          filename="../meshes/qinglong/right_camera_frame_link.STL" />
       </geometry>
       <material
         name="">
@@ -1465,14 +1465,14 @@
         rpy="0 0 0" />
       <geometry>
         <mesh
-          filename="../meshes/qinglong/right_hand_camera_frame.STL" />
+          filename="../meshes/qinglong/right_camera_frame_link.STL" />
       </geometry>
     </collision>
   </link>
   <joint name="R_hand_camera_frame_joint" type="fixed">
     <parent link="R_hand_base_link" />
     <child link="R_hand_camera_frame_link" />
-    <origin rpy="0 0 0" xyz="-0.0282 -0.027 -0.011" />
+    <origin rpy="0 0 0" xyz="0 0 -0.003" />
   </joint>
 
 
@@ -1906,7 +1906,7 @@
         rpy="0 0 0" />
         <geometry>
         <mesh
-          filename="../meshes/qinglong/end_effector_link.STL" />
+          filename="../meshes/qinglong/left_end_effector_link.STL" />
       </geometry>
       <material
         name="">
@@ -1920,14 +1920,14 @@
         rpy="0 0 0" />
         <geometry>
         <mesh
-          filename="../meshes/qinglong/end_effector_link.STL" />
+          filename="../meshes/qinglong/left_end_effector_link.STL" />
       </geometry>
       </collision>
   </link>
   <joint name="left_end_effector_joint" type="fixed">
     <parent link="Link_arm_l_07" />
     <child link="left_end_effector_link" />
-    <origin xyz="-0.0282 0.082 -0.06" rpy="1.57 0 0" />
+    <origin xyz="0.0 0.0760 -0.031" rpy="1.57 0 0" />
   </joint>
 
   <link
@@ -1974,7 +1974,7 @@
     name="L_hand_base_joint"
     type="fixed">
     <origin
-      xyz="0.028 0.028 0.009"
+      xyz="0 0 0.0045"
       rpy="0 0 0" />
     <parent
       link="left_end_effector_link" />
@@ -2768,7 +2768,7 @@
         rpy="0 0 0" />
       <geometry>
         <mesh
-          filename="../meshes/qinglong/left_hand_camera_frame.STL" />
+          filename="../meshes/qinglong/left_camera_frame_link.STL" />
       </geometry>
       <material
         name="">
@@ -2782,14 +2782,14 @@
         rpy="0 0 0" />
       <geometry>
         <mesh
-          filename="../meshes/qinglong/left_hand_camera_frame.STL" />
+          filename="../meshes/qinglong/left_camera_frame_link.STL" />
       </geometry>
     </collision>
   </link>
   <joint name="L_hand_camera_frame_joint" type="fixed">
     <parent link="L_hand_base_link" />
     <child link="L_hand_camera_frame_link" />
-    <origin rpy="0 0 0" xyz="-0.0282 -0.027 -0.011" />
+    <origin rpy="0 0 0" xyz="0 0 -0.004" />
   </joint>
 
 
