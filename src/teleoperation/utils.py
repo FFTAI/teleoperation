@@ -176,7 +176,7 @@ def encode_video_frames(
         ffmpeg_inputs = []
         images = imgs_dir.glob("rgb_frame_*.png")
         for img in images:
-            id = int(img.stem.split("_")[-1])
+            id = int(img.stem.split("_")[-1])  # noqa: A001
             if id > start_frame and (end_frame == -1 or id < end_frame):
                 ffmpeg_inputs.append(("-i", str(img)))
 

@@ -2,7 +2,6 @@ import logging
 import time
 
 from fourier_grx_client import ControlGroup, RobotClient
-from omegaconf import DictConfig
 
 from teleoperation.utils import se3_to_xyzortho6d
 

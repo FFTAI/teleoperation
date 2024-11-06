@@ -86,7 +86,7 @@ class CameraRealsenseSingle:
             start = time.monotonic()
             try:
                 frames = self.camera.wait_for_frames(timeout_ms=5000)
-            except Exception as e:
+            except Exception:
                 logger.warning(f"TimeoutError for IntelRealSenseCamera({self.serial_number}).")
             with self._lock:
                 self.timestamp = get_timestamp_utc().timestamp()
@@ -100,7 +100,8 @@ class CameraRealsenseSingle:
                         depth_frame = frames.get_depth_frame()
                         depth_image = np.asanyarray(depth_frame.get_data())
                         self.images["depth"] = depth_image
-                except:
+                except Exception as e:
+                    logger.debug(f"Error while reading IntelRealSenseCamera({self.serial_number}) images: {e}")
                     pass
             taken = time.monotonic() - start
             time.sleep(max(1 / self.fps - taken, 0))

@@ -1,4 +1,4 @@
-instance: 
+instance:
   _target_: teleoperation.adapter.robots.grx.GR1Robot
   namespace: "gr/daq"
   controlled_joint_indices: "${robot.controlled_joint_indices}"
@@ -37,7 +37,7 @@ joint_names:
     "head_pitch_joint",
     "head_roll_joint",
     "head_yaw_joint",
-    
+
     "left_shoulder_pitch_joint",
     "left_shoulder_roll_joint",
     "left_shoulder_yaw_joint",
@@ -145,7 +145,7 @@ named_links:
   head_link: "head_yaw_link"
   # left_elbow_pitch_joint: "left_elbow_pitch_joint"
   # right_elbow_pitch_joint: "right_elbow_pitch_joint"
-  
+
 
 calibration_pose:
   left_elbow_pitch_joint: "${eval:'-np.pi / 2'}"

@@ -1,9 +1,10 @@
 import logging
 import multiprocessing as mp
+import queue
 import threading
 import time
 from typing import Literal
-import queue
+
 import cv2
 import depthai as dai
 from depthai_sdk import OakCamera

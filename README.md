@@ -35,7 +35,7 @@
         python -m pip install cython numpy opencv-python pyopengl
 
         # Install ZED python API
-        cd /usr/local/zed/ 
+        cd /usr/local/zed/
         python get_python_api.py
         ```
 
@@ -126,14 +126,14 @@ We'll be using `mkcert` to create a self-signed certificate. and `mkcert` is a s
 ```
 
   Copy the `rootCA.pem` file to the VisionPro device through the Airdrop.
-  
+
   Settings > General > About > Certificate Trust Settings. Under "Enable full trust for root certificates", turn on trust for the certificate.
 
   Settings > Apps > Safari > Advanced > Feature Flags > Enable WebXR Related Features
 
   > [!NOTE]
   > For some general setting up questions on visionpro could be found in the [VisionPro Setting FAQ](./visionpro_setting_FAQ.md).
-  
+
 6. open the browser on Safari on VisionPro and go to <https://192.168.1.100:8012?ws=wss://192.168.1.100:8012>
 
   You will see the message "Your connection is not secure" because we are using a self-signed certificate. Click "Advanced" and then "proceed to website". You will be prompted to accept the certificate.

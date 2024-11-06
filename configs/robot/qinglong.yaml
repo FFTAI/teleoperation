@@ -73,7 +73,7 @@ head_joints: ["J_head_yaw", "J_head_pitch"]
 
 joint_limits:
   J_waist_pitch: [-0.29671, 0.78540]
-  
+
   J_arm_l_01: [-1.57, 0.9]
   J_arm_l_02: [-1.5, 1.3]
   J_arm_l_03: [0, 2.3]
@@ -86,7 +86,7 @@ joint_limits:
   J_arm_r_02: [-1.5, 1.3]
   J_arm_r_03: [-2.3, 0]
   J_arm_r_04: [0, 2.9706]
-  J_arm_r_05: [-2.96706, 2.96706] 
+  J_arm_r_05: [-2.96706, 2.96706]
   J_arm_r_06: [-1.83260, 1.83260]
   J_arm_r_07: [-1.04720, 1.04720]
 
@@ -135,4 +135,3 @@ calibration_pose:
   Link_arm_r_03: "${eval:'-np.pi / 2'}"
   Link_arm_l_04: "${eval:'np.pi / 2'}"
   Link_arm_r_04: "${eval:'np.pi / 2'}"
-  

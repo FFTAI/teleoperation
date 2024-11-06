@@ -4,15 +4,12 @@ import logging
 import time
 from concurrent.futures import ThreadPoolExecutor
 from multiprocessing import Event, Queue
-from pathlib import Path
 from threading import Lock
 from typing import Any, Literal
 
-import h5py
 import hydra
 import numpy as np
-from omegaconf import DictConfig, OmegaConf
-from tqdm import tqdm
+from omegaconf import DictConfig
 
 from teleoperation.adapter.hands import DummyDexHand, HandAdapter
 from teleoperation.adapter.robots import DummyRobot, RobotAdapter
@@ -321,29 +318,29 @@ class TeleopRobot(DexRobot, CameraMixin):
             executor.submit(self.left_hand.reset)
 
 
-def main(data_dir: str, task: str = "01_cube_kitting", episode: int = 1, config: str = "config.yml"):
-    root = data_dir
-    folder_name = f"{task}/processed"
-    episode_name = f"processed_episode_{episode}.hdf5"
-    episode_path = Path(root) / folder_name / episode_name
+# def main(data_dir: str, task: str = "01_cube_kitting", episode: int = 1, config: str = "config.yml"):
+#     root = data_dir
+#     folder_name = f"{task}/processed"
+#     episode_name = f"processed_episode_{episode}.hdf5"
+#     episode_path = Path(root) / folder_name / episode_name
 
-    data = h5py.File(str(episode_path), "r")
-    actions = np.array(data["qpos_action"])[::2]
-    left_imgs = np.array(data["observation.image.left"])[::2]  # 30hz
-    right_imgs = np.array(data["observation.image.right"])[::2]
-    data.close()
+#     data = h5py.File(str(episode_path), "r")
+#     actions = np.array(data["qpos_action"])[::2]
+#     left_imgs = np.array(data["observation.image.left"])[::2]  # 30hz
+#     right_imgs = np.array(data["observation.image.right"])[::2]
+#     data.close()
 
-    timestamps = actions.shape[0]
+#     timestamps = actions.shape[0]
 
-    replay_robot = ReplayRobot(OmegaConf.load(config), dt=1 / 30, show_fpv=True)
+#     replay_robot = ReplayRobot(OmegaConf.load(config), dt=1 / 30, show_fpv=True)
 
-    try:
-        for t in tqdm(range(timestamps)):
-            replay_robot.step(actions[t], left_imgs[t, :], right_imgs[t, :])
-    except KeyboardInterrupt:
-        replay_robot.end()
-        exit()
+#     try:
+#         for t in tqdm(range(timestamps)):
+#             replay_robot.step(actions[t], left_imgs[t, :], right_imgs[t, :])
+#     except KeyboardInterrupt:
+#         replay_robot.end()
+#         exit()
 
 
-if __name__ == "__main__":
-    typer.run(main)
+# if __name__ == "__main__":
+#     typer.run(main)

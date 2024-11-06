@@ -6,7 +6,7 @@ left_hand:
 right_hand:
   _target_: teleoperation.adapter.hands.fourier.FourierDexHand
   hand_ip: "192.168.137.19"
-  
+
 prefix_left: "L_"
 prefix_right: "R_"
 

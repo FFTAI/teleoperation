@@ -8,7 +8,7 @@ from pathlib import Path
 import h5py
 import hydra
 import numpy as np
-from omegaconf import DictConfig, OmegaConf
+from omegaconf import DictConfig
 
 from teleoperation.data_collection import EpisodeDataDict, RecordingInfo
 from teleoperation.filters import LPRotationFilter

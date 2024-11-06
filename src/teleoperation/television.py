@@ -59,13 +59,13 @@ class OpenTeleVision:
         self.img_height, self.img_width = img_shape[:2]
 
         if ngrok:
-            self.app = Vuer(host="0.0.0.0", queries=dict(grid=False), queue_len=3)
+            self.app = Vuer(host="0.0.0.0", queries={"grid": False}, queue_len=3)
         else:
             self.app = Vuer(
                 host="0.0.0.0",
                 cert=cert_file,
                 key=key_file,
-                queries=dict(grid=False),
+                queries={"grid": False},
                 queue_len=3,
             )
 

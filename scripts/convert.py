@@ -1,13 +1,11 @@
 import argparse
 import os
-import sys
 from pathlib import Path
 
 import h5py
 import numpy as np
-from tqdm import tqdm
-
 from teleoperation.utils import encode_video_frames, match_timestamps
+from tqdm import tqdm
 
 parser = argparse.ArgumentParser()
 parser.add_argument("--session", "-s", type=str, help="Session name")

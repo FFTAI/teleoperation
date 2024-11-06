@@ -4,8 +4,8 @@
 
 
 <robot name="inspire_left_hand">
-  <!-- <joint 
-    name="L_base_link_joint" 
+  <!-- <joint
+    name="L_base_link_joint"
     type="fixed">
     <origin
     xyz="0 0 -0.022"
@@ -181,7 +181,7 @@
       upper="0.8"
       effort="1"
       velocity="0.5" />
-    <mimic 
+    <mimic
       joint="L_thumb_proximal_pitch_joint"
       multiplier="1.6"
       offset="0" />
@@ -232,7 +232,7 @@
       upper="1.2"
       effort="1"
       velocity="0.5" />
-    <mimic 
+    <mimic
       joint="L_thumb_proximal_pitch_joint"
       multiplier="2.4"
       offset="0" />
@@ -351,7 +351,7 @@
       upper="1.7"
       effort="1"
       velocity="0.5" />
-    <mimic 
+    <mimic
       joint="L_index_proximal_joint"
       multiplier="1"
       offset="0" />
@@ -454,7 +454,7 @@
       </material>
     </visual>
   </link>
-  
+
   <joint
     name="L_middle_intermediate_joint"
     type="revolute">
@@ -472,7 +472,7 @@
       upper="1.7"
       effort="1"
       velocity="0.5" />
-    <mimic 
+    <mimic
       joint="L_middle_proximal_joint"
       multiplier="1"
       offset="0" />
@@ -592,7 +592,7 @@
       upper="1.7"
       effort="1"
       velocity="0.5" />
-    <mimic 
+    <mimic
       joint="L_ring_proximal_joint"
       multiplier="1"
       offset="0" />
@@ -713,7 +713,7 @@
       upper="1.7"
       effort="1"
       velocity="0.5" />
-    <mimic 
+    <mimic
       joint="L_pinky_proximal_joint"
       multiplier="1"
       offset="0" />

@@ -5,11 +5,7 @@ from omegaconf import DictConfig, OmegaConf
 
 from .constants import (
     grd_yup2grd_zup,
-    hand2fourier_left,
-    hand2fourier_right,
     hand2inspire,
-    hand2left,
-    hand2right,
 )
 from .utils import fast_mat_inv, mat_update
 

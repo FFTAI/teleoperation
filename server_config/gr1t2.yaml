@@ -274,7 +274,7 @@ upper_impedance_controller: # config for upbody impedance controller
 
 
 
-  
+
 
 robot_config:
   robot_name: GR1T2

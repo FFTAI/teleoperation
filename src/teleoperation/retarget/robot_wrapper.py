@@ -219,9 +219,9 @@ class RobotWrapper:
             if clip:
                 lower = self.robot.model.lowerPositionLimit[q_idx]
                 upper = self.robot.model.upperPositionLimit[q_idx]
-                position = np.clip(position, lower, upper)
-
-            current_q[q_idx] = position
+                current_q[q_idx] = np.clip(position, lower, upper)
+            else:
+                current_q[q_idx] = position
         self.configuration.update(current_q)
 
     def get_joint_positions(self, joint_names: Sequence[str]) -> np.ndarray:

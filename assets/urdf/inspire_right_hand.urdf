@@ -3,8 +3,8 @@
 <!-- 08012024-alpha-1 -->
 
 <robot name="inspire_right_hand">
-  <!-- <joint 
-    name="R_base_link_joint" 
+  <!-- <joint
+    name="R_base_link_joint"
     type="fixed">
     <origin
     xyz="0 0 -0.022"
@@ -180,7 +180,7 @@
       upper="0.8"
       effort="1"
       velocity="0.5" />
-    <mimic 
+    <mimic
       joint="R_thumb_proximal_pitch_joint"
       multiplier="1.6"
       offset="0" />
@@ -231,7 +231,7 @@
       upper="1.2"
       effort="1"
       velocity="0.5" />
-    <mimic 
+    <mimic
       joint="R_thumb_proximal_pitch_joint"
       multiplier="2.4"
       offset="0" />
@@ -351,7 +351,7 @@
       upper="1.7"
       effort="1"
       velocity="0.5" />
-    <mimic 
+    <mimic
       joint="R_index_proximal_joint"
       multiplier="1"
       offset="0" />
@@ -473,7 +473,7 @@
       upper="1.7"
       effort="1"
       velocity="0.5" />
-    <mimic 
+    <mimic
       joint="R_middle_proximal_joint"
       multiplier="1"
       offset="0" />
@@ -593,7 +593,7 @@
       upper="1.7"
       effort="1"
       velocity="0.5" />
-    <mimic 
+    <mimic
       joint="R_ring_proximal_joint"
       multiplier="1"
       offset="0" />
@@ -713,7 +713,7 @@
       upper="1.7"
       effort="1"
       velocity="0.5" />
-    <mimic 
+    <mimic
       joint="R_pinky_proximal_joint"
       multiplier="1"
       offset="0" />

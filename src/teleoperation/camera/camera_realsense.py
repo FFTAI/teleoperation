@@ -91,7 +91,7 @@ class CameraRealsense:
                             self.timestamp,
                         )
                         self.frame_id += 1
-                except:
+                except:  # noqa: E722
                     pass
 
                 taken = time.monotonic() - start

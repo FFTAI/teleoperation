@@ -88,7 +88,7 @@ dev = [
 
 [tool.ruff]
 include = ["**/*.py", "**/*.pyi", "**/pyproject.toml"]
-exclude = [".venv", "build", "dist"]
+exclude = [".venv", "build", "dist", "scripts", "src/teleoperation/webrtc"]
 line-length = 120
 
 [tool.ruff.lint]
@@ -109,10 +109,15 @@ select = [
 ignore = [
     "E501", # line-too-long
     # "F401", # unused import
+    "F841", # unused variable,
+    "E741", # ambiguous variable name
 ]
 
 [tool.ruff.lint.per-file-ignores]
 "__init__.py" = ["F401"]
+
+[tool.ruff.isort]
+known-first-party = ["teleoperation"]
 
 
 [tool.pyright]
