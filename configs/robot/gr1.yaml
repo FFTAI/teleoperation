@@ -1,3 +1,10 @@
+instance: 
+  _target_: teleoperation.adapter.robots.grx.GR1Robot
+  namespace: "gr/daq"
+  controlled_joint_indices: "${robot.controlled_joint_indices}"
+  default_qpos: "${robot.default_qpos}"
+  named_links: "${robot.named_links}"
+
 urdf_path: "urdf/GR1T2_fourier_hand_6dof.urdf"
 urdf_package_dirs: ["urdf"]
 # urdf_path: "gr1_inspire/urdf/t2_collision.urdf"

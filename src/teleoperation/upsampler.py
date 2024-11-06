@@ -4,8 +4,9 @@ import time
 from collections import deque
 
 import numpy as np
-from fourier_grx_client import ControlGroup, RobotClient
 from scipy.interpolate import PchipInterpolator
+
+from teleoperation.adapter.robots import RobotAdapter
 
 logger = logging.getLogger(__name__)
 
@@ -64,13 +65,13 @@ def pchip_interpolate(timestamps: np.ndarray, commands: np.ndarray, target_hz: i
 class Upsampler(threading.Thread):
     def __init__(
         self,
-        client: RobotClient,
+        robot: RobotAdapter,
         target_hz: int = 200,
         dimension: int = 32,
         initial_command: np.ndarray | None = None,
         gravity_compensation: bool = False,
     ):
-        self.client = client
+        self.robot = robot
         self.dimension = dimension
         self.target_hz = target_hz
         self.target_dt = 1 / target_hz
@@ -120,17 +121,13 @@ class Upsampler(threading.Thread):
         if len(command) != self.dimension:
             logger.warning(f"Sending wrong command: {command}")
         try:
-            if self.client is not None:
-                self.client.move_joints(
-                    ControlGroup.ALL, command, degrees=False, gravity_compensation=self.gravity_compensation
-                )
+            if self.robot is not None:
+                self.robot.command_joints(command, gravity_compensation=self.gravity_compensation)
             return True
         except Exception as ex:
             logger.warning(ex)
             logger.warning(f"Failed cmd: {command}")
-            self.client.move_joints(
-                ControlGroup.ALL, self.client.joint_positions, degrees=False, gravity_compensation=False
-            )
+            self.robot.stop_joints()
             return False
 
     def run(self):
@@ -139,24 +136,18 @@ class Upsampler(threading.Thread):
             if self.pause_event.is_set() and not self.paused:
                 self.paused = True
                 logger.info("Upsampler paused.")
-                self.client.move_joints(
-                    ControlGroup.ALL, self.client.joint_positions, degrees=False, gravity_compensation=False
-                )
+                self.robot.stop_joints()
                 self.last_command = None
                 self.command_history = CommandHistory()
                 continue
             if self.stop_event.is_set():
                 logger.info("Upsampler stopped.")
                 with self._cmd_lock:
-                    if self.client is not None:
+                    if self.robot is not None:
                         if self.last_command is not None:
-                            self.client.move_joints(
-                                ControlGroup.ALL, self.last_command, degrees=False, gravity_compensation=False
-                            )
+                            self.robot.command_joints(self.last_command, gravity_compensation=False)
                         else:
-                            self.client.move_joints(
-                                ControlGroup.ALL, self.client.joint_positions, degrees=False, gravity_compensation=False
-                            )
+                            self.robot.stop_joints()
                     break
             commands = self.get()
             if commands is None:

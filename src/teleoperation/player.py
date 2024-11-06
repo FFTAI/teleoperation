@@ -10,41 +10,19 @@ from typing import Any, Literal
 
 import h5py
 import hydra
-import matplotlib.pyplot as plt
 import numpy as np
-from fourier_grx_client import ControlGroup, RobotClient
 from omegaconf import DictConfig, OmegaConf
 from tqdm import tqdm
 
+from teleoperation.adapter.robots import RobotAdapter
 from teleoperation.camera.utils import post_process
 from teleoperation.preprocess import VuerPreprocessor
 from teleoperation.retarget.robot import DexRobot
 from teleoperation.television import OpenTeleVision
 from teleoperation.upsampler import Upsampler
-from teleoperation.utils import CERT_DIR, se3_to_xyzortho6d
+from teleoperation.utils import CERT_DIR
 
 logger = logging.getLogger(__name__)
-
-
-def get_ee_pose(
-    client: RobotClient, left_link="left_end_effector_link", right_link="right_end_effector_link", base_link="base_link"
-):
-    left_ee_pose = client.get_transform(left_link, base_link)
-    right_ee_pose = client.get_transform(right_link, base_link)
-    # left_ee_pose = se3_to_xyzquat(left_ee_pose)
-    # right_ee_pose = se3_to_xyzquat(right_ee_pose)
-    left_ee_pose = se3_to_xyzortho6d(left_ee_pose)
-    right_ee_pose = se3_to_xyzortho6d(right_ee_pose)
-
-    return np.hstack([left_ee_pose, right_ee_pose])
-
-
-def get_head_pose(client, head_link="head_yaw_link", base_link="base_link"):
-    head_pose = client.get_transform(head_link, base_link)
-    # head_pose = se3_to_xyzquat(head_pose)
-    head_pose = se3_to_xyzortho6d(head_pose)
-
-    return head_pose
 
 
 class CameraMixin:
@@ -219,16 +197,9 @@ class TeleopRobot(DexRobot, CameraMixin):
         if not self.sim:
             logger.warning("Real robot mode.")
 
-            self.client = RobotClient(namespace="gr/daq")
+            self.client: RobotAdapter = hydra.utils.instantiate(cfg.robot.instance)
 
-            logger.info("Init robot client.")
-            time.sleep(1.0)
-            self.client.set_enable(True)
-            time.sleep(1.0)
-            # move to default position
-            self.client.move_joints(
-                self.config.controlled_joint_indices, positions=self.config.default_qpos, degrees=False, duration=1.0
-            )
+            self.client.connect()
             self.upsampler = Upsampler(
                 self.client,
                 target_hz=cfg.upsampler.frequency,
@@ -238,10 +209,6 @@ class TeleopRobot(DexRobot, CameraMixin):
             self.upsampler.start()
 
             logger.info("Init hands.")
-            self.left_hand = hydra.utils.instantiate(
-                cfg.hand,
-            )
-
             self.left_hand = hydra.utils.instantiate(cfg.hand.left_hand)
             self.right_hand = hydra.utils.instantiate(cfg.hand.right_hand)
 
@@ -250,7 +217,7 @@ class TeleopRobot(DexRobot, CameraMixin):
                     executor.submit(self.left_hand.reset)
                     executor.submit(self.right_hand.reset)
         else:
-            self.upsampler = Upsampler(None, target_hz=cfg.upsampler.frequency)
+            self.upsampler = Upsampler(None, target_hz=cfg.upsampler.frequency)  # TODO: dummy robot
             self.upsampler.start()
 
     def start_recording(self, output_path: str):
@@ -304,15 +271,15 @@ class TeleopRobot(DexRobot, CameraMixin):
 
     def observe(self):
         if self.sim:
+            # TODO: dummy robot
             return np.zeros(32), np.zeros(32), np.zeros(6 * 2), np.zeros(7 * 2)
 
-        qpos = self.client.joint_positions
-        # qvel = self.client.joint_velocities
         left_qpos, right_qpos = self.left_hand.get_positions(), self.right_hand.get_positions()
         # left_qpos, right_qpos = self.hand_retarget.real_to_qpos(left_qpos, right_qpos)
         hand_qpos = np.hstack([left_qpos, right_qpos])
-        ee_pose = get_ee_pose(self.client)
-        head_pose = get_head_pose(self.client)
+
+        qpos, left_ee_pose, right_ee_pose, head_pose = self.client.observe()
+        ee_pose = np.hstack([left_ee_pose, right_ee_pose])
 
         return qpos, hand_qpos, ee_pose, head_pose
 
@@ -334,13 +301,11 @@ class TeleopRobot(DexRobot, CameraMixin):
 
     def control_joints(self):
         qpos = self.joint_filter.next(time.time(), self.q_real)
-        # self.client.move_joints(ControlGroup.ALL, qpos, degrees=False, gravity_compensation=gravity_compensation)
-        # qpos = self.q_real.copy()
         self.upsampler.put(qpos)
         return qpos
 
     def init_control_joints(self):
-        self.client.move_joints(ControlGroup.ALL, self.q_real, degrees=False, duration=0.5, blocking=True)
+        self.client.init_command_joints(self.q_real)
 
     def pause_robot(self):
         logger.info("Pausing robot...")
@@ -351,9 +316,7 @@ class TeleopRobot(DexRobot, CameraMixin):
         if not self.sim:
             self.upsampler.stop()
             self.upsampler.join()
-            self.client.move_joints(
-                self.config.controlled_joint_indices, positions=self.config.default_qpos, degrees=False, duration=1.0
-            )
+            self.client.disconnect()
             with ThreadPoolExecutor(max_workers=2) as executor:
                 executor.submit(self.left_hand.reset)
                 executor.submit(self.left_hand.reset)
