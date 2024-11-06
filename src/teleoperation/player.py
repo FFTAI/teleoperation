@@ -17,7 +17,6 @@ from omegaconf import DictConfig, OmegaConf
 from tqdm import tqdm
 
 from teleoperation.camera.utils import post_process
-from teleoperation.hands import FourierDexHand
 from teleoperation.preprocess import VuerPreprocessor
 from teleoperation.retarget.robot import DexRobot
 from teleoperation.television import OpenTeleVision
@@ -83,106 +82,106 @@ class CameraMixin:
         return images
 
 
-class ReplayRobot(DexRobot, CameraMixin):
-    def __init__(self, cfg: DictConfig, dt=1 / 60, sim=True, show_fpv=False):
-        self.sim = sim
-        self.show_fpv = show_fpv
-        cfg.robot.visualize = True
-        super().__init__(cfg)
+# class ReplayRobot(DexRobot, CameraMixin):
+#     def __init__(self, cfg: DictConfig, dt=1 / 60, sim=True, show_fpv=False):
+#         self.sim = sim
+#         self.show_fpv = show_fpv
+#         cfg.robot.visualize = True
+#         super().__init__(cfg)
 
-        self.dt = dt
+#         self.dt = dt
 
-        self.update_display()
+#         self.update_display()
 
-        if not self.sim:
-            logger.warning("Real robot mode.")
-            self.cam = (
-                hydra.utils.instantiate(cfg.camera.instance)
-                .with_display(cfg.camera.display.mode, cfg.camera.display.resolution, cfg.camera.display.crop_sizes)
-                .start()
-            )
-            self.client = RobotClient(namespace="gr/daq")
-            self.left_hand = FourierDexHand(self.config.hand.ip_left)
-            self.right_hand = FourierDexHand(self.config.hand.ip_right)
+#         if not self.sim:
+#             logger.warning("Real robot mode.")
+#             self.cam = (
+#                 hydra.utils.instantiate(cfg.camera.instance)
+#                 .with_display(cfg.camera.display.mode, cfg.camera.display.resolution, cfg.camera.display.crop_sizes)
+#                 .start()
+#             )
+#             self.client = RobotClient(namespace="gr/daq")
+#             self.left_hand = FourierDexHand(self.config.hand.ip_left)
+#             self.right_hand = FourierDexHand(self.config.hand.ip_right)
 
-            with ThreadPoolExecutor(max_workers=2) as executor:
-                executor.submit(self.left_hand.init)
-                executor.submit(self.right_hand.init)
+#             with ThreadPoolExecutor(max_workers=2) as executor:
+#                 executor.submit(self.left_hand.init)
+#                 executor.submit(self.right_hand.init)
 
-            logger.info("Init robot client.")
-            time.sleep(1.0)
-            self.client.set_enable(True)
+#             logger.info("Init robot client.")
+#             time.sleep(1.0)
+#             self.client.set_enable(True)
 
-            time.sleep(1.0)
+#             time.sleep(1.0)
 
-            self.client.move_joints(
-                self.config.controlled_joint_indices, self.config.default_qpos, degrees=False, duration=1.0
-            )
-            self.set_joint_positions(
-                [self.config.joint_names[i] for i in self.config.controlled_joint_indices],
-                self.config.default_qpos,
-                degrees=False,
-            )
+#             self.client.move_joints(
+#                 self.config.controlled_joint_indices, self.config.default_qpos, degrees=False, duration=1.0
+#             )
+#             self.set_joint_positions(
+#                 [self.config.joint_names[i] for i in self.config.controlled_joint_indices],
+#                 self.config.default_qpos,
+#                 degrees=False,
+#             )
 
-    def observe(self):
-        if self.sim:
-            logger.warning("Sim mode no observation.")
-            return None, None, None
+#     def observe(self):
+#         if self.sim:
+#             logger.warning("Sim mode no observation.")
+#             return None, None, None
 
-        qpos = self.client.joint_positions
-        # qvel = self.client.joint_velocities
-        left_qpos, right_qpos = self.left_hand.get_positions(), self.right_hand.get_positions()
-        left_qpos, right_qpos = self.hand_retarget.real_to_qpos(left_qpos, right_qpos)
-        hand_qpos = np.hstack([left_qpos, right_qpos])
-        ee_pose = get_ee_pose(self.client)
-        head_pose = get_head_pose(self.client)
+#         qpos = self.client.joint_positions
+#         # qvel = self.client.joint_velocities
+#         left_qpos, right_qpos = self.left_hand.get_positions(), self.right_hand.get_positions()
+#         left_qpos, right_qpos = self.hand_retarget.real_to_qpos(left_qpos, right_qpos)
+#         hand_qpos = np.hstack([left_qpos, right_qpos])
+#         ee_pose = get_ee_pose(self.client)
+#         head_pose = get_head_pose(self.client)
 
-        return qpos, hand_qpos, ee_pose, head_pose
+#         return qpos, hand_qpos, ee_pose, head_pose
 
-    def step(self, action, left_img, right_img):
-        qpos, left_hand_real, right_hand_real = self._convert_action(action)
-        self.set_hand_joints(left_hand_real, right_hand_real)
-        self.q_real = qpos
-        self.update_display()
+#     def step(self, action, left_img, right_img):
+#         qpos, left_hand_real, right_hand_real = self._convert_action(action)
+#         self.set_hand_joints(left_hand_real, right_hand_real)
+#         self.q_real = qpos
+#         self.update_display()
 
-        if not self.sim:
-            self.client.move_joints("all", qpos, degrees=False)
-            self.left_hand.set_positions(action[17:23])
-            self.right_hand.set_positions(action[23:29])
+#         if not self.sim:
+#             self.client.move_joints("all", qpos, degrees=False)
+#             self.left_hand.set_positions(action[17:23])
+#             self.right_hand.set_positions(action[23:29])
 
-        if self.show_fpv:
-            left_img = left_img.transpose((1, 2, 0))
-            right_img = right_img.transpose((1, 2, 0))
-            img = np.concatenate((left_img, right_img), axis=1)
-            plt.cla()
-            plt.title("VisionPro View")
-            plt.imshow(img, aspect="equal")
-            plt.pause(0.001)
+#         if self.show_fpv:
+#             left_img = left_img.transpose((1, 2, 0))
+#             right_img = right_img.transpose((1, 2, 0))
+#             img = np.concatenate((left_img, right_img), axis=1)
+#             plt.cla()
+#             plt.title("VisionPro View")
+#             plt.imshow(img, aspect="equal")
+#             plt.pause(0.001)
 
-    def end(self):
-        if self.show_fpv:
-            plt.close("all")
-        if not self.sim:
-            self.client.move_joints(
-                self.config.controlled_joint_indices,
-                self.config.default_qpos,
-                degrees=False,
-                duration=1.0,
-            )
-            with ThreadPoolExecutor(max_workers=2) as executor:
-                executor.submit(self.left_hand.reset)
-                executor.submit(self.left_hand.reset)
+#     def end(self):
+#         if self.show_fpv:
+#             plt.close("all")
+#         if not self.sim:
+#             self.client.move_joints(
+#                 self.config.controlled_joint_indices,
+#                 self.config.default_qpos,
+#                 degrees=False,
+#                 duration=1.0,
+#             )
+#             with ThreadPoolExecutor(max_workers=2) as executor:
+#                 executor.submit(self.left_hand.reset)
+#                 executor.submit(self.left_hand.reset)
 
-    def _convert_action(self, action):
-        assert len(action) == 29
-        qpos = np.zeros(32)
+#     def _convert_action(self, action):
+#         assert len(action) == 29
+#         qpos = np.zeros(32)
 
-        qpos[[13, 16, 17]] = action[[0, 1, 2]]
-        qpos[-14:] = action[3:17]
+#         qpos[[13, 16, 17]] = action[[0, 1, 2]]
+#         qpos[-14:] = action[3:17]
 
-        left_qpos, right_qpos = self.hand_retarget.qpos_to_real(action[17:23], action[23:29])
+#         left_qpos, right_qpos = self.hand_retarget.qpos_to_real(action[17:23], action[23:29])
 
-        return qpos, left_qpos, right_qpos
+#         return qpos, left_qpos, right_qpos
 
 
 class TeleopRobot(DexRobot, CameraMixin):
@@ -204,11 +203,7 @@ class TeleopRobot(DexRobot, CameraMixin):
         )
         self.set_posture_target_from_current_configuration()
 
-        self.cam = (
-            hydra.utils.instantiate(cfg.camera.instance)
-            # .with_display(cfg.camera.display.mode, cfg.camera.display.resolution, cfg.camera.display.crop_sizes)
-            .start()
-        )
+        self.cam = hydra.utils.instantiate(cfg.camera.instance).start()
 
         self.tv = OpenTeleVision(
             self.cam.display.shape,
@@ -332,8 +327,8 @@ class TeleopRobot(DexRobot, CameraMixin):
             np.ndarray: concatenated and filtered hand qpos in real steps
         """
         left, right = self.hand_action_convert(left_qpos, right_qpos, filtering=True)
-        self.left_hand.set_positions(left, wait_reply=False)
-        self.right_hand.set_positions(right, wait_reply=False)
+        self.left_hand.set_positions(left)
+        self.right_hand.set_positions(right)
 
         return np.hstack([left, right])
 

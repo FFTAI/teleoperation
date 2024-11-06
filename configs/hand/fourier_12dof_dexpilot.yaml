@@ -1,13 +1,13 @@
 type: "fourier"
 left_hand:
-  _target_: teleoperation.hands.FourierDexHand
+  _target_: teleoperation.adapter.hands.fourier.FourierDexHand
   hand_ip: "192.168.137.39"
-  version: "12dof"
+  dimension: 12
 
 right_hand:
-  _target_: teleoperation.hands.FourierDexHand
+  _target_: teleoperation.adapter.hands.fourier.FourierDexHand
   hand_ip: "192.168.137.19"
-  version: "12dof"
+  dimension: 12
   
 prefix_left: "L_"
 prefix_right: "R_"

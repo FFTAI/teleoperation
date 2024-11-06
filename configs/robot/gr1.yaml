@@ -141,5 +141,5 @@ named_links:
   
 
 calibration_pose:
-  left_elbow_pitch_joint: "${numpy_eval:'np.pi / 2'}"
-  right_elbow_pitch_joint: "${numpy_eval:'np.pi / 2'}"
+  left_elbow_pitch_joint: "${eval:'-np.pi / 2'}"
+  right_elbow_pitch_joint: "${eval:'-np.pi / 2'}"

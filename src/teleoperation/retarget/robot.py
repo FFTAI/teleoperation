@@ -179,12 +179,7 @@ class DexRobot(IKRobot):
     def hand_action_convert(self, left_qpos, right_qpos, filtering=True) -> tuple[np.ndarray, np.ndarray]:
         left_qpos_real, right_qpos_real = self.hand_retarget.qpos_to_real(left_qpos, right_qpos)
         if not filtering:
-            if self.hand_retarget.hand_type == "inspire":
-                filtered_hand_qpos = np.hstack([left_qpos_real, right_qpos_real]).astype(int)
-            elif self.hand_retarget.hand_type == "fourier":
-                filtered_hand_qpos = np.hstack([left_qpos_real, right_qpos_real])
-            else:
-                raise ValueError("Invalid hand type.")
+            filtered_hand_qpos = np.hstack([left_qpos_real, right_qpos_real])
         else:
             if self.hand_retarget.hand_type == "inspire":
                 filtered_hand_qpos = self.hand_filter.next(

@@ -1,7 +1,7 @@
 import logging
 
 import numpy as np
-from omegaconf import DictConfig
+from omegaconf import DictConfig, OmegaConf
 
 from .constants import (
     grd_yup2grd_zup,
@@ -42,7 +42,8 @@ class VuerPreprocessor:
     def calibrate(self, robot, head_mat, left_wrist_translation, right_wrist_translation):
         q = robot.q0.copy()
         # TODO: config this to enable calibration for ddifferent robots
-        for joint, angle in self.cfg.calibration_pose:
+        calibration_pose: dict[str, float] = OmegaConf.to_container(robot.config.calibration_pose, resolve=True)  # type: ignore
+        for joint, angle in calibration_pose.items():
             q[robot.get_idx_q_from_name(joint)] = angle
 
         robot_head_pose = robot.frame_placement(q, self.cfg.named_links.head_link)

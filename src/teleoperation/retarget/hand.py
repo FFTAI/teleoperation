@@ -1,5 +1,4 @@
 import logging
-import time
 
 import numpy as np
 from dex_retargeting.retargeting_config import RetargetingConfig
@@ -59,6 +58,7 @@ class HandRetarget:
         return left_qpos, right_qpos
 
     def qpos_to_real(self, left_qpos, right_qpos):
+        """Convert hand joint angles to real values passed to the hand SDK"""
         if self.hand_type == "inspire":
             left_qpos_real = remap(
                 left_qpos[[4, 6, 2, 0, 9, 8]],
@@ -99,6 +99,7 @@ class HandRetarget:
             raise NotImplementedError
 
     def real_to_qpos(self, left_qpos_real, right_qpos_real):
+        """Convert real values passed to the hand SDK to hand joint angles"""
         if self.hand_type == "inspire":
             left_qpos = remap(
                 left_qpos_real,

@@ -129,10 +129,10 @@ named_links:
   # right_elbow_pitch_joint: "Link_arm_r_04"
 
 calibration_pose:
-  Link_arm_l_02: "${numpy_eval:'np.pi / 2'}"
-  Link_arm_r_02: "${numpy_eval:'np.pi / 2'}"
-  Link_arm_l_03: "${numpy_eval:'np.pi / 2'}"
-  Link_arm_r_03: "${numpy_eval:'-np.pi / 2'}"
-  Link_arm_l_04: "${numpy_eval:'np.pi / 2'}"
-  Link_arm_r_04: "${numpy_eval:'np.pi / 2'}"
+  Link_arm_l_02: "${eval:'np.pi / 2'}"
+  Link_arm_r_02: "${eval:'np.pi / 2'}"
+  Link_arm_l_03: "${eval:'np.pi / 2'}"
+  Link_arm_r_03: "${eval:'-np.pi / 2'}"
+  Link_arm_l_04: "${eval:'np.pi / 2'}"
+  Link_arm_r_04: "${eval:'np.pi / 2'}"
   
