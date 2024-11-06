@@ -5,6 +5,7 @@ from datetime import datetime, timezone
 from pathlib import Path
 
 import numpy as np
+from numba import jit
 from pynput import keyboard
 from scipy.spatial.transform import Rotation as R
 
@@ -37,6 +38,19 @@ def se3_to_xyzortho6d(se3):
     return np.concatenate([xyz, ortho6d])
 
 
+def xyzortho6d_to_se3(xyzortho6d):
+    """
+    Convert continuous 6D rotation representation to SE(3).
+    """
+    xyz = xyzortho6d[:3]
+    ortho6d = xyzortho6d[3:]
+    so3 = ortho6d_to_so3(ortho6d)
+    se3 = np.eye(4)
+    se3[:3, :3] = so3
+    se3[:3, 3] = xyz
+    return se3
+
+
 def so3_to_ortho6d(so3):
     """
     Convert to continuous 6D rotation representation adapted from
@@ -47,12 +61,30 @@ def so3_to_ortho6d(so3):
     return so3[:, :2].transpose().reshape(-1)
 
 
+@jit
 def ortho6d_to_so3(ortho6d):
     """
-    Convert from continuous 6D rotation representation to SO(3)
+    Convert from continuous 6D rotation representation to SO(3), adapted from
+    On the Continuity of Rotation Representations in Neural Networks
+    https://arxiv.org/pdf/1812.07035.pdf
+    https://github.com/papagina/RotationContinuity/blob/master/sanity_test/code/tools.py
     """
-    # TODO
-    raise NotImplementedError
+    x_raw = ortho6d[:3]
+    y_raw = ortho6d[3:6]
+
+    x = x_raw / np.linalg.norm(x_raw)
+    z = np.cross(x, y_raw)
+    z = z / np.linalg.norm(z)
+    y = np.cross(z, x)
+    return np.column_stack((x, y, z))
+
+
+def ortho6d_to_R(ortho6d):
+    return R.from_matrix(ortho6d_to_so3(ortho6d))
+
+
+def R_to_ortho6d(R):
+    return so3_to_ortho6d(R.as_matrix())
 
 
 def se3_to_xyzquat(se3):
