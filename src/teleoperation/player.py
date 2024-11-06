@@ -14,7 +14,8 @@ import numpy as np
 from omegaconf import DictConfig, OmegaConf
 from tqdm import tqdm
 
-from teleoperation.adapter.robots import RobotAdapter
+from teleoperation.adapter.hands import DummyDexHand, HandAdapter
+from teleoperation.adapter.robots import DummyRobot, RobotAdapter
 from teleoperation.camera.utils import post_process
 from teleoperation.preprocess import VuerPreprocessor
 from teleoperation.retarget.robot import DexRobot
@@ -209,16 +210,19 @@ class TeleopRobot(DexRobot, CameraMixin):
             self.upsampler.start()
 
             logger.info("Init hands.")
-            self.left_hand = hydra.utils.instantiate(cfg.hand.left_hand)
-            self.right_hand = hydra.utils.instantiate(cfg.hand.right_hand)
+            self.left_hand: HandAdapter = hydra.utils.instantiate(cfg.hand.left_hand)
+            self.right_hand: HandAdapter = hydra.utils.instantiate(cfg.hand.right_hand)
 
             if self.hand_retarget.hand_type == "inspire":
                 with ThreadPoolExecutor(max_workers=2) as executor:
                     executor.submit(self.left_hand.reset)
                     executor.submit(self.right_hand.reset)
         else:
-            self.upsampler = Upsampler(None, target_hz=cfg.upsampler.frequency)  # TODO: dummy robot
+            self.client: RobotAdapter = DummyRobot(32)
+            self.upsampler = Upsampler(self.client, target_hz=cfg.upsampler.frequency)  # TODO: dummy robot
             self.upsampler.start()
+            self.left_hand: HandAdapter = DummyDexHand(6)
+            self.right_hand: HandAdapter = DummyDexHand(6)
 
     def start_recording(self, output_path: str):
         self.cam.start_recording(output_path)
@@ -270,10 +274,6 @@ class TeleopRobot(DexRobot, CameraMixin):
         )
 
     def observe(self):
-        if self.sim:
-            # TODO: dummy robot
-            return np.zeros(32), np.zeros(32), np.zeros(6 * 2), np.zeros(7 * 2)
-
         left_qpos, right_qpos = self.left_hand.get_positions(), self.right_hand.get_positions()
         # left_qpos, right_qpos = self.hand_retarget.real_to_qpos(left_qpos, right_qpos)
         hand_qpos = np.hstack([left_qpos, right_qpos])
@@ -313,13 +313,12 @@ class TeleopRobot(DexRobot, CameraMixin):
         # self.client.move_joints(ControlGroup.ALL, self.client.joint_positions, gravity_compensation=False)
 
     def end(self):
-        if not self.sim:
-            self.upsampler.stop()
-            self.upsampler.join()
-            self.client.disconnect()
-            with ThreadPoolExecutor(max_workers=2) as executor:
-                executor.submit(self.left_hand.reset)
-                executor.submit(self.left_hand.reset)
+        self.upsampler.stop()
+        self.upsampler.join()
+        self.client.disconnect()
+        with ThreadPoolExecutor(max_workers=2) as executor:
+            executor.submit(self.left_hand.reset)
+            executor.submit(self.left_hand.reset)
 
 
 def main(data_dir: str, task: str = "01_cube_kitting", episode: int = 1, config: str = "config.yml"):
