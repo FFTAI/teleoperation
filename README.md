@@ -13,7 +13,8 @@
 ```bash
     conda create -n teleop python==3.11.10
     conda activate teleop
-    pip install -e '.[fourier,realsense]'
+    pip install -e '.[fourier,realsense]' # add other optional dependencies if needed
+    pip uninstall typing # this is a workaround, vuer installs typing, but it is obsolete in newer python versions
 ```
 
 3. (Optional) Install ZED SDK
@@ -200,12 +201,6 @@ And to activate the environment, you can run the following command:
 
 ```bash
     eval "$(pdm venv activate)"
-```
-
-You can run the following command to start the development environment:
-
-```bash
-    pdm run python -m teleoperation.main tests
 ```
 
 ## 🙏 Credits
