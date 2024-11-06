@@ -11,7 +11,7 @@ from teleoperation.utils import (
 )
 
 
-def ortho6d_conversion():
+def test_ortho6d_conversion():
     # random rotation matrix
     rot = R.from_euler("xyz", np.random.rand(3)).as_matrix()
 
@@ -25,7 +25,7 @@ def ortho6d_conversion():
     assert np.allclose(rot, rot_recovered), "Failed to recover rotation matrix from continuous 6D representation"
 
 
-def xyzortho6d_conversion():
+def test_xyzortho6d_conversion():
     # random SE(3) matrix
     se3 = np.eye(4)
     se3[:3, :3] = R.from_euler("xyz", np.random.rand(3)).as_matrix()
@@ -41,15 +41,14 @@ def xyzortho6d_conversion():
     assert np.allclose(se3, se3_recovered), "Failed to recover SE(3) matrix from continuous 6D representation"
 
 
-def ortho6d_R_conversion():
+def test_ortho6d_R_conversion():
     # random continuous 6D representation
-    ortho6d = np.random.rand(6)
-
+    rot = R.from_euler("xyz", np.random.rand(3))
+    ortho6d = R_to_ortho6d(rot)
     # convert to SO(3)
-    rot = ortho6d_to_R(ortho6d)
-
-    # convert back to continuous 6D representation
-    ortho6d_recovered = R_to_ortho6d(rot)
+    rot_recovered = ortho6d_to_R(ortho6d)
 
     # check if the recovered continuous 6D representation is close to the original
-    assert np.allclose(ortho6d, ortho6d_recovered), "Failed to recover continuous 6D representation from SO(3)"
+    assert np.allclose(
+        rot.as_quat(), rot_recovered.as_quat()
+    ), "Failed to recover continuous 6D representation from SO(3)"

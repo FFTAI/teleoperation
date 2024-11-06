@@ -5,7 +5,7 @@
 groups = ["default", "depthai", "dev", "fourier", "realsense"]
 strategy = ["inherit_metadata"]
 lock_version = "4.5.0"
-content_hash = "sha256:de2392d3f38ab1106554dd786c6e2f720ed2f4092d6a75628e5b2933e5944deb"
+content_hash = "sha256:5b09cfc00382ae6e32872773b6daebb0ae24cb7b4399c6aad4a4861ad983380a"
 
 [[metadata.targets]]
 requires_python = ">=3.10,<3.12"
@@ -796,7 +796,7 @@ name = "exceptiongroup"
 version = "1.2.2"
 requires_python = ">=3.7"
 summary = "Backport of PEP 654 (exception groups)"
-groups = ["default", "fourier"]
+groups = ["default", "dev", "fourier"]
 marker = "python_version < \"3.11\""
 files = [
     {file = "exceptiongroup-1.2.2-py3-none-any.whl", hash = "sha256:3111b9d131c238bec2f8f516e123e14ba243563fb135d3fe885990585aa7795b"},
@@ -1121,6 +1121,17 @@ dependencies = [
 files = [
     {file = "importlib_resources-6.4.5-py3-none-any.whl", hash = "sha256:ac29d5f956f01d5e4bb63102a5a19957f1b9175e45649977264a1416783bb717"},
     {file = "importlib_resources-6.4.5.tar.gz", hash = "sha256:980862a1d16c9e147a59603677fa2aa5fd82b87f223b6cb870695bcfce830065"},
+]
+
+[[package]]
+name = "iniconfig"
+version = "2.0.0"
+requires_python = ">=3.7"
+summary = "brain-dead simple config-ini parsing"
+groups = ["dev"]
+files = [
+    {file = "iniconfig-2.0.0-py3-none-any.whl", hash = "sha256:b6a85871a79d2e3b22d2d1b94ac2824226a63c6b741c88f7ae975f18b6778374"},
+    {file = "iniconfig-2.0.0.tar.gz", hash = "sha256:2d91e135bf72d31a410b17c16da610a82cb55f6b0477d1a902134b24a455b8b3"},
 ]
 
 [[package]]
@@ -2320,6 +2331,17 @@ files = [
 ]
 
 [[package]]
+name = "pluggy"
+version = "1.5.0"
+requires_python = ">=3.8"
+summary = "plugin and hook calling mechanisms for python"
+groups = ["dev"]
+files = [
+    {file = "pluggy-1.5.0-py3-none-any.whl", hash = "sha256:44e1ad92c8ca002de6377e165f3e0f1be63266ab4d554740532335b9d75ea669"},
+    {file = "pluggy-1.5.0.tar.gz", hash = "sha256:2cffa88e94fdc978c4c574f15f9e59b7f4201d439195c3715ca9e2486f1d0cf1"},
+]
+
+[[package]]
 name = "pre-commit"
 version = "4.0.1"
 requires_python = ">=3.9"
@@ -2645,6 +2667,25 @@ dependencies = [
 files = [
     {file = "pyright-1.1.387-py3-none-any.whl", hash = "sha256:6a1f495a261a72e12ad17e20d1ae3df4511223c773b19407cfa006229b1b08a5"},
     {file = "pyright-1.1.387.tar.gz", hash = "sha256:577de60224f7fe36505d5b181231e3a395d427b7873be0bbcaa962a29ea93a60"},
+]
+
+[[package]]
+name = "pytest"
+version = "8.3.3"
+requires_python = ">=3.8"
+summary = "pytest: simple powerful testing with Python"
+groups = ["dev"]
+dependencies = [
+    "colorama; sys_platform == \"win32\"",
+    "exceptiongroup>=1.0.0rc8; python_version < \"3.11\"",
+    "iniconfig",
+    "packaging",
+    "pluggy<2,>=1.5",
+    "tomli>=1; python_version < \"3.11\"",
+]
+files = [
+    {file = "pytest-8.3.3-py3-none-any.whl", hash = "sha256:a6853c7375b2663155079443d2e45de913a911a11d669df02a50814944db57b2"},
+    {file = "pytest-8.3.3.tar.gz", hash = "sha256:70b98107bd648308a7952b06e6ca9a50bc660be218d53c257cc1fc94fda10181"},
 ]
 
 [[package]]
@@ -3069,7 +3110,7 @@ name = "tomli"
 version = "2.0.2"
 requires_python = ">=3.8"
 summary = "A lil' TOML parser"
-groups = ["default"]
+groups = ["default", "dev"]
 marker = "python_version < \"3.11\""
 files = [
     {file = "tomli-2.0.2-py3-none-any.whl", hash = "sha256:2ebe24485c53d303f690b0ec092806a085f07af5a5aa1464f3931eec36caaa38"},
