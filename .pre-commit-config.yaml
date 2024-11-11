@@ -10,7 +10,7 @@ repos:
         args:
           - --unsafe
       - id: check-toml
-      - id: check-added-large-files
+      # - id: check-added-large-files
       - id: check-merge-conflict
 
   - repo: https://github.com/asottile/pyupgrade

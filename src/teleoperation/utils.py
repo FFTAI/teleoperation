@@ -173,13 +173,9 @@ class KeyboardListener:
         self.listener.start()
 
     def on_press(self, key):
-        # logger.debug(f"Key pressed: {key}")
-        # logger.debug(isinstance(key, keyboard.Key))
-        # logger.debug(isinstance(key, keyboard.KeyCode))
         try:
             if isinstance(key, keyboard.KeyCode):
-                key = key.char
-                self._key_pressed[key] = True
+                self._key_pressed[key.char] = True
             elif isinstance(key, keyboard.Key):
                 self._key_pressed[key.name] = True
 
