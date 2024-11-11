@@ -64,7 +64,19 @@ def main(
     listener.start()
 
     def trigger():
-        return listener.space_pressed
+        pressed = listener.key_pressed
+        # logger.info(f"Pressed keys: {pressed}")
+        if pressed is None:
+            return False, None
+        if pressed.get("space", False):
+            return True, "space"
+        for key, value in pressed.items():
+            if value and key in ["q", "x", "d", "s"]:
+                return True, key
+        return False, None
+
+    def trigger_key(key):
+        return listener.key_pressed.get(key, False)
 
     head_filter = LPRotationFilter(cfg.head_filter.alpha)
 
@@ -102,7 +114,7 @@ def main(
                 continue
             if robot.tv.connected and fsm.state == FSM.State.INITIALIZED:
                 logger.info("Connected to headset.")
-                fsm.next()
+                fsm.state = FSM.State.STARTED
                 start_timer = time.time()
 
             if start_timer is None:
@@ -111,36 +123,49 @@ def main(
             if time.time() - start_timer < cfg.wait_time:
                 logger.info(f"Waiting for trigger. Time elapsed: {time.time() - start_timer:.2f}")
 
-            if fsm.state == FSM.State.STARTED and time.time() - start_timer > cfg.wait_time and trigger():
+            # get trigger: space for continue, x for discard, s for stop
+            # print help message
+            trigger_detected, triggered_key = trigger()
+            if trigger_detected:
+                logger.debug(f"Trigger detected: {trigger_detected}, key: {triggered_key}")
+
+            if (
+                fsm.state == FSM.State.STARTED
+                and time.time() - start_timer > cfg.wait_time
+                and triggered_key == "space"
+            ):
                 logger.info("Trigger detected")
 
-                fsm.next()
+                fsm.state = FSM.State.CALIBRATING
             elif fsm.state == FSM.State.CALIBRATING:
                 logger.info("Calibrating.")
                 # TODO: average over multiple frames
                 robot.processor.calibrate(robot, head_mat, left_wrist_mat[:3, 3], right_wrist_mat[:3, 3])
-                fsm.next()
+                fsm.state = FSM.State.CALIBRATED
             elif fsm.state == FSM.State.CALIBRATED:
                 robot.init_control_joints()
                 act = True
-                fsm.next()
+                fsm.state = FSM.State.ENGAGED
                 continue
 
-            elif fsm.state == FSM.State.ENGAGED and trigger():
+            elif fsm.state == FSM.State.ENGAGED and triggered_key == "space":
                 if not cfg.recording.enabled or recording is None:
                     logger.info("Disengaging.")
                     fsm.state = FSM.State.IDLE
                     robot.pause_robot()
                     continue
-                fsm.next()
+                else:
+                    fsm.state = FSM.State.EPISODE_STARTED
+                    logger.info("Starting new episode.")
 
-            elif fsm.state == FSM.State.IDLE and trigger():
+            elif fsm.state == FSM.State.IDLE and triggered_key == "space":
                 if not cfg.recording.enabled or recording is None:
                     logger.info("Engaging.")
                     fsm.state = FSM.State.ENGAGED
                     continue
-                logger.info("Starting new episode.")
-                fsm.next()
+                else:
+                    fsm.state = FSM.State.EPISODE_STARTED
+                    logger.info("Starting new episode.")
 
             elif fsm.state == FSM.State.EPISODE_STARTED:
                 if not cfg.recording.enabled or recording is None:
@@ -152,15 +177,28 @@ def main(
                 data_dict = EpisodeDataDict.new(recording.episode_id, cfg.recording.camera_names)
 
                 logger.info(f"Episode {recording.episode_id} started")
-                fsm.next()
+                fsm.state = FSM.State.COLLECTING
                 continue
-            elif fsm.state == FSM.State.COLLECTING and trigger():
-                fsm.next()
+            elif fsm.state == FSM.State.COLLECTING:
+                if triggered_key == "space":
+                    fsm.state = FSM.State.EPISODE_ENDED
+                elif triggered_key == "x":
+                    fsm.state = FSM.State.EPISODE_DISCARDED
+
+            elif fsm.state == FSM.State.EPISODE_DISCARDED:
+                if not cfg.recording.enabled or recording is None:
+                    raise InitializationError("Recording not initialized.")
+                logger.warning(f"Episode {recording.episode_id} discarded")
+                robot.stop_recording()  # TODO: make sure to delete the video file
+                data_dict = EpisodeDataDict.new(recording.episode_id, cfg.recording.camera_names)
+                fsm.state = FSM.State.IDLE
+                continue
 
             elif fsm.state == FSM.State.EPISODE_ENDED:
                 if not cfg.recording.enabled or recording is None or data_dict is None:
                     raise InitializationError("Recording not initialized.")
                 robot.pause_robot()
+                robot.stop_recording()
 
                 # episode_length = time.time() - collection_start  # type: ignore
 
@@ -168,37 +206,10 @@ def main(
                     f"Episode {recording.episode_id} took {data_dict.duration:.2f} seconds. Saving data to {recording.episode_path}"
                 )
 
-                # check for inhomogeneous data
-                try:
-                    with h5py.File(recording.episode_path, "w", rdcc_nbytes=1024**2 * 2) as f:
-                        state = f.create_group("state")
-                        action = f.create_group("action")
-
-                        f.create_dataset("timestamp", data=data_dict.timestamp)
-
-                        for name, data in asdict(data_dict.state).items():
-                            state.create_dataset(name, data=np.asanyarray(data))
-
-                        for name, data in asdict(data_dict.action).items():
-                            action.create_dataset(name, data=np.asanyarray(data))
-
-                        f.attrs["episode_id"] = format_episode_id(recording.episode_id)
-                        f.attrs["task_name"] = str(cfg.recording.task_name)
-                        f.attrs["camera_names"] = list(cfg.recording.camera_names)
-                        f.attrs["episode_length"] = data_dict.length
-                        f.attrs["episode_duration"] = data_dict.duration
-
-                except Exception as e:
-                    logger.error(f"Error saving episode: {e}")
-                    import pickle
-
-                    pickle.dump(data_dict, open(recording.episode_path + ".pkl", "wb"))
-                    exit(1)
-
+                recording.save_episode(data_dict, cfg)
                 recording.increment()
-                robot.stop_recording()
 
-                fsm.next()
+                fsm.state = FSM.State.IDLE
                 continue
 
             if act and (

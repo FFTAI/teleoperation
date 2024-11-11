@@ -1,10 +1,16 @@
+from __future__ import annotations
+
+import logging
 import os
-from dataclasses import dataclass, field
+from dataclasses import asdict, dataclass, field
 from glob import glob
 
 import numpy as np
+from omegaconf import DictConfig
 
-from teleoperation.utils import get_timestamp_utc
+from teleoperation.utils import format_episode_id, get_timestamp_utc
+
+logger = logging.getLogger(__name__)
 
 
 def get_episode_id(session_path: str) -> int:
@@ -43,6 +49,35 @@ class RecordingInfo:
         self.episode_id += 1
         self.episode_path = os.path.join(self.session_path, f"episode_{self.episode_id:09d}.hdf5")
         self.video_path = os.path.join(self.session_path, f"episode_{self.episode_id:09d}")
+
+    def save_episode(self, data_dict: EpisodeDataDict, cfg: DictConfig):
+        import h5py
+
+        try:
+            with h5py.File(self.episode_path, "w", rdcc_nbytes=1024**2 * 2) as f:
+                state = f.create_group("state")
+                action = f.create_group("action")
+
+                f.create_dataset("timestamp", data=data_dict.timestamp)
+
+                for name, data in asdict(data_dict.state).items():
+                    state.create_dataset(name, data=np.asanyarray(data))
+
+                for name, data in asdict(data_dict.action).items():
+                    action.create_dataset(name, data=np.asanyarray(data))
+
+                f.attrs["episode_id"] = format_episode_id(self.episode_id)
+                f.attrs["task_name"] = str(cfg.recording.task_name)
+                f.attrs["camera_names"] = list(cfg.recording.camera_names)
+                f.attrs["episode_length"] = data_dict.length
+                f.attrs["episode_duration"] = data_dict.duration
+
+        except Exception as e:
+            logger.error(f"Error saving episode: {e}")
+            import pickle
+
+            pickle.dump(data_dict, open(self.episode_path + ".pkl", "wb"))
+            exit(1)
 
 
 @dataclass

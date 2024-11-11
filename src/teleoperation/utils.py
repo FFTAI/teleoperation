@@ -1,6 +1,8 @@
 import logging
 import subprocess
-from collections import OrderedDict
+import time
+from collections import OrderedDict, defaultdict
+from copy import deepcopy
 from datetime import datetime, timezone
 from pathlib import Path
 
@@ -154,24 +156,33 @@ def remap(x, old_min, old_max, new_min, new_max, clip=True):
 class KeyboardListener:
     def __init__(self):
         self.listener = keyboard.Listener(on_press=self.on_press, on_release=self.on_release)
-        self._space_pressed = False
+        self._key_pressed = defaultdict(bool)
         logger.debug("Keyboard listener initialized")
 
     @property
+    def key_pressed(self):
+        out_key_pressed = deepcopy(self._key_pressed)
+        self._key_pressed = defaultdict(bool)
+        return out_key_pressed
+
+    @property
     def space_pressed(self):
-        if self._space_pressed:
-            self._space_pressed = False
-            return True
-        return False
+        return self._key_pressed.get("space", False)
 
     def start(self):
         self.listener.start()
 
     def on_press(self, key):
-        logger.debug(f"Key pressed: {key}")
+        # logger.debug(f"Key pressed: {key}")
+        # logger.debug(isinstance(key, keyboard.Key))
+        # logger.debug(isinstance(key, keyboard.KeyCode))
         try:
-            if key == keyboard.Key.space:
-                self._space_pressed = True
+            if isinstance(key, keyboard.KeyCode):
+                key = key.char
+                self._key_pressed[key] = True
+            elif isinstance(key, keyboard.Key):
+                self._key_pressed[key.name] = True
+
         except AttributeError:
             pass
 
@@ -280,3 +291,11 @@ def match_timestamps(candidate, ref):
 
     # print("closest_indices: ", len(closest_indices))
     return np.array(closest_indices)
+
+
+if __name__ == "__main__":
+    k = KeyboardListener()
+    k.start()
+    while True:
+        print(k.key_pressed)
+        time.sleep(0.1)

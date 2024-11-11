@@ -59,7 +59,7 @@ class GR1Robot:
         self.command_joints(self.joint_positions, gravity_compensation=False)
 
     def observe(self):
-        qpos = self.client.joint_positions
+        qpos = self.client.joint_positions.copy()
         left_pose, right_pose, head_pose = self._get_ee_pose()
 
         return qpos, left_pose, right_pose, head_pose
