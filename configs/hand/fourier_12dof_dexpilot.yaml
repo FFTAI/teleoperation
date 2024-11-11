@@ -40,7 +40,7 @@ left:
   scaling_factor: 1.1
 
   # A smaller alpha means stronger filtering, i.e. more smooth but also larger latency
-  low_pass_alpha: 0.3
+  low_pass_alpha: 0.5
 
 right:
   type: DexPilot
@@ -66,4 +66,4 @@ right:
     ]
   scaling_factor: 1.1
   # A smaller alpha means stronger filtering, i.e. more smooth but also larger latency
-  low_pass_alpha: 0.3
+  low_pass_alpha: 0.5
