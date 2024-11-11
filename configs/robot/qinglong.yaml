@@ -11,7 +11,6 @@ default_qpos: "${eval:'np.array([
   0, 1.3, 1.6, 1.6, 0, 0, 0,
   0, 1.3, -1.6, 1.6, 0, 0, 0])'}"
 
-
 joint_names:
   [
     "J_waist_pitch",
@@ -57,10 +56,7 @@ self_collision:
   min_distance: 0.02
   enabled_links: []
 
-joints_to_lock: [
-    "J_waist_roll",
-    "J_waist_yaw",
-  ]
+joints_to_lock: ["J_waist_roll", "J_waist_yaw"]
 
 waist_joints: ["J_waist_pitch"]
 head_joints: ["J_head_yaw", "J_head_pitch"]
@@ -89,7 +85,6 @@ joint_limits:
   J_arm_r_05: [-2.96706, 2.96706]
   J_arm_r_06: [-1.83260, 1.83260]
   J_arm_r_07: [-1.04720, 1.04720]
-
 
 velocity_limits:
   J_waist_pitch: 0.3
