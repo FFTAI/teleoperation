@@ -21,13 +21,13 @@ MIN_DISTANCE = MIN_DISTANCE_MM / 1000
 class CameraZed:
     def __init__(
         self,
-        index: int,
+        key: str,
         fps: int,
         display_mode: Literal["mono", "stereo"],
         display_resolution: tuple[int, int],
         display_crop_sizes: tuple[int, int, int, int],
     ):
-        self.index = index
+        self.key = key
         self.fps = fps
         self.display = DisplayCamera(display_mode, display_resolution, display_crop_sizes)
         # self.recorder = RecordCamera()
@@ -78,7 +78,7 @@ class CameraZed:
             start = time.monotonic()
             with self._flag_recording.get_lock():
                 if self._flag_recording.value == 1:
-                    output_path = self.video_path
+                    output_path = self.video_path + f"_{self.key}"
                     recording_params = sl.RecordingParameters(output_path, sl.SVO_COMPRESSION_MODE.H264)
                     err = self.zed.enable_recording(recording_params)
                     if err != sl.ERROR_CODE.SUCCESS:

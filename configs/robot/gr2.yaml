@@ -118,7 +118,7 @@ velocity_limits:
   right_wrist_pitch_joint: 6.283185307179586
   right_wrist_roll_joint: 6.283185307179586
 
-body_scaling_factor: 0.95
+body_scaling_factor: 1.15
 
 position_filter:
   min_cutoff: 0.01

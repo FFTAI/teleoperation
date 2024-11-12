@@ -1,5 +1,6 @@
 import logging
 import multiprocessing as mp
+import os
 import queue
 import threading
 import time
@@ -19,13 +20,13 @@ logger = logging.getLogger(__name__)
 class CameraOak:
     def __init__(
         self,
-        index: int,
+        key: str,
         fps: int,
         display_mode: Literal["mono", "stereo"],
         display_resolution: tuple[int, int],
         display_crop_sizes: tuple[int, int, int, int],
     ):
-        self.index = index
+        self.key = key
         self.fps = fps
         self.display = DisplayCamera(display_mode, display_resolution, display_crop_sizes)
         self.recorder = RecordCamera()
@@ -62,7 +63,7 @@ class CameraOak:
 
     def start_recording(self, output_path: str):
         self.frame_id = 0
-        self.video_path = output_path
+        self.video_path = os.path.join(output_path, self.key)
         self.is_recording.set()
 
     def stop_recording(self):

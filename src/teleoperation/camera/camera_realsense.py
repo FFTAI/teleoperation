@@ -3,6 +3,7 @@ import multiprocessing as mp
 import threading
 import time
 from typing import Literal
+from warnings import deprecated
 
 import cv2
 import numpy as np
@@ -14,6 +15,7 @@ from teleoperation.utils import get_timestamp_utc
 logger = logging.getLogger(__name__)
 
 
+@deprecated(reason="This class is deprecated and will be removed in a future release. Please use camera_multi instead.")
 class CameraRealsense:
     def __init__(
         self,
