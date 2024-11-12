@@ -59,6 +59,7 @@ displayed_frames:
   - "torso_link"
   - "head_pitch_link"
   - "left_end_effector_link"
+  - "right_end_effector_link"
 
 self_collision:
   enable: false

@@ -15,7 +15,7 @@ logger = logging.getLogger(__name__)
 class RobotWrapper:
     def __init__(self, config: DictConfig | str):
         if isinstance(config, str):
-            self.config = OmegaConf.load(config).robot
+            self.config = OmegaConf.load(config)
         else:
             self.config = config
         self.robot = pin.RobotWrapper.BuildFromURDF(
@@ -110,6 +110,8 @@ class RobotWrapper:
         """Convert q vector from real robot convention to pink convention."""
         q_pink = self.configuration.q.copy()
         for name, value in zip(self.config.joint_names, q, strict=True):
+            if name in self.config.joints_to_lock:
+                continue
             q_pink[self.get_idx_q_from_name(name)] = value
         return q_pink
 
@@ -117,6 +119,9 @@ class RobotWrapper:
         """Convert q vector from pink convention to real robot convention."""
         q_real = []
         for name in self.config.joint_names:
+            if name in self.config.joints_to_lock:
+                q_real.append(0.0)
+                continue
             q_real.append(q[self.get_idx_q_from_name(name)])
         return np.array(q_real)
 
@@ -261,12 +266,24 @@ class RobotWrapper:
             return
         self.robot.model.velocityLimit[self.get_idx_v_from_name(joint_name)] = limit
 
-    def frame_placement(self, q: np.ndarray, frame_name: str) -> pin.SE3:
+    def frame_placement(self, q: np.ndarray, frame_name: str, source_frame: str | None = None) -> pin.SE3:
+        """Get the placement of a frame in the robot model.
+
+        Args:
+            q (np.ndarray): Joint positions.
+            frame_name (str): Name of the frame.
+            source_frame (str | None, optional): Name of the source frame. Defaults to None. If None, the default world frame is used.
+        """
         if len(q) == 32:
             q = self.q_real2pink(q)
 
         frame_idx = self.model.getFrameId(frame_name)
-        return self.robot.framePlacement(q, frame_idx)
+        frame_transform = self.robot.framePlacement(q, frame_idx)
+        if source_frame is None:
+            return frame_transform
+        source_frame_idx = self.model.getFrameId(source_frame)
+        source_frame_transform = self.robot.framePlacement(q, source_frame_idx)
+        return source_frame_transform.inverse() * frame_transform
 
     def get_transforms(self, frame_names: Sequence[str]) -> list[pin.SE3]:
         return [self.configuration.get_transform_frame_to_world(frame_name).np for frame_name in frame_names]
