@@ -745,7 +745,7 @@
     name="left_end_effector_joint"
     type="fixed">
     <origin
-      xyz="0 0 0"
+      xyz="0 0 -0.043"
       rpy="0 0 0" />
     <parent
       link="left_hand_roll_link" />
@@ -798,7 +798,7 @@
     name="L_hand_base_joint"
     type="fixed">
     <origin
-      xyz="0 0 -0.043"
+      xyz="0 0 0"
       rpy="0 0 0" />
     <parent
       link="left_end_effector_link" />
@@ -2020,7 +2020,7 @@
     name="right_end_effector_joint"
     type="fixed">
     <origin
-      xyz="0 0 0"
+      xyz="0 0 -0.043"
       rpy="0 0 0" />
     <parent
       link="right_hand_roll_link" />
@@ -2073,7 +2073,7 @@
     name="R_hand_base_joint"
     type="fixed">
     <origin
-      xyz="0 0 -0.043"
+      xyz="0 0 0"
       rpy="0 0 0" />
     <parent
       link="right_end_effector_link" />
