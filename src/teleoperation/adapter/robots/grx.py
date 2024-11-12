@@ -3,8 +3,6 @@ import time
 
 from fourier_grx_client import ControlGroup, RobotClient
 
-from teleoperation.utils import se3_to_xyzortho6d
-
 logger = logging.getLogger(__name__)
 
 
@@ -27,7 +25,7 @@ class GR1Robot:
 
     @property
     def joint_positions(self):
-        return self.client.joint_positions
+        return self.client.joint_positions.copy()
 
     def connect(
         self,
@@ -59,10 +57,7 @@ class GR1Robot:
         self.command_joints(self.joint_positions, gravity_compensation=False)
 
     def observe(self):
-        qpos = self.client.joint_positions.copy()
-        left_pose, right_pose, head_pose = self._get_ee_pose()
-
-        return qpos, left_pose, right_pose, head_pose
+        return (self.client.joint_positions.copy(),)
 
     def disconnect(self):
         logger.info(f"Disconnecting from {self.__class__.__name__}...")
@@ -70,19 +65,3 @@ class GR1Robot:
 
     def _move_to_default(self):
         self.client.move_joints(self.controlled_joint_indices, positions=self.default_qpos, degrees=False, duration=1.0)
-
-    def _get_ee_pose(self):
-        left_link = self.named_links["left_end_effector_link"]
-        right_link = self.named_links["right_end_effector_link"]
-        head_link = self.named_links["head_link"]
-        root_link = self.named_links["root_link"]
-
-        left_pose = self.client.get_transform(left_link, root_link)
-        right_pose = self.client.get_transform(right_link, root_link)
-        head_pose = self.client.get_transform(head_link, root_link)
-
-        left_pose = se3_to_xyzortho6d(left_pose)
-        right_pose = se3_to_xyzortho6d(right_pose)
-        head_pose = se3_to_xyzortho6d(head_pose)
-
-        return left_pose, right_pose, head_pose

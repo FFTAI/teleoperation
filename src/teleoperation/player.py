@@ -18,7 +18,7 @@ from teleoperation.preprocess import VuerPreprocessor
 from teleoperation.retarget.robot import DexRobot
 from teleoperation.television import OpenTeleVision
 from teleoperation.upsampler import Upsampler
-from teleoperation.utils import CERT_DIR
+from teleoperation.utils import CERT_DIR, se3_to_xyzortho6d
 
 logger = logging.getLogger(__name__)
 
@@ -275,10 +275,28 @@ class TeleopRobot(DexRobot, CameraMixin):
         # left_qpos, right_qpos = self.hand_retarget.real_to_qpos(left_qpos, right_qpos)
         hand_qpos = np.hstack([left_qpos, right_qpos])
 
-        qpos, left_ee_pose, right_ee_pose, head_pose = self.client.observe()
+        (qpos,) = self.client.observe()
+
+        left_ee_pose, right_ee_pose, head_pose = self._get_ee_pose(qpos)
         ee_pose = np.hstack([left_ee_pose, right_ee_pose])
 
         return qpos, hand_qpos, ee_pose, head_pose
+
+    def _get_ee_pose(self, qpos):
+        left_link = self.config.named_links["left_end_effector_link"]
+        right_link = self.config.named_links["right_end_effector_link"]
+        head_link = self.config.named_links["head_link"]
+        root_link = self.config.named_links["root_link"]
+
+        left_pose = self.frame_placement(qpos, left_link, root_link)
+        right_pose = self.frame_placement(qpos, right_link, root_link)
+        head_pose = self.frame_placement(qpos, head_link, root_link)
+
+        left_pose = se3_to_xyzortho6d(left_pose)
+        right_pose = se3_to_xyzortho6d(right_pose)
+        head_pose = se3_to_xyzortho6d(head_pose)  # TODO: should we discard translation?
+
+        return left_pose, right_pose, head_pose
 
     def control_hands(self, left_qpos: np.ndarray, right_qpos: np.ndarray):
         """Control real hands

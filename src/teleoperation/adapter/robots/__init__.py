@@ -43,4 +43,4 @@ class DummyRobot:
     def stop_joints(self): ...
 
     def observe(self) -> tuple:
-        return np.zeros(self.dim), np.zeros(9), np.zeros(9), np.zeros(9)
+        return (np.zeros(self.dim),)
