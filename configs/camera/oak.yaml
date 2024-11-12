@@ -2,6 +2,7 @@ instance:
   _target_: teleoperation.camera.camera_oak.CameraOak
   key: "top"
   fps: 60
+  use_depth: ${use_depth}
 
   display_mode: "stereo"
   display_resolution: [720, 1280]

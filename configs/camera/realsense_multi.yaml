@@ -1,6 +1,6 @@
 instance:
   _target_: teleoperation.camera.camera_multi.CameraRealsenseMulti
-  cameras:
+  keys:
     top: 239722071918
     left_wrist: 419122271348
     right_wrist: 419122271585
@@ -8,7 +8,7 @@ instance:
     fps: 30
     width: 640
     height: 480
-    use_depth: true
+    use_depth: ${use_depth}
   display_config:
     key: "top"
     mode: "mono"

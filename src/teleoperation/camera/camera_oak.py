@@ -22,12 +22,14 @@ class CameraOak:
         self,
         key: str,
         fps: int,
+        use_depth: bool,
         display_mode: Literal["mono", "stereo"],
         display_resolution: tuple[int, int],
         display_crop_sizes: tuple[int, int, int, int],
     ):
         self.key = key
         self.fps = fps
+        self.use_depth = use_depth
         self.display = DisplayCamera(display_mode, display_resolution, display_crop_sizes)
         self.recorder = RecordCamera()
         self.stop_event = mp.Event()
@@ -93,8 +95,13 @@ class CameraOak:
                 if self.is_recording.is_set():
                     try:
                         p_obs: FramePacket = self.q_obs.get(block=False)
-                        rgb_frame = cv2.cvtColor(p_obs[self.sources["rgb"]].frame, cv2.COLOR_BGR2RGB)
-                        depth_frame = p_obs[self.sources["depth"]].frame
+
+                        if self.use_depth:
+                            rgb_frame = cv2.cvtColor(p_obs[self.sources["rgb"]].frame, cv2.COLOR_BGR2RGB)
+                            depth_frame = p_obs[self.sources["depth"]].frame
+                        else:
+                            rgb_frame = cv2.cvtColor(p_obs.frame, cv2.COLOR_BGR2RGB)
+                            depth_frame = None
                         self.recorder.put(
                             {"rgb": rgb_frame, "depth": depth_frame},
                             self.frame_id,
@@ -132,24 +139,31 @@ class CameraOak:
 
         color = oak.create_camera("CAM_A", resolution="1080p", encode="mjpeg", fps=30)
         color.config_color_camera(isp_scale=(2, 3))
-        stereo = oak.create_stereo(left=left, right=right, resolution="720p", fps=30)
-        stereo.config_stereo(align=color, subpixel=True, lr_check=True)
-        # stereo.node.setOutputSize(640, 360) # 720p, downscaled to 640x360 (decimation filter, median filtering)
-        # On-device post processing for stereo depth
-        config = stereo.node.initialConfig.get()
-        stereo.node.setPostProcessingHardwareResources(3, 3)
-        config.postProcessing.speckleFilter.enable = True
-        config.postProcessing.thresholdFilter.minRange = 400
-        config.postProcessing.thresholdFilter.maxRange = 3_000  # 3m
-        config.postProcessing.decimationFilter.decimationFactor = 2
-        config.postProcessing.decimationFilter.decimationMode = (
-            dai.StereoDepthConfig.PostProcessing.DecimationFilter.DecimationMode.NON_ZERO_MEDIAN
-        )
-        stereo.node.initialConfig.set(config)
 
-        q_obs = (
-            oak.queue([color, stereo], max_size=120).configure_syncing(threshold_ms=int((1000 / 30) / 2)).get_queue()
-        )
+        if self.use_depth:
+            stereo = oak.create_stereo(left=left, right=right, resolution="720p", fps=30)
+            stereo.config_stereo(align=color, subpixel=True, lr_check=True)
+            # stereo.node.setOutputSize(640, 360) # 720p, downscaled to 640x360 (decimation filter, median filtering)
+            # On-device post processing for stereo depth
+            config = stereo.node.initialConfig.get()
+            stereo.node.setPostProcessingHardwareResources(3, 3)
+            config.postProcessing.speckleFilter.enable = True
+            config.postProcessing.thresholdFilter.minRange = 400
+            config.postProcessing.thresholdFilter.maxRange = 3_000  # 3m
+            config.postProcessing.decimationFilter.decimationFactor = 2
+            config.postProcessing.decimationFilter.decimationMode = (
+                dai.StereoDepthConfig.PostProcessing.DecimationFilter.DecimationMode.NON_ZERO_MEDIAN
+            )
+            stereo.node.initialConfig.set(config)
+
+            q_obs = (
+                oak.queue([color, stereo], max_size=120)
+                .configure_syncing(threshold_ms=int((1000 / 30) / 2))
+                .get_queue()
+            )
+        else:
+            stereo = None
+            q_obs = oak.queue([color], max_size=120).get_queue()
 
         self.sources = {
             "rgb": color,

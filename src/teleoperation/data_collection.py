@@ -86,9 +86,8 @@ class TimestampMixin:
 
     def stamp(self, timestamp: float | None = None):
         if timestamp is None:
-            self.timestamp.append(get_timestamp_utc().timestamp())
-        else:
-            self.timestamp.append(timestamp)
+            timestamp = get_timestamp_utc().timestamp()
+        self.timestamp.append(timestamp)
 
 
 @dataclass

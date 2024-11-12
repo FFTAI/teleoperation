@@ -13,12 +13,13 @@ wait_time: 3.0
 frequency: 60
 use_waist: false
 use_head: false
+use_depth: false
+task_name: "default"
 
 
 recording:
   enabled: true
-  task_name: "default"
-  camera_names: ["ego_view", "ego_view_depth"]
+  task_name: ${task_name}
 
 upsampler:
   frequency: 120

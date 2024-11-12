@@ -18,7 +18,6 @@ use_head: false
 recording:
   enabled: true
   task_name: "default"
-  camera_names: ["ego_view", "ego_view_depth"]
 
 upsampler:
   frequency: 120

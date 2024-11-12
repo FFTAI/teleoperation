@@ -33,6 +33,15 @@ class InitializationError(Exception):
 PROJECT_ROOT = Path(__file__).resolve().parent.parent
 
 
+def get_camera_names(cfg):
+    if cfg.camera.instance.get("key", None) is not None:
+        return [cfg.camera.instance.key]
+    elif cfg.camera.instance.get("keys", {}).keys():
+        return list(cfg.camera.instance.keys.keys())
+    else:
+        raise ValueError("No camera keys found in config.")
+
+
 @hydra.main(config_path=str(CONFIG_DIR), config_name="teleop_gr1", version_base="1.2")
 def main(
     cfg: DictConfig,
@@ -51,10 +60,14 @@ def main(
     data_dict = None
     session_name = datetime.datetime.now().strftime("%Y-%m-%d_%H-%M-%S")
 
+    camera_names = get_camera_names(cfg)
+
+    logger.info(f"Camera names: {camera_names}")
+
     if cfg.recording.enabled:
         session_path = RECORD_DIR / cfg.recording.task_name / session_name
         recording = RecordingInfo.from_session_path(str(session_path))
-        data_dict = EpisodeDataDict.new(recording.episode_id, cfg.recording.camera_names)
+        data_dict = EpisodeDataDict.new(recording.episode_id, camera_names)
         logger.info(f"Recording session: {session_path}")
         os.makedirs(session_path, exist_ok=True)
 
@@ -174,7 +187,7 @@ def main(
 
                 robot.start_recording(str(recording.video_path))
 
-                data_dict = EpisodeDataDict.new(recording.episode_id, cfg.recording.camera_names)
+                data_dict = EpisodeDataDict.new(recording.episode_id, camera_names)
 
                 logger.info(f"Episode {recording.episode_id} started")
                 fsm.state = FSM.State.COLLECTING
@@ -190,7 +203,7 @@ def main(
                     raise InitializationError("Recording not initialized.")
                 logger.warning(f"Episode {recording.episode_id} discarded")
                 robot.stop_recording()  # TODO: make sure to delete the video file
-                data_dict = EpisodeDataDict.new(recording.episode_id, cfg.recording.camera_names)
+                data_dict = EpisodeDataDict.new(recording.episode_id, camera_names)
                 fsm.state = FSM.State.IDLE
                 continue
 
@@ -201,7 +214,6 @@ def main(
                 robot.stop_recording()
 
                 # episode_length = time.time() - collection_start  # type: ignore
-
                 logger.info(
                     f"Episode {recording.episode_id} took {data_dict.duration:.2f} seconds. Saving data to {recording.episode_path}"
                 )
@@ -217,16 +229,15 @@ def main(
                 or fsm.state == FSM.State.EPISODE_STARTED
                 or fsm.state == FSM.State.COLLECTING
             ):
-                if not cfg.sim:
-                    filtered_hand_qpos = robot.control_hands(left_qpos, right_qpos)
-                    qpos = robot.control_joints()  # TODO: add gravity compensation
+                filtered_hand_qpos = robot.control_hands(left_qpos, right_qpos)
+                qpos = robot.control_joints()  # TODO: add gravity compensation
 
-                    if fsm.state == FSM.State.COLLECTING and data_dict is not None:
-                        data_dict.stamp()
-                        left_pose = se3_to_xyzortho6d(left_wrist_mat)
-                        right_pose = se3_to_xyzortho6d(right_wrist_mat)
-                        head_pose = so3_to_ortho6d(head_mat)
-                        data_dict.add_action(filtered_hand_qpos, qpos, np.hstack([left_pose, right_pose, head_pose]))
+                if fsm.state == FSM.State.COLLECTING and data_dict is not None:
+                    data_dict.stamp()
+                    left_pose = se3_to_xyzortho6d(left_wrist_mat)
+                    right_pose = se3_to_xyzortho6d(right_wrist_mat)
+                    head_pose = so3_to_ortho6d(head_mat)
+                    data_dict.add_action(filtered_hand_qpos, qpos, np.hstack([left_pose, right_pose, head_pose]))
 
             if fsm.state == FSM.State.COLLECTING and data_dict is not None:
                 qpos, hand_qpos, ee_pose, head_pose = robot.observe()

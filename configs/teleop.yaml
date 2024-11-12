@@ -18,6 +18,7 @@ wait_time: 5.0
 frequency: 50
 use_waist: false
 use_head: false
+use_depth: false
 
 recording:
   enabled: false

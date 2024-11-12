@@ -13,3 +13,7 @@ wait_time: 3.0
 frequency: 60
 use_waist: false
 use_head: false
+
+joint_filter:
+  min_cutoff: 0.001
+  beta: 10.0

@@ -288,9 +288,9 @@ class TeleopRobot(DexRobot, CameraMixin):
         head_link = self.config.named_links["head_link"]
         root_link = self.config.named_links["root_link"]
 
-        left_pose = self.frame_placement(qpos, left_link, root_link)
-        right_pose = self.frame_placement(qpos, right_link, root_link)
-        head_pose = self.frame_placement(qpos, head_link, root_link)
+        left_pose = self.frame_placement(qpos, left_link, root_link).homogeneous
+        right_pose = self.frame_placement(qpos, right_link, root_link).homogeneous
+        head_pose = self.frame_placement(qpos, head_link, root_link).homogeneous
 
         left_pose = se3_to_xyzortho6d(left_pose)
         right_pose = se3_to_xyzortho6d(right_pose)

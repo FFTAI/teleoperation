@@ -182,9 +182,9 @@ class CameraRealsenseSingle:
 
 
 class CameraRealsenseMulti:
-    def __init__(self, cameras: dict[str, int], camera_config: CameraRealsenseConfig, display_config: DisplayConfig):
+    def __init__(self, keys: dict[str, int], camera_config: CameraRealsenseConfig, display_config: DisplayConfig):
         self.cameras = {}
-        for key, serial_number in cameras.items():
+        for key, serial_number in keys.items():
             logger.info(f"Creating camera {key} with serial number {serial_number}")
             self.cameras[key] = CameraRealsenseSingle(key, serial_number, camera_config)
 

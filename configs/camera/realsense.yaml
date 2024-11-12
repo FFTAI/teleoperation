@@ -1,8 +1,14 @@
 instance:
-  _target_: teleoperation.camera.camera_realsense.CameraRealsense
-  index: 0
-  fps: 60
-
-  display_mode: "mono"
-  display_resolution: [480, 640]
-  display_crop_sizes: [0, 0, 0, 0]
+  _target_: teleoperation.camera.camera_multi.CameraRealsenseMulti
+  cameras:
+    top: 239722071918
+  camera_config:
+    fps: 30
+    width: 640
+    height: 480
+    use_depth: ${use_depth}
+  display_config:
+    key: "top"
+    mode: "mono"
+    resolution: [480, 640]
+    crop_sizes: [0, 0, 0, 0]
