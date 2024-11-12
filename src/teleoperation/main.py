@@ -10,7 +10,7 @@ import hydra
 import numpy as np
 from omegaconf import DictConfig
 
-from teleoperation.data_collection import EpisodeDataDict, RecordingInfo
+from teleoperation.data_collection import EpisodeDataDict, RecordingInfo, get_camera_names
 from teleoperation.filters import LPRotationFilter
 from teleoperation.player import TeleopRobot
 from teleoperation.state_machine import FSM
@@ -31,15 +31,6 @@ class InitializationError(Exception):
 
 
 PROJECT_ROOT = Path(__file__).resolve().parent.parent
-
-
-def get_camera_names(cfg):
-    if cfg.camera.instance.get("key", None) is not None:
-        return [cfg.camera.instance.key]
-    elif cfg.camera.instance.get("keys", {}).keys():
-        return list(cfg.camera.instance.keys.keys())
-    else:
-        raise ValueError("No camera keys found in config.")
 
 
 @hydra.main(config_path=str(CONFIG_DIR), config_name="teleop_gr1", version_base="1.2")

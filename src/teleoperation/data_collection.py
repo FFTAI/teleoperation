@@ -21,6 +21,15 @@ def get_episode_id(session_path: str) -> int:
     return max([int(ep.split("_")[-1].split(".")[0]) for ep in episodes]) + 1
 
 
+def get_camera_names(cfg):
+    if cfg.camera.instance.get("key", None) is not None:
+        return [cfg.camera.instance.key]
+    elif cfg.camera.instance.get("keys", {}).keys():
+        return list(cfg.camera.instance.keys.keys())
+    else:
+        raise ValueError("No camera keys found in config.")
+
+
 @dataclass
 class RecordingInfo:
     episode_id: int
@@ -68,7 +77,7 @@ class RecordingInfo:
 
                 f.attrs["episode_id"] = format_episode_id(self.episode_id)
                 f.attrs["task_name"] = str(cfg.recording.task_name)
-                f.attrs["camera_names"] = list(cfg.recording.camera_names)
+                f.attrs["camera_names"] = get_camera_names(cfg)
                 f.attrs["episode_length"] = data_dict.length
                 f.attrs["episode_duration"] = data_dict.duration
 
