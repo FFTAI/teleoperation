@@ -1,5 +1,7 @@
 # teleoperation
 
+![teleoperation](./figure/gif/VPcommmand.gif)
+
 ## 🚀 Environment Setup
 
 1. Clone the official repository
@@ -135,13 +137,16 @@ We'll be using `mkcert` to create a self-signed certificate. and `mkcert` is a s
   > [!NOTE]
   > For some general setting up questions on visionpro could be found in the [VisionPro Setting FAQ](./visionpro_setting_FAQ.md).
 
-6. open the browser on Safari on VisionPro and go to <https://192.168.1.100:8012?ws=wss://192.168.1.100:8012>
+6. Certicates path
+  Place `key.pem` and `cert.pem` into the `certs` folder to make sure the certificates are accessible by scripts.
+
+7. open the browser on Safari on VisionPro and go to <https://192.168.1.100:8012?ws=wss://192.168.1.100:8012>
 
   You will see the message "Your connection is not secure" because we are using a self-signed certificate. Click "Advanced" and then "proceed to website". You will be prompted to accept the certificate.
 
   Also, since the python script is not running, the browser will show a message "Safari cannot open the page because the server could not be found.". This is expected behavior. **Refresh the page after running the python script** and you will see the VR session.
 
-7. Run the python script on the Ubuntu machine. Please see the [Usage](#usage) section for more details.
+8. Run the python script on the Ubuntu machine. Please see the [Usage](#usage) section for more details.
 
 > [!NOTE]
 > You should be able to use this with Oculus Quest 2 as well. The setup process is more involved, but you should be able to stream using adb follwoing [this issue](https://github.com/OpenTeleVision/TeleVision/issues/12#issue-2401541144).
@@ -154,6 +159,10 @@ We'll be using `mkcert` to create a self-signed certificate. and `mkcert` is a s
     cd ./server_config
     grx run ./gr1t2.yaml --namespace gr/daq
 ```
+
+Before running the GRX server, make sure the robot is in the initial position. Also, if you are first time using the robot, you need to do the calibration first. You can use the `grx calibrate` command to do the initial calibration. THe initial position of the robot looks like this:
+
+<img src="./figure/Pre1.jpg" alt="initial position" width="200"/>
 
 ### Run the teleoperation script
 
@@ -170,7 +179,9 @@ To record data:
 ```
 
 > [!CAUTION]
-> If you are using the real robot with Fourier GRX, please make sure to leave enough empty space between the robot and the table to avoid the robot arm collide with the table. The robot resume to the initial position before and after the teleoperation session.
+> If you are using the real robot with Fourier GRX, please make sure to leave enough empty space between the robot and the table to avoid the robot arm collide with the table. Or you could place the robot arm on the table. The robot resume to the initial teleoperation position before and after the teleoperation session. The sample illustration about place the robot arm on the table is shown below:
+
+<img src="./figure/Pre2.jpg" alt="Teleoperation position" width="300"/>
 
 ### Start the teleoperation
 
@@ -178,10 +189,19 @@ After running the python command, you can open the browser on the VisionPro devi
 
 Finallly, Click the `Enter VR` button and give necessary permissions to start the VR session. Make sure to reset the Vision Pro tracking by long press the crown button on the Vision Pro device until you hear a sound.
 
-After starting the script, the robot will move to its start position. The operator should try to  put their hands in the same start position (elbows 90 degree, hands open), and then hit the `Space` key to start the teleoperation.🦾
+After starting the script, the robot will move to its start position. The operator should try to put their hands in the same start position (elbows 90 degree, hands open), and then hit the `Space` key to start the teleoperation.🦾
 
 Afterwards, the operator can start the teleoperation by moving their hands in the VR session. The robot will mimic the operator's hand movements in real-time.
+
 To stop the teleoperation, the operator can hit the `Space` key again.
+
+***You may watch the video to see how to access the VR session inside the VisionPro device: [VisionPro operation video](./figure/video/Vp.mp4)***
+
+> [!TIP]
+> You could use the pins to help you to lock the robot's waist if you don't want to use the waist. However, make sure you are calling use `use_waist=false` in the command. Otherwise, the robot's waist will be broken. THe pins are located in the image below:
+
+<img src="./figure/Pin1.jpg" alt="Pin position" width="250"/>
+<img src="./figure/Pin2.jpg" alt="Pin position" width="250"/>
 
 ## 🛠️ Development
 
