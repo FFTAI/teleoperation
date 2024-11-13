@@ -21,6 +21,10 @@ class InspireDexHand:
         self.set_positions([1000, 1000, 1000, 1000, 1000, 1000])
 
     def set_positions(self, positions: Sequence[int]):
+        if isinstance(positions, list) or isinstance(positions, tuple):
+            positions = [int(x) for x in positions]
+        else:
+            positions = positions.astype(int)
         self.hand.set_angle(positions)
 
     def get_positions(

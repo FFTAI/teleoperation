@@ -11,6 +11,9 @@ prefix_left: "L_"
 prefix_right: "R_"
 
 tip_indices: [4, 9, 14, 19, 24]
+actuated_indices: [0, 2, 6, 4, 9, 8]
+range_max: [10.3, 10.3, 10.3, 10.3, 0.0, 10.3]
+range_min: [0.0, 0.0, 0.0, 0.0, 10.3, 0.0]
 
 left:
   type: vector
