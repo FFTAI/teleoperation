@@ -19,7 +19,7 @@ from typing import Literal
 
 import cv2
 
-from teleoperation.camera.camera_base import DisplayCamera, RecordCamera
+from teleoperation.camera.utils import DisplayCamera, RecordCamera
 
 logger = logging.getLogger(__name__)
 cv2.setNumThreads(1)

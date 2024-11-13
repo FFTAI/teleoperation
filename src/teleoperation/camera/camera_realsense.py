@@ -9,7 +9,7 @@ import cv2
 import numpy as np
 import pyrealsense2 as rs
 
-from teleoperation.camera.camera_base import DisplayCamera, RecordCamera
+from teleoperation.camera.utils import DisplayCamera, RecordCamera
 from teleoperation.utils import get_timestamp_utc
 
 logger = logging.getLogger(__name__)

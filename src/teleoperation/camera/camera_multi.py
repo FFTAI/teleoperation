@@ -16,8 +16,8 @@ from typing import Literal
 import numpy as np
 import pyrealsense2 as rs
 
-from teleoperation.camera.camera_base import DisplayCamera, RecordCamera
-from teleoperation.utils import get_timestamp_utc
+from teleoperation.camera.utils import DisplayCamera, RecordCamera
+from teleoperation.utils import DisplayCamera, RecordCamera, get_timestamp_utc
 
 logger = logging.getLogger(__name__)
 

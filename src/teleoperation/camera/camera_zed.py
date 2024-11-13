@@ -8,7 +8,7 @@ import cv2
 import numpy as np
 import pyzed.sl as sl
 
-from teleoperation.camera.camera_base import DisplayCamera
+from teleoperation.camera.utils import DisplayCamera
 
 logger = logging.getLogger(__name__)
 
