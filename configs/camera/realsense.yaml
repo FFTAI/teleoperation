@@ -1,6 +1,6 @@
 instance:
   _target_: teleoperation.camera.camera_multi.CameraRealsenseMulti
-  cameras:
+  keys:
     top: 239722071918
   camera_config:
     fps: 30
