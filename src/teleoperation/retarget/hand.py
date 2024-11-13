@@ -82,41 +82,20 @@ class HandRetarget:
 
     def real_to_qpos(self, left_qpos_real, right_qpos_real):
         """Convert real values passed to the hand SDK to hand joint angles"""
-        if self.hand_type == "inspire":
-            left_qpos = remap(
-                left_qpos_real,
-                1000,
-                0,
-                self.left_retargeting.joint_limits[:, 0],
-                self.left_retargeting.joint_limits[:, 1],
-            )
+        left_qpos = remap(
+            left_qpos_real,
+            self.cfg.range_max,
+            self.cfg.range_min,
+            self.left_retargeting.joint_limits[:, 0],
+            self.left_retargeting.joint_limits[:, 1],
+        )
 
-            right_qpos = remap(
-                right_qpos_real,
-                1000,
-                0,
-                self.right_retargeting.joint_limits[:, 0],
-                self.right_retargeting.joint_limits[:, 1],
-            )
+        right_qpos = remap(
+            right_qpos_real,
+            1000,
+            0,
+            self.right_retargeting.joint_limits[:, 0],
+            self.right_retargeting.joint_limits[:, 1],
+        )
 
-            return left_qpos, right_qpos
-        elif self.hand_type == "fourier":
-            eps = 1e-3
-            left_qpos = remap(
-                left_qpos_real,
-                [10.3, 10.3, 10.3, 10.3, eps, 10.3],
-                [eps, eps, eps, eps, 10.3, eps],
-                self.left_retargeting.joint_limits[:, 0],
-                self.left_retargeting.joint_limits[:, 1],
-            )
-            right_qpos = remap(
-                right_qpos_real,
-                [10.3, 10.3, 10.3, 10.3, eps, 10.3],
-                [eps, eps, eps, eps, 10.3, eps],
-                self.right_retargeting.joint_limits[:, 0],
-                self.right_retargeting.joint_limits[:, 1],
-            )
-            return left_qpos, right_qpos
-
-        else:
-            raise NotImplementedError
+        return left_qpos, right_qpos
