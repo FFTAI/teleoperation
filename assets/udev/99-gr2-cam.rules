@@ -1,0 +1,2 @@
+KERNEL=="video*", ATTR{index}=="0", ATTRS{idVendor}=="2019", ATTRS{idProduct}=="2806", MODE="0666", SYMLINK+="fourier_cam0", GROUP="video"
+KERNEL=="video*", ATTR{index}=="0", ATTRS{idVendor}=="2388", ATTRS{idProduct}=="1989", MODE="0666", SYMLINK+="fourier_cam0", GROUP="video"
