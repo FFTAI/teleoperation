@@ -11,8 +11,6 @@ import numpy as np
 from PIL import Image
 from tqdm import tqdm
 
-from teleoperation.camera.utils import save_images_threaded
-
 logger = logging.getLogger(__name__)
 
 
