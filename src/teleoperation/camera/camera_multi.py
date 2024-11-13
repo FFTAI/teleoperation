@@ -256,11 +256,11 @@ class CameraRealsenseMulti:
 
                 # display camera with the right key
                 if self.display_config.key == key:
-                    print(f"Displaying frame for camera {key}")
+                    # print(f"Displaying frame for camera {key}")
                     self.display.put({"rgb": images["color"].copy()}, marker=self.is_recording)
 
                 if self.is_recording:
-                    print(f"Recording frame {self.frame_id} for camera {key}")
+                    # print(f"Recording frame {self.frame_id} for camera {key}")
                     self.recorder.put(images, self.frame_id, os.path.join(self.video_path, key), timestamp)
             if not skip:
                 self.frame_id += 1

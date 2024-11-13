@@ -1,5 +1,6 @@
 from __future__ import annotations
 
+import functools
 import logging
 import os
 from dataclasses import asdict, dataclass, field
@@ -21,11 +22,12 @@ def get_episode_id(session_path: str) -> int:
     return max([int(ep.split("_")[-1].split(".")[0]) for ep in episodes]) + 1
 
 
+@functools.lru_cache(maxsize=1)
 def get_camera_names(cfg):
     if cfg.camera.instance.get("key", None) is not None:
         return [cfg.camera.instance.key]
     elif cfg.camera.instance.get("keys", {}).keys():
-        return list(cfg.camera.instance.keys.keys())
+        return list(cfg.camera.instance.get("keys", {}).keys())
     else:
         raise ValueError("No camera keys found in config.")
 
