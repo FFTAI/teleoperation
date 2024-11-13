@@ -2,10 +2,8 @@ import datetime
 import logging
 import os
 import time
-from dataclasses import asdict
 from pathlib import Path
 
-import h5py
 import hydra
 import numpy as np
 from omegaconf import DictConfig
@@ -18,7 +16,6 @@ from teleoperation.utils import (
     CONFIG_DIR,
     RECORD_DIR,
     KeyboardListener,
-    format_episode_id,
     se3_to_xyzortho6d,
     so3_to_ortho6d,
 )

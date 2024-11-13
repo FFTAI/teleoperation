@@ -1,0 +1,13 @@
+instance:
+  _target_: teleoperation.camera.camera_opencv.CameraOpencv
+  key: "top"
+  port: /dev/video0
+  fps: 30 # max 30
+  width: 640
+  height: 480
+  frame_type: "side_by_side"
+
+
+  display_mode: "stereo"
+  display_resolution: [480, 640]
+  display_crop_sizes: [0, 0, 0, 0]

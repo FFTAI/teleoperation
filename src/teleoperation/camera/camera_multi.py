@@ -1,3 +1,8 @@
+"""
+This module is adapted from https://github.com/huggingface/lerobot/blob/main/lerobot/common/robot_devices/cameras/intelrealsense.py
+License: Apache-2.0 License
+"""
+
 import logging
 import math
 import multiprocessing as mp
@@ -12,7 +17,7 @@ import numpy as np
 import pyrealsense2 as rs
 
 from teleoperation.camera.camera_base import DisplayCamera, RecordCamera
-from teleoperation.utils import DATA_DIR, get_timestamp_utc
+from teleoperation.utils import get_timestamp_utc
 
 logger = logging.getLogger(__name__)
 
@@ -288,20 +293,20 @@ if __name__ == "__main__":
         logger.error("No cameras detected.")
         exit(1)
 
-    # cameras = {"top": 239722071918, "right_wrist": 419122271585}
-    cameras = {"top": 239722071918, "left_wrist": 419122271348, "right_wrist": 419122271585, "bottom": 233522075865}
+    # # cameras = {"top": 239722071918, "right_wrist": 419122271585}
+    # cameras = {"top": 239722071918, "left_wrist": 419122271348, "right_wrist": 419122271585, "bottom": 233522075865}
 
-    camera_config = CameraRealsenseConfig(fps=30, width=640, height=480, use_depth=True)
-    display_config = DisplayConfig(
-        "top",
-        "mono",
-        (480, 640),
-        (0, 0, 0, 0),
-    )
+    # camera_config = CameraRealsenseConfig(fps=30, width=640, height=480, use_depth=True)
+    # display_config = DisplayConfig(
+    #     "top",
+    #     "mono",
+    #     (480, 640),
+    #     (0, 0, 0, 0),
+    # )
 
-    camera_multi = CameraRealsenseMulti(cameras, camera_config, display_config).start()
-    camera_multi.start_recording(os.path.join(DATA_DIR, "test_rec"))
-    print(camera_multi)
-    while True:
-        # print(camera_multi.is_recording)
-        time.sleep(1)
+    # camera_multi = CameraRealsenseMulti(cameras, camera_config, display_config).start()
+    # camera_multi.start_recording(os.path.join(DATA_DIR, "test_rec"))
+    # print(camera_multi)
+    # while True:
+    #     # print(camera_multi.is_recording)
+    #     time.sleep(1)
