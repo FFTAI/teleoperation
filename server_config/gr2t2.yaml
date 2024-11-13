@@ -1,0 +1,159 @@
+# print config file content when start program
+log_config: false
+
+# log level can be set to: "none", "trace", "debug", "warning", "error"
+# - "none": all log message will be shown
+# - "trace": all log message except normal print info will be shown
+# - "debug": all log message except normal print info, trace info will be shown
+# - "warning": all log message except normal print info, trace info, debug info will be shown
+# - "error": all log message except normal print info, trace info, debug info, warning info will be shown
+log_level: "none" # Notice: for client use, please set log_level to "error"
+
+# Control System Layer --------------------------------------------------------
+device_connected: true
+cpu: "X64"
+system: "LINUX"
+
+# Robot Layer -----------------------------------------------------------------
+peripheral:
+  use_joystick: false
+  joystick_type: "XBOX" # support "XBOS", "PS4", "PS5"
+  use_keyboard: false
+  keyboard_type: "NORMAL" # support "NORMAL"
+
+robot:
+  name: "GR2"
+  mechanism: "T2"
+  control_period: 0.02
+  algorithm_period: 0.01 # 100Hz
+  communication_period: 0.02 # 50Hz
+  state_estimator:
+    enable: false
+    path: "/state_estimator/model_gr2_t2.json"
+
+# Component Layer -------------------------------------------------------------
+sensor_usb_imu:
+  usb: ["/dev/ttyUSB0"]
+  comm_enable: [false]
+  comm_frequency: [500]
+
+sensor_abs_encoder:
+  type: "FIFSEV1"
+  data_path: "sensor_offset.json"
+  ip: []
+
+actuator:
+  type: "FIFSAV1"
+  ip:
+    [
+      "left_hip_pitch_joint",
+      "left_hip_roll_joint",
+      "left_hip_yaw_joint",
+      "left_knee_pitch_joint",
+      "left_ankle_roll_joint",
+      "left_ankle_pitch_joint",
+      "right_hip_pitch_joint",
+      "right_hip_roll_joint",
+      "right_hip_yaw_joint",
+      "right_knee_pitch_joint",
+      "right_ankle_roll_joint",
+      "right_ankle_pitch_joint",
+      "waist_yaw_joint",
+      "head_yaw_joint",
+      "head_pitch_joint",
+      "left_shoulder_pitch_joint",
+      "left_shoulder_roll_joint",
+      "left_shoulder_yaw_joint",
+      "left_elbow_pitch_joint",
+      "left_wrist_yaw_joint",
+      "left_wrist_pitch_joint",
+      "left_wrist_roll_joint",
+      "right_shoulder_pitch_joint",
+      "right_shoulder_roll_joint",
+      "right_shoulder_yaw_joint",
+      "right_elbow_pitch_joint",
+      "right_wrist_yaw_joint",
+      "right_wrist_pitch_joint",
+      "right_wrist_roll_joint",
+    ]
+  comm_enable: [
+      # left leg
+      false,
+      false,
+      false,
+      false,
+      false,
+      false,
+      # right leg
+      false,
+      false,
+      false,
+      false,
+      false,
+      false,
+      # waist
+      true,
+      # head
+      true,
+      true,
+      # left arm
+      true,
+      true,
+      true,
+      true,
+      true,
+      true,
+      true,
+      # right arm
+      true,
+      true,
+      true,
+      true,
+      true,
+      true,
+      true,
+    ]
+  comm_use_fast: [
+      # left leg
+      true,
+      true,
+      true,
+      true,
+      true,
+      true,
+      # right leg
+      true,
+      true,
+      true,
+      true,
+      true,
+      true,
+      # waist
+      true,
+      # head
+      true,
+      true,
+      # left arm
+      true,
+      true,
+      true,
+      true,
+      true,
+      true,
+      true,
+      # right arm
+      true,
+      true,
+      true,
+      true,
+      true,
+      true,
+      true,
+    ]
+
+# Hardware Layer ---------------------------------------------------------------
+fi_fse:
+  version: "v1"
+
+fi_fsa:
+  version: "v2"
