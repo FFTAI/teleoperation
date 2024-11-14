@@ -1,6 +1,6 @@
 [project]
 name = "teleoperation"
-version = "0.5.0"
+version = "0.5.1"
 description = "Teleoperation for Fourier Robots"
 authors = [{ name = "Yuxiang Gao", email = "yuxiang.gao@fftai.com" }]
 dependencies = [
@@ -113,7 +113,6 @@ respect-source-order = true
 [[tool.pdm.source]]
 url = "https://pypi.tuna.tsinghua.edu.cn/simple"
 name = "tuna"
-
 
 
 [tool.pdm.dev-dependencies]
