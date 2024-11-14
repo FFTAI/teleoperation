@@ -12,8 +12,8 @@ prefix_right: "R_"
 
 tip_indices: [4, 9, 14, 19, 24]
 actuated_indices: [4, 6, 2, 0, 9, 8]
-range_max: [1000, 1000, 1000, 1000, 1000]
-range_min: [0, 0, 0, 0, 0]
+range_max: [1000, 1000, 1000, 1000, 1000, 1000]
+range_min: [0, 0, 0, 0, 0, 0]
 
 left:
   type: vector
