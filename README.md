@@ -42,7 +42,19 @@
         python get_python_api.py
         ```
 
-4. Setup `fourier-grx`
+4. (Optional) Install Intel RealSense Setup
+    For setting up Intel RealSense, there are two steps that need to be done:
+    - Install the librealsense for using realsense with [official instructions](https://github.com/IntelRealSense/librealsense/blob/master/doc/distribution_linux.md#installing-the-packages)
+    - Cheking the serial number of the camera and update the `realsense.yaml` file in the `camera` directory inside `config` directory.
+    > [!NOTE] If you are using multi realsense cameras, you need to update the `realsense_multi.yaml` file with the serial number of each camera.
+        
+5. (Optional) Install DepthAI library for Oak camera
+    The depthai library could be installed with following command:
+    ```bash
+    $ python3 -m pip install depthai-sdk
+    ```
+
+6. Setup `fourier-grx`
 
 The fourier GR series robots are controlled by the `fourier-grx` package. The `fourier-grx` package is only available for Python 3.11. Thus, we suggest you to create a new virtual environment with Python 3.11 and install the package in the new environment. For more information, please refer to the [official Fourier GRX Documentation](https://fftai.github.io/fourier-grx-client)
 
@@ -169,13 +181,29 @@ Before running the GRX server, make sure the robot is in the initial position. A
 We manage the config with [Hydra](https://hydra.cc/docs/intro/). You can select config files and override with hydra's [override syntax](https://hydra.cc/docs/advanced/override_grammar/basic/).
 
 ```bash
-    python -m teleoperation.main --config-name teleop_gr1 use_waist=false use_head=false camera=realsense
+    python -m teleoperation.main --config-name teleop_gr1 camera=realsense
 ```
-
-To record data:
+By default the script uses Oak camera with GR1T2 robot equipped with Fourier hands. If you want to use another robot or camera, you can modify the config file or use the command line arguments.
 
 ```bash
-    python -m teleoperation.main --config-name daq_gr1 recording.task_name=${task_name}
+    python -m teleoperation.main --config-name teleop_gr1 camera=realsense
+```
+To use the realsense camera, first make sure to specify the serial number in `configs/camera/realsense.yaml` or `configs/camera/realsense_multi.yaml` depending on the number of cameras you are using, you can use the following command:
+
+```bash
+    python -m teleoperation.main --config-name teleop_gr1 camera=realsense # for single realsense camera
+    python -m teleoperation.main --config-name teleop_gr1 camera=realsense_multi # for multi realsense camera
+```
+
+To use a generic camera with opencv, you can use the following command:
+
+```bash
+    python -m teleoperation.main --config-name teleop_gr1 camera=opencv
+```
+To record data, use the daq config file and specify the task name, the syntax is the same as the teleoperation config file.
+
+```bash
+    python -m teleoperation.main --config-name daq_gr1 task_name=${task_name}
 ```
 
 > [!CAUTION]
