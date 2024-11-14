@@ -92,8 +92,8 @@ class HandRetarget:
 
         right_qpos = remap(
             right_qpos_real,
-            1000,
-            0,
+            self.cfg.range_max,
+            self.cfg.range_min,
             self.right_retargeting.joint_limits[:, 0],
             self.right_retargeting.joint_limits[:, 1],
         )
