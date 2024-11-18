@@ -39,6 +39,12 @@ logger = logging.getLogger(__name__)
 image_lock = Lock()
 
 
+def get_hostname():
+    import os
+
+    return os.uname().nodename
+
+
 class OpenTeleVision:
     def __init__(
         self,
@@ -58,14 +64,18 @@ class OpenTeleVision:
             self.img_shape = (img_shape[0], img_shape[1], 3)
         self.img_height, self.img_width = img_shape[:2]
 
+        url = f"https://{get_hostname()}.local:8012"
+        ws_url = f"wss://{get_hostname()}.local:8012"
+
         if ngrok:
             self.app = Vuer(host="0.0.0.0", queries={"grid": False}, queue_len=3)
         else:
             self.app = Vuer(
+                domain=url,
                 host="0.0.0.0",
                 cert=cert_file,
                 key=key_file,
-                queries={"grid": False},
+                queries={"ws": ws_url, "grid": False},
                 queue_len=3,
             )
 
@@ -101,6 +111,7 @@ class OpenTeleVision:
 
     def run(self):
         self.app.run()
+        logger.error("App exited unexpectedly")
 
     async def on_cam_move(self, event, session, fps=60):
         try:
