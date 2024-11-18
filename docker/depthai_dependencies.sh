@@ -26,7 +26,7 @@ readonly ubuntu_pkgs=(
     libjpeg-dev
     libpng-dev
     libtiff-dev
-    libdc1394-22-dev
+    libdc1394-dev
     # https://stackoverflow.com/questions/55313610
     ffmpeg
     libsm6
