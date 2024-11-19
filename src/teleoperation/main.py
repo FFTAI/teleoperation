@@ -65,6 +65,7 @@ def main(
     listener.start()
 
     def trigger():
+        """Get keyboard triggers. `space` for FSM state transition, `x` for discarding current episode, `s` for stop (TODO)"""
         pressed = listener.key_pressed
         # logger.info(f"Pressed keys: {pressed}")
         if pressed is None:
@@ -72,7 +73,7 @@ def main(
         if pressed.get("space", False):
             return True, "space"
         for key, value in pressed.items():
-            if value and key in ["q", "x", "d", "s"]:
+            if value and key in ["q", "x", "d", "s", "z", "p"]:
                 return True, key
         return False, None
 
@@ -90,7 +91,7 @@ def main(
     try:
         while True:
             start = time.monotonic()
-            # ----- update readings -----
+            # step robot states
             (
                 head_mat,
                 left_wrist_mat,
@@ -101,16 +102,24 @@ def main(
 
             head_mat = head_filter.next_mat(head_mat)
 
+            # set new ik target for left/right wrist and head orientation,
+            # the result will be updated to robot.configuration,
+            # which can be retrieved from property robot.q_real
+            # and actuated by calling robot.control_joints()
             robot.solve(left_wrist_mat, right_wrist_mat, head_mat, dt=1 / cfg.frequency)
 
+            # set hand joints detected from headset to the internal model, mainly for display
             robot.set_hand_joints(left_qpos, right_qpos)
 
             if robot.viz and cfg.debug:
+                # display head target
                 robot.viz.viewer["head"].set_transform(head_mat)
 
+            # call this to update meshcat visualization, does nothing if visualization is not enabled
             robot.update_display()
 
             # ----- logic -----
+            # skip if cionnection to headset not established
             if not robot.tv.connected:
                 continue
             if robot.tv.connected and fsm.state == FSM.State.INITIALIZED:

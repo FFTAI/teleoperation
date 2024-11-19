@@ -29,6 +29,7 @@ class FSM:
     def state(self, value):
         self.prev_state = self._state
         self._state = value
+        logger.info(f"[FSM] transition {self.prev_state} -> {self.state}")
 
     def disenage(self, robot):
         robot.pause_robot()

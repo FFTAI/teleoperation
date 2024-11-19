@@ -184,7 +184,7 @@ class TeleopRobot(DexRobot, CameraMixin):
         self.tv = OpenTeleVision(
             self.cam.display.shape,
             self.cam.display.shm_name,
-            stream_mode=f"rgb_{self.cam.display.mode}",
+            stream_mode=f"rgb_{self.cam.display.mode}",  # type: ignore
             ngrok=False,
             cert_file=str(CERT_DIR / "cert.pem"),
             key_file=str(CERT_DIR / "key.pem"),
@@ -236,7 +236,7 @@ class TeleopRobot(DexRobot, CameraMixin):
         """
         head_mat, left_wrist_mat, right_wrist_mat, left_hand_mat, right_hand_mat = self.processor.process(self.tv)
 
-        if self.viz and self.config.get("debug_hand", False):
+        if self.viz and self.config.get("debug_hand", False):  # type: ignore
             from itertools import product
 
             left_wrist_display = left_wrist_mat.copy()
@@ -309,8 +309,8 @@ class TeleopRobot(DexRobot, CameraMixin):
             np.ndarray: concatenated and filtered hand qpos in real steps
         """
         left, right = self.hand_action_convert(left_qpos, right_qpos, filtering=True)
-        self.left_hand.set_positions(left)
-        self.right_hand.set_positions(right)
+        self.left_hand.set_positions(left)  # type: ignore
+        self.right_hand.set_positions(right)  # type: ignore
 
         return np.hstack([left, right])
 
