@@ -194,7 +194,6 @@ class TeleopRobot(DexRobot, CameraMixin):
 
         if not self.sim:
             logger.warning("Real robot mode.")
-
             self.client: RobotAdapter = hydra.utils.instantiate(cfg.robot.instance)
 
             self.client.connect()

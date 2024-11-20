@@ -1,0 +1,1 @@
+python3 -m teleoperation.main --config-name teleop_gr1_12dof use_waist=false use_head=false camera=realsense

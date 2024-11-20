@@ -193,8 +193,10 @@ class DexRobot(IKRobot):
                 )
             else:
                 raise ValueError("Invalid hand type.")
-
-        return filtered_hand_qpos[:6], filtered_hand_qpos[6:]
+        # print(f"filtered_hand_qpos:{filtered_hand_qpos}")
+        # print("-"*120)
+        # return filtered_hand_qpos[:6], filtered_hand_qpos[6:]
+        return filtered_hand_qpos[:12], filtered_hand_qpos[12:]
 
     def set_hand_joints(self, left_hand_qpos: np.ndarray, right_hand_qpos: np.ndarray):
         """Set the joint positions of the hands to pinocchio

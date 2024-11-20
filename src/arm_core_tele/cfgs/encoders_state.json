@@ -1,0 +1,77 @@
+{
+    "Body/ThighActionRollLeftEncoder": {
+        "calibration_pose": 53.72314453125,
+        "poweron_pose": 50.3173828125,
+        "joint_name": "Body/ThighActionRollLeft"
+    },
+    "Body/ThighActionYawLeftEncoder": {
+        "calibration_pose": 148.99658203125,
+        "poweron_pose": 148.86474609375,
+        "joint_name": "Body/ThighActionYawLeft"
+    },
+    "Body/ThighActionPitchLeftEncoder": {
+        "calibration_pose": 317.79052734375,
+        "poweron_pose": 319.24072265625,
+        "joint_name": "Body/ThighActionPitchLeft"
+    },
+    "Body/KennActionPitchLeftEncoder": {
+        "calibration_pose": 249.609375,
+        "poweron_pose": 249.49951171875,
+        "joint_name": "Body/KennActionPitchLeft"
+    },
+    "Body/FootActionPitchLeftEncoder": {
+        "calibration_pose": 111.20361328125,
+        "poweron_pose": 86.63818359375,
+        "joint_name": "Body/FootActionPitchLeft"
+    },
+    "Body/FootActionRollLeftEncoder": {
+        "calibration_pose": 36.03515625,
+        "poweron_pose": 44.560546875,
+        "joint_name": "Body/FootActionRollLeft"
+    },
+    "Body/ThighActionRollRightEncoder": {
+        "calibration_pose": 322.40478515625,
+        "poweron_pose": 323.2177734375,
+        "joint_name": "Body/ThighActionRollRight"
+    },
+    "Body/ThighActionYawRightEncoder": {
+        "calibration_pose": 85.23193359375,
+        "poweron_pose": 85.2978515625,
+        "joint_name": "Body/ThighActionYawRight"
+    },
+    "Body/ThighActionPitchRightEncoder": {
+        "calibration_pose": 139.46044921875,
+        "poweron_pose": 140.29541015625,
+        "joint_name": "Body/ThighActionPitchRight"
+    },
+    "Body/KennActionPitchRightEncoder": {
+        "calibration_pose": 323.96484375,
+        "poweron_pose": 324.25048828125,
+        "joint_name": "Body/KennActionPitchRight"
+    },
+    "Body/FootActionPitchRightEncoder": {
+        "calibration_pose": 156.99462890625,
+        "poweron_pose": 164.7509765625,
+        "joint_name": "Body/FootActionPitchRight"
+    },
+    "Body/FootActionRollRightEncoder": {
+        "calibration_pose": 227.4609375,
+        "poweron_pose": 219.6826171875,
+        "joint_name": "Body/FootActionRollRight"
+    },
+    "Body/WaistActionYawEncoder": {
+        "calibration_pose": 30.95947265625,
+        "poweron_pose": 59.5458984375,
+        "joint_name": "Body/WaistActionYaw"
+    },
+    "Body/WaistActionPitchEncoder": {
+        "calibration_pose": 136.2744140625,
+        "poweron_pose": 136.38427734375,
+        "joint_name": "Body/WaistActionPitch"
+    },
+    "Body/WaistActionRollEncoder": {
+        "calibration_pose": 183.4716796875,
+        "poweron_pose": 184.0869140625,
+        "joint_name": "Body/WaistActionRoll"
+    }
+}
