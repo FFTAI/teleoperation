@@ -4,12 +4,12 @@ hand_side: "${hand_side}"
 # hand_side: "Left"
 
 left_hand:
-  _target_: teleohand.hands.fourier_12dof.FourierDexHand12dof
+  _target_: teleohand.hands.fourier.FourierDexHand12dof
   hand_ip: "192.168.137.19"
   dimension: 12
 
 right_hand:
-  _target_: teleohand.hands.fourier_12dof.FourierDexHand12dof
+  _target_: teleohand.hands.fourier.FourierDexHand12dof
   hand_ip: "192.168.137.39"
   dimension: 12
   
