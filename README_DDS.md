@@ -31,6 +31,10 @@ xhost +local:root
 ### 2. 构建镜像
 
 ```bash
+git clone https://github.com/Geo-JTao/teleoperation.git
+mv teleoperation teleoperation_dds && cd teleoperation_dds
+git checkout feature/teleop_dds 
+mv Dockerfile ../Dockerfile && cd ../ 
 docker build -t <your image name> .
 # 查看镜像ID
 docker images
