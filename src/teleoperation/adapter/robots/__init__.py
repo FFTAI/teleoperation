@@ -4,7 +4,7 @@ from typing import Protocol, runtime_checkable
 import numpy as np
 
 from .grx import GR1Robot
-
+from .grx_dds import GR1Robot_DDS
 
 @runtime_checkable
 class RobotAdapter(Protocol):

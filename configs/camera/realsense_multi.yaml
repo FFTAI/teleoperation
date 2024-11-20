@@ -1,7 +1,7 @@
 instance:
   _target_: teleoperation.camera.camera_multi.CameraRealsenseMulti
   keys:
-    top: 239722071918
+    top: 233622079521
     left_wrist: 419122271348
     right_wrist: 419122271585
   camera_config:
