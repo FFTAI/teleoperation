@@ -2,22 +2,29 @@ import logging
 import time
 
 from fourier_dhx.sdk.DexHand import DexHand
-# from fdh12 import DexHand12
+
 
 logger = logging.getLogger(__name__)
 
+class FourierDexHand12dof:
+    def __init__(self, hand_ip: str, dimension: int = 12):
 
-class FourierDexHand:
-    def __init__(self, hand_ip: str, dimension: int = 6):
         self.hand = DexHand(hand_ip)
         self.dimension = dimension
         self._hand_positions = [0] * dimension
+        self.init()
 
     def init(self):
-        pass
+        self.hand.ctrl_set_disable()
+        self.hand.ctrl_calibration()
+        # wait for calibration
+        time.sleep(4)
+        self.hand.ctrl_set_position([0]*12)
+        time.sleep(1)
 
     def get_positions(self):
-        res = self.hand.get_angle()
+        keep_pos = [-1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1]
+        res = self.hand.ctrl_set_position(keep_pos)
         if isinstance(res, list) and len(res) == self.dimension:
             self._hand_positions = res
         else:
@@ -28,10 +35,9 @@ class FourierDexHand:
         if len(positions) != self.dimension:
             logger.error(f"Invalid positions: {positions}")
             return
-        self.hand.set_angle(0, positions)
+        self.hand.ctrl_set_position(positions)
 
     def reset(self):
-        self.hand.set_pwm([-200] * self.dimension)
-        time.sleep(2.0)
-        self.hand.set_pwm([0] * self.dimension)
-
+        pos = [0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0]
+        self.hand.ctrl_set_position(pos)
+        time.sleep(0.5)
