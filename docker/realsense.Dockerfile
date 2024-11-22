@@ -2,7 +2,7 @@ ARG BASE_IMAGE=yuxianggao/python:3.11-22.04
 #################################
 #   Librealsense Builder Stage  #
 #################################
-FROM $BASE_IMAGE as librealsense-builder
+FROM $BASE_IMAGE AS librealsense-builder
 
 ARG LIBRS_VERSION
 # Make sure that we have a version number of librealsense as argument
@@ -10,6 +10,23 @@ RUN test -n "$LIBRS_VERSION"
 
 # To avoid waiting for input during package installation
 ENV DEBIAN_FRONTEND=noninteractive
+
+# RUN mv /etc/apt/sources.list /etc/apt/sources.list.bak
+# RUN cat <<EOF > /etc/apt/sources.list
+#     deb http://mirrors.ustc.edu.cn/ubuntu/ focal main restricted universe multiverse
+#     deb http://mirrors.ustc.edu.cn/ubuntu/ focal-updates main restricted universe multiverse
+#     deb http://mirrors.ustc.edu.cn/ubuntu/ focal-backports main restricted universe multiverse
+#     deb http://mirrors.ustc.edu.cn/ubuntu/ focal-security main restricted universe multiverse
+# EOF
+
+
+# RUN mv /etc/apt/sources.list /etc/apt/sources.list.bak
+RUN cat <<EOF > /etc/apt/sources.list
+    deb https://mirrors.tuna.tsinghua.edu.cn/debian/ bookworm main contrib non-free non-free-firmware
+    deb https://mirrors.tuna.tsinghua.edu.cn/debian/ bookworm-updates main contrib non-free non-free-firmware
+    deb https://mirrors.tuna.tsinghua.edu.cn/debian/ bookworm-backports main contrib non-free non-free-firmware
+    deb https://security.debian.org/debian-security bookworm-security main contrib non-free non-free-firmware
+EOF
 
 # Builder dependencies installation
 RUN apt-get update \
@@ -24,6 +41,7 @@ RUN apt-get update \
     libglfw3-dev \
     libgl1-mesa-dev \
     libglu1-mesa-dev \
+    libudev-dev \
     curl \
     # python3 \
     # python3-dev \
@@ -53,7 +71,7 @@ RUN cd /usr/src/librealsense \
 ######################################
 #   librealsense Base Image Stage    #
 ######################################
-FROM ${BASE_IMAGE} as librealsense
+FROM ${BASE_IMAGE} AS librealsense
 
 # Copy binaries from builder stage
 COPY --from=librealsense-builder /opt/librealsense /usr/local/
