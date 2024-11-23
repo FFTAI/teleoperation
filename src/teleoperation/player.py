@@ -228,6 +228,9 @@ class TeleopRobot(DexRobot, CameraMixin):
         if self.cam.is_recording:
             self.cam.stop_recording()
 
+    def delete_recording(self):
+        self.cam.delete_recording()
+
     def step(self):
         """Receive measurements from Mocap/VR
 

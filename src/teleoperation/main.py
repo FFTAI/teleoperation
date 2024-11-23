@@ -199,7 +199,7 @@ def main(
                 if not cfg.recording.enabled or recording is None:
                     raise InitializationError("Recording not initialized.")
                 logger.warning(f"Episode {recording.episode_id} discarded")
-                robot.stop_recording()  # TODO: make sure to delete the video file
+                robot.delete_recording()
                 data_dict = EpisodeDataDict.new(recording.episode_id, camera_names)
                 fsm.state = FSM.State.IDLE
                 continue
