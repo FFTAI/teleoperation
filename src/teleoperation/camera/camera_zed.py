@@ -8,7 +8,7 @@ import cv2
 import numpy as np
 import pyzed.sl as sl
 
-from teleoperation.camera.utils import DisplayCamera
+from teleoperation.camera.utils import DisplayCamera, delete_if_exists
 
 logger = logging.getLogger(__name__)
 
@@ -63,6 +63,7 @@ class CameraZed:
     def start_recording(self, output_path: str):
         self.frame_id = 0
         self.video_path = output_path
+        delete_if_exists(self.video_path)
         self.is_recording = True
         with self._flag_recording.get_lock():
             self._flag_recording.value = 1
@@ -73,9 +74,6 @@ class CameraZed:
         with self._flag_recording.get_lock():
             self._flag_recording.value = -1
             
-    def delete_recording(self):
-        if self.is_recording:
-            self.stop_recording()
 
     def run(self):
         while not self.stop_event.is_set() and self.zed is not None:

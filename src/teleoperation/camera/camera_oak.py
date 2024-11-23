@@ -11,7 +11,7 @@ import depthai as dai
 from depthai_sdk import OakCamera
 from depthai_sdk.classes.packets import FramePacket
 
-from teleoperation.camera.utils import DisplayCamera, RecordCamera
+from teleoperation.camera.utils import DisplayCamera, RecordCamera, delete_if_exists
 from teleoperation.utils import get_timestamp_utc
 
 logger = logging.getLogger(__name__)
@@ -66,16 +66,13 @@ class CameraOak:
     def start_recording(self, output_path: str):
         self.frame_id = 0
         self.video_path = os.path.join(output_path, self.key)
+        delete_if_exists(self.video_path)
         self.is_recording.set()
 
     def stop_recording(self):
         self.is_recording.clear()
         self.frame_id = 0
         
-    def delete_recording(self):
-        if self.is_recording.is_set():
-            self.stop_recording()
-        self.recorder.delete(self.video_path)
 
     def run(self):
         oak, q_display, q_obs = self._make_camera()

@@ -25,13 +25,13 @@ class RecordCamera:
         self.processes = []
         self.delete_event = mp.Event()
         
-    def delete(self, video_path: str):
-        self.delete_event.set()
-        # empty the queue
-        while not self.save_queue.empty():
-            self.save_queue.get()
-        delete_dir(video_path)
-        self.delete_event.clear()
+    # def delete(self, video_path: str):
+    #     self.delete_event.set()
+    #     # empty the queue
+    #     while not self.save_queue.empty():
+    #         self.save_queue.get()
+    #     delete_dir(video_path)
+    #     self.delete_event.clear()
 
     def put(self, frames: dict[str, np.ndarray | None], frame_id: int, video_path: str, timestamp: float):
         for key, frame in frames.items():
@@ -136,10 +136,22 @@ def save_image(img, key, frame_index, videos_dir: str):
     img.save(str(path), quality=100)
     
 def delete_dir(videos_dir: str):
-    path = Path(videos_dir)
-    for file in path.glob("*"):
-        file.unlink()
-    path.rmdir()
+    path = Path(videos_dir).resolve()
+    while True:
+        for file in path.glob("*"):
+            file.unlink()
+        try:
+            path.rmdir()
+            logger.info(f"Deleted directory: {path}")
+            return
+        except:
+            logger.info(f"Failed to delete directory: {path}")
+            time.sleep(1/60)
+            
+def delete_if_exists(dir: str):
+    path = Path(dir)
+    if path.exists():
+        delete_dir(dir)
 
 
 def save_timestamp(timestamp, key, frame_index, videos_dir: str):
