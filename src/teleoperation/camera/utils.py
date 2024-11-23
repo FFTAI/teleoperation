@@ -14,6 +14,7 @@ from tqdm import tqdm
 logger = logging.getLogger(__name__)
 
 
+
 class RecordCamera:
     def __init__(self, num_processes: int = 1, num_threads: int = 4, queue_size: int = 30):
         super().__init__()
@@ -21,6 +22,11 @@ class RecordCamera:
         self.num_threads = num_threads
         self.save_queue = mp.Queue(maxsize=queue_size)
         self.processes = []
+        self.dir_lock = mp.Lock()
+        
+    def delete(self, video_path: str):
+        with self.dir_lock:
+            delete_dir(video_path)
 
     def put(self, frames: dict[str, np.ndarray | None], frame_id: int, video_path: str, timestamp: float):
         for key, frame in frames.items():
@@ -29,7 +35,7 @@ class RecordCamera:
 
     def start(self):
         for _ in range(self.num_processes):
-            p = mp.Process(target=save_images_threaded, args=(self.save_queue, self.num_threads), daemon=True)
+            p = mp.Process(target=save_images_threaded, args=(self.save_queue, self.num_threads, self.dir_lock), daemon=True)
             p.start()
             self.processes.append(p)
 
@@ -123,6 +129,12 @@ def save_image(img, key, frame_index, videos_dir: str):
     path = Path(videos_dir) / f"{key}_frame_{frame_index:09d}.png"
     path.parent.mkdir(parents=True, exist_ok=True)
     img.save(str(path), quality=100)
+    
+def delete_dir(videos_dir: str):
+    path = Path(videos_dir)
+    for file in path.glob("*"):
+        file.unlink()
+    path.rmdir()
 
 
 def save_timestamp(timestamp, key, frame_index, videos_dir: str):
@@ -133,11 +145,15 @@ def save_timestamp(timestamp, key, frame_index, videos_dir: str):
         f.write(f"{frame_index:09d},{timestamp}\n")
 
 
-def save_images_threaded(queue, num_threads=4):
+def save_images_threaded(queue, num_threads=4, lock=None):
     with concurrent.futures.ThreadPoolExecutor(max_workers=num_threads) as executor:
         futures = []
         while True:
-            frame_data = queue.get()
+            if lock is not None:
+                with lock:
+                    frame_data = queue.get()
+            else:
+                frame_data = queue.get()
             if frame_data is None:
                 logger.info("Exiting save_images_threaded")
                 break

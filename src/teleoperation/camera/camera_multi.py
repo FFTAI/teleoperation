@@ -215,6 +215,11 @@ class CameraRealsenseMulti:
     def stop_recording(self):
         self.record_event.clear()
         self.frame_id = 0
+        
+    def delete_recording(self):
+        if self.record_event.is_set():
+            self.stop_recording()
+        self.recorder.delete(self.video_path)
 
     @property
     def is_recording(self):

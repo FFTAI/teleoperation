@@ -71,6 +71,11 @@ class CameraOak:
     def stop_recording(self):
         self.is_recording.clear()
         self.frame_id = 0
+        
+    def delete_recording(self):
+        if self.is_recording.is_set():
+            self.stop_recording()
+        self.recorder.delete(self.video_path)
 
     def run(self):
         oak, q_display, q_obs = self._make_camera()
