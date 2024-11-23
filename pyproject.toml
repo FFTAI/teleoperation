@@ -1,6 +1,6 @@
 [project]
 name = "teleoperation"
-version = "0.5.2"
+version = "0.5.3"
 description = "Teleoperation for Fourier Robots"
 authors = [{ name = "Yuxiang Gao", email = "yuxiang.gao@fftai.com" }]
 dependencies = [
