@@ -23,6 +23,8 @@ class CameraOak:
         key: str,
         fps: int,
         use_depth: bool,
+        stereo_resolution: str,
+        color_resolution: str,
         display_mode: Literal["mono", "stereo"],
         display_resolution: tuple[int, int],
         display_crop_sizes: tuple[int, int, int, int],
@@ -30,6 +32,9 @@ class CameraOak:
         self.key = key
         self.fps = fps
         self.use_depth = use_depth
+        self.stereo_resolution = stereo_resolution
+        self.color_resolution = color_resolution
+
         self.display = DisplayCamera(display_mode, display_resolution, display_crop_sizes)
         self.recorder = RecordCamera()
         self.stop_event = mp.Event()
@@ -72,7 +77,6 @@ class CameraOak:
     def stop_recording(self):
         self.is_recording.clear()
         self.frame_id = 0
-        
 
     def run(self):
         oak, q_display, q_obs = self._make_camera()
@@ -133,17 +137,18 @@ class CameraOak:
         if self.oak is not None:
             self.oak.close()
         oak = OakCamera()
-        left = oak.create_camera("left", resolution="720p", fps=60)
-        right = oak.create_camera("right", resolution="720p", fps=60)
+        left = oak.create_camera("left", resolution=self.stereo_resolution, fps=30)
+        right = oak.create_camera("right", resolution=self.stereo_resolution, fps=30)
         q_display = (
             oak.queue([left, right], max_size=3).configure_syncing(threshold_ms=int((1000 / 60) / 2)).get_queue()
         )
 
-        color = oak.create_camera("CAM_A", resolution="1080p", encode="mjpeg", fps=30)
-        color.config_color_camera(isp_scale=(2, 3))
+        color = oak.create_camera("CAM_A", resolution=self.color_resolution, encode="mjpeg", fps=30)
+        if self.color_resolution == "1080p":
+            color.config_color_camera(isp_scale=(2, 3))
 
         if self.use_depth:
-            stereo = oak.create_stereo(left=left, right=right, resolution="720p", fps=30)
+            stereo = oak.create_stereo(left=left, right=right, resolution=self.stereo_resolution, fps=30)
             stereo.config_stereo(align=color, subpixel=True, lr_check=True)
             # stereo.node.setOutputSize(640, 360) # 720p, downscaled to 640x360 (decimation filter, median filtering)
             # On-device post processing for stereo depth

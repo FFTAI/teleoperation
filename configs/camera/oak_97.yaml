@@ -3,9 +3,9 @@ instance:
   key: "top"
   fps: 60
   use_depth: ${use_depth}
-  stereo_resolution: "720p"
-  color_resolution: "1080p"
+  stereo_resolution: "800p"
+  color_resolution: "800p"
 
   display_mode: "stereo"
-  display_resolution: [720, 1280]
+  display_resolution: [800, 1280]
   display_crop_sizes: [0, 0, 0, 0]
