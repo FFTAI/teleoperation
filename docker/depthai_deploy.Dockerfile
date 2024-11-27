@@ -1,5 +1,5 @@
-# FROM 192.168.3.15:9595/farts/depthai:latest
-FROM yuxianggao/depthai:latest
+FROM 192.168.3.15:9595/farts/depthai:latest
+# FROM yuxianggao/depthai:latest
 
 # # Install the ca-certificate package
 # RUN apt-get update && apt-get install -y ca-certificates && apt-get clean && rm -rf /var/lib/apt/lists/*
@@ -17,6 +17,6 @@ COPY README.md /app/
 
 WORKDIR /app
 
-RUN pip install --upgrade pip && \
-    pip install -e ".[fourier,depthai]" --extra-index-url https://download.pytorch.org/whl/cpu && \
+RUN pip install --upgrade --no-cache-dir pip && \
+    pip install --no-cache-dir -e ".[fourier,depthai]" --extra-index-url https://download.pytorch.org/whl/cpu && \
     pip uninstall -y typing

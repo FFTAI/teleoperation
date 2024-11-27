@@ -8,4 +8,4 @@ RUN apt-get update && apt-get install -y --no-install-recommends \
 ADD depthai_dependencies.sh .
 RUN ./depthai_dependencies.sh
 
-RUN pip install depthai-sdk
+RUN pip install --no-cache-dir depthai-sdk

@@ -9,6 +9,6 @@ COPY README.md /app/
 
 WORKDIR /app
 
-RUN pip install --upgrade pip && \
-    pip install -e ".[fourier,depthai]" --extra-index-url https://download.pytorch.org/whl/cpu && \
+RUN pip install --upgrade --no-cache-dir  pip && \
+    pip install --no-cache-dir -e ".[fourier,depthai]" --extra-index-url https://download.pytorch.org/whl/cpu && \
     pip uninstall -y typing
