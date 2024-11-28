@@ -13,7 +13,7 @@ class FourierDexHand:
         self.dimension = dimension
         self._hand_positions = [0] * dimension
         
-        self._hand_pos_lock = threading.Lock()s
+        self._hand_pos_lock = threading.Lock()
         self.get_pos_thread = threading.Thread(target=self._get_positions, daemon=True)
         self.get_pos_thread.start()
         
