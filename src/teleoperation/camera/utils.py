@@ -135,11 +135,20 @@ def save_image(img, key, frame_index, videos_dir: str):
     path.parent.mkdir(parents=True, exist_ok=True)
     img.save(str(path), quality=100)
     
+def save_image_by_ts(img, key, timestamp, videos_dir: str):
+    img = Image.fromarray(img)
+    path = Path(videos_dir) / f"{key}" / f"{timestamp}.png"
+    path.parent.mkdir(parents=True, exist_ok=True)
+    img.save(str(path), quality=100)
+    
 def delete_dir(videos_dir: str):
     path = Path(videos_dir).resolve()
     while True:
         for file in path.glob("*"):
-            file.unlink()
+            if file.is_file():
+                file.unlink()
+            else:
+                delete_dir(str(file))
         try:
             path.rmdir()
             logger.info(f"Deleted directory: {path}")
@@ -175,10 +184,10 @@ def save_images_threaded(queue, num_threads=4, deletion_event=None):
                 break
 
             img, key, frame_index, videos_dir, timestamp = frame_data
-            future = executor.submit(save_image, img, key, frame_index, videos_dir)
-            save_timestamp_future = executor.submit(save_timestamp, timestamp, key, frame_index, videos_dir)
+            future = executor.submit(save_image_by_ts, img, key, timestamp, videos_dir)
+            # save_timestamp_future = executor.submit(save_timestamp, timestamp, key, frame_index, videos_dir)
             futures.append(future)
-            futures.append(save_timestamp_future)
+            # futures.append(save_timestamp_future)
 
         with tqdm(total=len(futures), desc="Writing images") as progress_bar:
             concurrent.futures.wait(futures)
