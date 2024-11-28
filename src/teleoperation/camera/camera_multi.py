@@ -54,6 +54,9 @@ class CameraRealsenseConfig:
     width: int
     height: int
     use_depth: bool = False
+    save_processes: int = 2
+    save_threads: int = 4
+    save_queue_size: int = 120
 
 
 @dataclass
@@ -195,7 +198,7 @@ class CameraRealsenseMulti:
 
         self.fps = camera_config.fps
         self.display_config = display_config
-        self.recorder = RecordCamera(2, 4, 120)
+        self.recorder = RecordCamera(camera_config.save_processes, camera_config.save_threads, camera_config.save_queue_size)
         self.display = DisplayCamera(
             self.display_config.mode, self.display_config.resolution, self.display_config.crop_sizes
         )

@@ -9,6 +9,9 @@ instance:
     width: 640
     height: 480
     use_depth: ${use_depth}
+    save_processes: 8
+    save_threads: 4
+    save_queue_size: 120
   display_config:
     key: "top"
     mode: "mono"

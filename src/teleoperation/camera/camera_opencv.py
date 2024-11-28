@@ -97,6 +97,9 @@ class CameraOpencv:
         width: int,
         height: int,
         frame_type: Literal["normal", "side_by_side"],
+        save_processes: int,
+        save_threads: int,
+        save_queue_size: int,
         display_mode: Literal["mono", "stereo"],
         display_resolution: tuple[int, int],
         display_crop_sizes: tuple[int, int, int, int],
@@ -108,7 +111,7 @@ class CameraOpencv:
         self.height = height
         self.frame_type = frame_type
         self.display = DisplayCamera(display_mode, display_resolution, display_crop_sizes)
-        self.recorder = RecordCamera()
+        self.recorder = RecordCamera(save_processes, save_threads, save_queue_size)
         self.stop_event = mp.Event()
 
         self.episode_id = 0

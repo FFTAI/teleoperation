@@ -7,6 +7,9 @@ instance:
   height: 480
   frame_type: "side_by_side"
 
+  save_processes: 8
+  save_threads: 4
+  save_queue_size: 30
 
   display_mode: "stereo"
   display_resolution: [480, 640]
