@@ -205,8 +205,11 @@ def main(
                 if not cfg.recording.enabled or recording is None:
                     raise InitializationError("Recording not initialized.")
                 logger.warning(f"Episode {recording.episode_id} discarded")
+                data_dict = None
                 robot.stop_recording()
-                data_dict = EpisodeDataDict.new(recording.episode_id, camera_names)
+
+                time.sleep(0.5)
+
                 fsm.state = FSM.State.IDLE
                 continue
 
@@ -214,6 +217,7 @@ def main(
                 if not cfg.recording.enabled or recording is None or data_dict is None:
                     raise InitializationError("Recording not initialized.")
                 robot.pause_robot()
+                recording.save_episode(data_dict, cfg)
                 robot.stop_recording()
 
                 # episode_length = time.time() - collection_start  # type: ignore
@@ -221,7 +225,8 @@ def main(
                     f"Episode {recording.episode_id} took {data_dict.duration:.2f} seconds. Saving data to {recording.episode_path}"
                 )
 
-                recording.save_episode(data_dict, cfg)
+                time.sleep(0.5)
+                data_dict = None
                 recording.increment()
 
                 fsm.state = FSM.State.IDLE
@@ -233,7 +238,7 @@ def main(
                 or fsm.state == FSM.State.COLLECTING
             ):
                 filtered_hand_qpos = robot.control_hands(left_qpos, right_qpos)
-                qpos = robot.control_joints()  # TODO: add gravity compensation
+                qpos = robot.control_joints()
 
                 if fsm.state == FSM.State.COLLECTING and data_dict is not None:
                     data_dict.stamp()
