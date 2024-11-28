@@ -1,4 +1,5 @@
 import logging
+import threading
 import time
 
 from fourier_dhx.sdk.DexHand import DexHand
@@ -11,17 +12,28 @@ class FourierDexHand:
         self.hand = DexHand(hand_ip)
         self.dimension = dimension
         self._hand_positions = [0] * dimension
+        
+        self._hand_pos_lock = threading.Lock()s
+        self.get_pos_thread = threading.Thread(target=self._get_positions, daemon=True)
+        self.get_pos_thread.start()
+        
+    def _get_positions(self):
+        while True:
+            res = self.hand.get_angle()
+            if isinstance(res, list) and len(res) == self.dimension:
+                with  self._hand_pos_lock:
+                    self._hand_positions = res
+            else:
+                logger.warning(f"Getting hand pos error: {res}")
+            # return self._hand_positions
+            time.sleep(1/60)
 
     def init(self):
         pass
 
     def get_positions(self):
-        res = self.hand.get_angle()
-        if isinstance(res, list) and len(res) == self.dimension:
-            self._hand_positions = res
-        else:
-            logger.warning(f"Getting hand pos error: {res}")
-        return self._hand_positions
+        with self._hand_pos_lock:
+            return self._hand_positions
 
     def set_positions(self, positions, wait_reply=False):
         if len(positions) != self.dimension:
