@@ -177,6 +177,12 @@ def main(
                     fsm.state = FSM.State.EPISODE_STARTED
                     logger.info("Starting new episode.")
 
+            elif (
+                fsm.state == FSM.State.IDLE and triggered_key == "x" and cfg.recording.enabled and recording is not None
+            ):
+                fsm.state = FSM.State.ENGAGED
+                logger.info("Re-engaging...")
+
             elif fsm.state == FSM.State.EPISODE_STARTED:
                 if not cfg.recording.enabled or recording is None:
                     raise InitializationError("Recording not initialized.")
