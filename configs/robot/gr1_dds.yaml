@@ -1,0 +1,145 @@
+instance:
+  _target_: teleoperation.adapter.robots.grx_dds.GR1Robot_DDS
+  dds_cfg_path: "configs/dds/gr1_upper_body.yaml"
+  controlled_joint_indices: "${robot.controlled_joint_indices}"
+  default_qpos: "${robot.default_qpos}"
+  named_links: "${robot.named_links}"
+
+urdf_path: "urdf/GR1T2_fourier_hand_6dof.urdf"
+urdf_package_dirs: ["urdf"]
+
+controlled_joint_indices: "${eval:'list(range(12, 32))'}"
+default_qpos: "${eval:'np.array([
+  0.0, 0.0, 0.0,
+  0.0, 0.0, 0.0,
+  -np.pi / 12, 0.1, 0, -np.pi / 2, 0, 0, 0,
+  -np.pi / 12, -0.1, 0, -np.pi / 2, 0, 0, 0])'}"
+joint_names:
+  [
+    "left_hip_roll_joint",
+    "left_hip_yaw_joint",
+    "left_hip_pitch_joint",
+    "left_knee_pitch_joint",
+    "left_ankle_pitch_joint",
+    "left_ankle_roll_joint",
+    "right_hip_roll_joint",
+    "right_hip_yaw_joint",
+    "right_hip_pitch_joint",
+    "right_knee_pitch_joint",
+    "right_ankle_pitch_joint",
+    "right_ankle_roll_joint",
+    "waist_yaw_joint",
+    "waist_pitch_joint",
+    "waist_roll_joint",
+
+    "head_pitch_joint",
+    "head_roll_joint",
+    "head_yaw_joint",
+
+    "left_shoulder_pitch_joint",
+    "left_shoulder_roll_joint",
+    "left_shoulder_yaw_joint",
+    "left_elbow_pitch_joint",
+    "left_wrist_yaw_joint",
+    "left_wrist_roll_joint",
+    "left_wrist_pitch_joint",
+    "right_shoulder_pitch_joint",
+    "right_shoulder_roll_joint",
+    "right_shoulder_yaw_joint",
+    "right_elbow_pitch_joint",
+    "right_wrist_yaw_joint",
+    "right_wrist_roll_joint",
+    "right_wrist_pitch_joint",
+  ]
+
+visualize: True
+debug: ${debug}
+debug_hand: ${debug_hand}
+display_collisions: false
+displayed_frames:
+  # - "right_ee_frame"
+  # - "left_ee_frame"
+  - "R_hand_base_link"
+  - "L_hand_base_link"
+  - "base_link"
+  - "torso_link"
+  - "head_yaw_link"
+
+self_collision:
+  enable: false
+  min_distance: 0.02
+  enabled_links: ["right_hand_yaw_link", "left_hand_yaw_link", "torso_link"]
+
+joints_to_lock: ["waist_roll_joint", "head_roll_joint", "waist_yaw_joint"]
+
+waist_joints: ["waist_pitch_joint"]
+head_joints: ["head_pitch_joint", "head_yaw_joint"]
+
+# frames:
+#   - name: "right_end_effector_link"
+#     parent: "right_hand_roll_link"
+#   - name: "left_end_effector_link"
+#     parent: "left_hand_roll_link"
+
+joint_limits:
+  left_shoulder_pitch_joint: [-2.27, 0.3]
+  right_shoulder_pitch_joint: [-2.27, 0.3]
+
+  left_shoulder_roll_joint: [0, 1.57]
+  right_shoulder_roll_joint: [-1.57, 0]
+
+  left_shoulder_yaw_joint: [-2.09, 2.09]
+  right_shoulder_yaw_joint: [-2.09, 2.09]
+
+  left_elbow_pitch_joint: [-2.27, 0.3]
+  right_elbow_pitch_joint: [-2.27, 0.3]
+
+  waist_yaw_joint: [-0.5, 0.5]
+  waist_pitch_joint: [-0.08, 0.35] # [-10, 20]
+
+  left_wrist_pitch_joint: [-0.6, 0.6]
+  left_wrist_roll_joint: [-0.87, 0.87]
+
+  right_wrist_pitch_joint: [-0.6, 0.6]
+  right_wrist_roll_joint: [-0.87, 0.87]
+
+velocity_limits:
+  waist_yaw_joint: 1.0
+  waist_pitch_joint: 0.3
+  head_pitch_joint: 1.0
+  head_yaw_joint: 1.0
+  left_shoulder_roll_joint: 6.283185307179586
+  left_shoulder_pitch_joint: 6.283185307179586
+  left_shoulder_yaw_joint: 6.283185307179586
+  left_elbow_pitch_joint: 6.283185307179586
+  left_wrist_yaw_joint: 6.283185307179586
+  left_wrist_pitch_joint: 6.283185307179586
+  left_wrist_roll_joint: 6.283185307179586
+  right_shoulder_roll_joint: 6.283185307179586
+  right_shoulder_pitch_joint: 6.283185307179586
+  right_shoulder_yaw_joint: 6.283185307179586
+  right_elbow_pitch_joint: 6.283185307179586
+  right_wrist_yaw_joint: 6.283185307179586
+  right_wrist_pitch_joint: 6.283185307179586
+  right_wrist_roll_joint: 6.283185307179586
+
+body_scaling_factor: 1.0
+
+position_filter:
+  min_cutoff: 0.01
+  beta: 1.0
+
+orientation_filter:
+  alpha: 0.6
+
+named_links:
+  root_link: "base_link"
+  left_end_effector_link: "left_end_effector_link"
+  right_end_effector_link: "right_end_effector_link"
+  head_link: "head_yaw_link"
+  # left_elbow_pitch_joint: "left_elbow_pitch_joint"
+  # right_elbow_pitch_joint: "right_elbow_pitch_joint"
+
+calibration_pose:
+  left_elbow_pitch_joint: "${eval:'-np.pi / 2'}"
+  right_elbow_pitch_joint: "${eval:'-np.pi / 2'}"
