@@ -1,4 +1,5 @@
 import logging
+import os
 import subprocess
 import time
 from collections import OrderedDict, defaultdict
@@ -249,19 +250,45 @@ def encode_video_frames(
     video_path = Path(video_path)
     video_path.parent.mkdir(parents=True, exist_ok=True)
 
-    if start_frame > 0 and end_frame != -1:
-        ffmpeg_inputs = []
-        images = imgs_dir.glob("rgb_frame_*.png")
-        for img in images:
-            id = int(img.stem.split("_")[-1])  # noqa: A001
-            if id > start_frame and (end_frame == -1 or id < end_frame):
-                ffmpeg_inputs.append(("-i", str(img)))
+    if start_frame > 0 or end_frame != -1:
+        # ffmpeg_inputs = []
+        # images = imgs_dir.glob("rgb_frame_*.png")
+        # images = sorted(images, key=lambda x: int(x.stem.split("_")[-1]))
+        # for img in images:
+        #     id = int(img.stem.split("_")[-1])  # noqa: A001
+        #     if id > start_frame and (end_frame == -1 or id < end_frame):
+        #         ffmpeg_inputs.append(("-i", str(img)))
 
+        # # os.remove("ffmpeg_input.txt")
+
+        # file_path = video_path.parent / "ffmpeg_input.txt"
+        # file_path.unlink(missing_ok=True)
+
+        # print(file_path.absolute())
+        # with open(str(file_path.resolve()), "wb") as outfile:
+        #     for img in images:
+        #         id = int(img.stem.split("_")[-1])  # noqa: A001
+        #         if id > start_frame and (end_frame == -1 or id < end_frame):
+        #             ffmpeg_inputs.append(("-i", str(img)))
+        #             outfile.write(f"file '{str(img)}'\n".encode())
+
+        # ffmpeg_args = OrderedDict(
+        #     [
+        #         ("-f", "image2"),
+        #         ("-r", str(fps)),
+        #         ("-i", str(file_path.resolve())),
+        #         # ("-vcodec", vcodec),
+        #         ("-pix_fmt", pix_fmt),
+        #     ]
+        # )
         ffmpeg_args = OrderedDict(
             [
                 ("-f", "image2"),
                 ("-r", str(fps)),
-                *ffmpeg_inputs,
+                ("-pattern_type", "sequence"),
+                ("-start_number", f"{start_frame}"),
+                # ("-end_number", f"{end_frame}"),
+                ("-i", str(Path(imgs_dir) / "rgb_frame_%09d.png")),
                 # ("-vcodec", vcodec),
                 ("-pix_fmt", pix_fmt),
             ]
@@ -318,7 +345,7 @@ def match_timestamps(candidate, ref):
             closest_indices.append(idx)
             already_matched.add(idx)
         else:
-            print(f"Duplicate timestamp found: {t} and {candidate[idx]} trying to use next closest timestamp")
+            # print(f"Duplicate timestamp found: {t} and {candidate[idx]} trying to use next closest timestamp")
             if idx + 1 not in already_matched:
                 closest_indices.append(idx + 1)
                 already_matched.add(idx + 1)
