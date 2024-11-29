@@ -30,6 +30,44 @@ def get_timestamp_utc():
     return datetime.now(timezone.utc)
 
 
+def datetime_to_iso(dt: datetime) -> str:
+    """
+    Convert a datetime object to an ISO 8601 filename with microseconds.
+    Args:
+        dt (datetime): The datetime object to convert.
+    Returns:
+        str: ISO 8601 filename-safe string with microseconds.
+    """
+    return dt.strftime("%Y-%m-%dT%H-%M-%S_%f")
+
+
+def posix_to_iso(posix: float) -> str:
+    """
+    Convert a POSIX timestamp to an ISO 8601 filename with microseconds.
+    Args:
+        posix (float): The POSIX timestamp to convert.
+    Returns:
+        str: ISO 8601 filename-safe string with microseconds.
+    """
+    dt = datetime.fromtimestamp(posix, tz=timezone.utc)
+    return datetime_to_iso(dt)
+
+
+def iso_to_datetime(filename: str) -> datetime:
+    """
+    Convert an ISO 8601 filename with microseconds back to a datetime object.
+    Args:
+        filename (str): The filename to parse, including or excluding the file extension.
+    Returns:
+        datetime: Parsed datetime object.
+    """
+    if "." in filename:
+        base_name = filename.split(".")[0]  # Remove file extension
+    else:
+        base_name = filename
+    return datetime.strptime(base_name, "%Y-%m-%dT%H-%M-%S_%f")
+
+
 def se3_to_xyzortho6d(se3):
     """
     Convert SE(3) to continuous 6D rotation representation.
@@ -280,7 +318,7 @@ def match_timestamps(candidate, ref):
             closest_indices.append(idx)
             already_matched.add(idx)
         else:
-            print("Duplicate timestamp found: ", t, " trying to use next closest timestamp")
+            print(f"Duplicate timestamp found: {t} and {candidate[idx]} trying to use next closest timestamp")
             if idx + 1 not in already_matched:
                 closest_indices.append(idx + 1)
                 already_matched.add(idx + 1)

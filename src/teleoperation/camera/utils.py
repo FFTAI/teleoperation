@@ -2,9 +2,9 @@ import concurrent
 import logging
 import multiprocessing as mp
 import threading
+import time
 from multiprocessing import shared_memory
 from pathlib import Path
-import time
 from typing import Literal
 
 import cv2
@@ -12,8 +12,9 @@ import numpy as np
 from PIL import Image
 from tqdm import tqdm
 
-logger = logging.getLogger(__name__)
+from teleoperation.utils import posix_to_iso
 
+logger = logging.getLogger(__name__)
 
 
 class RecordCamera:
@@ -24,7 +25,7 @@ class RecordCamera:
         self.save_queue = mp.Queue(maxsize=queue_size)
         self.processes = []
         self.delete_event = mp.Event()
-        
+
     # def delete(self, video_path: str):
     #     self.delete_event.set()
     #     # empty the queue
@@ -40,7 +41,9 @@ class RecordCamera:
 
     def start(self):
         for _ in range(self.num_processes):
-            p = mp.Process(target=save_images_threaded, args=(self.save_queue, self.num_threads, self.delete_event), daemon=True)
+            p = mp.Process(
+                target=save_images_threaded, args=(self.save_queue, self.num_threads, self.delete_event), daemon=True
+            )
             p.start()
             self.processes.append(p)
 
@@ -134,13 +137,16 @@ def save_image(img, key, frame_index, videos_dir: str):
     path = Path(videos_dir) / f"{key}_frame_{frame_index:09d}.png"
     path.parent.mkdir(parents=True, exist_ok=True)
     img.save(str(path), quality=100)
-    
+
+
 def save_image_by_ts(img, key, timestamp, videos_dir: str):
     img = Image.fromarray(img)
-    path = Path(videos_dir) / f"{key}" / f"{timestamp}.png"
+    iso_ts = posix_to_iso(timestamp)
+    path = Path(videos_dir) / f"{key}" / f"{iso_ts}.png"
     path.parent.mkdir(parents=True, exist_ok=True)
     img.save(str(path), quality=100)
-    
+
+
 def delete_dir(videos_dir: str):
     path = Path(videos_dir).resolve()
     while True:
@@ -155,8 +161,9 @@ def delete_dir(videos_dir: str):
             return
         except:
             logger.info(f"Failed to delete directory: {path}")
-            time.sleep(1/60)
-            
+            time.sleep(1 / 60)
+
+
 def delete_if_exists(dir: str):
     path = Path(dir)
     if path.exists():
@@ -176,7 +183,7 @@ def save_images_threaded(queue, num_threads=4, deletion_event=None):
         futures = []
         while True:
             if deletion_event is not None and deletion_event.is_set():
-                time.sleep(1/60)
+                time.sleep(1 / 60)
                 continue
             frame_data = queue.get()
             if frame_data is None:
