@@ -83,15 +83,16 @@ class CameraOak:
 
     def run(self):
         oak, q_display, q_obs = self._make_camera()
+        ts_offset = None
         while not self.stop_event.is_set():
             self.oak.start()
-            while self.oak.running():
+            while self.oak.running() and self.q_display is not None and self.q_obs is not None:
                 start = time.monotonic()
                 self.oak.poll()
                 self.timestamp = get_timestamp_utc().timestamp()
 
                 try:
-                    p: FramePacket = self.q_display.get(block=False)
+                    p: FramePacket = self.q_display.get_queue().get(block=False)
 
                     left_frame = cv2.cvtColor(p[self.sources["left"]].frame, cv2.COLOR_GRAY2RGB)
                     right_frame = cv2.cvtColor(p[self.sources["right"]].frame, cv2.COLOR_GRAY2RGB)
@@ -101,11 +102,22 @@ class CameraOak:
                 except Exception as e:
                     logger.exception(e)
 
-                if self.is_recording.is_set():
-                    try:
-                        p_obs: FramePacket = self.q_obs.get(block=False)
-
+                try:
+                    p_obs: FramePacket = self.q_obs.get_queue().get(block=False)
+                    if self.is_recording.is_set():
+                        # logger.info(f"FPS: {self.q_obs.get_fps()}")
                         if self.use_depth:
+                            # device_ts = dai.Clock.now()
+                            # if ts_offset is None:
+                            #     ts_offset = get_timestamp_utc().timestamp() - device_ts.total_seconds()
+                            # logger.info(
+                            #     f"device time diff: {device_ts.total_seconds() +  ts_offset - get_timestamp_utc().timestamp()}"
+                            # )
+
+                            # latencyMs = (
+                            #     device_ts - p_obs[self.sources["rgb"]].msg.getTimestamp()
+                            # ).total_seconds() * 1000
+                            # logger.info(f"latency: {latencyMs}")
                             rgb_frame = cv2.cvtColor(p_obs[self.sources["rgb"]].frame, cv2.COLOR_BGR2RGB)
                             depth_frame = p_obs[self.sources["depth"]].frame
                         else:
@@ -118,10 +130,11 @@ class CameraOak:
                             timestamp=self.timestamp,
                         )
                         self.frame_id += 1
-                    except queue.Empty:
-                        pass
-                    except Exception as e:
-                        logger.exception(e)
+                except queue.Empty:
+                    # logger.info("QUEUE EMPTY")
+                    pass
+                except Exception as e:
+                    logger.exception(e)
 
                 taken = time.monotonic() - start
                 time.sleep(max(1 / self.fps - taken, 0))
@@ -139,16 +152,16 @@ class CameraOak:
     def _make_camera(self):
         if self.oak is not None:
             self.oak.close()
-        oak = OakCamera()
-        stereo_fps = 30
-        color_fps = 30
+        oak = OakCamera(args={"xlinkChunkSize": 0})
+        stereo_fps = self.fps
+        color_fps = self.fps
         left = oak.create_camera("left", resolution=self.stereo_resolution, fps=stereo_fps)
         right = oak.create_camera("right", resolution=self.stereo_resolution, fps=stereo_fps)
-        q_display = (
-            oak.queue([left, right], max_size=3).configure_syncing(threshold_ms=int((1000 / stereo_fps) / 2)).get_queue()
+        q_display = oak.queue([left, right], max_size=3).configure_syncing(
+            enable_sync=True, threshold_ms=int((1000 / stereo_fps) / 2)
         )
 
-        color = oak.create_camera("CAM_A", resolution=self.color_resolution, encode="mjpeg", fps=color_fps)
+        color = oak.create_camera("CAM_A", resolution=self.color_resolution, fps=color_fps)
         if self.color_resolution == "1080p":
             color.config_color_camera(isp_scale=(2, 3))
 
@@ -168,14 +181,16 @@ class CameraOak:
             )
             stereo.node.initialConfig.set(config)
 
-            q_obs = (
-                oak.queue([color, stereo], max_size=1)
-                .configure_syncing(threshold_ms=int((1000 / max(stereo_fps, color_fps)) / 2))
-                .get_queue()
+            logger.info(
+                f"OAK camera: depth_unit: {stereo.node.initialConfig.getDepthUnit()}; max_disp: {stereo.node.initialConfig.getMaxDisparity()}"
+            )
+
+            q_obs = oak.queue([color, stereo], max_size=5).configure_syncing(
+                threshold_ms=int((1000 / max(stereo_fps, color_fps)) / 2)
             )
         else:
             stereo = None
-            q_obs = oak.queue([color], max_size=1).get_queue()
+            q_obs = oak.queue([color], max_size=5)
 
         self.sources = {
             "rgb": color,
