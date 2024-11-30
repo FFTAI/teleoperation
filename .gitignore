@@ -356,3 +356,4 @@ sensor_offset.json
 outputs/
 *.bk
 .DS_Store
+encoders_state.yaml

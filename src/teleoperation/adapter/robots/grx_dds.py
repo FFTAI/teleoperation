@@ -34,12 +34,7 @@ GravityCompensator.init_encoders = init_encoders
 
 class GR1Robot_DDS:
     def __init__(
-        self,
-        dds_cfg: DictConfig,
-        controlled_joint_indices: list,
-        default_qpos: list,
-        named_links: dict,
-        calibrate_encoders: bool = False,
+        self, dds_cfg: DictConfig, controlled_joint_indices: list, default_qpos: list, named_links: dict, target_hz: int
     ):
         self.controlled_joint_indices = controlled_joint_indices
         self.default_qpos = default_qpos
@@ -50,7 +45,7 @@ class GR1Robot_DDS:
         with tempfile.NamedTemporaryFile(delete=True, suffix=".yaml", mode="w") as temp_file:
             temp_file.write(config_str)
 
-            self.client = GravityCompensator(Path(temp_file.name), target_hz=120)
+            self.client = GravityCompensator(Path(temp_file.name), target_hz=target_hz)
 
             logger.info(f"Initializing {self.__class__.__name__}...")
             logger.info(f"cfg_path: {temp_file.name}")
@@ -85,4 +80,5 @@ class GR1Robot_DDS:
 
     def disconnect(self):
         logger.info(f"Disconnecting from {self.__class__.__name__}...")
-        self.client.set_enable(False)
+        self.stop_joints()
+        # self.client.set_enable(False)

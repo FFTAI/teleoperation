@@ -4,6 +4,7 @@ instance:
   controlled_joint_indices: "${robot.controlled_joint_indices}"
   default_qpos: "${robot.default_qpos}"
   named_links: "${robot.named_links}"
+  target_hz: "${upsampler.frequency}"
 
 dds_domain_id: ???
 urdf_path: "urdf/GR1T2_fourier_hand_6dof.urdf"
