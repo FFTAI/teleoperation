@@ -17,6 +17,6 @@ COPY README.md /app/
 
 WORKDIR /app
 
-RUN pip install --upgrade --no-cache-dir pip && \
-    pip install --no-cache-dir -e ".[fourier,depthai]" -i https://mirrors.tuna.tsinghua.edu.cn/pypi/web/simple --extra-index-url https://download.pytorch.org/whl/cpu && \
+RUN --mount=type=cache,target=/root/.cache/pip pip install --upgrade pip && \
+    pip install -e ".[fourier,depthai]" -i https://mirrors.tuna.tsinghua.edu.cn/pypi/web/simple --extra-index-url https://download.pytorch.org/whl/cpu && \
     pip uninstall -y typing
