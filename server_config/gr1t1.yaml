@@ -1,0 +1,337 @@
+# print config file content when start program
+log_config: false
+
+# log level can be set to: "none", "trace", "debug", "warning", "error"
+# - "none": all log message will be shown
+# - "trace": all log message except normal print info will be shown
+# - "debug": all log message except normal print info, trace info will be shown
+# - "warning": all log message except normal print info, trace info, debug info will be shown
+# - "error": all log message except normal print info, trace info, debug info, warning info will be shown
+log_level: "none" # Notice: for client use, please set log_level to "error"
+log_file: null # "file_name" or null
+
+# Control System Layer --------------------------------------------------------
+device_connected: true
+cpu: "X64"
+system: "LINUX"
+
+# Robot Layer -----------------------------------------------------------------
+peripheral:
+  use_joystick: false
+  joystick_connected: false
+  joystick_type: "XBOX" # support "XBOS", "PS4", "PS5"
+
+robot:
+  name: "GR1"
+  mechanism: "T1"
+  #  control_period: 0.0025  # 400Hz
+  control_period: 0.01 # 100Hz
+  algorithm_period: 0.01 # 100Hz
+  communication_period: 0.02 # 50Hz
+  state_estimator: false
+
+# Component Layer -------------------------------------------------------------
+sensor_usb_imu:
+  usb: [
+      # must put base link imu at first
+      "/dev/ttyUSB0",
+    ]
+  comm_enable: [false]
+  comm_frequency: [500]
+
+sensor_abs_encoder:
+  type: "FIFSEV1"
+  data_path: "sensor_offset.json"
+  ip: [
+      # left leg
+      "192.168.137.170",
+      "192.168.137.171",
+      "192.168.137.172",
+      "192.168.137.173",
+      "192.168.137.174",
+      "192.168.137.175",
+      # right leg
+      "192.168.137.150",
+      "192.168.137.151",
+      "192.168.137.152",
+      "192.168.137.153",
+      "192.168.137.154",
+      "192.168.137.155",
+      # waist
+      "192.168.137.190",
+      "192.168.137.191",
+      "192.168.137.192",
+    ]
+
+actuator:
+  type: "FIFSAV1"
+  use_dic: false # DIC: dynamic inertia compensation, not ready yet
+  comm_enable: [
+      # left leg
+      false,
+      false,
+      false,
+      false,
+      false,
+      false,
+      # right leg
+      false,
+      false,
+      false,
+      false,
+      false,
+      false,
+      # waist
+      true,
+      true,
+      true,
+      # head
+      true,
+      true,
+      true,
+      # left arm
+      true,
+      true,
+      true,
+      true,
+      true,
+      true,
+      true,
+      # right arm
+      true,
+      true,
+      true,
+      true,
+      true,
+      true,
+      true,
+    ]
+  comm_use_fast: [
+      # left leg
+      true,
+      true,
+      true,
+      true,
+      true,
+      true,
+      # right leg
+      true,
+      true,
+      true,
+      true,
+      true,
+      true,
+      # waist
+      true,
+      true,
+      true,
+      # head
+      true,
+      true,
+      true,
+      # left arm
+      true,
+      true,
+      true,
+      true,
+      true,
+      true,
+      true,
+      # right arm
+      true,
+      true,
+      true,
+      true,
+      true,
+      true,
+      true,
+    ]
+
+# Hardware Layer ---------------------------------------------------------------
+fi_fse:
+  version: "v1"
+
+fi_fsa:
+  version: "v1"
+
+upper_impedance_controller: # config for upbody impedance controller
+  k: # stiffness
+    [
+      60.,
+      60.,
+      60.,
+      15.,
+      15.,
+      15.,
+      60.,
+      70.,
+      70.,
+      60.,
+      8.,
+      15.,
+      15.,
+      60.,
+      70.,
+      70.,
+      60.,
+      8.,
+      15.,
+      15.,
+    ]
+  b: # damping
+    [
+      5.,
+      5.,
+      5.,
+      1.,
+      1.,
+      1.,
+      5.,
+      5.,
+      5.,
+      5.,
+      0.7,
+      1.,
+      1.,
+      5.,
+      5.,
+      5.,
+      5.,
+      0.7,
+      1.,
+      1.,
+    ]
+  m: # mass
+    [
+      0.,
+      0.,
+      0.,
+      0.,
+      0.,
+      0.,
+      0.,
+      0.,
+      0.,
+      0.,
+      0.,
+      0.,
+      0.,
+      0.,
+      0.,
+      0.,
+      0.,
+      0.,
+      0.,
+      0.,
+    ]
+  max_effort:
+    [
+      50.,
+      50.,
+      50.,
+      50.,
+      50.,
+      50.,
+      50.,
+      50.,
+      50.,
+      50.,
+      50.,
+      50.,
+      50.,
+      50.,
+      50.,
+      50.,
+      50.,
+      50.,
+      50.,
+      50.,
+    ]
+
+  head_kp: [
+    10, 10, 10,
+  ]
+
+  head_kd: [
+    0.5, 0.5, 0.5,
+  ]
+
+  left_wrist_kp: [
+    112.06, 10, 10
+  ]
+
+  left_wrist_kd: [
+    3.7, 0.5, 0.5
+  ]
+
+  right_wrist_kp: [
+    112.06, 10, 10
+  ]
+
+  right_wrist_kd: [
+    3.7, 0.5, 0.5
+  ]
+
+
+
+
+
+robot_config:
+  robot_name: GR1T1
+  root_joint_type: freeflyer
+  joint_names:
+    [
+      "left_hip_roll_joint",
+      "left_hip_yaw_joint",
+      "left_hip_pitch_joint",
+      "left_knee_pitch_joint",
+      "left_ankle_pitch_joint",
+      "left_ankle_roll_joint",
+
+      "right_hip_roll_joint",
+      "right_hip_yaw_joint",
+      "right_hip_pitch_joint",
+      "right_knee_pitch_joint",
+      "right_ankle_pitch_joint",
+      "right_ankle_roll_joint",
+
+      "waist_yaw_joint",
+      "waist_pitch_joint",
+      "waist_roll_joint",
+
+      "head_pitch_joint",
+      "head_roll_joint",
+      "head_yaw_joint",
+
+      "left_shoulder_pitch_joint",
+      "left_shoulder_roll_joint",
+      "left_shoulder_yaw_joint",
+      "left_elbow_pitch_joint",
+      "left_wrist_yaw_joint",
+      "left_wrist_roll_joint",
+      "left_wrist_pitch_joint",
+
+      "right_shoulder_pitch_joint",
+      "right_shoulder_roll_joint",
+      "right_shoulder_yaw_joint",
+      "right_elbow_pitch_joint",
+      "right_wrist_yaw_joint",
+      "right_wrist_roll_joint",
+      "right_wrist_pitch_joint",
+    ]
+
+  visualize: false
+  display_collisions: false
+  displayed_frames:
+    - "base_link"
+    - "torso_link"
+    - "head_yaw_link"
+    - "left_end_effector_link"
+    - "right_end_effector_link"
+
+  self_collision:
+    enable: false
+    min_distance: 0.02
+    enabled_links: ["right_hand_yaw_link", "left_hand_yaw_link", "torso_link"]
+
+  joints_to_lock: []

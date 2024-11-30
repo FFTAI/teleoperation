@@ -54,7 +54,7 @@ joint_names:
     "right_wrist_pitch_joint",
   ]
 
-visualize: True
+visualize: false
 debug: ${debug}
 debug_hand: ${debug_hand}
 display_collisions: false
