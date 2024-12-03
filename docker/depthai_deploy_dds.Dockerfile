@@ -19,5 +19,10 @@ RUN --mount=type=cache,target=/root/.cache/pip pip install --upgrade pip && \
     pip install -e ".[fourier,depthai]" --default-timeout=100 -i https://mirrors.tuna.tsinghua.edu.cn/pypi/web/simple --extra-index-url https://download.pytorch.org/whl/cpu && \
     pip uninstall -y typing
 
-ENV LD_LIBRARY_PATH=/opt/venv/lib/python3.11/site-packages/fourier_grx_dds/libraries/:/usr/lib/x86_64-linux-gnu/
+RUN rm /opt/venv/lib/python3.11/site-packages/fourier_grx_dds/libraries/libfastcdr.so.2 && \
+    rm /opt/venv/lib/python3.11/site-packages/fourier_grx_dds/libraries/libfastdds.so.3.1 && \
+    ln -s /opt/venv/lib/python3.11/site-packages/fourier_grx_dds/libraries/libfastcdr.so.2.2.5 /opt/venv/lib/python3.11/site-packages/fourier_grx_dds/libraries/libfastcdr.so.2 && \
+    ln -s /opt/venv/lib/python3.11/site-packages/fourier_grx_dds/libraries/libfastdds.so.3.1.0 /opt/venv/lib/python3.11/site-packages/fourier_grx_dds/libraries/libfastdds.so.3.1
+
+ENV LD_LIBRARY_PATH=/usr/lib/x86_64-linux-gnu/:/opt/venv/lib/python3.11/site-packages/fourier_grx_dds/libraries/
 
