@@ -1,5 +1,5 @@
 instance:
-  _target_: teleoperation.adapter.robots.grx_dds.GR1Robot_DDS
+  _target_: teleoperation.adapter.robots.grx_dds.GR1Robot
   dds_cfg: "${robot.dds_config}"
   controlled_joint_indices: "${robot.controlled_joint_indices}"
   default_qpos: "${robot.default_qpos}"
@@ -7,7 +7,7 @@ instance:
   target_hz: "${upsampler.frequency}"
 
 dds_domain_id: ???
-urdf_path: "urdf/GR1T1_fourier_hand_6dof.urdf"
+urdf_path: "urdf/GR1T2_fourier_hand_6dof.urdf"
 urdf_package_dirs: ["urdf"]
 
 controlled_joint_indices: "${eval:'list(range(12, 32))'}"
@@ -34,9 +34,9 @@ joint_names:
     "waist_pitch_joint",
     "waist_roll_joint",
 
-    "head_yaw_joint",
-    "head_roll_joint",
     "head_pitch_joint",
+    "head_roll_joint",
+    "head_yaw_joint",
 
     "left_shoulder_pitch_joint",
     "left_shoulder_roll_joint",

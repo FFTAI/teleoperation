@@ -1,7 +1,7 @@
 defaults:
   - teleop
   - hand: fourier
-  - robot: gr1
+  - robot: gr1t2
   - camera: zed
   - _self_
 

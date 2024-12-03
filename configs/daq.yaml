@@ -1,10 +1,9 @@
 defaults:
   - teleop
   - hand: fourier_dexpilot
-  - robot: gr1
-  - camera: oak
+  - robot: ??? # e.g. "robot: 'gr1t2'"
+  - camera: ??? # e.g. "camera: 'oak_97'"
   - _self_
-
 
 debug: false
 debug_hand: false
@@ -14,13 +13,12 @@ frequency: 60
 use_waist: false
 use_head: false
 use_depth: false
-task_name: "default"
-
+task_name: ??? # e.g. "task_name: 'task_name'"
 
 recording:
   enabled: true
   task_name: ${task_name}
 
 upsampler:
-  frequency: 120
+  frequency: 250
   gravity_compensation: true

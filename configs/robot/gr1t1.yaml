@@ -1,10 +1,12 @@
 instance:
-  _target_: teleoperation.adapter.robots.grx.GR1Robot
-  namespace: "gr/daq"
+  _target_: teleoperation.adapter.robots.grx_dds.GR1Robot
+  dds_cfg: "${robot.dds_config}"
   controlled_joint_indices: "${robot.controlled_joint_indices}"
   default_qpos: "${robot.default_qpos}"
   named_links: "${robot.named_links}"
+  target_hz: "${upsampler.frequency}"
 
+dds_domain_id: ???
 urdf_path: "urdf/GR1T1_fourier_hand_6dof.urdf"
 urdf_package_dirs: ["urdf"]
 
@@ -32,9 +34,9 @@ joint_names:
     "waist_pitch_joint",
     "waist_roll_joint",
 
-    "head_pitch_joint",
-    "head_roll_joint",
     "head_yaw_joint",
+    "head_roll_joint",
+    "head_pitch_joint",
 
     "left_shoulder_pitch_joint",
     "left_shoulder_roll_joint",
@@ -143,3 +145,653 @@ named_links:
 calibration_pose:
   left_elbow_pitch_joint: "${eval:'-np.pi / 2'}"
   right_elbow_pitch_joint: "${eval:'-np.pi / 2'}"
+
+dds_config:
+  domain_id: "${robot.dds_domain_id}"
+  encoders_state_path: server_config/dds/encoders_state.yaml
+  frequency: 100
+  use_imu: false
+  robot: gr1t1
+  disabled_pose_solver: ["head"] # For gr1t1, the head is serial chain, so we disable the pose solver for the head
+
+  # Kinematics configuration
+  urdf_path: assets/urdf/GR1T1_fourier_hand_6dof.urdf
+  urdf_package_dirs: [assets/urdf]
+  self_collision:
+    enable: false
+    min_distance: 0.02
+    enabled_links: ["right_hand_yaw_link", "left_hand_yaw_link", "torso_link"]
+  visualize: false
+  debug: false
+  ee_link:
+    head: head_yaw_link
+    left_arm: left_end_effector_link
+    right_arm: right_end_effector_link
+  display_collisions: false
+  displayed_frames:
+    - "r_hand_base_link"
+    - "l_hand_base_link"
+    - "base_link"
+    - "torso_link"
+    - "head_yaw_link"
+  named_links:
+    root_link: "base_link"
+    left_end_effector_link: "left_end_effector_link"
+    right_end_effector_link: "right_end_effector_link"
+    head_link: "head_yaw_link"
+    left_elbow_pitch_joint: "left_elbow_pitch_joint"
+    right_elbow_pitch_joint: "right_elbow_pitch_joint"
+  joints_to_lock: [
+      "waist_roll_joint",
+      "head_roll_joint",
+      "waist_yaw_joint",
+      "waist_pitch_joint",
+    ] # Locked joints will not involve in the kinematic chain
+
+  # Gravity compensation
+  target_hz: 120
+  impedance_controller:
+    k:
+      [
+        60.0,
+        60.0,
+        60.0,
+        15.0,
+        15.0,
+        15.0,
+        60.0,
+        70.0,
+        70.0,
+        60.0,
+        15.0,
+        15.0,
+        15.0,
+        60.0,
+        70.0,
+        70.0,
+        60.0,
+        15.0,
+        15.0,
+        15.0,
+      ]
+    b:
+      [
+        5.0,
+        5.0,
+        5.0,
+        1.0,
+        1.0,
+        1.0,
+        5.0,
+        5.0,
+        5.0,
+        5.0,
+        1.0,
+        1.0,
+        1.0,
+        5.0,
+        5.0,
+        5.0,
+        5.0,
+        1.0,
+        1.0,
+        1.0,
+      ]
+    m:
+      [
+        0.0,
+        0.0,
+        0.0,
+        0.0,
+        0.0,
+        0.0,
+        0.0,
+        0.0,
+        0.0,
+        0.0,
+        0.0,
+        0.0,
+        0.0,
+        0.0,
+        0.0,
+        0.0,
+        0.0,
+        0.0,
+        0.0,
+        0.0,
+      ]
+    max_effort:
+      [
+        50.0,
+        50.0,
+        50.0,
+        50.0,
+        50.0,
+        50.0,
+        50.0,
+        50.0,
+        50.0,
+        50.0,
+        50.0,
+        50.0,
+        50.0,
+        50.0,
+        50.0,
+        50.0,
+        50.0,
+        50.0,
+        50.0,
+        50.0,
+      ]
+  # Joint configuration
+  joints:
+    left_hip_roll_joint:
+      enable: false
+      direction: -1
+      initialization_pose_degree: 0
+      min_pose_degree: -5.156620156177409
+      max_pose_degree: 45.26366581533504
+      reduction_ratio: 31
+      kinematic_reduction_ratio: 1
+      kinetic_reduction_ratio: 3.751
+      position_kp: 0.9972
+      velocity_kp: 0.0445
+      mode: PD
+      default_pose_degree: 0
+      actuator_type: FSA_TYPE_802030
+    left_hip_yaw_joint:
+      enable: false
+      direction: 1
+      initialization_pose_degree: 0
+      min_pose_degree: -40.10704565915762
+      max_pose_degree: 40.10704565915762
+      reduction_ratio: 51
+      kinematic_reduction_ratio: 1
+      kinetic_reduction_ratio: 3.4170000000000003
+      position_kp: 1.0229
+      velocity_kp: 0.03
+      mode: PD
+      default_pose_degree: 0
+      actuator_type: FSA_TYPE_601750
+    left_hip_pitch_joint:
+      enable: false
+      direction: 1
+      initialization_pose_degree: 0
+      min_pose_degree: -100.26761414789407
+      max_pose_degree: 40.10704565915762
+      reduction_ratio: 7
+      kinematic_reduction_ratio: 1
+      kinetic_reduction_ratio: 1.82
+      position_kp: 1.0606
+      velocity_kp: 0.2634
+      mode: PD
+      default_pose_degree: -15.000033378601074
+      actuator_type: FSA_TYPE_1307E
+    left_knee_pitch_joint:
+      enable: false
+      direction: -1
+      initialization_pose_degree: 0
+      min_pose_degree: -5.156620156177409
+      max_pose_degree: 110.00789666511805
+      reduction_ratio: 7
+      kinematic_reduction_ratio: 1
+      kinetic_reduction_ratio: 1.82
+      position_kp: 1.0606
+      velocity_kp: 0.2634
+      mode: PD
+      default_pose_degree: 30.00006675720215
+      actuator_type: FSA_TYPE_1307E
+    left_ankle_pitch_joint:
+      enable: false
+      direction: -1
+      initialization_pose_degree: 0
+      min_pose_degree: -60.16056848873644
+      max_pose_degree: 29.79380534680281
+      reduction_ratio: 36
+      kinematic_reduction_ratio: 1
+      kinetic_reduction_ratio: 2.16
+      position_kp: 0.5083
+      velocity_kp: 0.0042
+      mode: PD
+      default_pose_degree: -15.000033378601074
+      actuator_type: FSA_TYPE_36B36E
+    left_ankle_roll_joint:
+      enable: false
+      direction: 1
+      initialization_pose_degree: 0
+      min_pose_degree: -25.210142985756224
+      max_pose_degree: 25.210142985756224
+      reduction_ratio: 36
+      kinematic_reduction_ratio: 1
+      kinetic_reduction_ratio: 2.16
+      position_kp: 0.5083
+      velocity_kp: 0.0042
+      mode: PD
+      default_pose_degree: 0
+      actuator_type: FSA_TYPE_36B36E
+    right_hip_roll_joint:
+      enable: false
+      direction: -1
+      initialization_pose_degree: 0
+      min_pose_degree: -5.156620156177409
+      max_pose_degree: 5.156620156177409
+      reduction_ratio: 31
+      kinematic_reduction_ratio: 1
+      kinetic_reduction_ratio: 3.751
+      position_kp: 0.9972
+      velocity_kp: 0.0445
+      mode: PD
+      default_pose_degree: 0
+      actuator_type: FSA_TYPE_802030
+    right_hip_yaw_joint:
+      enable: false
+      direction: 1
+      initialization_pose_degree: 0
+      min_pose_degree: -40.10704565915762
+      max_pose_degree: 40.10704565915762
+      reduction_ratio: 51
+      kinematic_reduction_ratio: 1
+      kinetic_reduction_ratio: 3.4170000000000003
+      position_kp: 1.0229
+      velocity_kp: 0.03
+      mode: PD
+      default_pose_degree: 0
+      actuator_type: FSA_TYPE_601750
+    right_hip_pitch_joint:
+      enable: false
+      direction: -1
+      initialization_pose_degree: 0
+      min_pose_degree: -100.26761414789407
+      max_pose_degree: 40.10704565915762
+      reduction_ratio: 7
+      kinematic_reduction_ratio: 1
+      kinetic_reduction_ratio: 1.82
+      position_kp: 1.0606
+      velocity_kp: 0.2634
+      mode: PD
+      default_pose_degree: -15.000033378601074
+      actuator_type: FSA_TYPE_1307E
+    right_knee_pitch_joint:
+      enable: false
+      direction: 1
+      initialization_pose_degree: 0
+      min_pose_degree: -5.156620156177409
+      max_pose_degree: 110.00789666511805
+      reduction_ratio: 7
+      kinematic_reduction_ratio: 1
+      kinetic_reduction_ratio: 1.82
+      position_kp: 1.0606
+      velocity_kp: 0.2634
+      mode: PD
+      default_pose_degree: 30.00006675720215
+      actuator_type: FSA_TYPE_1307E
+    right_ankle_pitch_joint:
+      enable: false
+      direction: 1
+      initialization_pose_degree: 0
+      min_pose_degree: -60.16056848873644
+      max_pose_degree: 29.79380534680281
+      reduction_ratio: 36
+      kinematic_reduction_ratio: 1
+      kinetic_reduction_ratio: 2.16
+      position_kp: 0.5083
+      velocity_kp: 0.0042
+      mode: PD
+      default_pose_degree: -15.000033378601074
+      actuator_type: FSA_TYPE_36B36E
+    right_ankle_roll_joint:
+      enable: false
+      direction: -1
+      initialization_pose_degree: 0
+      min_pose_degree: -25.210142985756224
+      max_pose_degree: 25.210142985756224
+      reduction_ratio: 36
+      kinematic_reduction_ratio: 1
+      kinetic_reduction_ratio: 2.16
+      position_kp: 0.5083
+      velocity_kp: 0.0042
+      mode: PD
+      default_pose_degree: 0
+      actuator_type: FSA_TYPE_36B36E
+    waist_yaw_joint:
+      enable: false
+      direction: -1
+      initialization_pose_degree: 0
+      min_pose_degree: -60.16056848873644
+      max_pose_degree: 60.16056848873644
+      reduction_ratio: 51
+      kinematic_reduction_ratio: 1
+      kinetic_reduction_ratio: 3.4170000000000003
+      position_kp: 0.569
+      velocity_kp: 0.0891
+      mode: PD
+      default_pose_degree: 0
+      actuator_type: FSA_TYPE_601750
+    waist_pitch_joint:
+      enable: false
+      direction: -1
+      initialization_pose_degree: 0
+      min_pose_degree: -29.79380534680281
+      max_pose_degree: 69.90085100596043
+      reduction_ratio: 51
+      kinematic_reduction_ratio: 1
+      kinetic_reduction_ratio: 3.4170000000000003
+      position_kp: 0.569
+      velocity_kp: 0.0891
+      mode: PD
+      default_pose_degree: 0
+      actuator_type: FSA_TYPE_601750
+    waist_roll_joint:
+      enable: false
+      direction: -1
+      initialization_pose_degree: 0
+      min_pose_degree: -40.10704565915762
+      max_pose_degree: 40.10704565915762
+      reduction_ratio: 51
+      kinematic_reduction_ratio: 1
+      kinetic_reduction_ratio: 3.4170000000000003
+      position_kp: 0.569
+      velocity_kp: 0.0891
+      mode: PD
+      default_pose_degree: 0
+      actuator_type: FSA_TYPE_601750
+    head_yaw_joint:
+      enable: true
+      direction: -1
+      initialization_pose_degree: 0
+      min_pose_degree: -29.79380534680281
+      max_pose_degree: 20.05352282957881
+      reduction_ratio: 51
+      kinematic_reduction_ratio: 1
+      kinetic_reduction_ratio: 3.06
+      position_kp: 0.7029
+      velocity_kp: 0.0609
+      mode: None
+      default_pose_degree: 0
+      actuator_type: FSA_TYPE_250830
+    head_roll_joint:
+      enable: false
+      direction: -1
+      initialization_pose_degree: 0
+      min_pose_degree: -20.05352282957881
+      max_pose_degree: 20.05352282957881
+      reduction_ratio: 51
+      kinematic_reduction_ratio: 1
+      kinetic_reduction_ratio: 3.06
+      position_kp: 0.7029
+      velocity_kp: 0.0609
+      mode: None
+      default_pose_degree: 0
+      actuator_type: FSA_TYPE_250830
+    head_pitch_joint:
+      enable: true
+      direction: -1
+      initialization_pose_degree: 0
+      min_pose_degree: -155.2715624804531
+      max_pose_degree: 155.2715624804531
+      reduction_ratio: 51
+      kinematic_reduction_ratio: 1
+      kinetic_reduction_ratio: 3.06
+      position_kp: 0.7029
+      velocity_kp: 0.0609
+      mode: None
+      default_pose_degree: 0
+      actuator_type: FSA_TYPE_250830
+    left_shoulder_pitch_joint:
+      enable: true
+      direction: -1
+      initialization_pose_degree: 0
+      min_pose_degree: -159.85522484149968
+      max_pose_degree: 110.00789666511805
+      reduction_ratio: 80
+      kinematic_reduction_ratio: 1
+      kinetic_reduction_ratio: 4.8
+      position_kp: 1.0016
+      velocity_kp: 0.0038
+      mode: PD
+      default_pose_degree: 0
+      actuator_type: FSA_TYPE_361480
+    left_shoulder_roll_joint:
+      enable: true
+      direction: -1
+      initialization_pose_degree: 0
+      min_pose_degree: -32.65859432245692
+      max_pose_degree: 187.3571990077792
+      reduction_ratio: 80
+      kinematic_reduction_ratio: 1
+      kinetic_reduction_ratio: 4.8
+      position_kp: 1.0016
+      velocity_kp: 0.0038
+      mode: PD
+      default_pose_degree: 0
+      actuator_type: FSA_TYPE_361480
+    left_shoulder_yaw_joint:
+      enable: true
+      direction: 1
+      initialization_pose_degree: 0
+      min_pose_degree: -170.1684651538545
+      max_pose_degree: 170.1684651538545
+      reduction_ratio: 100
+      kinematic_reduction_ratio: 1
+      kinetic_reduction_ratio: 6
+      position_kp: 1.0041
+      velocity_kp: 0.0039
+      mode: PD
+      default_pose_degree: 0
+      actuator_type: FSA_TYPE_3611100
+    left_elbow_pitch_joint:
+      enable: true
+      direction: -1
+      initialization_pose_degree: 0
+      min_pose_degree: -130.06141949469688
+      max_pose_degree: 130.06141949469688
+      reduction_ratio: 100
+      kinematic_reduction_ratio: 1
+      kinetic_reduction_ratio: 6
+      position_kp: 1.0041
+      velocity_kp: 0.0039
+      mode: PD
+      default_pose_degree: -17.18873405456543
+      actuator_type: FSA_TYPE_3611100
+    left_wrist_yaw_joint:
+      enable: true
+      direction: 1
+      initialization_pose_degree: 0
+      min_pose_degree: -170.1684651538545
+      max_pose_degree: 170.1684651538545
+      reduction_ratio: 31
+      kinematic_reduction_ratio: 1
+      kinetic_reduction_ratio: 1.8599999999999999
+      position_kp: 1.0041
+      velocity_kp: 0.0039
+      mode: None
+      default_pose_degree: 0
+      actuator_type: FSA_TYPE_3611100
+    left_wrist_roll_joint:
+      enable: true
+      direction: 1
+      initialization_pose_degree: 0
+      min_pose_degree: -34.95042550298022
+      max_pose_degree: 34.95042550298022
+      reduction_ratio: 31
+      kinematic_reduction_ratio: 1
+      kinetic_reduction_ratio: 1.8599999999999999
+      position_kp: 0.1944
+      velocity_kp: 0.0196
+      mode: None
+      default_pose_degree: 0
+      actuator_type: FSA_TYPE_250830
+    left_wrist_pitch_joint:
+      enable: true
+      direction: 1
+      initialization_pose_degree: 0
+      min_pose_degree: -34.95042550298022
+      max_pose_degree: 34.95042550298022
+      reduction_ratio: 31
+      kinematic_reduction_ratio: 1
+      kinetic_reduction_ratio: 1.8599999999999999
+      position_kp: 0.1944
+      velocity_kp: 0.0196
+      mode: None
+      default_pose_degree: 0
+      actuator_type: FSA_TYPE_250830
+    right_shoulder_pitch_joint:
+      enable: true
+      direction: 1
+      initialization_pose_degree: 0
+      min_pose_degree: -159.85522484149968
+      max_pose_degree: 110.00789666511805
+      reduction_ratio: 80
+      kinematic_reduction_ratio: 1
+      kinetic_reduction_ratio: 4.8
+      position_kp: 1.0016
+      velocity_kp: 0.0038
+      mode: PD
+      default_pose_degree: 0
+      actuator_type: FSA_TYPE_361480
+    right_shoulder_roll_joint:
+      enable: true
+      direction: -1
+      initialization_pose_degree: 0
+      min_pose_degree: -32.65859432245692
+      max_pose_degree: 32.65859432245692
+      reduction_ratio: 80
+      kinematic_reduction_ratio: 1
+      kinetic_reduction_ratio: 4.8
+      position_kp: 1.0016
+      velocity_kp: 0.0038
+      mode: PD
+      default_pose_degree: 0
+      actuator_type: FSA_TYPE_361480
+    right_shoulder_yaw_joint:
+      enable: true
+      direction: 1
+      initialization_pose_degree: 0
+      min_pose_degree: -170.1684651538545
+      max_pose_degree: 170.1684651538545
+      reduction_ratio: 100
+      kinematic_reduction_ratio: 1
+      kinetic_reduction_ratio: 6
+      position_kp: 1.0041
+      velocity_kp: 0.0039
+      mode: PD
+      default_pose_degree: 0
+      actuator_type: FSA_TYPE_3611100
+    right_elbow_pitch_joint:
+      enable: true
+      direction: 1
+      initialization_pose_degree: 0
+      min_pose_degree: -130.06141949469688
+      max_pose_degree: 130.06141949469688
+      reduction_ratio: 100
+      kinematic_reduction_ratio: 1
+      kinetic_reduction_ratio: 6
+      position_kp: 1.0041
+      velocity_kp: 0.0039
+      mode: PD
+      default_pose_degree: -17.18873405456543
+      actuator_type: FSA_TYPE_3611100
+    right_wrist_yaw_joint:
+      enable: true
+      direction: 1
+      initialization_pose_degree: 0
+      min_pose_degree: -170.1684651538545
+      max_pose_degree: 170.1684651538545
+      reduction_ratio: 31
+      kinematic_reduction_ratio: 1
+      kinetic_reduction_ratio: 1.8599999999999999
+      position_kp: 1.0041
+      velocity_kp: 0.0039
+      mode: None
+      default_pose_degree: 0
+      actuator_type: FSA_TYPE_3611100
+    right_wrist_roll_joint:
+      enable: true
+      direction: 1
+      initialization_pose_degree: 0
+      min_pose_degree: -34.95042550298022
+      max_pose_degree: 34.95042550298022
+      reduction_ratio: 31
+      kinematic_reduction_ratio: 1
+      kinetic_reduction_ratio: 1.8599999999999999
+      position_kp: 0.1944
+      velocity_kp: 0.0196
+      mode: None
+      default_pose_degree: 0
+      actuator_type: FSA_TYPE_250830
+    right_wrist_pitch_joint:
+      enable: true
+      direction: 1
+      initialization_pose_degree: 0
+      min_pose_degree: -34.95042550298022
+      max_pose_degree: 34.95042550298022
+      reduction_ratio: 31
+      kinematic_reduction_ratio: 1
+      kinetic_reduction_ratio: 1.8599999999999999
+      position_kp: 0.1944
+      velocity_kp: 0.0196
+      mode: None
+      default_pose_degree: 0
+      actuator_type: FSA_TYPE_250830
+  encoders:
+    left_hip_roll_joint_encoder:
+      enable: false
+      reduction_ratio: 2
+      direction: 1
+    left_hip_yaw_joint_encoder:
+      enable: false
+      reduction_ratio: 2.77
+      direction: 1
+    left_hip_pitch_joint_encoder:
+      enable: false
+      reduction_ratio: 2.514
+      direction: -1
+    left_knee_pitch_joint_encoder:
+      enable: false
+      reduction_ratio: 1
+      direction: 1
+    left_ankle_pitch_joint_encoder:
+      enable: false
+      reduction_ratio: 1
+      direction: 1
+    left_ankle_roll_joint_encoder:
+      enable: false
+      reduction_ratio: 1
+      direction: -1
+    right_hip_roll_joint_encoder:
+      enable: false
+      reduction_ratio: 2
+      direction: 1
+    right_hip_yaw_joint_encoder:
+      enable: false
+      reduction_ratio: 2.77
+      direction: 1
+    right_hip_pitch_joint_encoder:
+      enable: false
+      reduction_ratio: 2.514
+      direction: 1
+    right_knee_pitch_joint_encoder:
+      enable: false
+      reduction_ratio: 1
+      direction: -1
+    right_ankle_pitch_joint_encoder:
+      enable: false
+      reduction_ratio: 1
+      direction: -1
+    right_ankle_roll_joint_encoder:
+      enable: false
+      reduction_ratio: 1
+      direction: 1
+    waist_yaw_joint_encoder:
+      enable: false
+      reduction_ratio: 4.08
+      direction: 1
+    waist_pitch_joint_encoder:
+      enable: false
+      reduction_ratio: 1
+      direction: 1
+    waist_roll_joint_encoder:
+      enable: false
+      reduction_ratio: 1
+      direction: 1
+  imu: Body/IMU

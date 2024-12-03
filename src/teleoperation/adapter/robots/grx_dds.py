@@ -15,7 +15,7 @@ def init_encoders(self):
 
     """Initialize the encoders state."""
     encoders_state, integrality = self.connector.get_encoders_state()
-    assert integrality, f"Error: Can not fetch the whole encoders_state."
+    assert integrality, "Error: Can not fetch the whole encoders_state."
     assert os.path.exists(self.encoders_state_path), f"Encoders state file[{self.encoders_state_path}] not founded."
     logger.info(f"Load encoders state from {self.encoders_state_path}")
     self.encoders_state = OmegaConf.load(self.encoders_state_path)
@@ -32,7 +32,7 @@ def init_encoders(self):
 GravityCompensator.init_encoders = init_encoders
 
 
-class GR1Robot_DDS:
+class GR1Robot:
     def __init__(
         self, dds_cfg: DictConfig, controlled_joint_indices: list, default_qpos: list, named_links: dict, target_hz: int
     ):
