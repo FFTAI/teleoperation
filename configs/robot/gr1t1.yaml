@@ -105,6 +105,8 @@ joint_limits:
   right_wrist_pitch_joint: [-0.6, 0.6]
   right_wrist_roll_joint: [-0.87, 0.87]
 
+  head_pitch_joint: [-0.61, 0.61]
+
 velocity_limits:
   waist_yaw_joint: 1.0
   waist_pitch_joint: 0.3
@@ -611,8 +613,8 @@ dds_config:
       enable: true
       direction: 1
       initialization_pose_degree: 0
-      min_pose_degree: -34.95042550298022
-      max_pose_degree: 34.95042550298022
+      min_pose_degree: -50.0
+      max_pose_degree: 50.0
       reduction_ratio: 31
       kinematic_reduction_ratio: 1
       kinetic_reduction_ratio: 1.8599999999999999
@@ -709,8 +711,8 @@ dds_config:
       enable: true
       direction: 1
       initialization_pose_degree: 0
-      min_pose_degree: -34.95042550298022
-      max_pose_degree: 34.95042550298022
+      min_pose_degree: -50.0
+      max_pose_degree: 50.0
       reduction_ratio: 31
       kinematic_reduction_ratio: 1
       kinetic_reduction_ratio: 1.8599999999999999
