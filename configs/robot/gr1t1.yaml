@@ -140,7 +140,7 @@ named_links:
   root_link: "base_link"
   left_end_effector_link: "left_end_effector_link"
   right_end_effector_link: "right_end_effector_link"
-  head_link: "head_yaw_link"
+  head_link: "head_pitch_link"
   # left_elbow_pitch_joint: "left_elbow_pitch_joint"
   # right_elbow_pitch_joint: "right_elbow_pitch_joint"
 
