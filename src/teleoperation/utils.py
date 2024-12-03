@@ -1,5 +1,4 @@
 import logging
-import os
 import subprocess
 import time
 from collections import OrderedDict, defaultdict
@@ -17,6 +16,7 @@ logger = logging.getLogger(__name__)
 PROJECT_ROOT = Path(__file__).resolve().parent
 ASSET_DIR = PROJECT_ROOT.parent.parent / "assets"
 CONFIG_DIR = PROJECT_ROOT.parent.parent / "configs"
+SERVER_CONFIG_DIR = PROJECT_ROOT.parent.parent / "server_config"
 DATA_DIR = PROJECT_ROOT.parent.parent / "data"
 RECORD_DIR = DATA_DIR / "recordings"
 LOG_DIR = DATA_DIR / "logs"

@@ -7,6 +7,8 @@ from fourier_grx_dds.gravity_compensation import GravityCompensator
 from fourier_grx_dds.utils import GR1ControlGroup
 from omegaconf import DictConfig, OmegaConf
 
+from teleoperation.utils import PROJECT_ROOT
+
 logger = logging.getLogger(__name__)
 
 
@@ -39,6 +41,13 @@ class GR1Robot:
         self.controlled_joint_indices = controlled_joint_indices
         self.default_qpos = default_qpos
         self.named_links = named_links
+
+        # check if `dds_config.encoders_state_path` exists, if not create it from `server_config/dds/encoders_state.template.yaml`
+        if not (PROJECT_ROOT.parent.parent / Path(dds_cfg.encoders_state_path)).exists():
+            with open(PROJECT_ROOT.parent.parent / "server_config/dds/encoders_state.template.yaml") as f:
+                encoders_state_template = f.read()
+            with open(PROJECT_ROOT.parent.parent / Path(dds_cfg.encoders_state_path), "w") as f:
+                f.write(encoders_state_template)
 
         # write dds_cfg to tempfile
         config_str = OmegaConf.to_yaml(dds_cfg, resolve=True)
