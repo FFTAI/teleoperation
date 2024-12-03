@@ -188,7 +188,7 @@ dds_config:
     ] # Locked joints will not involve in the kinematic chain
 
   # Gravity compensation
-  target_hz: 500
+  target_hz: "${upsampler.frequency}"
   impedance_controller:
     k:
       [

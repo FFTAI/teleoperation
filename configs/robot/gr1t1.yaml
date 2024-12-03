@@ -164,7 +164,7 @@ dds_config:
   visualize: false
   debug: false
   ee_link:
-    head: head_yaw_link
+    head: head_pitch_link
     left_arm: left_end_effector_link
     right_arm: right_end_effector_link
   display_collisions: false
@@ -178,7 +178,7 @@ dds_config:
     root_link: "base_link"
     left_end_effector_link: "left_end_effector_link"
     right_end_effector_link: "right_end_effector_link"
-    head_link: "head_yaw_link"
+    head_link: "head_pitch_link"
     left_elbow_pitch_joint: "left_elbow_pitch_joint"
     right_elbow_pitch_joint: "right_elbow_pitch_joint"
   joints_to_lock: [
@@ -189,7 +189,7 @@ dds_config:
     ] # Locked joints will not involve in the kinematic chain
 
   # Gravity compensation
-  target_hz: 120
+  target_hz: "${upsampler.frequency}"
   impedance_controller:
     k:
       [
@@ -510,7 +510,7 @@ dds_config:
       default_pose_degree: 0
       actuator_type: FSA_TYPE_250830
     head_roll_joint:
-      enable: false
+      enable: true
       direction: -1
       initialization_pose_degree: 0
       min_pose_degree: -20.05352282957881
