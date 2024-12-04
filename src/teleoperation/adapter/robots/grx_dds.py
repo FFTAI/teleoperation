@@ -4,7 +4,6 @@ import time
 from pathlib import Path
 
 from fourier_grx_dds.gravity_compensation import GravityCompensator
-from fourier_grx_dds.utils import GR1ControlGroup
 from omegaconf import DictConfig, OmegaConf
 
 from teleoperation.utils import PROJECT_ROOT
@@ -71,15 +70,17 @@ class GR1Robot:
         time.sleep(1.0)
         self.client.enable()
         time.sleep(1.0)
-        self.client.move_joints(GR1ControlGroup.UPPER_EXTENDED, self.default_qpos, duration=2.0)
+        self.client.move_joints(self.client.control_group.UPPER_EXTENDED, self.default_qpos, duration=2.0)
         logger.info(f"Connected to {self.__class__.__name__}.")
 
     def command_joints(self, positions, gravity_compensation=False):
-        self.client.move_joints(GR1ControlGroup.ALL, positions, duration=0.0, gravity_compensation=gravity_compensation)
+        self.client.move_joints(
+            self.client.control_group.ALL, positions, duration=0.0, gravity_compensation=gravity_compensation
+        )
 
     # For safety use of interpolation move to the initial position
     def init_command_joints(self, positions):
-        self.client.move_joints(GR1ControlGroup.ALL, positions, duration=1.0)
+        self.client.move_joints(self.client.control_group.ALL, positions, duration=1.0)
 
     def stop_joints(self):
         self.command_joints(self.joint_positions, gravity_compensation=False)
