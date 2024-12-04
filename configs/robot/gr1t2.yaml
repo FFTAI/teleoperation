@@ -453,7 +453,7 @@ dds_config:
       default_pose_degree: 0
       actuator_type: FSA_TYPE_36B36E
     waist_yaw_joint:
-      enable: false
+      enable: true
       direction: -1
       initialization_pose_degree: 0
       min_pose_degree: -60.16056848873644
@@ -509,7 +509,7 @@ dds_config:
       default_pose_degree: 0
       actuator_type: FSA_TYPE_250830
     head_roll_joint:
-      enable: false
+      enable: true
       direction: -1
       initialization_pose_degree: 0
       min_pose_degree: -20.05352282957881
@@ -782,11 +782,11 @@ dds_config:
       reduction_ratio: 1
       direction: 1
     waist_yaw_joint_encoder:
-      enable: false
+      enable: true
       reduction_ratio: 4.08
       direction: 1
     waist_pitch_joint_encoder:
-      enable: false
+      enable: true
       reduction_ratio: 1
       direction: 1
     waist_roll_joint_encoder:
