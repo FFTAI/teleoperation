@@ -36,6 +36,7 @@ joint_names:
     "J_arm_r_06",
     "J_arm_r_07",
   ]
+num_joints: 19
 visualize: false
 debug: ${debug}
 debug_hand: ${debug_hand}

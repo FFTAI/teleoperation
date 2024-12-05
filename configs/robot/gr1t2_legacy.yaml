@@ -51,6 +51,7 @@ joint_names:
     "right_wrist_roll_joint",
     "right_wrist_pitch_joint",
   ]
+num_joints: 32
 
 visualize: false
 debug: ${debug}

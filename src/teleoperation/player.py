@@ -201,6 +201,7 @@ class TeleopRobot(DexRobot, CameraMixin):
             self.upsampler = Upsampler(
                 self.client,
                 target_hz=cfg.upsampler.frequency,
+                dimension=cfg.robot.num_joints,
                 initial_command=self.client.joint_positions,
                 gravity_compensation=cfg.upsampler.gravity_compensation,
             )
@@ -215,11 +216,16 @@ class TeleopRobot(DexRobot, CameraMixin):
                     executor.submit(self.left_hand.reset)
                     executor.submit(self.right_hand.reset)
         else:
-            self.client: RobotAdapter = DummyRobot(32)
-            self.upsampler = Upsampler(self.client, target_hz=cfg.upsampler.frequency)  # TODO: dummy robot
+            self.client: RobotAdapter = DummyRobot(
+                cfg.robot.num_joints,
+            )
+            self.upsampler = Upsampler(
+                self.client, dimension=cfg.robot.num_joints, target_hz=cfg.upsampler.frequency
+            )  # TODO: dummy robot
             self.upsampler.start()
-            self.left_hand: HandAdapter = DummyDexHand(6)
-            self.right_hand: HandAdapter = DummyDexHand(6)
+            hand_dimension = cfg.hand.left_hand.get("dimension", 6)
+            self.left_hand: HandAdapter = DummyDexHand(hand_dimension)
+            self.right_hand: HandAdapter = DummyDexHand(hand_dimension)
 
     def start_recording(self, output_path: str):
         self.cam.start_recording(output_path)
