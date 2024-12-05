@@ -1,247 +1,246 @@
 {
-    "topic_prefix": "/fftai/gr1t2",
-    "protocol_json_port": 2333,
-    "protocol_fastbinary_port": 2335,
-    "workers": [
-      {
-        "name": "SystemStateWorker",
-        "topic": "/system_state"
-      },
-      {
-        "name": "PVCStateWorker",
-        "topic": "/pvc_state",
-        "request_freq": 500,
-        "protocol": "FastBinary"
-      },
-      {
-        "name": "PositionControlWorker",
-        "topic": "/position_control"
-      },
-      {
-        "name": "CurrentControlWorker",
-        "topic": "/current_control"
-      },
-      {
-        "name": "MotorControlWorker",
-        "topic": "/motor_control"
-      },
-      {
-        "name": "OperationModeWorker",
-        "topic": "/operation_mode"
-      },
-      {
-        "name": "EncoderStateWorker",
-        "topic": "/encoder_state"
-      },
-      {
-        "name": "PIDIMMSetWorker",
-        "topic": "/pid_imm_set"
-      },
-      {
-        "name": "PIDIMMGetWorker",
-        "topic": "/pid_imm_get"
-      },
-      {
-        "name": "IMUStateWorker",
-        "topic": "/imu_state",
-        "request_freq": 500
-      }
-    ],
-    "devices": {
-      "waist_roll_joint_encoder": {
-        "ip": "192.168.137.192",
-        "type": "Encoder"
-      },
-      "waist_pitch_joint_encoder": {
-        "ip": "192.168.137.191",
-        "type": "Encoder"
-      },
-      "waist_yaw_joint_encoder": {
-        "ip": "192.168.137.190",
-        "type": "Encoder"
-      },
-      "left_hip_roll_joint_encoder": {
-        "ip": "192.168.137.170",
-        "type": "Encoder"
-      },
-      "right_hip_roll_joint_encoder": {
-        "ip": "192.168.137.150",
-        "type": "Encoder"
-      },
-      "left_hip_yaw_joint_encoder": {
-        "ip": "192.168.137.171",
-        "type": "Encoder"
-      },
-      "right_hip_yaw_joint_encoder": {
-        "ip": "192.168.137.151",
-        "type": "Encoder"
-      },
-      "left_hip_pitch_joint_encoder": {
-        "ip": "192.168.137.172",
-        "type": "Encoder"
-      },
-      "right_hip_pitch_joint_encoder": {
-        "ip": "192.168.137.152",
-        "type": "Encoder"
-      },
-      "left_knee_pitch_joint_encoder": {
-        "ip": "192.168.137.173",
-        "type": "Encoder"
-      },
-      "right_knee_pitch_joint_encoder": {
-        "ip": "192.168.137.153",
-        "type": "Encoder"
-      },
-      "left_ankle_pitch_joint_encoder": {
-        "ip": "192.168.137.174",
-        "type": "Encoder"
-      },
-      "right_ankle_pitch_joint_encoder": {
-        "ip": "192.168.137.154",
-        "type": "Encoder"
-      },
-      "left_ankle_roll_joint_encoder": {
-        "ip": "192.168.137.175",
-        "type": "Encoder"
-      },
-      "right_ankle_roll_joint_encoder": {
-        "ip": "192.168.137.155",
-        "type": "Encoder"
-      },
-      "left_shoulder_pitch_joint": {
-        "ip": "192.168.137.10",
-        "type": "MotorV2"
-      },
-      "right_shoulder_pitch_joint": {
-        "ip": "192.168.137.30",
-        "type": "MotorV2"
-      },
-      "left_shoulder_roll_joint": {
-        "ip": "192.168.137.11",
-        "type": "MotorV2"
-      },
-      "right_shoulder_roll_joint": {
-        "ip": "192.168.137.31",
-        "type": "MotorV2"
-      },
-      "left_shoulder_yaw_joint": {
-        "ip": "192.168.137.12",
-        "type": "MotorV2"
-      },
-      "right_shoulder_yaw_joint": {
-        "ip": "192.168.137.32",
-        "type": "MotorV2"
-      },
-      "left_elbow_pitch_joint": {
-        "ip": "192.168.137.13",
-        "type": "MotorV2"
-      },
-      "right_elbow_pitch_joint": {
-        "ip": "192.168.137.33",
-        "type": "MotorV2"
-      },
-      "left_wrist_yaw_joint": {
-        "ip": "192.168.137.14",
-        "type": "MotorV2"
-      },
-      "right_wrist_yaw_joint": {
-        "ip": "192.168.137.34",
-        "type": "MotorV2"
-      },
-      "left_wrist_roll_joint": {
-        "ip": "192.168.137.15",
-        "type": "MotorV2"
-      },
-      "right_wrist_roll_joint": {
-        "ip": "192.168.137.35",
-        "type": "MotorV2"
-      },
-      "left_wrist_pitch_joint": {
-        "ip": "192.168.137.16",
-        "type": "MotorV2"
-      },
-      "right_wrist_pitch_joint": {
-        "ip": "192.168.137.36",
-        "type": "MotorV2"
-      },
-      "waist_roll_joint": {
-        "ip": "192.168.137.92",
-        "type": "MotorV2"
-      },
-      "waist_pitch_joint": {
-        "ip": "192.168.137.91",
-        "type": "MotorV2"
-      },
-      "waist_yaw_joint": {
-        "ip": "192.168.137.90",
-        "type": "MotorV2"
-      },
-      "left_hip_roll_joint": {
-        "ip": "192.168.137.70",
-        "type": "MotorV2"
-      },
-      "right_hip_roll_joint": {
-        "ip": "192.168.137.50",
-        "type": "MotorV2"
-      },
-      "left_hip_yaw_joint": {
-        "ip": "192.168.137.71",
-        "type": "MotorV2"
-      },
-      "right_hip_yaw_joint": {
-        "ip": "192.168.137.51",
-        "type": "MotorV2"
-      },
-      "left_hip_pitch_joint": {
-        "ip": "192.168.137.72",
-        "type": "MotorV2"
-      },
-      "right_hip_pitch_joint": {
-        "ip": "192.168.137.52",
-        "type": "MotorV2"
-      },
-      "left_knee_pitch_joint": {
-        "ip": "192.168.137.73",
-        "type": "MotorV2"
-      },
-      "right_knee_pitch_joint": {
-        "ip": "192.168.137.53",
-        "type": "MotorV2"
-      },
-      "left_ankle_pitch_joint": {
-        "ip": "192.168.137.74",
-        "type": "MotorV2"
-      },
-      "right_ankle_pitch_joint": {
-        "ip": "192.168.137.54",
-        "type": "MotorV2"
-      },
-      "left_ankle_roll_joint": {
-        "ip": "192.168.137.75",
-        "type": "MotorV2"
-      },
-      "right_ankle_roll_joint": {
-        "ip": "192.168.137.55",
-        "type": "MotorV2"
-      },
-      "head_yaw_joint": {
-        "ip": "192.168.137.93",
-        "type": "MotorV2"
-      },
-      "head_roll_joint": {
-        "ip": "192.168.137.94",
-        "type": "MotorV2"
-      },
-      "head_pitch_joint": {
-        "ip": "192.168.137.95",
-        "type": "MotorV2"
-      },
-
-      "Body/IMU": {
-        "type": "IMU",
-        "serial_port": "/dev/ttyUSB0",
-        "baud_rate": 921600,
-        "sleep_microseconds": 2000
-      }
+  "topic_prefix": "/farts/gr1t1",
+  "protocol_json_port": 2333,
+  "protocol_fastbinary_port": 2335,
+  "workers": [
+    {
+      "name": "SystemStateWorker",
+      "topic": "/system_state"
+    },
+    {
+      "name": "PVCStateWorker",
+      "topic": "/pvc_state",
+      "request_freq": 500,
+      "protocol": "FastBinary"
+    },
+    {
+      "name": "PositionControlWorker",
+      "topic": "/position_control"
+    },
+    {
+      "name": "CurrentControlWorker",
+      "topic": "/current_control"
+    },
+    {
+      "name": "MotorControlWorker",
+      "topic": "/motor_control"
+    },
+    {
+      "name": "OperationModeWorker",
+      "topic": "/operation_mode"
+    },
+    {
+      "name": "EncoderStateWorker",
+      "topic": "/encoder_state"
+    },
+    {
+      "name": "PIDIMMSetWorker",
+      "topic": "/pid_imm_set"
+    },
+    {
+      "name": "PIDIMMGetWorker",
+      "topic": "/pid_imm_get"
+    },
+    {
+      "name": "IMUStateWorker",
+      "topic": "/imu_state",
+      "request_freq": 500
+    }
+  ],
+  "devices": {
+    "waist_roll_joint_encoder": {
+      "ip": "192.168.137.192",
+      "type": "Encoder"
+    },
+    "waist_pitch_joint_encoder": {
+      "ip": "192.168.137.191",
+      "type": "Encoder"
+    },
+    "waist_yaw_joint_encoder": {
+      "ip": "192.168.137.190",
+      "type": "Encoder"
+    },
+    "left_hip_roll_joint_encoder": {
+      "ip": "192.168.137.170",
+      "type": "Encoder"
+    },
+    "right_hip_roll_joint_encoder": {
+      "ip": "192.168.137.150",
+      "type": "Encoder"
+    },
+    "left_hip_yaw_joint_encoder": {
+      "ip": "192.168.137.171",
+      "type": "Encoder"
+    },
+    "right_hip_yaw_joint_encoder": {
+      "ip": "192.168.137.151",
+      "type": "Encoder"
+    },
+    "left_hip_pitch_joint_encoder": {
+      "ip": "192.168.137.172",
+      "type": "Encoder"
+    },
+    "right_hip_pitch_joint_encoder": {
+      "ip": "192.168.137.152",
+      "type": "Encoder"
+    },
+    "left_knee_pitch_joint_encoder": {
+      "ip": "192.168.137.173",
+      "type": "Encoder"
+    },
+    "right_knee_pitch_joint_encoder": {
+      "ip": "192.168.137.153",
+      "type": "Encoder"
+    },
+    "left_ankle_pitch_joint_encoder": {
+      "ip": "192.168.137.174",
+      "type": "Encoder"
+    },
+    "right_ankle_pitch_joint_encoder": {
+      "ip": "192.168.137.154",
+      "type": "Encoder"
+    },
+    "left_ankle_roll_joint_encoder": {
+      "ip": "192.168.137.175",
+      "type": "Encoder"
+    },
+    "right_ankle_roll_joint_encoder": {
+      "ip": "192.168.137.155",
+      "type": "Encoder"
+    },
+    "left_shoulder_pitch_joint": {
+      "ip": "192.168.137.10",
+      "type": "MotorV2"
+    },
+    "right_shoulder_pitch_joint": {
+      "ip": "192.168.137.30",
+      "type": "MotorV2"
+    },
+    "left_shoulder_roll_joint": {
+      "ip": "192.168.137.11",
+      "type": "MotorV2"
+    },
+    "right_shoulder_roll_joint": {
+      "ip": "192.168.137.31",
+      "type": "MotorV2"
+    },
+    "left_shoulder_yaw_joint": {
+      "ip": "192.168.137.12",
+      "type": "MotorV2"
+    },
+    "right_shoulder_yaw_joint": {
+      "ip": "192.168.137.32",
+      "type": "MotorV2"
+    },
+    "left_elbow_pitch_joint": {
+      "ip": "192.168.137.13",
+      "type": "MotorV2"
+    },
+    "right_elbow_pitch_joint": {
+      "ip": "192.168.137.33",
+      "type": "MotorV2"
+    },
+    "left_wrist_yaw_joint": {
+      "ip": "192.168.137.14",
+      "type": "MotorV2"
+    },
+    "right_wrist_yaw_joint": {
+      "ip": "192.168.137.34",
+      "type": "MotorV2"
+    },
+    "left_wrist_roll_joint": {
+      "ip": "192.168.137.15",
+      "type": "MotorV2"
+    },
+    "right_wrist_roll_joint": {
+      "ip": "192.168.137.35",
+      "type": "MotorV2"
+    },
+    "left_wrist_pitch_joint": {
+      "ip": "192.168.137.16",
+      "type": "MotorV2"
+    },
+    "right_wrist_pitch_joint": {
+      "ip": "192.168.137.36",
+      "type": "MotorV2"
+    },
+    "waist_roll_joint": {
+      "ip": "192.168.137.92",
+      "type": "MotorV2"
+    },
+    "waist_pitch_joint": {
+      "ip": "192.168.137.91",
+      "type": "MotorV2"
+    },
+    "waist_yaw_joint": {
+      "ip": "192.168.137.90",
+      "type": "MotorV2"
+    },
+    "left_hip_roll_joint": {
+      "ip": "192.168.137.70",
+      "type": "MotorV2"
+    },
+    "right_hip_roll_joint": {
+      "ip": "192.168.137.50",
+      "type": "MotorV2"
+    },
+    "left_hip_yaw_joint": {
+      "ip": "192.168.137.71",
+      "type": "MotorV2"
+    },
+    "right_hip_yaw_joint": {
+      "ip": "192.168.137.51",
+      "type": "MotorV2"
+    },
+    "left_hip_pitch_joint": {
+      "ip": "192.168.137.72",
+      "type": "MotorV2"
+    },
+    "right_hip_pitch_joint": {
+      "ip": "192.168.137.52",
+      "type": "MotorV2"
+    },
+    "left_knee_pitch_joint": {
+      "ip": "192.168.137.73",
+      "type": "MotorV2"
+    },
+    "right_knee_pitch_joint": {
+      "ip": "192.168.137.53",
+      "type": "MotorV2"
+    },
+    "left_ankle_pitch_joint": {
+      "ip": "192.168.137.74",
+      "type": "MotorV2"
+    },
+    "right_ankle_pitch_joint": {
+      "ip": "192.168.137.54",
+      "type": "MotorV2"
+    },
+    "left_ankle_roll_joint": {
+      "ip": "192.168.137.75",
+      "type": "MotorV2"
+    },
+    "right_ankle_roll_joint": {
+      "ip": "192.168.137.55",
+      "type": "MotorV2"
+    },
+    "head_yaw_joint": {
+      "ip": "192.168.137.93",
+      "type": "MotorV2"
+    },
+    "head_roll_joint": {
+      "ip": "192.168.137.94",
+      "type": "MotorV2"
+    },
+    "head_pitch_joint": {
+      "ip": "192.168.137.95",
+      "type": "MotorV2"
+    },
+    "Body/IMU": {
+      "type": "IMU",
+      "serial_port": "/dev/ttyUSB0",
+      "baud_rate": 921600,
+      "sleep_microseconds": 2000
     }
   }
+}

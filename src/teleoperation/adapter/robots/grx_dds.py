@@ -42,22 +42,18 @@ class GR1Robot:
         self.named_links = named_links
 
         # check if `dds_config.encoders_state_path` exists, if not create it from `server_config/dds/encoders_state.template.yaml`
-        if not (PROJECT_ROOT.parent.parent / Path(dds_cfg.encoders_state_path)).exists():
+        if (
+            dds_cfg.robot.startswith("gr1")
+            and not (PROJECT_ROOT.parent.parent / Path(dds_cfg.encoders_state_path)).exists()
+        ):
             with open(PROJECT_ROOT.parent.parent / "server_config/dds/encoders_state.template.yaml") as f:
                 encoders_state_template = f.read()
             with open(PROJECT_ROOT.parent.parent / Path(dds_cfg.encoders_state_path), "w") as f:
                 f.write(encoders_state_template)
 
-        # write dds_cfg to tempfile
-        config_str = OmegaConf.to_yaml(dds_cfg, resolve=True)
-        with tempfile.NamedTemporaryFile(delete=True, suffix=".yaml", mode="w") as temp_file:
-            temp_file.write(config_str)
+        self.client = GravityCompensator(dds_cfg, target_hz=target_hz)
 
-            self.client = GravityCompensator(Path(temp_file.name), target_hz=target_hz)
-
-            logger.info(f"Initializing {self.__class__.__name__}...")
-            logger.info(f"cfg_path: {temp_file.name}")
-            logger.info(f"Config: {self.default_qpos}")
+        logger.info(f"Initializing {self.__class__.__name__}...")
 
     @property
     def joint_positions(self):

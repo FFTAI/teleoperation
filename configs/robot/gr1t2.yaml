@@ -7,6 +7,7 @@ instance:
   target_hz: "${upsampler.frequency}"
 
 dds_domain_id: ???
+dds_namespace: "/farts/gr1t2"
 urdf_path: "urdf/GR1T2_fourier_hand_6dof.urdf"
 urdf_package_dirs: ["urdf"]
 
@@ -16,6 +17,7 @@ default_qpos: "${eval:'np.array([
   0.0, 0.0, 0.0,
   -np.pi / 12, 0.1, 0, -np.pi / 2, 0, 0, 0,
   -np.pi / 12, -0.1, 0, -np.pi / 2, 0, 0, 0])'}"
+num_joints: 32
 joint_names:
   [
     "left_hip_roll_joint",
@@ -53,7 +55,6 @@ joint_names:
     "right_wrist_roll_joint",
     "right_wrist_pitch_joint",
   ]
-num_joints: 32
 
 visualize: false
 debug: ${debug}
@@ -150,13 +151,15 @@ calibration_pose:
 dds_config:
   domain_id: "${robot.dds_domain_id}"
   encoders_state_path: server_config/dds/encoders_state.yaml
+  topic_prefix: "${robot.dds_namespace}"
   frequency: 100
   use_imu: false
   robot: gr1t2
+  disabled_pose_solver: []
 
   # Kinematics configuration
-  urdf_path: assets/urdf/GR1T2_fourier_hand_6dof.urdf
-  urdf_package_dirs: [assets/urdf]
+  urdf_path: "assets/urdf/GR1T2_fourier_hand_6dof.urdf"
+  urdf_package_dirs: ["assets/urdf"]
   self_collision:
     enable: false
     min_distance: 0.02
@@ -164,9 +167,9 @@ dds_config:
   visualize: false
   debug: false
   ee_link:
-    head: head_yaw_link
-    left_arm: left_end_effector_link
-    right_arm: right_end_effector_link
+    head: "head_yaw_link"
+    left_arm: "left_end_effector_link"
+    right_arm: "right_end_effector_link"
   display_collisions: false
   displayed_frames:
     - "r_hand_base_link"

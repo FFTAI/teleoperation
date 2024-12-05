@@ -1,5 +1,5 @@
 {
-    "topic_prefix": "/fftai/gr2t5",
+    "topic_prefix": "/farts/gr2",
     "protocol_json_port": 2333,
     "protocol_fastbinary_port": 2335,
     "workers": [
