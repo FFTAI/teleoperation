@@ -50,7 +50,7 @@ def posix_to_iso(posix: float) -> str:
     Returns:
         str: ISO 8601 filename-safe string with microseconds.
     """
-    dt = datetime.fromtimestamp(posix, tz=timezone.utc)
+    dt = datetime.fromtimestamp(posix)
     return datetime_to_iso(dt)
 
 
