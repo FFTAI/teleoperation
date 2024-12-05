@@ -12,7 +12,7 @@ right_hand:
   _target_: teleohand.hands.fourier.FourierDexHand12dof
   hand_ip: "192.168.137.39"
   dimension: 12
-  
+
 prefix_left: "L_"
 prefix_right: "R_"
 

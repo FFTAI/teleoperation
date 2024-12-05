@@ -52,7 +52,7 @@ right:
   finger_tip_link_names:
     ["R_thumb_tip", "R_index_tip", "R_middle_tip", "R_ring_tip", "R_pinky_tip"]
 
-    
+
   target_joint_names:
     [
       "R_pinky_proximal_joint",

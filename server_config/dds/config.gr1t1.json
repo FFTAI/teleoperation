@@ -236,10 +236,10 @@
         "ip": "192.168.137.95",
         "type": "MotorV2"
       },
-      
+
       "Body/IMU": {
         "type": "IMU",
-        "serial_port": "/dev/ttyUSB0", 
+        "serial_port": "/dev/ttyUSB0",
         "baud_rate": 921600,
         "sleep_microseconds": 2000
       }

@@ -1,5 +1,5 @@
 FROM 192.168.3.15:9595/farts/depthai:latest
-# FROM yuxianggao/depthai:latest 
+# FROM yuxianggao/depthai:latest
 
 RUN apt-get update && apt-get install -y --no-install-recommends \
     libtinyxml2-9 \
@@ -23,4 +23,3 @@ RUN ln -s /opt/venv/lib/python3.11/site-packages/fourier_grx_dds/libraries/libfa
     ln -s /opt/venv/lib/python3.11/site-packages/fourier_grx_dds/libraries/libfastdds.so.3.1.0 /opt/venv/lib/python3.11/site-packages/fourier_grx_dds/libraries/libfastdds.so.3.1
 
 ENV LD_LIBRARY_PATH=/usr/lib/x86_64-linux-gnu/:/opt/venv/lib/python3.11/site-packages/fourier_grx_dds/libraries/
-

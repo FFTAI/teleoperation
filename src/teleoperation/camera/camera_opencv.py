@@ -147,7 +147,6 @@ class CameraOpencv:
     def stop_recording(self):
         self.is_recording.clear()
         self.frame_id = 0
-        
 
     def start(self):
         self.stop_event.clear()

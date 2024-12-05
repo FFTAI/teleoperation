@@ -43,7 +43,7 @@ os.makedirs(str(OUT_DIR), exist_ok=True)
 
 
 def load_video_timestamps(episode_dir):
-    with open(str(episode_dir / "rgb_timestamp.txt"), "r") as f:
+    with open(str(episode_dir / "rgb_timestamp.txt")) as f:
         lines = [line.strip().split(",") for line in f.readlines()]
         timestamps = [float(line[1]) for line in lines]
         ids = [line[0] for line in lines]
@@ -57,14 +57,14 @@ def load_video_timestamps(episode_dir):
         print(f"Discarded {len(zero_indices) - 1} duplicate timestamps at the beginning of the video")
         print(f"New video starts from {timestamps[0]}s at frame {ids[0]}")
         return timestamps[DISCARD:-DISCARD], ids[DISCARD:-DISCARD]
-    
+
 
     return timestamps[DISCARD:-DISCARD], ids[DISCARD:-DISCARD]
 
 def load_data_timestamps(file_path):
     with h5py.File(str(file_path), "r") as f:
         return np.asarray(f["timestamp"])
-    
+
 for s, ids in session_ids:
     for id in ids:
 
@@ -73,7 +73,7 @@ for s, ids in session_ids:
             video_ts, _ = load_video_timestamps(RECORDING_DIR / s / f"episode_{id}" / "top")
             video_ts = video_ts[120:]
             # shift ids by 120 to account for the extra 120 frames at the beginning of the video
- 
+
             # load data timestamps from hdf5 file
             data_ts = load_data_timestamps(RECORDING_DIR / s / f"episode_{id}.hdf5")
 
@@ -90,7 +90,7 @@ for s, ids in session_ids:
             matched_ts = match_timestamps(data_ts, video_ts)
             print(f"Matched {len(matched_ts)} timestamps for episode {id}")
 
-            
+
             if len(video_ts) ==0 or len(data_ts) == 0:
                 print(len(video_ts), len(data_ts))
                 print(f"Skipping episode {id} because video or data timestamps are empty")
@@ -116,7 +116,7 @@ for s, ids in session_ids:
 #         out_id += 1
 
 
-        
+
 # print("Encoding videos...")
 # image_timestamps = {}
 # for s, ids in session_ids:

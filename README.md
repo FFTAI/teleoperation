@@ -47,7 +47,7 @@
     - Install the librealsense for using realsense with [official instructions](https://github.com/IntelRealSense/librealsense/blob/master/doc/distribution_linux.md#installing-the-packages)
     - Cheking the serial number of the camera and update the `realsense.yaml` file in the `camera` directory inside `config` directory.
     > [!NOTE] If you are using multi realsense cameras, you need to update the `realsense_multi.yaml` file with the serial number of each camera.
-        
+
 5. (Optional) Install DepthAI library for Oak camera
     The depthai library could be installed with following command:
     ```bash

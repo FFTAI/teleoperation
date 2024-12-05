@@ -1,5 +1,5 @@
 # FROM 192.168.3.15:9595/farts/depthai:latest
-FROM yuxianggao/depthai:latest 
+FROM yuxianggao/depthai:latest
 
 # # Install the ca-certificate package
 # RUN apt-get update && apt-get install -y ca-certificates && apt-get clean && rm -rf /var/lib/apt/lists/*

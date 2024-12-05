@@ -198,7 +198,9 @@ class CameraRealsenseMulti:
 
         self.fps = camera_config.fps
         self.display_config = display_config
-        self.recorder = RecordCamera(camera_config.save_processes, camera_config.save_threads, camera_config.save_queue_size)
+        self.recorder = RecordCamera(
+            camera_config.save_processes, camera_config.save_threads, camera_config.save_queue_size
+        )
         self.display = DisplayCamera(
             self.display_config.mode, self.display_config.resolution, self.display_config.crop_sizes
         )
@@ -219,7 +221,6 @@ class CameraRealsenseMulti:
     def stop_recording(self):
         self.record_event.clear()
         self.frame_id = 0
-        
 
     @property
     def is_recording(self):

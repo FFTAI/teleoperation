@@ -1,13 +1,13 @@
 """From: https://github.com/luxonis/depthai-experiments/tree/master/random-scripts. Copied here for convenience."""
 
-import depthai as dai
-import numpy as np
 import time
 
+import depthai as dai
+import numpy as np
 
 N = 50
-DISCARD_N = 10 # Packets to discard (due to queue sizes, system booting up, etc.)
-SIZE = 1000 * 1000 * 10 # 20MB
+DISCARD_N = 10  # Packets to discard (due to queue sizes, system booting up, etc.)
+SIZE = 1000 * 1000 * 10  # 20MB
 
 pipeline = dai.Pipeline()
 
@@ -56,13 +56,13 @@ xin.setNumFrames(2)
 # from incoming buffer (from USB/ETH) to the message.
 xin.setMaxDataSize(SIZE * 2)
 xin.setStreamName("xin")
-xin.out.link(script.inputs['xin'])
+xin.out.link(script.inputs["xin"])
 
 xout = pipeline.create(dai.node.XLinkOut)
 xout.input.setBlocking(True)
 xout.input.setQueueSize(2)
 xout.setStreamName("xout")
-script.outputs['xout'].link(xout.input)
+script.outputs["xout"].link(xout.input)
 
 with dai.Device(pipeline, maxUsbSpeed=dai.UsbSpeed.SUPER_PLUS) as device:
     device: dai.Device
@@ -75,15 +75,15 @@ with dai.Device(pipeline, maxUsbSpeed=dai.UsbSpeed.SUPER_PLUS) as device:
         qout.get()
         receive_ts.append(time.time())
         # print('CCS',device.getLeonCssCpuUsage().average, 'MSS', device.getLeonMssCpuUsage().average)
-        if i == DISCARD_N-1:
+        if i == DISCARD_N - 1:
             # print(f'{DISCARD_N-1}th buffer received at {time.time()}')
             pass
     # print(f'{N}th buffer received at {time.time()}')
 
-    total_time = receive_ts[-1] - receive_ts[DISCARD_N-1]
-    total_bits = (N-DISCARD_N) * SIZE * 8
+    total_time = receive_ts[-1] - receive_ts[DISCARD_N - 1]
+    total_bits = (N - DISCARD_N) * SIZE * 8
     downlink = total_bits / total_time
-    print('Downlink {:.1f} mbps'.format(downlink/ (1000 * 1000)))
+    print(f"Downlink {downlink/ (1000 * 1000):.1f} mbps")
 
     buffer = dai.Buffer()
     buffer.setData(np.zeros(SIZE, dtype=np.uint8))
@@ -92,14 +92,14 @@ with dai.Device(pipeline, maxUsbSpeed=dai.UsbSpeed.SUPER_PLUS) as device:
         qin.send(buffer)
         sent_ts.append(time.time())
         # print('CCS',device.getLeonCssCpuUsage().average, 'MSS', device.getLeonMssCpuUsage().average)
-        if i == DISCARD_N-1:
+        if i == DISCARD_N - 1:
             # print(f'{DISCARD_N}th buffer sent at {time.time()}')
             pass
         # print('Sending buffer', i)
     # print(f'{N}th buffer sent at {time.time()}')
-    total_time = sent_ts[-1] - sent_ts[DISCARD_N-1]
-    total_bits = (N-DISCARD_N) * SIZE * 8
+    total_time = sent_ts[-1] - sent_ts[DISCARD_N - 1]
+    total_bits = (N - DISCARD_N) * SIZE * 8
     uplink = total_bits / total_time
-    print('Uplink {:.1f} mbps'.format(uplink/ (1000 * 1000)))
+    print(f"Uplink {uplink/ (1000 * 1000):.1f} mbps")
 
     input("Press any key to continue...")

@@ -1,5 +1,5 @@
 FROM 192.168.3.15:9595/farts/depthai:20.04
-# FROM yuxianggao/depthai:latest 
+# FROM yuxianggao/depthai:latest
 
 RUN apt-get update && apt-get install -y --no-install-recommends \
     libtinyxml2-6a \
@@ -20,4 +20,3 @@ RUN --mount=type=cache,target=/root/.cache/pip pip install --upgrade pip && \
     pip uninstall -y typing
 
 ENV LD_LIBRARY_PATH=/usr/lib/x86_64-linux-gnu/:/opt/venv/lib/python3.11/site-packages/fourier_grx_dds/libraries/
-

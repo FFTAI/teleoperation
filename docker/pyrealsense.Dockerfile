@@ -23,4 +23,3 @@ RUN apt-get update \
     librealsense2-dkms \
     librealsense2-utils \
     && rm -rf /var/lib/apt/lists/*
-

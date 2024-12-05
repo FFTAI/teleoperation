@@ -73,7 +73,6 @@ class CameraZed:
         self.is_recording = False
         with self._flag_recording.get_lock():
             self._flag_recording.value = -1
-            
 
     def run(self):
         while not self.stop_event.is_set() and self.zed is not None:

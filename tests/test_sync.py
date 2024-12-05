@@ -1,9 +1,10 @@
-from collections import defaultdict
 import time
+from collections import defaultdict
+from datetime import timedelta
+
+import cv2
 import depthai as dai
 import numpy as np
-import cv2
-from datetime import timedelta
 
 pipeline = dai.Pipeline()
 
@@ -36,7 +37,7 @@ stereo.initialConfig.setMedianFilter(dai.MedianFilter.KERNEL_5x5)
 config = stereo.initialConfig.get()
 config.postProcessing.speckleFilter.enable = True
 config.postProcessing.speckleFilter.speckleRange = 50
-config.postProcessing.thresholdFilter.minRange = 200 # 0.2m
+config.postProcessing.thresholdFilter.minRange = 200  # 0.2m
 config.postProcessing.thresholdFilter.maxRange = 3_000  # 3m
 stereo.initialConfig.set(config)
 stereo.setPostProcessingHardwareResources(3, 3)
@@ -45,8 +46,8 @@ color.setCamera("color")
 color.setResolution(dai.ColorCameraProperties.SensorResolution.THE_800_P)
 color.setFps(30)
 
-sync.setSyncThreshold(timedelta(milliseconds=int(1000/30/2)))
-stereo_sync.setSyncThreshold(timedelta(milliseconds=int(1000/30/2)))
+sync.setSyncThreshold(timedelta(milliseconds=int(1000 / 30 / 2)))
+stereo_sync.setSyncThreshold(timedelta(milliseconds=int(1000 / 30 / 2)))
 
 monoLeft.out.link(stereo.left)
 monoRight.out.link(stereo.right)
@@ -67,7 +68,6 @@ stereo_sync.out.link(stereo_out.input)
 # rightOut.setStreamName("right")
 # monoLeft.out.link(leftOut.input)
 # monoRight.out.link(rightOut.input)
-
 
 
 disparityMultiplier = 255.0 / stereo.initialConfig.getMaxDisparity()
@@ -91,15 +91,16 @@ with dai.Device(pipeline) as device:
         for name, msg in stereo:
             cv2.imshow(name, msg.getCvFrame())
 
-
         msgGrp = queue.get()
-        
+
         for name, msg in msgGrp:
             frame = msg.getCvFrame()
 
             latencyMs = (dai.Clock.now() - msg.getTimestamp()).total_seconds() * 1000
             diffs[name] = np.append(diffs[name], latencyMs)
-            print('[{}] Latency: {:.2f} ms, Average latency: {:.2f} ms, Std: {:.2f}'.format(name, latencyMs, np.average(diffs[name]), np.std(diffs[name])))
+            print(
+                f"[{name}] Latency: {latencyMs:.2f} ms, Average latency: {np.average(diffs[name]):.2f} ms, Std: {np.std(diffs[name]):.2f}"
+            )
 
             if name == "disparity":
                 print(frame.shape)
@@ -107,7 +108,6 @@ with dai.Device(pipeline) as device:
                 frame = cv2.applyColorMap(frame, cv2.COLORMAP_JET)
             cv2.imshow(name, frame)
 
-       
         taken = time.time() - start
         print(f"FPS: {1/taken}")
         if cv2.waitKey(1) == ord("q"):
