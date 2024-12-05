@@ -88,19 +88,19 @@
             "ip": "192.168.137.34",
             "type": "MotorV2"
         },
-        "left_wrist_roll_joint": {
+        "left_wrist_pitch_joint": {
             "ip": "192.168.137.15",
             "type": "MotorV2"
         },
-        "right_wrist_roll_joint": {
+        "right_wrist_pitch_joint": {
             "ip": "192.168.137.35",
             "type": "MotorV2"
         },
-        "left_wrist_pitch_joint": {
+        "left_wrist_roll_joint": {
             "ip": "192.168.137.16",
             "type": "MotorV2"
         },
-        "right_wrist_pitch_joint": {
+        "right_wrist_roll_joint": {
             "ip": "192.168.137.36",
             "type": "MotorV2"
         },

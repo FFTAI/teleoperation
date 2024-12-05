@@ -544,7 +544,7 @@ dds_config:
       mode: None
       default_pose_degree: 0
       actuator_type: FSA_TYPE_3611100
-    left_wrist_roll_joint:
+    left_wrist_pitch_joint:
       enable: true
       direction: -1
       initialization_pose_degree: 0
@@ -554,21 +554,21 @@ dds_config:
       kinematic_reduction_ratio: 1
       kinetic_reduction_ratio: 1.8599999999999999
       position_kp: 0.8
-      velocity_kp: 0.058
+      velocity_kp: 0.021
       mode: None
       default_pose_degree: 0
       actuator_type: FSA_TYPE_250830
-    left_wrist_pitch_joint:
+    left_wrist_roll_joint:
       enable: true
-      direction: 1
+      direction: -1
       initialization_pose_degree: 0
-      min_pose_degree: -34.95042550298022
-      max_pose_degree: 34.95042550298022
+      min_pose_degree: -50.0
+      max_pose_degree: 50.0
       reduction_ratio: 31
       kinematic_reduction_ratio: 1
       kinetic_reduction_ratio: 1.8599999999999999
       position_kp: 0.8
-      velocity_kp: 0.021
+      velocity_kp: 0.058
       mode: None
       default_pose_degree: 0
       actuator_type: FSA_TYPE_250830
@@ -642,20 +642,6 @@ dds_config:
       mode: None
       default_pose_degree: 0
       actuator_type: FSA_TYPE_3611100
-    right_wrist_roll_joint:
-      enable: true
-      direction: -1
-      initialization_pose_degree: 0
-      min_pose_degree: -34.95042550298022
-      max_pose_degree: 34.95042550298022
-      reduction_ratio: 31
-      kinematic_reduction_ratio: 1
-      kinetic_reduction_ratio: 1.8599999999999999
-      position_kp: 0.7
-      velocity_kp: 0.034
-      mode: None
-      default_pose_degree: 0
-      actuator_type: FSA_TYPE_250830
     right_wrist_pitch_joint:
       enable: true
       direction: 1
@@ -670,4 +656,19 @@ dds_config:
       mode: None
       default_pose_degree: 0
       actuator_type: FSA_TYPE_250830
+    right_wrist_roll_joint:
+      enable: true
+      direction: -1
+      initialization_pose_degree: 0
+      min_pose_degree: -50.0
+      max_pose_degree: 50.0
+      reduction_ratio: 31
+      kinematic_reduction_ratio: 1
+      kinetic_reduction_ratio: 1.8599999999999999
+      position_kp: 0.7
+      velocity_kp: 0.034
+      mode: None
+      default_pose_degree: 0
+      actuator_type: FSA_TYPE_250830
+
   imu: Body/IMU
