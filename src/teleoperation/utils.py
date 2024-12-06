@@ -39,7 +39,7 @@ def datetime_to_iso(dt: datetime) -> str:
     Returns:
         str: ISO 8601 filename-safe string with microseconds.
     """
-    return dt.strftime("%Y-%m-%dT%H-%M-%S_%f")
+    return dt.replace(tzinfo=timezone.utc).strftime("%Y-%m-%dT%H-%M-%S_%f")
 
 
 def posix_to_iso(posix: float) -> str:
@@ -50,7 +50,7 @@ def posix_to_iso(posix: float) -> str:
     Returns:
         str: ISO 8601 filename-safe string with microseconds.
     """
-    dt = datetime.fromtimestamp(posix)
+    dt = datetime.fromtimestamp(posix, tz=timezone.utc)
     return datetime_to_iso(dt)
 
 
@@ -66,7 +66,7 @@ def iso_to_datetime(filename: str) -> datetime:
         base_name = filename.split(".")[0]  # Remove file extension
     else:
         base_name = filename
-    return datetime.strptime(base_name, "%Y-%m-%dT%H-%M-%S_%f")
+    return datetime.strptime(base_name, "%Y-%m-%dT%H-%M-%S_%f").replace(tzinfo=timezone.utc)
 
 
 def se3_to_xyzortho6d(se3):
