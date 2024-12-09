@@ -5,7 +5,7 @@ instance:
   default_qpos: "${robot.default_qpos}"
   named_links: "${robot.named_links}"
 
-urdf_path: "urdf/GR1T1_fourier_hand_6dof.urdf"
+urdf_path: "urdf/GR1T1_inspire_hand.urdf"
 urdf_package_dirs: ["urdf"]
 
 controlled_joint_indices: "${eval:'list(range(12, 32))'}"

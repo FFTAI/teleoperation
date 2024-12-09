@@ -7,16 +7,16 @@
 1. Clone the official repository
 
 ```bash
-    git clone https://github.com/FFTAI/teleoperation.git
+git clone https://github.com/FFTAI/teleoperation.git
 ```
 
 2. Create a virtual environment and install the required packages
 
 ```bash
-    conda create -n teleop python==3.11.10
-    conda activate teleop
-    pip install -e '.[fourier,realsense]' # add other optional dependencies if needed
-    pip uninstall typing # this is a workaround, vuer installs typing, but it is obsolete in newer python versions
+conda create -n teleop python==3.11.10
+conda activate teleop
+pip install -e '.[fourier,realsense]' # add other optional dependencies if needed
+pip uninstall typing # this is a workaround, vuer installs typing, but it is obsolete in newer python versions
 ```
 
 3. (Optional) Install ZED SDK
@@ -51,7 +51,7 @@
 5. (Optional) Install DepthAI library for Oak camera
     The depthai library could be installed with following command:
     ```bash
-    $ python3 -m pip install depthai-sdk
+    sudo wget -qO- https://docs.luxonis.com/install_dependencies.sh | bash
     ```
 
 6. Setup `fourier-grx`
@@ -59,18 +59,18 @@
 The fourier GR series robots are controlled by the `fourier-grx` package. The `fourier-grx` package is only available for Python 3.11. Thus, we suggest you to create a new virtual environment with Python 3.11 and install the package in the new environment. For more information, please refer to the [official Fourier GRX Documentation](https://fftai.github.io/fourier-grx-client)
 
 ```bash
-    conda create -n grx python==3.11
-    conda activate grx
-    pip install fourier-grx==1.0.0a19
-    cd ./server_config
-    grx run ./gr1t2.yaml --namespace gr/daq
+conda create -n grx python==3.11
+conda activate grx
+pip install fourier-grx==1.0.0a19
+cd ./server_config
+grx run ./gr1t2.yaml --namespace gr/daq
 ```
 
 Then in another terminal, you can run the following command to do the initial calibration, make sure the robot is in the initial position.
 
 ```bash
-    conda activate grx
-    grx calibrate
+conda activate grx
+grx calibrate
 ```
 
 After the calibration, there should be a `sensor_offset.json` file in the `./server_config` directory.
@@ -99,19 +99,19 @@ We'll be using `mkcert` to create a self-signed certificate. and `mkcert` is a s
 2. check the internet IP information with
 
 ```bash
-    ifconfig | grep inet
+ifconfig | grep inet
 ```
 
 3. Creating the certificate with `mkcert`, make sure to put the IP address of your computer in the command
 
 ```bash
-    mkcert -install && mkcert -cert-file cert.pem -key-file key.pem {Your IP address} localhost 127.0.0.1
+mkcert -install && mkcert -cert-file cert.pem -key-file key.pem {Your IP address} localhost 127.0.0.1
 ```
 
   **example usage:**
 
 ```bash
-    mkcert -install && mkcert -cert-file cert.pem -key-file key.pem 192.168.1.100 your-computer.local localhost 127.0.0.1
+mkcert -install && mkcert -cert-file cert.pem -key-file key.pem 192.168.1.100 your-computer.local localhost 127.0.0.1
  ```
 
  > [!IMPORTANT]
@@ -123,21 +123,21 @@ We'll be using `mkcert` to create a self-signed certificate. and `mkcert` is a s
 4. Turn on firewall setup
 
 ```bash
-    sudo iptables -A INPUT -p tcp --dport 8012 -j ACCEPT
-    sudo iptables-save
-    sudo iptables -L
+sudo iptables -A INPUT -p tcp --dport 8012 -j ACCEPT
+sudo iptables-save
+sudo iptables -L
 ```
 
   or setup firewall with `ufw`
 
 ```bash
-    sudo ufw allow 8012
+sudo ufw allow 8012
 ```
 
 5. install ca-certificates on VisionPro
 
 ```bash
-    mkcert -CAROOT
+mkcert -CAROOT
 ```
 
   Copy the `rootCA.pem` file to the VisionPro device through the Airdrop.
@@ -163,53 +163,101 @@ We'll be using `mkcert` to create a self-signed certificate. and `mkcert` is a s
 > [!NOTE]
 > You should be able to use this with Oculus Quest 2 as well. The setup process is more involved, but you should be able to stream using adb follwoing [this issue](https://github.com/OpenTeleVision/TeleVision/issues/12#issue-2401541144).
 
-## 🕹️ Usage
+## 🕹️ Usage 
+### Fourier GRX system
 
-### Start up the GRX server
+> [!TIP]
+> You could use the pins to help you to lock the robot's waist if you don't want to use the waist. However, make sure you are calling use `use_waist=false` in the command. Otherwise, the robot's waist will be broken. The pins are located in the image below:
+
+<img src="./figure/Pin1.jpg" alt="Pin position" width="250"/>
+<img src="./figure/Pin2.jpg" alt="Pin position" width="250"/>
+
+### Start up the GRX server(GR1T2)
 
 ```bash
-    cd ./server_config
-    grx run ./gr1t2.yaml --namespace gr/daq
+cd ./server_config
+grx run ./gr1t2.yaml --namespace gr/daq
 ```
 
-Before running the GRX server, make sure the robot is in the initial position. Also, if you are first time using the robot, you need to do the calibration first. You can use the `grx calibrate` command to do the initial calibration. THe initial position of the robot looks like this:
+Before using real robot, make sure the robot is in the initial position. Also, if you are first time using the robot, you need to do the calibration first. For GRX system, you can use the `grx calibrate` command to do the initial calibration. The initial position of the robot looks like this:
 
 <img src="./figure/Pre1.jpg" alt="initial position" width="200"/>
 
-### Run the teleoperation script
+### Run the teleoperation script with GR1T2
 
 We manage the config with [Hydra](https://hydra.cc/docs/intro/). You can select config files and override with hydra's [override syntax](https://hydra.cc/docs/advanced/override_grammar/basic/).
+By default, the script uses the `teleop_gr1` config file and GR1T2 robot. You can use the following command to run the script:
 
 ```bash
-    python -m teleoperation.main --config-name teleop_gr1 camera=realsense
+python -m teleoperation.main --config-name teleop_gr1 robot=gr1t2_legacy
 ```
-By default the script uses Oak camera with GR1T2 robot equipped with Fourier hands. If you want to use another robot or camera, you can modify the config file or use the command line arguments.
+The default the script uses Oak camera with GR1T2 robot equipped with Fourier hands. You could useIf you want to use another robot or camera, you can modify the config file or use the command line arguments.
+
+> [!TIP]
+> You can check the config in the `configs` directory for more details. There are several examples for how to use other cameras and robots. you should noticed that the command line argumenst should use the name in the 
+
+- To use GR1T2 robot with the realsense camera, first make sure to specify the serial number in `configs/camera/realsense.yaml` or `configs/camera/realsense_multi.yaml` depending on the number of cameras you are using, you can use the following command:
 
 ```bash
-    python -m teleoperation.main --config-name teleop_gr1 camera=realsense
+python -m teleoperation.main --config-name teleop_gr1 robot=gr1t2_legacy camera=realsense # for single realsense camera
+python -m teleoperation.main --config-name teleop_gr1 robot=gr1t2_legacy camera=realsense_multi # for multi realsense camera
 ```
-To use the realsense camera, first make sure to specify the serial number in `configs/camera/realsense.yaml` or `configs/camera/realsense_multi.yaml` depending on the number of cameras you are using, you can use the following command:
+
+- To use GR12 robot a generic camera with opencv, you can use the following command:
 
 ```bash
-    python -m teleoperation.main --config-name teleop_gr1 camera=realsense # for single realsense camera
-    python -m teleoperation.main --config-name teleop_gr1 camera=realsense_multi # for multi realsense camera
+python -m teleoperation.main --config-name teleop_gr1 robot=gr1t2_legacy camera=opencv
 ```
 
-To use a generic camera with opencv, you can use the following command:
+- To use the GR1T2 robot with inspire hand, you can use the following command:
 
 ```bash
-    python -m teleoperation.main --config-name teleop_gr1 camera=opencv
+python -m teleoperation.main --config-name teleop_gr1 robot=gr1t2_legacy_inspire hand=inspire_dexpilot
 ```
-To record data, use the daq config file and specify the task name, the syntax is the same as the teleoperation config file.
+
+- To record data, use the daq config file and specify the task name, the syntax is the same as the teleoperation config file but using different config file. 
+> [!NOTE]
+> The `daq` config file does not have default values fot the `task_name`, `cameara` and `robot` parameters, you need to specify them in the command line. YOu can check the details in the `configs/daq.yaml` file.
 
 ```bash
-    python -m teleoperation.main --config-name daq_gr1 task_name=${task_name}
+python -m teleoperation.main --config-name daq robot=gr1t2_legacy camera=oak task_name=${task_name}
 ```
 
 > [!CAUTION]
-> If you are using the real robot with Fourier GRX, please make sure to leave enough empty space between the robot and the table to avoid the robot arm collide with the table. Or you could place the robot arm on the table. The robot resume to the initial teleoperation position before and after the teleoperation session. The sample illustration about place the robot arm on the table is shown below:
+> If you are using the real robot, please make sure to leave enough empty space between the robot and the table to avoid the robot arm collide with the table. Or you could place the robot arm on the table. The robot resume to the initial teleoperation position before and after the teleoperation session. The sample illustration about place the robot arm on the table is shown below:
 
 <img src="./figure/Pre2.jpg" alt="Teleoperation position" width="300"/>
+
+### Run the teleoperation script with GR1T1
+If you want to use GR1T1 robot, you have to to use different config file in both grx server and teleoperation script.
+
+```bash
+conda activate grx
+grx run ./gr1t1.yaml --namespace gr/daq
+```
+
+Then, you can use the following command to run the teleoperation script, the setup is about using GR1T1 robot with Oak camera as default:
+
+```bash
+python -m teleoperation.main --config-name teleop_gr1 robot=gr1t1_legacy
+```
+
+- If you want to use other camera or hand, you could just change the command line like mentioned above. The following command is an example for using the realsense camera with GR1T1 robot and inspire hand:
+
+```bash
+python -m teleoperation.main --config-name teleop_gr1 robot=gr1t1_legacy_inspire camera=realsense hand=inspire_dexpilot
+``` 
+
+### Command lines examples
+Here will show you some command options for different scenarios:
+- **use_head**: Bool value, default is `True`, if set to True, the teleoperation will control the robot's head movement in `yaw` and `pitch` directions.
+- **use_waist**: Bool value, default is `True`, if set to True, the teleoperation will control the robot's waist movement in `roll` and `pitch` directions.
+- **camera**: str value, default is `oak`, you can choose from `oak`, `oak_97`, `realsense`, `opencv` and `realsense_multi`.
+- **robot**: str value, you can choose from `gr1t2_legacy`, `gr1t2_legacy_inspire`, `gr1t1_legacy`, `gr1t1_legacy_inspire` with Grx system.
+- **hand**: str value, you can choose from `dexterous_hand`, `inspire_dexpilot` with Grx system. Noticed that if you wish to use inspire hand, you need to use the `gr1t2_legacy_inspire` or `gr1t1_legacy_inspire` robot.
+- **task_name**: str value, you can specify the task name for recording data.
+- **robot.visualize**: Bool value, default is `False`, if set to True, the teleoperation will show the robot's movement in the meshcat. Noticed that if you open the robot visualizer, the performance of the teleoperation will be affected.
+- **use_sim**: Bool value, default is `False`, if set to True, the teleoperation will use the simulation environment instead of the real robot.
 
 ### Start the teleoperation
 
@@ -225,30 +273,24 @@ To stop the teleoperation, the operator can hit the `Space` key again.
 
 ***You may watch the video to see how to access the VR session inside the VisionPro device: [VisionPro operation video](./figure/video/Vp.mp4)***
 
-> [!TIP]
-> You could use the pins to help you to lock the robot's waist if you don't want to use the waist. However, make sure you are calling use `use_waist=false` in the command. Otherwise, the robot's waist will be broken. THe pins are located in the image below:
-
-<img src="./figure/Pin1.jpg" alt="Pin position" width="250"/>
-<img src="./figure/Pin2.jpg" alt="Pin position" width="250"/>
-
 ## 🛠️ Development
 
 We manage the development environment with the [pdm](https://pdm-project.org/en/latest/) package manager. Thus, please make sure to install `pdm` first following the [official guide](https://pdm-project.org/en/latest/#installation) here.
 
 ```bash
-    pdm install -d -Gfourier -Gdepthai -Grealsense -v
+pdm install -d -Gfourier -Gdepthai -Grealsense -v
 ```
 
 To select the specific environment, you can run the following command:
 
 ```bash
-    pdm use
+pdm use
 ```
 
 And to activate the environment, you can run the following command:
 
 ```bash
-    eval "$(pdm venv activate)"
+eval "$(pdm venv activate)"
 ```
 
 ## 🙏 Credits
