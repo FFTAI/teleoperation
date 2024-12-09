@@ -1,14 +1,19 @@
 import logging
-import tempfile
 import time
 from pathlib import Path
 
-from fourier_grx_dds.gravity_compensation import GravityCompensator
 from omegaconf import DictConfig, OmegaConf
 
 from teleoperation.utils import PROJECT_ROOT
 
 logger = logging.getLogger(__name__)
+
+try:
+    from fourier_grx_dds.gravity_compensation import GravityCompensator
+except ImportError as e:
+    msg = "The `fourier_grx_dds` package is not installed. As the software is still in early alpha stage, please contact the maintainers regarding ways to install it OR use the legacy `fourier_grx` package and the legacy robot, e.g.`robot=gr1t2_legacy`."
+    logger.error(msg)
+    raise ImportError(msg) from e
 
 
 def init_encoders(self):
