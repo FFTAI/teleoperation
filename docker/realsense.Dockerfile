@@ -13,19 +13,25 @@ ENV DEBIAN_FRONTEND=noninteractive
 
 # RUN mv /etc/apt/sources.list /etc/apt/sources.list.bak
 # RUN cat <<EOF > /etc/apt/sources.list
-#     deb http://mirrors.ustc.edu.cn/ubuntu/ focal main restricted universe multiverse
-#     deb http://mirrors.ustc.edu.cn/ubuntu/ focal-updates main restricted universe multiverse
-#     deb http://mirrors.ustc.edu.cn/ubuntu/ focal-backports main restricted universe multiverse
-#     deb http://mirrors.ustc.edu.cn/ubuntu/ focal-security main restricted universe multiverse
+#     deb http://mirrors.ustc.edu.cn/ubuntu/ jammy main restricted universe multiverse
+#     deb http://mirrors.ustc.edu.cn/ubuntu/ jammy-updates main restricted universe multiverse
+#     deb http://mirrors.ustc.edu.cn/ubuntu/ jammy-backports main restricted universe multiverse
+#     deb http://mirrors.ustc.edu.cn/ubuntu/ jammy-security main restricted universe multiverse
 # EOF
 
 
 # RUN mv /etc/apt/sources.list /etc/apt/sources.list.bak
 RUN cat <<EOF > /etc/apt/sources.list
-    deb https://mirrors.tuna.tsinghua.edu.cn/debian/ bookworm main contrib non-free non-free-firmware
-    deb https://mirrors.tuna.tsinghua.edu.cn/debian/ bookworm-updates main contrib non-free non-free-firmware
-    deb https://mirrors.tuna.tsinghua.edu.cn/debian/ bookworm-backports main contrib non-free non-free-firmware
-    deb https://security.debian.org/debian-security bookworm-security main contrib non-free non-free-firmware
+    deb https://mirrors.tuna.tsinghua.edu.cn/ubuntu/ jammy main restricted universe multiverse
+    # deb-src https://mirrors.tuna.tsinghua.edu.cn/ubuntu/ jammy main restricted universe multiverse
+    deb https://mirrors.tuna.tsinghua.edu.cn/ubuntu/ jammy-updates main restricted universe multiverse
+    # deb-src https://mirrors.tuna.tsinghua.edu.cn/ubuntu/ jammy-updates main restricted universe multiverse
+    deb https://mirrors.tuna.tsinghua.edu.cn/ubuntu/ jammy-backports main restricted universe multiverse
+    # deb-src https://mirrors.tuna.tsinghua.edu.cn/ubuntu/ jammy-backports main restricted universe multiverse
+
+    # 以下安全更新软件源包含了官方源与镜像站配置，如有需要可自行修改注释切换
+    deb http://security.ubuntu.com/ubuntu/ jammy-security main restricted universe multiverse
+    # deb-src http://security.ubuntu.com/ubuntu/ jammy-security main restricted universe multiverse
 EOF
 
 # Builder dependencies installation
