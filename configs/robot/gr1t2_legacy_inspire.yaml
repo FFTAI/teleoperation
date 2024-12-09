@@ -5,7 +5,7 @@ instance:
   default_qpos: "${robot.default_qpos}"
   named_links: "${robot.named_links}"
 
-urdf_path: "urdf/GR1T1_fourier_hand_6dof.urdf"
+urdf_path: "urdf/GR1T2_inspire_hand.urdf"
 urdf_package_dirs: ["urdf"]
 
 controlled_joint_indices: "${eval:'list(range(12, 32))'}"
@@ -32,9 +32,9 @@ joint_names:
     "waist_pitch_joint",
     "waist_roll_joint",
 
-    "head_yaw_joint",
-    "head_roll_joint",
     "head_pitch_joint",
+    "head_roll_joint",
+    "head_yaw_joint",
 
     "left_shoulder_pitch_joint",
     "left_shoulder_roll_joint",
@@ -137,7 +137,7 @@ named_links:
   root_link: "base_link"
   left_end_effector_link: "left_end_effector_link"
   right_end_effector_link: "right_end_effector_link"
-  head_link: "head_pitch_link"
+  head_link: "head_yaw_link"
   # left_elbow_pitch_joint: "left_elbow_pitch_joint"
   # right_elbow_pitch_joint: "right_elbow_pitch_joint"
 
