@@ -357,3 +357,4 @@ outputs/
 *.bk
 .DS_Store
 encoders_state.yaml
+motor_gains.yaml

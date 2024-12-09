@@ -3,8 +3,6 @@ from typing import Protocol, runtime_checkable
 
 import numpy as np
 
-from .grx import GR1Robot
-
 
 @runtime_checkable
 class RobotAdapter(Protocol):

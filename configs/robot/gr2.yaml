@@ -50,7 +50,6 @@ joint_names:
     "right_wrist_roll_joint",
   ]
 
-
 visualize: false
 debug: ${debug}
 debug_hand: ${debug_hand}
@@ -276,8 +275,8 @@ dds_config:
       reduction_ratio: 31
       kinematic_reduction_ratio: 1
       kinetic_reduction_ratio: 3.751
-      position_kp: 0.55
-      velocity_kp: 0.015
+      position_kp: 0.0
+      velocity_kp: 0.0
       mode: PD
       default_pose_degree: 0
       actuator_type: FSA_TYPE_802030
@@ -290,8 +289,8 @@ dds_config:
       reduction_ratio: 51
       kinematic_reduction_ratio: 1
       kinetic_reduction_ratio: 3.4170000000000003
-      position_kp: 1.2
-      velocity_kp: 0.11
+      position_kp: 0.0
+      velocity_kp: 0.0
       mode: PD
       default_pose_degree: 0
       actuator_type: FSA_TYPE_601750
@@ -304,8 +303,8 @@ dds_config:
       reduction_ratio: 7
       kinematic_reduction_ratio: 1
       kinetic_reduction_ratio: 1.82
-      position_kp: 0.7
-      velocity_kp: 0.13
+      position_kp: 0.0
+      velocity_kp: 0.0
       mode: PD
       default_pose_degree: -15.000033378601074
       actuator_type: FSA_TYPE_1307E
@@ -318,8 +317,8 @@ dds_config:
       reduction_ratio: 7
       kinematic_reduction_ratio: 1
       kinetic_reduction_ratio: 1.82
-      position_kp: 0.7
-      velocity_kp: 0.022
+      position_kp: 0.0
+      velocity_kp: 0.0
       mode: PD
       default_pose_degree: 30.00006675720215
       actuator_type: FSA_TYPE_1307E
@@ -332,8 +331,8 @@ dds_config:
       reduction_ratio: 36
       kinematic_reduction_ratio: 1
       kinetic_reduction_ratio: 2.16
-      position_kp: 0.68
-      velocity_kp: 0.1
+      position_kp: 0.0
+      velocity_kp: 0.0
       mode: PD
       default_pose_degree: -15.000033378601074
       actuator_type: FSA_TYPE_36B36E
@@ -346,8 +345,8 @@ dds_config:
       reduction_ratio: 36
       kinematic_reduction_ratio: 1
       kinetic_reduction_ratio: 2.16
-      position_kp: 0.67
-      velocity_kp: 0.07
+      position_kp: 0.0
+      velocity_kp: 0.0
       mode: PD
       default_pose_degree: 0
       actuator_type: FSA_TYPE_36B36E
@@ -360,8 +359,8 @@ dds_config:
       reduction_ratio: 31
       kinematic_reduction_ratio: 1
       kinetic_reduction_ratio: 3.751
-      position_kp: 0.65
-      velocity_kp: 0.035
+      position_kp: 0.0
+      velocity_kp: 0.0
       mode: PD
       default_pose_degree: 0
       actuator_type: FSA_TYPE_802030
@@ -374,8 +373,8 @@ dds_config:
       reduction_ratio: 51
       kinematic_reduction_ratio: 1
       kinetic_reduction_ratio: 3.4170000000000003
-      position_kp: 1.2
-      velocity_kp: 0.14
+      position_kp: 0.0
+      velocity_kp: 0.0
       mode: PD
       default_pose_degree: 0
       actuator_type: FSA_TYPE_601750
@@ -388,8 +387,8 @@ dds_config:
       reduction_ratio: 7
       kinematic_reduction_ratio: 1
       kinetic_reduction_ratio: 1.82
-      position_kp: 0.7
-      velocity_kp: 0.13
+      position_kp: 0.0
+      velocity_kp: 0.0
       mode: PD
       default_pose_degree: -15.000033378601074
       actuator_type: FSA_TYPE_1307E
@@ -402,8 +401,8 @@ dds_config:
       reduction_ratio: 7
       kinematic_reduction_ratio: 1
       kinetic_reduction_ratio: 1.82
-      position_kp: 0.7
-      velocity_kp: 0.022
+      position_kp: 0.0
+      velocity_kp: 0.0
       mode: PD
       default_pose_degree: 30.00006675720215
       actuator_type: FSA_TYPE_1307E
@@ -416,8 +415,8 @@ dds_config:
       reduction_ratio: 36
       kinematic_reduction_ratio: 1
       kinetic_reduction_ratio: 2.16
-      position_kp: 0.68
-      velocity_kp: 0.1
+      position_kp: 0.0
+      velocity_kp: 0.0
       mode: PD
       default_pose_degree: -15.000033378601074
       actuator_type: FSA_TYPE_36B36E
@@ -430,8 +429,8 @@ dds_config:
       reduction_ratio: 36
       kinematic_reduction_ratio: 1
       kinetic_reduction_ratio: 2.16
-      position_kp: 0.67
-      velocity_kp: 0.07
+      position_kp: 0.0
+      velocity_kp: 0.0
       mode: PD
       default_pose_degree: 0
       actuator_type: FSA_TYPE_36B36E
@@ -444,8 +443,8 @@ dds_config:
       reduction_ratio: 51
       kinematic_reduction_ratio: 1
       kinetic_reduction_ratio: 3.4170000000000003
-      position_kp: 0.54
-      velocity_kp: 0.08
+      position_kp: 0.0
+      velocity_kp: 0.0
       mode: PD
       default_pose_degree: 0
       actuator_type: FSA_TYPE_601750
@@ -458,8 +457,8 @@ dds_config:
       reduction_ratio: 51
       kinematic_reduction_ratio: 1
       kinetic_reduction_ratio: 3.06
-      position_kp: 0.5
-      velocity_kp: 0.035
+      position_kp: 0.0
+      velocity_kp: 0.0
       mode: None
       default_pose_degree: 0
       actuator_type: FSA_TYPE_250830
@@ -472,8 +471,8 @@ dds_config:
       reduction_ratio: 51
       kinematic_reduction_ratio: 1
       kinetic_reduction_ratio: 3.06
-      position_kp: 0.5
-      velocity_kp: 0.04
+      position_kp: 0.0
+      velocity_kp: 0.0
       mode: None
       default_pose_degree: 0
       actuator_type: FSA_TYPE_250830
@@ -486,8 +485,8 @@ dds_config:
       reduction_ratio: 80
       kinematic_reduction_ratio: 1
       kinetic_reduction_ratio: 4.8
-      position_kp: 0.32
-      velocity_kp: 0.024
+      position_kp: ???
+      velocity_kp: ???
       mode: PD
       default_pose_degree: 0
       actuator_type: FSA_TYPE_361480
@@ -500,8 +499,8 @@ dds_config:
       reduction_ratio: 80
       kinematic_reduction_ratio: 1
       kinetic_reduction_ratio: 4.8
-      position_kp: 0.38
-      velocity_kp: 0.028
+      position_kp: ???
+      velocity_kp: ???
       mode: PD
       default_pose_degree: 0
       actuator_type: FSA_TYPE_361480
@@ -514,8 +513,8 @@ dds_config:
       reduction_ratio: 100
       kinematic_reduction_ratio: 1
       kinetic_reduction_ratio: 6
-      position_kp: 0.48
-      velocity_kp: 0.017
+      position_kp: ???
+      velocity_kp: ???
       mode: PD
       default_pose_degree: 0
       actuator_type: FSA_TYPE_3611100
@@ -528,8 +527,8 @@ dds_config:
       reduction_ratio: 100
       kinematic_reduction_ratio: 1
       kinetic_reduction_ratio: 6
-      position_kp: 0.45
-      velocity_kp: 0.013
+      position_kp: ???
+      velocity_kp: ???
       mode: PD
       default_pose_degree: -17.18873405456543
       actuator_type: FSA_TYPE_3611100
@@ -542,8 +541,8 @@ dds_config:
       reduction_ratio: 31
       kinematic_reduction_ratio: 1
       kinetic_reduction_ratio: 1.8599999999999999
-      position_kp: 0.55
-      velocity_kp: 0.014
+      position_kp: ???
+      velocity_kp: ???
       mode: None
       default_pose_degree: 0
       actuator_type: FSA_TYPE_3611100
@@ -556,8 +555,8 @@ dds_config:
       reduction_ratio: 31
       kinematic_reduction_ratio: 1
       kinetic_reduction_ratio: 1.8599999999999999
-      position_kp: 0.8
-      velocity_kp: 0.021
+      position_kp: ???
+      velocity_kp: ???
       mode: None
       default_pose_degree: 0
       actuator_type: FSA_TYPE_250830
@@ -570,8 +569,8 @@ dds_config:
       reduction_ratio: 31
       kinematic_reduction_ratio: 1
       kinetic_reduction_ratio: 1.8599999999999999
-      position_kp: 0.8
-      velocity_kp: 0.058
+      position_kp: ???
+      velocity_kp: ???
       mode: None
       default_pose_degree: 0
       actuator_type: FSA_TYPE_250830
@@ -584,8 +583,8 @@ dds_config:
       reduction_ratio: 80
       kinematic_reduction_ratio: 1
       kinetic_reduction_ratio: 4.8
-      position_kp: 0.32
-      velocity_kp: 0.024
+      position_kp: ???
+      velocity_kp: ???
       mode: PD
       default_pose_degree: 0
       actuator_type: FSA_TYPE_361480
@@ -598,8 +597,8 @@ dds_config:
       reduction_ratio: 80
       kinematic_reduction_ratio: 1
       kinetic_reduction_ratio: 4.8
-      position_kp: 0.38
-      velocity_kp: 0.028
+      position_kp: ???
+      velocity_kp: ???
       mode: PD
       default_pose_degree: 0
       actuator_type: FSA_TYPE_361480
@@ -612,8 +611,8 @@ dds_config:
       reduction_ratio: 100
       kinematic_reduction_ratio: 1
       kinetic_reduction_ratio: 6
-      position_kp: 0.45
-      velocity_kp: 0.013
+      position_kp: ???
+      velocity_kp: ???
       mode: PD
       default_pose_degree: 0
       actuator_type: FSA_TYPE_3611100
@@ -626,8 +625,8 @@ dds_config:
       reduction_ratio: 100
       kinematic_reduction_ratio: 1
       kinetic_reduction_ratio: 6
-      position_kp: 0.45
-      velocity_kp: 0.013
+      position_kp: ???
+      velocity_kp: ???
       mode: PD
       default_pose_degree: -17.18873405456543
       actuator_type: FSA_TYPE_3611100
@@ -640,8 +639,8 @@ dds_config:
       reduction_ratio: 31
       kinematic_reduction_ratio: 1
       kinetic_reduction_ratio: 1.8599999999999999
-      position_kp: 0.55
-      velocity_kp: 0.015
+      position_kp: ???
+      velocity_kp: ???
       mode: None
       default_pose_degree: 0
       actuator_type: FSA_TYPE_3611100
@@ -654,8 +653,8 @@ dds_config:
       reduction_ratio: 31
       kinematic_reduction_ratio: 1
       kinetic_reduction_ratio: 1.8599999999999999
-      position_kp: 0.65
-      velocity_kp: 0.014
+      position_kp: ???
+      velocity_kp: ???
       mode: None
       default_pose_degree: 0
       actuator_type: FSA_TYPE_250830
@@ -668,8 +667,8 @@ dds_config:
       reduction_ratio: 31
       kinematic_reduction_ratio: 1
       kinetic_reduction_ratio: 1.8599999999999999
-      position_kp: 0.7
-      velocity_kp: 0.034
+      position_kp: ???
+      velocity_kp: ???
       mode: None
       default_pose_degree: 0
       actuator_type: FSA_TYPE_250830
