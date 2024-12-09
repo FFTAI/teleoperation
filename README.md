@@ -172,7 +172,7 @@ mkcert -CAROOT
 <img src="./figure/Pin1.jpg" alt="Pin position" width="250"/>
 <img src="./figure/Pin2.jpg" alt="Pin position" width="250"/>
 
-### Start up the GRX server
+### Start up the GRX server(GR1T2)
 
 ```bash
 cd ./server_config
@@ -183,7 +183,7 @@ Before using real robot, make sure the robot is in the initial position. Also, i
 
 <img src="./figure/Pre1.jpg" alt="initial position" width="200"/>
 
-### Run the teleoperation script
+### Run the teleoperation script with GR1T2
 
 We manage the config with [Hydra](https://hydra.cc/docs/intro/). You can select config files and override with hydra's [override syntax](https://hydra.cc/docs/advanced/override_grammar/basic/).
 By default, the script uses the `teleop_gr1` config file and GR1T2 robot. You can use the following command to run the script:
@@ -209,16 +209,10 @@ python -m teleoperation.main --config-name teleop_gr1 robot=gr1t2_legacy camera=
 python -m teleoperation.main --config-name teleop_gr1 robot=gr1t2_legacy camera=opencv
 ```
 
-- To use GR1T1 robot with oak camera, you can use the following command:
-
-```bash
-python -m teleoperation.main --config-name teleop_gr1 robot=gr1t1_legacy
-```
-
 - To use the GR1T2 robot with inspire hand, you can use the following command:
 
 ```bash
-python -m teleoperation.main --config-name teleop_gr1 robot=gr1t2_legacy hand=inspire_dexpilot
+python -m teleoperation.main --config-name teleop_gr1 robot=gr1t2_legacy_inspire hand=inspire_dexpilot
 ```
 
 - To record data, use the daq config file and specify the task name, the syntax is the same as the teleoperation config file but using different config file. 
@@ -233,6 +227,37 @@ python -m teleoperation.main --config-name daq robot=gr1t2_legacy camera=oak tas
 > If you are using the real robot, please make sure to leave enough empty space between the robot and the table to avoid the robot arm collide with the table. Or you could place the robot arm on the table. The robot resume to the initial teleoperation position before and after the teleoperation session. The sample illustration about place the robot arm on the table is shown below:
 
 <img src="./figure/Pre2.jpg" alt="Teleoperation position" width="300"/>
+
+### Run the teleoperation script with GR1T1
+If you want to use GR1T1 robot, you have to to use different config file in both grx server and teleoperation script.
+
+```bash
+conda activate grx
+grx run ./gr1t1.yaml --namespace gr/daq
+```
+
+Then, you can use the following command to run the teleoperation script, the setup is about using GR1T1 robot with Oak camera as default:
+
+```bash
+python -m teleoperation.main --config-name teleop_gr1 robot=gr1t1_legacy
+```
+
+- If you want to use other camera or hand, you could just change the command line like mentioned above. The following command is an example for using the realsense camera with GR1T1 robot and inspire hand:
+
+```bash
+python -m teleoperation.main --config-name teleop_gr1 robot=gr1t1_legacy_inspire camera=realsense hand=inspire_dexpilot
+``` 
+
+### Command lines examples
+Here will show you some command options for different scenarios:
+- **use_head**: Bool value, default is `True`, if set to True, the teleoperation will control the robot's head movement in `yaw` and `pitch` directions.
+- **use_waist**: Bool value, default is `True`, if set to True, the teleoperation will control the robot's waist movement in `roll` and `pitch` directions.
+- **camera**: str value, default is `oak`, you can choose from `oak`, `oak_97`, `realsense`, `opencv` and `realsense_multi`.
+- **robot**: str value, you can choose from `gr1t2_legacy`, `gr1t2_legacy_inspire`, `gr1t1_legacy`, `gr1t1_legacy_inspire` with Grx system.
+- **hand**: str value, you can choose from `dexterous_hand`, `inspire_dexpilot` with Grx system. Noticed that if you wish to use inspire hand, you need to use the `gr1t2_legacy_inspire` or `gr1t1_legacy_inspire` robot.
+- **task_name**: str value, you can specify the task name for recording data.
+- **robot.visualize**: Bool value, default is `False`, if set to True, the teleoperation will show the robot's movement in the meshcat. Noticed that if you open the robot visualizer, the performance of the teleoperation will be affected.
+- **use_sim**: Bool value, default is `False`, if set to True, the teleoperation will use the simulation environment instead of the real robot.
 
 ### Start the teleoperation
 
