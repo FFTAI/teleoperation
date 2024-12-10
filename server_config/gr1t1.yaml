@@ -299,9 +299,9 @@ robot_config:
       "waist_pitch_joint",
       "waist_roll_joint",
 
-      "head_pitch_joint",
-      "head_roll_joint",
       "head_yaw_joint",
+      "head_roll_joint",
+      "head_pitch_joint",
 
       "left_shoulder_pitch_joint",
       "left_shoulder_roll_joint",
