@@ -71,18 +71,34 @@ def main(
     listener = KeyboardListener()
     listener.start()
 
-    def trigger():
-        """Get keyboard triggers. `space` for FSM state transition, `x` for discarding current episode, `s` for stop (TODO)"""
-        pressed = listener.key_pressed
-        # logger.info(f"Pressed keys: {pressed}")
-        if pressed is None:
+    def make_debounce_trigger(debounce_tol=0.1):
+        """Debounce trigger"""
+        last_trigger = time.time()
+
+        def _trigger():
+            """Get keyboard triggers. `space` for FSM state transition, `x` for discarding current episode, `s` for stop (TODO)"""
+            pressed = listener.key_pressed
+            # logger.info(f"Pressed keys: {pressed}")
+            if pressed is None:
+                return False, None
+            if pressed.get("space", False):
+                return True, "space"
+            for key, value in pressed.items():
+                if value and key in ["q", "x", "d", "s", "z", "p"]:
+                    return True, key
             return False, None
-        if pressed.get("space", False):
-            return True, "space"
-        for key, value in pressed.items():
-            if value and key in ["q", "x", "d", "s", "z", "p"]:
-                return True, key
-        return False, None
+
+        def trigger():
+            nonlocal last_trigger
+            triggered, key = _trigger()
+            if triggered and time.time() - last_trigger > debounce_tol:
+                last_trigger = time.time()
+                return triggered, key
+            return False, None
+
+        return trigger
+
+    trigger = make_debounce_trigger()
 
     def trigger_key(key):
         return listener.key_pressed.get(key, False)
