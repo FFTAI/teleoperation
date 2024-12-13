@@ -94,6 +94,8 @@ def main(
             if triggered and time.time() - last_trigger > debounce_tol:
                 last_trigger = time.time()
                 return triggered, key
+            elif triggered:
+                logger.warning(f"Debouncing trigger: {key}")
             return False, None
 
         return trigger
