@@ -216,6 +216,7 @@ def main(
                 robot.stop_recording()
 
                 time.sleep(0.5)
+                _, _ = trigger()
 
                 fsm.state = FSM.State.IDLE
                 continue
@@ -233,8 +234,11 @@ def main(
                 )
 
                 time.sleep(0.5)
+
                 data_dict = None
                 recording.increment()
+
+                _, _ = trigger()
 
                 fsm.state = FSM.State.IDLE
                 continue
