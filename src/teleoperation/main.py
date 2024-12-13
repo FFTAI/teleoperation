@@ -71,7 +71,7 @@ def main(
     listener = KeyboardListener()
     listener.start()
 
-    def make_debounce_trigger(debounce_tol=0.1):
+    def make_debounce_trigger(debounce_tol):
         """Debounce trigger"""
         last_trigger = time.time()
 
@@ -98,7 +98,7 @@ def main(
 
         return trigger
 
-    trigger = make_debounce_trigger()
+    trigger = make_debounce_trigger(0.5)
 
     def trigger_key(key):
         return listener.key_pressed.get(key, False)
