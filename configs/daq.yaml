@@ -15,6 +15,10 @@ use_head: false
 use_depth: false
 task_name: ??? # e.g. "task_name: 'task_name'"
 
+cpu:
+  affinity: [0, 1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12, 13, 14, 15, 16, 17]
+  niceness: -15
+
 recording:
   enabled: true
   task_name: ${task_name}

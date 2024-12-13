@@ -6,8 +6,8 @@ instance:
   stereo_resolution: "400p"
   color_resolution: "800p"
 
-  save_processes: 8
-  save_threads: 8
+  save_processes: 6
+  save_threads: 12
   save_queue_size: 30
 
   display_mode: "stereo"

@@ -6,6 +6,7 @@ from pathlib import Path
 
 import hydra
 import numpy as np
+import psutil
 from omegaconf import DictConfig
 
 from teleoperation.data_collection import EpisodeDataDict, RecordingInfo, get_camera_names
@@ -34,6 +35,12 @@ PROJECT_ROOT = Path(__file__).resolve().parent.parent
 def main(
     cfg: DictConfig,
 ):
+    p = psutil.Process()
+    p.cpu_affinity(cfg.cpu.affinity)
+    p.nice(cfg.cpu.niceness)
+
+    logger.info(f"Setting CPU affinity: {cfg.cpu.affinity}; Niceness: {cfg.cpu.niceness}")
+
     logger.info(f"Hydra output directory  : {hydra.core.hydra_config.HydraConfig.get().runtime.output_dir}")
     if not cfg.use_waist:
         cfg.robot.joints_to_lock.extend(cfg.robot.waist_joints)

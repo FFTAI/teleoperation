@@ -20,6 +20,10 @@ use_waist: false
 use_head: false
 use_depth: false
 
+cpu:
+  affinity: []
+  niceness: -5
+
 recording:
   enabled: false
   task_name: "teleop"
