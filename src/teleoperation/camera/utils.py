@@ -9,12 +9,12 @@ from typing import Literal
 
 import cv2
 import numpy as np
-from PIL import Image
 from tqdm import tqdm
 
 from teleoperation.utils import posix_to_iso
 
 logger = logging.getLogger(__name__)
+cv2.setNumThreads(1)
 
 
 class RecordCamera:
@@ -133,18 +133,21 @@ class DisplayCamera:
 
 
 def save_image(img, key, frame_index, videos_dir: str):
-    img = Image.fromarray(img)
     path = Path(videos_dir) / f"{key}_frame_{frame_index:09d}.png"
     path.parent.mkdir(parents=True, exist_ok=True)
-    img.save(str(path), quality=100)
+
+    cv2.imwrite(str(path), img)
 
 
 def save_image_by_ts(img, key, timestamp, videos_dir: str):
-    img = Image.fromarray(img)
     iso_ts = posix_to_iso(timestamp)
     path = Path(videos_dir) / f"{key}" / f"{iso_ts}.png"
     path.parent.mkdir(parents=True, exist_ok=True)
-    img.save(str(path), quality=100)
+
+    cv2.imwrite(str(path), img)
+
+    # img = Image.fromarray(img)
+    # img.save(str(path), quality=100)
 
 
 def delete_dir(videos_dir: str):
