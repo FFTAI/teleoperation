@@ -167,12 +167,12 @@ class CameraOak:
 
         if self.use_depth:
             stereo = oak.create_stereo(left=left, right=right, resolution=self.stereo_resolution, fps=stereo_fps)
-            stereo.config_stereo(align=color, subpixel=True, lr_check=True)
+            stereo.config_stereo(align=color, subpixel=False, lr_check=False)
             # stereo.node.setOutputSize(640, 360) # 720p, downscaled to 640x360 (decimation filter, median filtering)
             # On-device post processing for stereo depth
             config = stereo.node.initialConfig.get()
             stereo.node.setPostProcessingHardwareResources(3, 3)
-            config.postProcessing.speckleFilter.enable = True
+            config.postProcessing.speckleFilter.enable = False
             config.postProcessing.thresholdFilter.minRange = 400
             config.postProcessing.thresholdFilter.maxRange = 3_000  # 3m
             config.postProcessing.decimationFilter.decimationFactor = 2
