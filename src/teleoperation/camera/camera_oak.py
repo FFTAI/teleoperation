@@ -167,7 +167,7 @@ class CameraOak:
 
         if self.use_depth:
             stereo = oak.create_stereo(left=left, right=right, resolution=self.stereo_resolution, fps=stereo_fps)
-            stereo.config_stereo(align=color, subpixel=False, lr_check=False)
+            stereo.config_stereo(align=color, subpixel=False, lr_check=True)
             # stereo.node.setOutputSize(640, 360) # 720p, downscaled to 640x360 (decimation filter, median filtering)
             # On-device post processing for stereo depth
             config = stereo.node.initialConfig.get()
