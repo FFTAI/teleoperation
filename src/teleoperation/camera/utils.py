@@ -132,16 +132,28 @@ class DisplayCamera:
             np.copyto(self.image_array, display_img)
 
 
-def save_image(img, key, frame_index, videos_dir: str):
-    path = Path(videos_dir) / f"{key}_frame_{frame_index:09d}.png"
+def save_image(img, key, frame_index, videos_dir: str, pixel_mode: str = "RGB", extension: str = "png"):
+    if pixel_mode == "RGB":
+        img = cv2.cvtColor(img, cv2.COLOR_RGB2BGR)
+    elif pixel_mode == "BGR":
+        pass
+    else:
+        raise ValueError("Invalid pixel_mode.")
+    path = Path(videos_dir) / f"{key}_frame_{frame_index:09d}.{extension}"
     path.parent.mkdir(parents=True, exist_ok=True)
 
     cv2.imwrite(str(path), img)
 
 
-def save_image_by_ts(img, key, timestamp, videos_dir: str):
+def save_image_by_ts(img, key, timestamp, videos_dir: str, pixel_mode: str = "RGB", extension: str = "png"):
+    if pixel_mode == "RGB":
+        img = cv2.cvtColor(img, cv2.COLOR_RGB2BGR)
+    elif pixel_mode == "BGR":
+        pass
+    else:
+        raise ValueError("Invalid pixel_mode.")
     iso_ts = posix_to_iso(timestamp)
-    path = Path(videos_dir) / f"{key}" / f"{iso_ts}.png"
+    path = Path(videos_dir) / f"{key}" / f"{iso_ts}.{extension}"
     path.parent.mkdir(parents=True, exist_ok=True)
 
     cv2.imwrite(str(path), img)
