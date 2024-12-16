@@ -1,11 +1,11 @@
 type: "inspire"
 
 left_hand:
-  _target_: teleohand.hands.inspire.InspireDexHand
+  _target_: teleoperation.adapter.hands.inspire.InspireDexHand
   ip: "192.168.137.19"
 
 right_hand:
-  _target_: teleohand.hands.inspire.InspireDexHand
+  _target_: teleoperation.adapter.hands.inspire.InspireDexHand
   ip: "192.168.137.39"
 
 prefix_left: "L_"
@@ -16,7 +16,6 @@ actuated_indices: [4, 6, 2, 0, 9, 8]
 range_max: [1000, 1000, 1000, 1000, 1000, 1000]
 range_min: [0, 0, 0, 0, 0, 0]
 
-
 left:
   type: DexPilot
   urdf_path: urdf/inspire_left_hand.urdf
@@ -24,7 +23,6 @@ left:
 
   finger_tip_link_names:
     ["L_thumb_tip", "L_index_tip", "L_middle_tip", "L_ring_tip", "L_pinky_tip"]
-
 
   target_joint_names:
     [
@@ -35,7 +33,7 @@ left:
       "L_thumb_proximal_pitch_joint",
       "L_thumb_proximal_yaw_joint",
     ]
-  scaling_factor: 0.85
+  scaling_factor: 1.12
   # target_link_human_indices: [[0, 0, 0, 0, 0], [4, 9, 14, 19, 24]]
 
   # A smaller alpha means stronger filtering, i.e. more smooth but also larger latency
@@ -49,7 +47,6 @@ right:
   finger_tip_link_names:
     ["R_thumb_tip", "R_index_tip", "R_middle_tip", "R_ring_tip", "R_pinky_tip"]
 
-
   target_joint_names:
     [
       "R_pinky_proximal_joint",
@@ -59,7 +56,7 @@ right:
       "R_thumb_proximal_pitch_joint",
       "R_thumb_proximal_yaw_joint",
     ]
-  scaling_factor: 0.85
+  scaling_factor: 1.12
   # target_link_human_indices: [[0, 0, 0, 0, 0], [4, 9, 14, 19, 24]]
   # A smaller alpha means stronger filtering, i.e. more smooth but also larger latency
   low_pass_alpha: 0.2
