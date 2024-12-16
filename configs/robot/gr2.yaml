@@ -146,6 +146,7 @@ calibration_pose:
 dds_config:
   domain_id: "${robot.dds_domain_id}"
   encoders_state_path: "server_config/dds/encoders_state.yaml"
+  motor_gains_path: "server_config/dds/motor_gains.yaml"
   topic_prefix: "${robot.dds_namespace}"
   frequency: 100
   use_imu: false

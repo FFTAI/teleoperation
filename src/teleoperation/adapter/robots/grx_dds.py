@@ -74,9 +74,7 @@ class GR1Robot:
                     motor_gains_template = f.read()
                 with open(PROJECT_ROOT.parent.parent / Path(dds_cfg.motor_gains_path), "w") as f:
                     f.write(motor_gains_template)
-                create_from_template(
-                    "server_config/dds/motor_gains.template.yaml", "server_config/dds/motor_gains.yaml"
-                )
+                create_from_template("server_config/dds/motor_gains.template.yaml", dds_cfg.motor_gains_path)
                 logger.warning("Please fill in the motor gains in `server_config/dds/motor_gains.yaml`.")
             # load motor gains and merge with dds_cfg.joints
             motor_gains = OmegaConf.load(PROJECT_ROOT.parent.parent / "server_config/dds/motor_gains.yaml")
