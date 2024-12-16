@@ -16,12 +16,12 @@ right_hand:
 prefix_left: "L_"
 prefix_right: "R_"
 
-tip_indices: [4, 8, 12, 16, 20]
+tip_indices: [4, 9, 14, 19, 24]
 
 actuated_indices: [2, 1, 0, 4, 3, 8, 7, 6, 5, 11, 10, 9]
-range_max: [5300, 5300, 800, 5300, 5300, 5300, 5300, 5300, 5300, 4800, 4400, 5300]
-range_min: [0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0,]
-
+range_max:
+  [5300, 5300, 800, 5300, 5300, 5300, 5300, 5300, 5300, 4800, 4400, 5300]
+range_min: [0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0]
 
 left:
   type: vector
@@ -40,7 +40,13 @@ left:
       "L_hand_base_link",
     ]
   target_task_link_names:
-    ["L_thumb_tip_link", "L_index_tip_link", "L_middle_tip_link", "L_ring_tip_link", "L_pinky_tip_link"]
+    [
+      "L_thumb_tip_link",
+      "L_index_tip_link",
+      "L_middle_tip_link",
+      "L_ring_tip_link",
+      "L_pinky_tip_link",
+    ]
 
   target_joint_names:
     [
@@ -55,7 +61,7 @@ left:
       "L_pinky_proximal_joint",
       "L_thumb_distal_joint",
       "L_thumb_proximal_pitch_joint",
-      "L_thumb_proximal_yaw_joint"
+      "L_thumb_proximal_yaw_joint",
     ]
   # finger_tip_link_names: [ "thumb_tip",  "index_tip", "middle_tip", "ring_tip", "pinky_tip" ]
   scaling_factor: 1.25
@@ -85,7 +91,13 @@ right:
       "R_hand_base_link",
     ]
   target_task_link_names:
-    ["R_thumb_tip_link", "R_index_tip_link", "R_middle_tip_link", "R_ring_tip_link", "R_pinky_tip_link"]
+    [
+      "R_thumb_tip_link",
+      "R_index_tip_link",
+      "R_middle_tip_link",
+      "R_ring_tip_link",
+      "R_pinky_tip_link",
+    ]
 
   target_joint_names:
     [
@@ -100,7 +112,7 @@ right:
       "R_pinky_proximal_joint",
       "R_thumb_distal_joint",
       "R_thumb_proximal_pitch_joint",
-      "R_thumb_proximal_yaw_joint"
+      "R_thumb_proximal_yaw_joint",
     ]
   # finger_tip_link_names: [ "thumb_tip",  "index_tip", "middle_tip", "ring_tip", "pinky_tip" ]
   scaling_factor: 1.25
