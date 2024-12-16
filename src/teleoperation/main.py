@@ -37,7 +37,10 @@ def main(
 ):
     p = psutil.Process()
     p.cpu_affinity(cfg.cpu.affinity)
-    p.nice(cfg.cpu.niceness)
+    try:
+        p.nice(cfg.cpu.niceness)
+    except psutil.AccessDenied:
+        logger.info(f"Failed to set niceness {cfg.cpu.niceness}, not a privileged user.")
 
     logger.info(f"Setting CPU affinity: {cfg.cpu.affinity}; Niceness: {cfg.cpu.niceness}")
 
