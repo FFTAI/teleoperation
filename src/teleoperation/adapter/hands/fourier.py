@@ -1,6 +1,7 @@
 import logging
 import threading
 import time
+from copy import copy
 
 from fourier_dhx.sdk.DexHand import DexHand
 
@@ -10,12 +11,19 @@ logger = logging.getLogger(__name__)
 class FourierDexHand:
     def __init__(self, hand_ip: str, dimension: int = 6):
         self.hand = DexHand(hand_ip)
+        self.freq = 60
+        self.ip = hand_ip
         self.dimension = dimension
         self._hand_positions = [0] * dimension
+        self._cmd = [0] * dimension
 
         self._hand_pos_lock = threading.Lock()
         self.get_pos_thread = threading.Thread(target=self._get_positions, daemon=True)
         self.get_pos_thread.start()
+
+        self._cmd_lock = threading.Lock()
+        self.set_pos_thread = threading.Thread(target=self._set_positions, daemon=True)
+        self.set_pos_thread.start()
 
     def _get_positions(self):
         while True:
@@ -24,9 +32,18 @@ class FourierDexHand:
                 with self._hand_pos_lock:
                     self._hand_positions = res
             else:
-                logger.warning(f"Getting hand pos error: {res}")
+                logger.warning(f"Getting hand {self.ip} pos error: {res}")
             # return self._hand_positions
-            time.sleep(1 / 60)
+            time.sleep(1 / self.freq)
+
+    def _set_positions(self):
+        while True:
+            with self._cmd_lock:
+                cmd = copy(self._cmd)
+                res = self.hand.set_angle(0, cmd)
+                if res != 0:
+                    logger.warning(f"Setting hand {self.ip} pos error: {res}")
+            time.sleep(1 / self.freq)
 
     def init(self):
         pass
@@ -39,7 +56,8 @@ class FourierDexHand:
         if len(positions) != self.dimension:
             logger.error(f"Invalid positions: {positions}")
             return
-        self.hand.set_angle(0, positions)
+        with self._cmd_lock:
+            self._cmd = list(positions)
 
     def reset(self):
         self.hand.set_pwm([-200] * self.dimension)
