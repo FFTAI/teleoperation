@@ -192,6 +192,8 @@ class TeleopRobot(DexRobot, CameraMixin):
 
         self.processor = VuerPreprocessor(cfg.preprocessor)
 
+        self._init_command_sent = False
+
         if not self.sim:
             logger.warning("Real robot mode.")
 
@@ -326,7 +328,12 @@ class TeleopRobot(DexRobot, CameraMixin):
         return qpos
 
     def init_control_joints(self):
+        if self._init_command_sent:
+            return
+
         self.client.init_command_joints(self.q_real)
+        self._init_command_sent = True
+        logger.info("Init command sent.")
 
     def pause_robot(self):
         logger.info("Pausing robot...")

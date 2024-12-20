@@ -27,6 +27,7 @@ class FourierDexHand:
 
     def _get_positions(self):
         while True:
+            start = time.perf_counter()
             res = self.hand.get_angle()
             if isinstance(res, list) and len(res) == self.dimension:
                 with self._hand_pos_lock:
@@ -34,16 +35,19 @@ class FourierDexHand:
             else:
                 logger.warning(f"Getting hand {self.ip} pos error: {res}")
             # return self._hand_positions
-            time.sleep(1 / self.freq)
+            end = time.perf_counter()
+            time.sleep(max(1 / self.freq - (end - start), 0))
 
     def _set_positions(self):
         while True:
+            start = time.perf_counter()
             with self._cmd_lock:
                 cmd = copy(self._cmd)
                 res = self.hand.set_angle(0, cmd)
                 if res != 0:
                     logger.warning(f"Setting hand {self.ip} pos error: {res}")
-            time.sleep(1 / self.freq)
+            end = time.perf_counter()
+            time.sleep(max(1 / self.freq - (end - start), 0))
 
     def init(self):
         pass
