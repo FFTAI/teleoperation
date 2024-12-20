@@ -43,11 +43,11 @@ class FourierDexHand:
             start = time.perf_counter()
             with self._cmd_lock:
                 cmd = copy(self._cmd)
-                res = self.hand.set_angle(0, cmd)
-                if res != 0:
-                    logger.warning(f"Setting hand {self.ip} pos error: {res}")
+            res = self.hand.set_angle(0, cmd)
+            if res != 0:
+                logger.warning(f"Setting hand {self.ip} pos error: {res}")
             end = time.perf_counter()
-            time.sleep(max(1 / self.freq - (end - start), 0))
+            time.sleep(max(1 / (self.freq * 1.5) - (end - start), 0))
 
     def init(self):
         pass
