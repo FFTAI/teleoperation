@@ -70,7 +70,7 @@ Then in another terminal, you can run the following command to do the initial ca
 
 ```bash
 conda activate grx
-grx calibrate
+grx calibrate --namespace gr/daq
 ```
 
 After the calibration, there should be a `sensor_offset.json` file in the `./server_config` directory.
@@ -191,10 +191,10 @@ By default, the script uses the `teleop_gr1` config file and GR1T2 robot. You ca
 ```bash
 python -m teleoperation.main --config-name teleop_gr1 robot=gr1t2_legacy
 ```
-The default the script uses Oak camera with GR1T2 robot equipped with Fourier hands. You could useIf you want to use another robot or camera, you can modify the config file or use the command line arguments.
+The default the script uses Oak camera with GR1T2 robot equipped with Fourier hands. You could use if you want to use another robot or camera, you can modify the config file or use the command line arguments.
 
 > [!TIP]
-> You can check the config in the `configs` directory for more details. There are several examples for how to use other cameras and robots. you should noticed that the command line argumenst should use the name in the 
+> You can check the config in the `configs` directory for more details. There are several examples for how to use other cameras and robots. 
 
 - To use GR1T2 robot with the realsense camera, first make sure to specify the serial number in `configs/camera/realsense.yaml` or `configs/camera/realsense_multi.yaml` depending on the number of cameras you are using, you can use the following command:
 
@@ -203,10 +203,10 @@ python -m teleoperation.main --config-name teleop_gr1 robot=gr1t2_legacy camera=
 python -m teleoperation.main --config-name teleop_gr1 robot=gr1t2_legacy camera=realsense_multi # for multi realsense camera
 ```
 
-- To use GR12 robot a generic camera with opencv, you can use the following command:
+- To use GR12 robot a generic usb camera with opencv, you need to first find out the port, then you can use the following command:
 
 ```bash
-python -m teleoperation.main --config-name teleop_gr1 robot=gr1t2_legacy camera=opencv
+python -m teleoperation.main --config-name teleop_gr1 robot=gr1t2_legacy camera=opencv camera.instance.port=/dev/video0
 ```
 
 - To use the GR1T2 robot with inspire hand, you can use the following command:
