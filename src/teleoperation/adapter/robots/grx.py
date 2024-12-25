@@ -1,6 +1,7 @@
 import logging
 import time
 
+import numpy as np
 from fourier_grx_client import ControlGroup, RobotClient
 
 logger = logging.getLogger(__name__)
@@ -64,4 +65,27 @@ class GR1Robot:
         self._move_to_default()
 
     def _move_to_default(self):
+        logger.info("Moving to default position...")
+        self.client.move_joints(
+            ControlGroup.UPPER,
+            positions=[0, 0, np.pi / 2, 0, 0, 0, 0, 0, 0, -np.pi / 2, 0, 0, 0, 0],
+            degrees=False,
+            gravity_compensation=False,
+            duration=0.5,
+            blocking=True,
+        )
+
+        time.sleep(0.1)
+
+        self.client.move_joints(
+            ControlGroup.UPPER,
+            positions=[0, 0, np.pi / 2, -np.pi / 2, 0, 0, 0, 0, 0, -np.pi / 2, -np.pi / 2, 0, 0, 0],
+            degrees=False,
+            gravity_compensation=False,
+            duration=0.5,
+            blocking=True,
+        )
+
+        time.sleep(0.1)
+
         self.client.move_joints(self.controlled_joint_indices, positions=self.default_qpos, degrees=False, duration=1.0)
