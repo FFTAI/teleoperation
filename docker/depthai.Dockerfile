@@ -13,4 +13,4 @@ RUN pip install --no-cache-dir depthai-sdk
 # disable sentry
 RUN mkdir -p ~/.depthai_sdk && \
     touch ~/.depthai_sdk/config.json && \
-    echo '{}' | jq '. + {"sentry": false}' | tee ~/.depthai_sdk/config.json >/dev/null 2>&1
+    echo '{}' | jq '. + {"sentry": false, "sentry_dsn": "https://67bc97fb3ee947bf90d83c892eaf19fe@sentry.luxonis.com/3"}' | tee ~/.depthai_sdk/config.json >/dev/null 2>&1

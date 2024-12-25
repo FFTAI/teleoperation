@@ -36,7 +36,7 @@ class GR1Robot:
         self.client.set_enable(True)
         time.sleep(1.0)
         # move to default position
-        self._move_to_default()
+        self._move_to_default(init=True)
         logger.info(f"Connected to {self.__class__.__name__}.")
 
     def command_joints(self, positions, gravity_compensation=False):
@@ -62,30 +62,63 @@ class GR1Robot:
 
     def disconnect(self):
         logger.info(f"Disconnecting from {self.__class__.__name__}...")
-        self._move_to_default()
+        self._move_to_default(init=False)
 
-    def _move_to_default(self):
-        logger.info("Moving to default position...")
-        self.client.move_joints(
-            ControlGroup.UPPER,
-            positions=[0, 0, np.pi / 2, 0, 0, 0, 0, 0, 0, -np.pi / 2, 0, 0, 0, 0],
-            degrees=False,
-            gravity_compensation=False,
-            duration=0.5,
-            blocking=True,
-        )
+    def _move_to_default(self, init=False):
+        logger.info("Moving to the default position...")
 
-        time.sleep(0.1)
+        if init:
+            dist = np.linalg.norm(self.client.joint_positions[12:] - self.default_qpos)
+            if dist > 0.5:
+                self.client.move_joints(
+                    ControlGroup.UPPER,
+                    positions=[0, 0.15, np.pi / 2, 0, 0, 0, 0, 0, -0.15, -np.pi / 2, 0, 0, 0, 0],
+                    degrees=False,
+                    gravity_compensation=False,
+                    duration=1.0,
+                    blocking=True,
+                )
 
-        self.client.move_joints(
-            ControlGroup.UPPER,
-            positions=[0, 0, np.pi / 2, -np.pi / 2, 0, 0, 0, 0, 0, -np.pi / 2, -np.pi / 2, 0, 0, 0],
-            degrees=False,
-            gravity_compensation=False,
-            duration=0.5,
-            blocking=True,
-        )
+                time.sleep(0.1)
 
-        time.sleep(0.1)
+                self.client.move_joints(
+                    ControlGroup.UPPER,
+                    positions=[0, 0.15, np.pi / 2, -np.pi / 2, 0, 0, 0, 0, -0.15, -np.pi / 2, -np.pi / 2, 0, 0, 0],
+                    degrees=False,
+                    gravity_compensation=False,
+                    duration=1.0,
+                    blocking=True,
+                )
 
-        self.client.move_joints(self.controlled_joint_indices, positions=self.default_qpos, degrees=False, duration=1.0)
+                time.sleep(0.1)
+            self.client.move_joints(
+                self.controlled_joint_indices, positions=self.default_qpos, degrees=False, duration=1.0, blocking=True
+            )
+        else:
+            self.client.move_joints(
+                self.controlled_joint_indices, positions=self.default_qpos, degrees=False, duration=1.0, blocking=True
+            )
+
+            time.sleep(0.1)
+
+            self.client.move_joints(
+                ControlGroup.UPPER,
+                positions=[0, 0.15, np.pi / 2, -np.pi / 2, 0, 0, 0, 0, -0.15, -np.pi / 2, -np.pi / 2, 0, 0, 0],
+                degrees=False,
+                gravity_compensation=False,
+                duration=1.0,
+                blocking=True,
+            )
+
+            time.sleep(0.1)
+
+            self.client.move_joints(
+                ControlGroup.UPPER,
+                positions=[0, 0.15, 0, 0, 0, 0, 0, 0, -0.15, 0, 0, 0, 0, 0],
+                degrees=False,
+                gravity_compensation=False,
+                duration=2.0,
+                blocking=True,
+            )
+
+        logger.info("Moved to the default position.")
