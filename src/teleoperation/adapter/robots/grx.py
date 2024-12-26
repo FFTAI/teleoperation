@@ -114,6 +114,17 @@ class GR1Robot:
 
             self.client.move_joints(
                 ControlGroup.UPPER,
+                positions=[0, 0.15, np.pi / 2, 0, 0, 0, 0, 0, -0.15, -np.pi / 2, 0, 0, 0, 0],
+                degrees=False,
+                gravity_compensation=False,
+                duration=1.0,
+                blocking=True,
+            )
+
+            time.sleep(0.1)
+
+            self.client.move_joints(
+                ControlGroup.UPPER,
                 positions=[0, 0.15, 0, 0, 0, 0, 0, 0, -0.15, 0, 0, 0, 0, 0],
                 degrees=False,
                 gravity_compensation=False,
