@@ -146,9 +146,11 @@ def save_image(img, key, frame_index, videos_dir: str, pixel_mode: str = "RGB", 
 
 
 def save_image_by_ts(img, key, timestamp, videos_dir: str, pixel_mode: str = "RGB", extension: str = "png"):
+    if "depth" in key or len(img.shape) == 2 or img.dtype == np.uint16:
+        pixel_mode = "depth"
     if pixel_mode == "RGB":
         img = cv2.cvtColor(img, cv2.COLOR_RGB2BGR)
-    elif pixel_mode == "BGR":
+    elif pixel_mode == "BGR" or pixel_mode == "depth":
         pass
     else:
         raise ValueError("Invalid pixel_mode.")
