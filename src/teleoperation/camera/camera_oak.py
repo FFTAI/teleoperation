@@ -173,7 +173,7 @@ class CameraOak:
             config = stereo.node.initialConfig.get()
             stereo.node.setPostProcessingHardwareResources(3, 3)
             config.postProcessing.speckleFilter.enable = False
-            config.postProcessing.thresholdFilter.minRange = 400
+            config.postProcessing.thresholdFilter.minRange = 200
             config.postProcessing.thresholdFilter.maxRange = 3_000  # 3m
             config.postProcessing.decimationFilter.decimationFactor = 2
             config.postProcessing.decimationFilter.decimationMode = (
