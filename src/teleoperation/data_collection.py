@@ -90,6 +90,12 @@ class RecordingInfo:
             pickle.dump(data_dict, open(self.episode_path + ".pkl", "wb"))
             exit(1)
 
+    def emergency_save(self, data_dict: EpisodeDataDict, cfg: DictConfig):
+        import pickle
+
+        pickle.dump(data_dict, open(self.episode_path + ".pkl", "wb"))
+        pickle.dump(cfg, open(self.episode_path + "_cfg.pkl", "wb"))
+
 
 @dataclass
 class TimestampMixin:

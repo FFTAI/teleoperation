@@ -302,6 +302,8 @@ def main(
 
     except KeyboardInterrupt:
         robot.stop_recording()
+        if recording is not None and data_dict is not None:
+            recording.emergency_save(data_dict, cfg)
         robot.end()
 
         time.sleep(1.0)
