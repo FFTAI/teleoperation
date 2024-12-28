@@ -48,5 +48,7 @@ preprocessor:
   named_links: ${robot.named_links}
 
 hydra:
+  job:
+    chdir: true
   run:
     dir: outputs/${recording.task_name}/${now:%Y-%m-%d_%H-%M-%S}
