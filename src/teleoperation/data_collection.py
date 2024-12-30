@@ -82,6 +82,8 @@ class RecordingInfo:
                 f.attrs["camera_names"] = get_camera_names(cfg)
                 f.attrs["episode_length"] = data_dict.length
                 f.attrs["episode_duration"] = data_dict.duration
+                f.attrs["pilot"] = cfg.recording.pilot
+                f.attrs["operator"] = cfg.recording.operator
 
         except Exception as e:
             logger.error(f"Error saving episode: {e}")

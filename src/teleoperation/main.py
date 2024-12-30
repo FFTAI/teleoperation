@@ -66,7 +66,8 @@ def main(
         session_path = RECORD_DIR / cfg.recording.task_name / session_name
         recording = RecordingInfo.from_session_path(str(session_path))
         data_dict = EpisodeDataDict.new(recording.episode_id, camera_names)
-        logger.info(f"Recording session: {session_path}")
+        logger.info(f"Recording enabled. Creating recording session at {session_path}.")
+        logger.info(f"Operator: {cfg.recording.operator}; Pilot: {cfg.recording.pilot}")
         os.makedirs(session_path, exist_ok=True)
 
     robot = TeleopRobot(cfg)  # type: ignore

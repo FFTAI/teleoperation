@@ -22,6 +22,8 @@ cpu:
 recording:
   enabled: true
   task_name: ${task_name}
+  operator: ???
+  pilot: ???
 
 upsampler:
   frequency: 250
