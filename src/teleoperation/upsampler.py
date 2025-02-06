@@ -136,13 +136,12 @@ class Upsampler(threading.Thread):
             if self.pause_event.is_set() and not self.paused:
                 self.paused = True
                 logger.info("Upsampler paused.")
-                self.robot.stop_joints()
-                self.last_command = None
+                self.last_command = self.robot.stop_joints()
                 self.command_history = CommandHistory()
                 continue
 
             if self.pause_event.is_set() and self.paused:
-                self.robot.command_joints(self.robot.joint_positions, gravity_compensation=False)
+                self.robot.command_joints(self.last_command, gravity_compensation=False)
                 time.sleep(self.target_dt)
                 continue
 

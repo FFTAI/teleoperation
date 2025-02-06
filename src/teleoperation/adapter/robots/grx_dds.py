@@ -108,7 +108,9 @@ class GR1Robot:
         self.client.move_joints(self.client.control_group.ALL, positions, duration=1.0)
 
     def stop_joints(self):
-        self.command_joints(self.joint_positions, gravity_compensation=False)
+        stopped_at = self.joint_positions
+        self.command_joints(stopped_at, gravity_compensation=False)
+        return stopped_at
 
     def observe(self):
         return (self.client.joint_positions.copy(),)

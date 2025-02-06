@@ -41,7 +41,7 @@ realsense = ["pyrealsense2>=2.55.1.6486"]
 depthai = ["depthai-sdk>=1.15.0", "av>=13.1.0"]
 cpu = ["torch==2.5.1+cpu", "torchvision==0.20.1+cpu"]
 gpu = ["torch", "torchvision"]
-
+fourier = ["fourier-grx-client==0.2.0a8", "fourier-dhx>=0.0.2"]
 
 [tool.uv]
 package = true
