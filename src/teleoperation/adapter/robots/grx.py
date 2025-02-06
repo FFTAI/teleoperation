@@ -56,6 +56,10 @@ class GR1Robot:
 
     def stop_joints(self):
         self.command_joints(self.joint_positions, gravity_compensation=False)
+        time.sleep(0.01)
+        self.command_joints(self.joint_positions, gravity_compensation=False)
+        time.sleep(0.01)
+        self.command_joints(self.joint_positions, gravity_compensation=False)
 
     def observe(self):
         return (self.client.joint_positions.copy(),)
