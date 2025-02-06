@@ -7,7 +7,7 @@ RUN apt-get update && apt-get install -y --no-install-recommends \
 
 COPY src/ /app/src/
 COPY assets/ /app/assets/
-# COPY configs/ /app/configs/
+COPY configs/ /app/configs/
 COPY pyproject.toml /app/
 COPY pdm.lock /app/
 COPY README.md /app/
