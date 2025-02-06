@@ -4,21 +4,18 @@ version = "0.5.9"
 description = "Teleoperation for Fourier Robots"
 authors = [{ name = "Yuxiang Gao", email = "yuxiang.gao@fftai.com" }]
 dependencies = [
-    "numpy~=1.26.4",
+    "numpy>=1.26.4",
     "h5py>=3.11.0",
-    "pytransform3d>=3.6.2",
     "vuer[all]==0.0.32rc8",
     "tqdm>=4.66.5",
     "rich>=13.8.1",
     "opencv-python>=4.10.0.84",
     "opencv-contrib-python>=4.10.0.84",
     "pynput>=1.7.7",
-    # "loguru>=0.7.2",
-    # "typer>=0.12.5",
     "omegaconf>=2.3.0",
-    "torch~=2.4.1",
-    "torchvision~=0.19.1",
-    "dex-retargeting==0.4.5",
+    # "torch~=2.4.1",
+    # "torchvision~=0.19.1",
+    "dex-retargeting==0.4.6",
     "pin-pink>=3.0.0",
     "rerun-sdk>=0.18.2",
     "meshcat>=0.3.2",
@@ -35,18 +32,56 @@ license = { text = "MIT" }
 
 [project.optional-dependencies]
 webrtc = [
-    "aiortc>=1.9.0",
     "aiohttp>=3.10.5",
     "aiohttp-cors>=0.7.0",
+    "aiortc>=0.9.8",
     "av>=12.3.0",
 ]
 realsense = ["pyrealsense2>=2.55.1.6486"]
-fourier = ["fourier-grx-client==0.2.0a8", "fourier-dhx>=0.0.2"]
 depthai = ["depthai-sdk>=1.15.0", "av>=13.1.0"]
+cpu = ["torch==2.5.1+cpu", "torchvision==0.20.1+cpu"]
+gpu = ["torch", "torchvision"]
 
+
+[tool.uv]
+package = true
+default-groups = ["fourier"]
+environments = ["sys_platform == 'linux' and platform_machine != 'aarch64'"]
+conflicts = [[{ extra = "cpu" }, { extra = "gpu" }]]
+
+[tool.uv.sources]
+torch = [
+    { index = "torch-cpu", extra = "cpu" },
+    { index = "torch-gpu", extra = "gpu" },
+]
+torchvision = [
+    { index = "torch-cpu", extra = "cpu" },
+    { index = "torch-gpu", extra = "gpu" },
+]
+pre-commit = { index = "tuna" }
+
+[[tool.uv.index]]
+name = "tuna"
+url = "https://pypi.tuna.tsinghua.edu.cn/simple"
+default = true
+
+[[tool.uv.index]]
+name = "torch-cpu"
+url = "https://download.pytorch.org/whl/cpu"
+explicit = true
+
+[[tool.uv.index]]
+name = "torch-gpu"
+url = "https://download.pytorch.org/whl/cu124"
+explicit = true
+
+
+# [build-system]
+# requires = ["pdm-backend"]
+# build-backend = "pdm.backend"
 [build-system]
-requires = ["pdm-backend"]
-build-backend = "pdm.backend"
+requires = ["hatchling"]
+build-backend = "hatchling.build"
 
 [tool.ruff]
 include = ["**/*.py", "**/*.pyi", "**/pyproject.toml"]
@@ -90,41 +125,25 @@ pythonPlatform = "Linux"
 [tool.ruff.lint.pydocstyle]
 convention = "google"
 
-[tool.pdm]
-distribution = true
-
-[tool.pdm.scripts]
-doc = { cmd = "mkdocs serve", help = "Start the dev server for docs preview" }
-lint = "pre-commit run --all-files"
-publish = "pdm publish -v -u __token__"
-publish_doc = "mike deploy --push --update-aliases"
-
-
-[tool.pdm.resolution]
-respect-source-order = true
+[project.scripts]
+teleoperation = "teleoperation.main:main"
+# [tool.pdm.scripts]
+# doc = { cmd = "mkdocs serve", help = "Start the dev server for docs preview" }
+# lint = "pre-commit run --all-files"
+# publish = "pdm publish -v -u __token__"
+# publish_doc = "mike deploy --push --update-aliases"
 
 
-# [[tool.pdm.source]]
-# name = "torch-cpu"
-# url = "https://download.pytorch.org/whl/cpu"
-# include_packages = ["torch", "torchvision", "torchaudio"]
-
-
-[[tool.pdm.source]]
-url = "https://pypi.tuna.tsinghua.edu.cn/simple"
-name = "tuna"
-
-
-[tool.pdm.dev-dependencies]
+[dependency-groups]
 dev = [
-    "mkdocs>=1.6.0",
-    "ruff>=0.6.3",
-    "pyright>=1.1.378",
-    "mkdocs-material>=9.5.33",
-    "mkdocstrings[python]>=0.25.2",
-    "mkdocs-version-annotations>=1.0.0",
+    "markdown-exec>=1.10.0",
     "mike>=2.1.3",
-    "markdown-exec>=1.9.3",
-    "pre-commit>=3.5.0",
-    "pytest>=8.3.3",
+    "mkdocs>=1.6.1",
+    "mkdocs-material>=9.5.49",
+    "mkdocstrings[python]>=0.27.0",
+    "pre-commit>=4.0.1",
+    "pyright>=1.1.391",
+    "pytest>=8.3.4",
+    "ruff>=0.9.1",
 ]
+fourier = ["fourier-grx-client==0.2.0a8", "fourier-dhx>=0.0.2"]
