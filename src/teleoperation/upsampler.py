@@ -140,11 +140,6 @@ class Upsampler(threading.Thread):
                 self.command_history = CommandHistory()
                 continue
 
-            if self.pause_event.is_set() and self.paused:
-                self.robot.command_joints(self.last_command, gravity_compensation=False)
-                time.sleep(self.target_dt)
-                continue
-
             if self.stop_event.is_set():
                 logger.info("Upsampler stopped.")
                 with self._cmd_lock:
@@ -154,6 +149,12 @@ class Upsampler(threading.Thread):
                         else:
                             self.robot.stop_joints()
                     break
+
+            if self.pause_event.is_set() and self.paused:
+                self.robot.command_joints(self.last_command, gravity_compensation=False)
+                time.sleep(self.target_dt)
+                continue
+
             commands = self.get()
             if commands is None:
                 with self._cmd_lock:
