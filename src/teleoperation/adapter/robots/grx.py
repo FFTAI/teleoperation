@@ -1,4 +1,7 @@
 import logging
+import socket
+import struct
+import threading
 import time
 
 import numpy as np
@@ -20,9 +23,45 @@ class GR1Robot:
         self.default_qpos = default_qpos
         self.named_links = named_links
 
+        self._sock = socket.socket(socket.AF_INET, socket.SOCK_DGRAM)
+        self._sock.setblocking(False)
+        self._ips = []
+
+        ips = [
+            90,
+            91,
+            92,
+            30,
+            31,
+            32,
+            33,
+            10,
+            11,
+            12,
+            13,
+        ]
+        for ip in ips:
+            self._ips.append(("192.168.137." + str(ip), 2335))
+
+        self._impendance_cmds = [struct.pack(">B", cmd) for cmd in [0x07] * len(self._ips)]
+
         logger.info(f"Initializing {self.__class__.__name__}...")
         logger.info(f"Namespace: {namespace}")
         logger.info(f"Config: {self.default_qpos}")
+
+        self._gravity_compensation_on = threading.Event()
+
+        self._gravity_compensation_on.clear()
+
+        threading.Thread(target=self._set_mode_thread, name="set mode thread", daemon=True).start()
+
+    def _set_mode_thread(self):
+        while True:
+            time.sleep(1 / 10)
+            if self._gravity_compensation_on.is_set():
+                self._set_impedance_mode()
+            else:
+                self._set_position_mode()
 
     @property
     def joint_positions(self):
@@ -43,6 +82,10 @@ class GR1Robot:
         self.client.move_joints(
             ControlGroup.ALL, positions=positions, degrees=False, gravity_compensation=gravity_compensation
         )
+        if gravity_compensation:
+            self._gravity_compensation_on.set()
+        else:
+            self._gravity_compensation_on.clear()
 
     def init_command_joints(self, positions):
         self.client.move_joints(
@@ -54,13 +97,23 @@ class GR1Robot:
             blocking=True,
         )
 
+    def _set_position_mode(self):
+        # logger.debug("Setting position mode...")
+        payload = struct.pack(">B", 0x04)
+        for ip in self._ips:
+            self._sock.sendto(payload, ip)
+
+    def _set_impedance_mode(self):
+        # logger.debug("Setting impedance mode...")
+        for ip, cmd in zip(self._ips, self._impendance_cmds, strict=True):
+            self._sock.sendto(cmd, ip)
+
     def stop_joints(self):
         stopped_at = self.joint_positions
         self.command_joints(stopped_at, gravity_compensation=False)
-        time.sleep(0.01)
-        self.command_joints(stopped_at, gravity_compensation=False)
-        time.sleep(0.01)
-        self.command_joints(stopped_at, gravity_compensation=False)
+        self._gravity_compensation_on.clear()
+        logger.debug(f"Stopped at: {stopped_at}")
+        logger.debug(f"Current Modes: {self.client.get_control_modes()}")
         return stopped_at
 
     def observe(self):
