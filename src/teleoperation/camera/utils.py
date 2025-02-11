@@ -58,11 +58,13 @@ class RecordCamera:
 class DisplayCamera:
     def __init__(
         self,
-        mode: Literal["mono", "stereo"],
+        mode: Literal["mono", "stereo", "none"],
         resolution: tuple[int, int],
         crop_sizes: tuple[int, int, int, int],
     ):
         self.mode = mode
+        if mode == "none":
+            return
         self.crop_sizes = [s if s != 0 else None for s in crop_sizes]
 
         t, b, l, r = crop_sizes
@@ -99,6 +101,8 @@ class DisplayCamera:
         return self.shm.size
 
     def put(self, data: dict[str, np.ndarray], marker=False):
+        if self.mode == "none":
+            return
         t, b, l, r = self.crop_sizes
 
         if self.mode == "mono":

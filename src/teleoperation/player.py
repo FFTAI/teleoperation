@@ -22,6 +22,21 @@ from teleoperation.utils import CERT_DIR, se3_to_xyzortho6d
 
 logger = logging.getLogger(__name__)
 
+LEROBOT_AVAILABLE = True
+
+try:
+    import rerun as rr
+    import torch
+    from lerobot.common.datasets.lerobot_dataset import LeRobotDataset, LeRobotDatasetMetadata
+    from lerobot.common.policies.factory import get_policy_class, make_policy
+    from lerobot.configs.policies import PreTrainedConfig
+    from lerobot.configs.train import TrainPipelineConfig
+except ImportError:
+    logger.warning("LeRobot not installed.")
+    LEROBOT_AVAILABLE = False
+    rr = None
+    torch = None
+
 
 class CameraMixin:
     cam: Any  # TODO: defnine a protocol for this
@@ -324,6 +339,201 @@ class TeleopRobot(DexRobot, CameraMixin):
 
     def control_joints(self):
         qpos = self.joint_filter.next(time.time(), self.q_real)
+        self.upsampler.put(qpos)
+        return qpos
+
+    def init_control_joints(self):
+        if self._init_command_sent:
+            return
+
+        self.client.init_command_joints(self.q_real)
+        self._init_command_sent = True
+        logger.info("Init command sent.")
+
+    def pause_robot(self):
+        logger.info("Pausing robot...")
+        self.upsampler.pause()
+        # self.client.move_joints(ControlGroup.ALL, self.client.joint_positions, gravity_compensation=False)
+
+    def end(self):
+        self.upsampler.stop()
+        self.upsampler.join()
+        self.client.disconnect()
+        with ThreadPoolExecutor(max_workers=2) as executor:
+            executor.submit(self.left_hand.reset)
+            executor.submit(self.left_hand.reset)
+
+
+class EvalRobot(DexRobot, CameraMixin):
+    def __init__(
+        self,
+        cfg: DictConfig,
+    ):
+        if not LEROBOT_AVAILABLE or rr is None or torch is None:
+            raise ImportError("LeRobot not installed.")
+        rr.init("eval_robot", spawn=False)
+        rr.connect_tcp(cfg.eval.rerun_endpoint)
+        logging.getLogger().addHandler(rr.LoggingHandler("logs/handler"))
+
+        self.eval_cfg = cfg.eval
+        super().__init__(cfg)
+
+        self.sim = cfg.sim
+        self.dt = 1 / cfg.frequency
+
+        # update joint positions in pinocchio
+        self.set_joint_positions(
+            [self.config.joint_names[i] for i in self.config.controlled_joint_indices],
+            self.config.default_qpos,
+            degrees=False,
+        )
+        self.set_posture_target_from_current_configuration()
+
+        self.cam = hydra.utils.instantiate(cfg.camera.instance).start()
+
+        self._init_command_sent = False
+        self._init_policy()
+        self._step = 0
+
+        if not self.sim:
+            logger.warning("Real robot mode.")
+
+            self.client: RobotAdapter = hydra.utils.instantiate(cfg.robot.instance)
+
+            self.client.connect()
+            self.upsampler = Upsampler(
+                self.client,
+                target_hz=cfg.upsampler.frequency,
+                dimension=cfg.robot.num_joints,
+                initial_command=self.client.joint_positions,
+                gravity_compensation=cfg.upsampler.gravity_compensation,
+            )
+            self.upsampler.start()
+
+            logger.info("Init hands.")
+            self.left_hand: HandAdapter = hydra.utils.instantiate(cfg.hand.left_hand)
+            self.right_hand: HandAdapter = hydra.utils.instantiate(cfg.hand.right_hand)
+
+            if self.hand_retarget.hand_type == "inspire":
+                with ThreadPoolExecutor(max_workers=2) as executor:
+                    executor.submit(self.left_hand.reset)
+                    executor.submit(self.right_hand.reset)
+        else:
+            self.client: RobotAdapter = DummyRobot(
+                cfg.robot.num_joints,
+            )
+            self.upsampler = Upsampler(
+                self.client, dimension=cfg.robot.num_joints, target_hz=cfg.upsampler.frequency
+            )  # TODO: dummy robot
+            self.upsampler.start()
+            hand_dimension = cfg.hand.left_hand.get("dimension", 6)
+            self.left_hand: HandAdapter = DummyDexHand(hand_dimension)
+            self.right_hand: HandAdapter = DummyDexHand(hand_dimension)
+
+    def _init_policy(self):
+        self.device = "cuda" if torch.cuda.is_available() else "cpu"
+        logger.info(f"Device: {self.device}")
+        self.policy = get_policy_class(self.config.policy.type).from_pretrained(
+            self.config.policy.pretrained_path, local_files_only=True, map_location=self.device
+        )
+        # self.policy = torch.compile(self.policy, mode="reduce-overhead")
+        self.policy.eval()
+        self.policy.to(self.device)
+
+        logger.info(f"Policy {self.config.policy.type} loaded from {self.config.policy.pretrained_path}.")
+
+    def step(self):
+        qpos, hand_qpos, ee_pose, head_pose = self.observe()
+
+        frames = self.cam.grab()
+        if frames["top"]["rgb"] is None:
+            logger.warning("No top image.")
+            return
+        rr.set_time_sequence("step", self._step)
+        # rr.set_time_seconds("ts", time.time())
+        self._step += 1
+        rr.log("observation/images/top", rr.Image(frames["top"]["rgb"].astype(np.uint8)))
+
+        # TODO: read self.eval_cfg.cameras
+        images_top = torch.tensor(frames["top"]["rgb"], dtype=torch.float32)
+        # h, w, c to b, c, h, w
+        images_top = images_top.expand(1, -1, -1, -1).permute(0, 3, 1, 2).to(self.device)
+
+        # TODO: add injectable obs_transform()
+        obs = np.concatenate([qpos[12:], hand_qpos])
+        rr.log("observation/state", rr.BarChart(obs.tolist()))
+        obs = torch.tensor(obs, dtype=torch.float32).unsqueeze(0).to(self.device)
+
+        logger.debug(f"Observation: {qpos.shape}, {hand_qpos.shape} {frames['top']['rgb'].shape}  {obs.shape}")
+
+        batch = {
+            "observation.state": obs,
+            "observation.images.top": images_top,
+            "task": [self.eval_cfg.prompt],
+        }
+        for k, v in batch.items():
+            if k != "task":
+                logger.debug(f"{k}: {v.shape}")
+        action = self.policy.select_action(batch=batch)
+
+        action = action.cpu().numpy().squeeze()
+
+        logger.debug(action)
+
+        rr.log("action", rr.BarChart(action.tolist()))
+
+        return action
+
+    def observe(self):
+        left_qpos, right_qpos = self.left_hand.get_positions(), self.right_hand.get_positions()
+        # left_qpos, right_qpos = self.hand_retarget.real_to_qpos(left_qpos, right_qpos)
+        hand_qpos = np.hstack([left_qpos, right_qpos])
+
+        (qpos,) = self.client.observe()
+
+        left_ee_pose, right_ee_pose, head_pose = self._get_ee_pose(qpos)
+        ee_pose = np.hstack([left_ee_pose, right_ee_pose])
+
+        return qpos, hand_qpos, ee_pose, head_pose
+
+    def _get_ee_pose(self, qpos):
+        left_link = self.config.named_links["left_end_effector_link"]
+        right_link = self.config.named_links["right_end_effector_link"]
+        head_link = self.config.named_links["head_link"]
+        root_link = self.config.named_links["root_link"]
+
+        left_pose = self.frame_placement(qpos, left_link, root_link).homogeneous
+        right_pose = self.frame_placement(qpos, right_link, root_link).homogeneous
+        head_pose = self.frame_placement(qpos, head_link, root_link).homogeneous
+
+        left_pose = se3_to_xyzortho6d(left_pose)
+        right_pose = se3_to_xyzortho6d(right_pose)
+        head_pose = se3_to_xyzortho6d(head_pose)  # TODO: should we discard translation?
+
+        return left_pose, right_pose, head_pose
+
+    def control_hands(self, hand_action):
+        # left, right = self.hand_action_convert(left_qpos, right_qpos, filtering=True)
+
+        filtered_hand_action = self.hand_filter.next(time.time(), hand_action)
+        left = filtered_hand_action[:6]
+        right = filtered_hand_action[6:]
+        self.left_hand.set_positions(left)  # type: ignore
+        self.right_hand.set_positions(right)  # type: ignore
+
+        return np.hstack([left, right])
+
+    def control_joints(self, qpos):
+        if len(qpos) == 20:
+            qpos = np.hstack(
+                [
+                    np.zeros(12),
+                    qpos,
+                ]
+            )
+        if len(qpos) != 32:
+            raise ValueError("Invalid qpos shape.")
+        qpos = self.joint_filter.next(time.time(), qpos)
         self.upsampler.put(qpos)
         return qpos
 

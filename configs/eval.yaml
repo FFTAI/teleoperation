@@ -1,0 +1,85 @@
+defaults:
+  - _self_
+
+  - hand: fourier_dexpilot
+  - robot: "gr1t1_legacy"
+  - override hydra/job_logging: colorlog
+  - override hydra/hydra_logging: colorlog
+
+# robot:
+#   urdf_path: "urdf/GR1T2_inspire_hand.urdf"
+# hand:
+#   left:
+#     urdf_path: urdf/fourier_hand_left.urdf
+#   right:
+#     urdf_path: urdf/fourier_hand_right.urdf
+
+debug: false
+debug_hand: false
+sim: false
+wait_time: 5.0
+frequency: 30
+use_waist: false
+use_head: false
+use_depth: false
+
+cpu:
+  affinity: []
+  niceness: -5
+
+recording:
+  enabled: false
+  task_name: "teleop"
+
+joint_filter:
+  min_cutoff: 0.01
+  beta: 10.0
+
+hand_filter:
+  min_cutoff: 0.001
+  beta: 50.0
+
+head_filter:
+  alpha: 0.7
+
+upsampler:
+  frequency: 120
+  gravity_compensation: false
+
+hydra:
+  job:
+    chdir: true
+  run:
+    dir: outputs/${recording.task_name}/${now:%Y-%m-%d_%H-%M-%S}
+
+camera:
+  instance:
+    _target_: teleoperation.camera.camera_oak.CameraOak
+    key: "top"
+    fps: 30
+    use_depth: false
+    stereo_resolution: "400p"
+    color_resolution: "800p"
+
+    save_processes: 1
+    save_threads: 1
+    save_queue_size: 1
+
+    display_mode: "none"
+    display_resolution: [400, 640]
+    display_crop_sizes: [0, 0, 0, 0]
+
+    eval_mode: true
+robot:
+  policy:
+    type: "pi0"
+    pretrained_path: ???
+
+eval:
+  rerun_endpoint: 192.168.31.184:9876
+  prompt: "Pour from the cup into the bowl."
+  states: ["qpos", "hand_qpos"]
+  actions: ["qpos", "hand_qpos"]
+  cameras:
+    top:
+      streams: ["rgb"]

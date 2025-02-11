@@ -4,6 +4,7 @@ import os
 import queue
 import threading
 import time
+from collections import defaultdict
 from typing import Literal
 
 import cv2
@@ -31,15 +32,20 @@ class CameraOak:
         display_mode: Literal["mono", "stereo"],
         display_resolution: tuple[int, int],
         display_crop_sizes: tuple[int, int, int, int],
+        eval_mode: bool = False,
     ):
         self.key = key
         self.fps = fps
         self.use_depth = use_depth
+        self.eval_mode = eval_mode
         self.stereo_resolution = stereo_resolution
         self.color_resolution = color_resolution
 
         self.display = DisplayCamera(display_mode, display_resolution, display_crop_sizes)
-        self.recorder = RecordCamera(save_processes, save_threads, save_queue_size)
+        if self.eval_mode:
+            self.recorder = None
+        else:
+            self.recorder = RecordCamera(save_processes, save_threads, save_queue_size)
         self.stop_event = mp.Event()
 
         self.oak = None
@@ -52,6 +58,8 @@ class CameraOak:
         self.is_recording = threading.Event()
         self._video_path = mp.Array("c", bytes(256))
         self._timestamp = 0
+
+        self.current_frames = defaultdict(lambda: None)
 
     @property
     def timestamp(self) -> float:
@@ -86,25 +94,26 @@ class CameraOak:
         ts_offset = None
         while not self.stop_event.is_set():
             self.oak.start()
-            while self.oak.running() and self.q_display is not None and self.q_obs is not None:
+            while self.oak.running() and self.q_obs is not None:
                 start = time.monotonic()
                 self.oak.poll()
                 self.timestamp = get_timestamp_utc().timestamp()
 
-                try:
-                    p: FramePacket = self.q_display.get_queue().get(block=False)
+                if self.q_display is not None and not self.eval_mode:
+                    try:
+                        p: FramePacket = self.q_display.get_queue().get(block=False)
 
-                    left_frame = cv2.cvtColor(p[self.sources["left"]].frame, cv2.COLOR_GRAY2RGB)
-                    right_frame = cv2.cvtColor(p[self.sources["right"]].frame, cv2.COLOR_GRAY2RGB)
-                    self.display.put({"left": left_frame, "right": right_frame}, marker=self.is_recording.is_set())
-                except queue.Empty:
-                    pass
-                except Exception as e:
-                    logger.exception(e)
+                        left_frame = cv2.cvtColor(p[self.sources["left"]].frame, cv2.COLOR_GRAY2RGB)
+                        right_frame = cv2.cvtColor(p[self.sources["right"]].frame, cv2.COLOR_GRAY2RGB)
+                        self.display.put({"left": left_frame, "right": right_frame}, marker=self.is_recording.is_set())
+                    except queue.Empty:
+                        pass
+                    except Exception as e:
+                        logger.exception(e)
 
                 try:
                     p_obs: FramePacket = self.q_obs.get_queue().get(block=False)
-                    if self.is_recording.is_set():
+                    if self.is_recording.is_set() or self.eval_mode:
                         # logger.info(f"FPS: {self.q_obs.get_fps()}")
                         if self.use_depth:
                             # device_ts = dai.Clock.now()
@@ -123,13 +132,19 @@ class CameraOak:
                         else:
                             rgb_frame = cv2.cvtColor(p_obs.frame, cv2.COLOR_BGR2RGB)
                             depth_frame = None
-                        self.recorder.put(
-                            {"rgb": rgb_frame, "depth": depth_frame},
-                            self.frame_id,
-                            self.video_path,
-                            timestamp=self.timestamp,
-                        )
+
+                        if not self.eval_mode and self.recorder is not None:
+                            self.recorder.put(
+                                {"rgb": rgb_frame, "depth": depth_frame},
+                                self.frame_id,
+                                self.video_path,
+                                timestamp=self.timestamp,
+                            )
+                        elif self.eval_mode:
+                            self.current_frames["rgb"] = rgb_frame
+                            self.current_frames["depth"] = depth_frame
                         self.frame_id += 1
+
                 except queue.Empty:
                     # logger.info("QUEUE EMPTY")
                     pass
@@ -139,12 +154,16 @@ class CameraOak:
                 taken = time.monotonic() - start
                 time.sleep(max(1 / self.fps - taken, 0))
 
+    def grab(self):
+        return {self.key: self.current_frames}
+
     def start(self):
         self.stop_event.clear()
 
         self.processes = []
         self.processes.append(threading.Thread(target=self.run, daemon=True))
-        self.recorder.start()
+        if not self.eval_mode and self.recorder is not None:
+            self.recorder.start()
         for p in self.processes:
             p.start()
         return self
@@ -155,11 +174,17 @@ class CameraOak:
         oak = OakCamera(args={"xlinkChunkSize": 0})
         stereo_fps = self.fps
         color_fps = self.fps
-        left = oak.create_camera("left", resolution=self.stereo_resolution, fps=stereo_fps)
-        right = oak.create_camera("right", resolution=self.stereo_resolution, fps=stereo_fps)
-        q_display = oak.queue([left, right], max_size=3).configure_syncing(
-            enable_sync=True, threshold_ms=int((1000 / stereo_fps) / 2)
-        )
+
+        if not self.eval_mode:
+            left = oak.create_camera("left", resolution=self.stereo_resolution, fps=stereo_fps)
+            right = oak.create_camera("right", resolution=self.stereo_resolution, fps=stereo_fps)
+            q_display = oak.queue([left, right], max_size=3).configure_syncing(
+                enable_sync=True, threshold_ms=int((1000 / stereo_fps) / 2)
+            )
+        else:
+            left = None
+            right = None
+            q_display = None
 
         color = oak.create_camera("CAM_A", resolution=self.color_resolution, fps=color_fps)
         if self.color_resolution == "1080p":

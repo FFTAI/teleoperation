@@ -8,10 +8,14 @@ from pathlib import Path
 
 import numpy as np
 from numba import jit
-from pynput import keyboard
 from scipy.spatial.transform import Rotation as R
 
 logger = logging.getLogger(__name__)
+try:
+    from pynput import keyboard
+except ImportError:
+    logger.warning("pynput import failed. KeyboardListener will not work.")
+
 
 PROJECT_ROOT = Path(__file__).resolve().parent
 ASSET_DIR = PROJECT_ROOT.parent.parent / "assets"
