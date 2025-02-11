@@ -50,13 +50,14 @@ class GR1Robot:
         logger.info(f"Config: {self.default_qpos}")
 
         self._gravity_compensation_on = threading.Event()
+        self._stop_event = threading.Event()
 
         self._gravity_compensation_on.clear()
 
         threading.Thread(target=self._set_mode_thread, name="set mode thread", daemon=True).start()
 
     def _set_mode_thread(self):
-        while True:
+        while True and not self._stop_event.is_set():
             time.sleep(1 / 10)
             if self._gravity_compensation_on.is_set():
                 self._set_impedance_mode()
@@ -122,6 +123,8 @@ class GR1Robot:
     def disconnect(self):
         logger.info(f"Disconnecting from {self.__class__.__name__}...")
         self._move_to_default(init=False)
+
+        self._stop_event.set()
 
     def _move_to_default(self, init=False):
         logger.info("Moving to the default position...")

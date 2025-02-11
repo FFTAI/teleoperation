@@ -32,3 +32,6 @@ class InspireDexHand:
     ):
         angles = self.hand.get_angle()
         return angles
+
+    def stop(self):
+        pass

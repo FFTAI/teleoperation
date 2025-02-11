@@ -363,6 +363,10 @@ class TeleopRobot(DexRobot, CameraMixin):
             executor.submit(self.left_hand.reset)
             executor.submit(self.left_hand.reset)
 
+        import os
+
+        os._exit(0)
+
 
 class EvalRobot(DexRobot, CameraMixin):
     def __init__(
@@ -452,7 +456,7 @@ class EvalRobot(DexRobot, CameraMixin):
         rr.set_time_sequence("step", self._step)
         # rr.set_time_seconds("ts", time.time())
         self._step += 1
-        rr.log("observation/images/top", rr.Image(frames["top"]["rgb"].astype(np.uint8)))
+        rr.log("/observation/images/top", rr.Image(frames["top"]["rgb"].astype(np.uint8)))
 
         # TODO: read self.eval_cfg.cameras
         images_top = torch.tensor(frames["top"]["rgb"], dtype=torch.float32)
@@ -461,7 +465,7 @@ class EvalRobot(DexRobot, CameraMixin):
 
         # TODO: add injectable obs_transform()
         obs = np.concatenate([qpos[12:], hand_qpos])
-        rr.log("observation/state", rr.BarChart(obs.tolist()))
+        rr.log("/observation/state", rr.BarChart(obs.tolist()))
         obs = torch.tensor(obs, dtype=torch.float32).unsqueeze(0).to(self.device)
 
         logger.debug(f"Observation: {qpos.shape}, {hand_qpos.shape} {frames['top']['rgb'].shape}  {obs.shape}")
@@ -480,7 +484,7 @@ class EvalRobot(DexRobot, CameraMixin):
 
         logger.debug(action)
 
-        rr.log("action", rr.BarChart(action.tolist()))
+        rr.log("/action", rr.BarChart(action.tolist()))
 
         return action
 
@@ -557,6 +561,12 @@ class EvalRobot(DexRobot, CameraMixin):
         with ThreadPoolExecutor(max_workers=2) as executor:
             executor.submit(self.left_hand.reset)
             executor.submit(self.left_hand.reset)
+        self.left_hand.stop()
+        self.right_hand.stop()
+
+        import os
+
+        os._exit(0)
 
 
 # def main(data_dir: str, task: str = "01_cube_kitting", episode: int = 1, config: str = "config.yml"):

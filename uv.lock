@@ -425,13 +425,13 @@ source = { registry = "https://pypi.tuna.tsinghua.edu.cn/simple" }
 dependencies = [
     { name = "cmeel", marker = "(platform_machine != 'aarch64' and sys_platform == 'linux') or (platform_machine == 'aarch64' and extra == 'extra-13-teleoperation-cpu' and extra == 'extra-13-teleoperation-gpu') or (platform_machine == 'aarch64' and extra == 'extra-13-teleoperation-cpu' and extra == 'extra-13-teleoperation-lerobot') or (platform_machine == 'aarch64' and extra == 'extra-13-teleoperation-gpu' and extra == 'extra-13-teleoperation-lerobot') or (sys_platform != 'linux' and extra == 'extra-13-teleoperation-cpu' and extra == 'extra-13-teleoperation-gpu') or (sys_platform != 'linux' and extra == 'extra-13-teleoperation-cpu' and extra == 'extra-13-teleoperation-lerobot') or (sys_platform != 'linux' and extra == 'extra-13-teleoperation-gpu' and extra == 'extra-13-teleoperation-lerobot')" },
 ]
-sdist = { url = "https://pypi.tuna.tsinghua.edu.cn/packages/37/2d/d1f10c62d5f64f8dab8fb3b7a60f393782ec617c0bb186424ab2a4c422e5/cmeel_assimp-5.3.1.tar.gz", hash = "sha256:b2da7360f5e865b92da53f3392582738de1ca25d5f4d7cbf953249c14c20a530" }
+sdist = { url = "https://pypi.tuna.tsinghua.edu.cn/packages/37/2d/d1f10c62d5f64f8dab8fb3b7a60f393782ec617c0bb186424ab2a4c422e5/cmeel_assimp-5.3.1.tar.gz", hash = "sha256:b2da7360f5e865b92da53f3392582738de1ca25d5f4d7cbf953249c14c20a530", size = 52577175 }
 wheels = [
-    { url = "https://pypi.tuna.tsinghua.edu.cn/packages/24/5c/1deabc5ff40bdb4982cf0fe5bfe35c541a15340526f08df2108a805ddb18/cmeel_assimp-5.3.1-0-py3-none-macosx_12_0_arm64.whl", hash = "sha256:05ea5f78b4a9ea87fc5b102872962625c5e2b27bc3c30277efc3916905c477f6" },
-    { url = "https://pypi.tuna.tsinghua.edu.cn/packages/c3/67/6f3d6f2017f5b5edae65e75280cb0f4c7696f5e3313492451e1ee708000a/cmeel_assimp-5.3.1-0-py3-none-macosx_12_0_x86_64.whl", hash = "sha256:b3c0a07981403bd402728f1a2cd5524893f342bfef6d1db5ae34dcdb5f79d7e2" },
-    { url = "https://pypi.tuna.tsinghua.edu.cn/packages/a9/a1/0efa348c9dcdab49b81170a71ddd0aec23c76d09683d21223e7ceae561f3/cmeel_assimp-5.3.1-0-py3-none-manylinux_2_28_aarch64.whl", hash = "sha256:c33678fcd7b35d4bdc9ccaac8311c05aaa6cb475d63eca4f83cc91c34d71ce41" },
-    { url = "https://pypi.tuna.tsinghua.edu.cn/packages/07/91/1e08871351e28ca5e5275f42add660f962ce3378e64c7c6dd985c9f1b286/cmeel_assimp-5.3.1-0-py3-none-manylinux_2_28_x86_64.whl", hash = "sha256:0bcb4f649377632698de7a8a56a6bb9772aff2cccd8532b796e223ccb1e579d6" },
-    { url = "https://pypi.tuna.tsinghua.edu.cn/packages/93/96/71041137a58ff00fb80fe5b9d3b4138572fe6ac6c090c176345038e14d63/cmeel_assimp-5.3.1-0-py3-none-musllinux_1_1_x86_64.whl", hash = "sha256:360594e4c80d1dd9371db583856e815d9b990ebf205aea6392a15a8b5fb13b8c" },
+    { url = "https://pypi.tuna.tsinghua.edu.cn/packages/24/5c/1deabc5ff40bdb4982cf0fe5bfe35c541a15340526f08df2108a805ddb18/cmeel_assimp-5.3.1-0-py3-none-macosx_12_0_arm64.whl", hash = "sha256:05ea5f78b4a9ea87fc5b102872962625c5e2b27bc3c30277efc3916905c477f6", size = 9213448 },
+    { url = "https://pypi.tuna.tsinghua.edu.cn/packages/c3/67/6f3d6f2017f5b5edae65e75280cb0f4c7696f5e3313492451e1ee708000a/cmeel_assimp-5.3.1-0-py3-none-macosx_12_0_x86_64.whl", hash = "sha256:b3c0a07981403bd402728f1a2cd5524893f342bfef6d1db5ae34dcdb5f79d7e2", size = 10117107 },
+    { url = "https://pypi.tuna.tsinghua.edu.cn/packages/a9/a1/0efa348c9dcdab49b81170a71ddd0aec23c76d09683d21223e7ceae561f3/cmeel_assimp-5.3.1-0-py3-none-manylinux_2_28_aarch64.whl", hash = "sha256:c33678fcd7b35d4bdc9ccaac8311c05aaa6cb475d63eca4f83cc91c34d71ce41", size = 13164839 },
+    { url = "https://pypi.tuna.tsinghua.edu.cn/packages/07/91/1e08871351e28ca5e5275f42add660f962ce3378e64c7c6dd985c9f1b286/cmeel_assimp-5.3.1-0-py3-none-manylinux_2_28_x86_64.whl", hash = "sha256:0bcb4f649377632698de7a8a56a6bb9772aff2cccd8532b796e223ccb1e579d6", size = 13959918 },
+    { url = "https://pypi.tuna.tsinghua.edu.cn/packages/93/96/71041137a58ff00fb80fe5b9d3b4138572fe6ac6c090c176345038e14d63/cmeel_assimp-5.3.1-0-py3-none-musllinux_1_1_x86_64.whl", hash = "sha256:360594e4c80d1dd9371db583856e815d9b990ebf205aea6392a15a8b5fb13b8c", size = 13613407 },
 ]
 
 [[package]]
@@ -3326,7 +3326,7 @@ socks = [
 
 [[package]]
 name = "rerun-sdk"
-version = "0.21.0"
+version = "0.22.0"
 source = { registry = "https://pypi.tuna.tsinghua.edu.cn/simple" }
 dependencies = [
     { name = "attrs", marker = "platform_machine != 'aarch64' and sys_platform == 'linux'" },
@@ -3336,11 +3336,11 @@ dependencies = [
     { name = "typing-extensions", marker = "platform_machine != 'aarch64' and sys_platform == 'linux'" },
 ]
 wheels = [
-    { url = "https://pypi.tuna.tsinghua.edu.cn/packages/1a/7b/2dda703d2d234e8bf73edc11c099bc14c04b6bad6f748b76ad0525925dd9/rerun_sdk-0.21.0-cp38-abi3-macosx_10_12_x86_64.whl", hash = "sha256:1e454ceea31c70ae9ec1bb26eaa82828661b7657ab4d2261ca0b94006d6a1975", size = 43464114 },
-    { url = "https://pypi.tuna.tsinghua.edu.cn/packages/c7/11/de8d1d375624edc7dae25a9d76b769cddb9090ca55b8fd7ce5f93b975cf5/rerun_sdk-0.21.0-cp38-abi3-macosx_11_0_arm64.whl", hash = "sha256:84ecb77b0b5bac71b53e849801ff073de89fcd2f1e0ca0da62fb18fcbeceadf0", size = 41643016 },
-    { url = "https://pypi.tuna.tsinghua.edu.cn/packages/53/49/aefaa4f0e2ee685858aedaee2cc6cc4df8330055bdfbe88c6905e62d693d/rerun_sdk-0.21.0-cp38-abi3-manylinux_2_31_aarch64.whl", hash = "sha256:919d921165c3238490dbe5bf00a062c68fdd2c54dc14aac6a1914c82edb5d9c8", size = 46355630 },
-    { url = "https://pypi.tuna.tsinghua.edu.cn/packages/10/63/405a1b601cf1253878b1aebef6764095b2e8139cf233a908c2ccc4ad4ffd/rerun_sdk-0.21.0-cp38-abi3-manylinux_2_31_x86_64.whl", hash = "sha256:897649aadcab7014b78096f93c84c61c00a227b80adaf0dec279924b5aab53d8", size = 47790175 },
-    { url = "https://pypi.tuna.tsinghua.edu.cn/packages/87/5e/c7cf6379a7a42748f5961ec41faf0e38635c6e6d5cd95b63a2691f0b34dc/rerun_sdk-0.21.0-cp38-abi3-win_amd64.whl", hash = "sha256:2060bdb536a198f0f04789ba5ba771e66587e7851d668b3dfab257a5efa16819", size = 39216574 },
+    { url = "https://pypi.tuna.tsinghua.edu.cn/packages/f0/a5/e633716493189f38caae680280343a05e0d28529a5a5cd3349d3ab58fc5f/rerun_sdk-0.22.0-cp38-abi3-macosx_10_12_x86_64.whl", hash = "sha256:2ccdeb7beb236d7a4214b742bc308c291eca9488bcaa11d59cd3ddebab578fbf", size = 46782161 },
+    { url = "https://pypi.tuna.tsinghua.edu.cn/packages/20/da/ad5ff8beb000824eb47d0d0722570e1a82056b7d5da724c65da3995e3dac/rerun_sdk-0.22.0-cp38-abi3-macosx_11_0_arm64.whl", hash = "sha256:50224ae88db978aae4583f238e4a438d7a06c7e6e4d42b28d5af378cf377b290", size = 44524346 },
+    { url = "https://pypi.tuna.tsinghua.edu.cn/packages/79/6e/cb2b6d1fa4f524a880e267847937237084b810f0125c71a8d87eaf50e3c2/rerun_sdk-0.22.0-cp38-abi3-manylinux_2_31_aarch64.whl", hash = "sha256:2c8f8cc2178ba77eafa6a66ccea2b732f555f210d0cfba3be21194fd6af474a7", size = 49761436 },
+    { url = "https://pypi.tuna.tsinghua.edu.cn/packages/24/aa/a80c3205b047b789f63858d768d278607a1e19e8a9d78adc8904814d7a87/rerun_sdk-0.22.0-cp38-abi3-manylinux_2_31_x86_64.whl", hash = "sha256:e954fc1ade1ff74670904bb72c5d974983efb213943c7cb8fbb530fea8fa8080", size = 51352822 },
+    { url = "https://pypi.tuna.tsinghua.edu.cn/packages/ac/9b/77d6411e1c72f71ed117d68930b9e195f7b6d0bc20fd861cd372ab4e3354/rerun_sdk-0.22.0-cp38-abi3-win_amd64.whl", hash = "sha256:5b904b561c8e061af15dd46be7e9ba7d29edaa207c9e54e3af0688b047bdb311", size = 42053438 },
 ]
 
 [[package]]
@@ -3640,7 +3640,7 @@ requires-dist = [
     { name = "pin-pink", specifier = ">=3.0.0" },
     { name = "pynput", specifier = ">=1.7.7" },
     { name = "pyrealsense2", marker = "extra == 'realsense'", specifier = ">=2.55.1.6486" },
-    { name = "rerun-sdk", specifier = ">=0.18.2" },
+    { name = "rerun-sdk", specifier = ">=0.22.0", index = "https://pypi.tuna.tsinghua.edu.cn/simple" },
     { name = "rich", specifier = ">=13.8.1" },
     { name = "torch", marker = "extra == 'cpu'", specifier = "==2.5.1+cpu", index = "https://download.pytorch.org/whl/cpu", conflict = { package = "teleoperation", extra = "cpu" } },
     { name = "torch", marker = "extra == 'gpu'", index = "https://download.pytorch.org/whl/cu126", conflict = { package = "teleoperation", extra = "gpu" } },

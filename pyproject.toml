@@ -17,7 +17,7 @@ dependencies = [
     # "torchvision~=0.19.1",
     "dex-retargeting==0.4.6",
     "pin-pink>=3.0.0",
-    "rerun-sdk>=0.18.2",
+    "rerun-sdk>=0.22.0",
     "meshcat>=0.3.2",
     "meshcat-shapes>=0.3.0",
     "numba>=0.60.0",
@@ -61,6 +61,7 @@ torchvision = [
 ]
 pre-commit = { index = "tuna" }
 lerobot = { path = "../fourier-lerobot", editable = true }
+rerun-sdk = { index = "tuna" }
 
 [[tool.uv.index]]
 name = "tuna"

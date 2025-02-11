@@ -36,9 +36,6 @@ def main(cfg: DictConfig):
 
         robot.end()
 
-        time.sleep(1.0)
-        exit(0)
-
 
 if __name__ == "__main__":
     main()

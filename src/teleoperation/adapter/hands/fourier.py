@@ -25,8 +25,10 @@ class FourierDexHand:
         self.set_pos_thread = threading.Thread(target=self._set_positions, daemon=True)
         self.set_pos_thread.start()
 
+        self._stop_event = threading.Event()
+
     def _get_positions(self):
-        while True:
+        while True and not self._stop_event.is_set():
             start = time.perf_counter()
             res = self.hand.get_angle()
             if isinstance(res, list) and len(res) == self.dimension:
@@ -39,7 +41,7 @@ class FourierDexHand:
             time.sleep(max(1 / self.freq - (end - start), 0))
 
     def _set_positions(self):
-        while True:
+        while True and not self._stop_event.is_set():
             start = time.perf_counter()
             with self._cmd_lock:
                 cmd = copy(self._cmd)
@@ -67,6 +69,11 @@ class FourierDexHand:
         self.hand.set_pwm([-200] * self.dimension)
         time.sleep(2.0)
         self.hand.set_pwm([0] * self.dimension)
+
+    def stop(self):
+        self._stop_event.set()
+        self.get_pos_thread.join()
+        self.set_pos_thread.join()
 
 
 class FourierDexHand12dof:
@@ -103,3 +110,6 @@ class FourierDexHand12dof:
         pos = [0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0]
         self.hand.ctrl_set_position(pos)
         time.sleep(0.5)
+
+    def stop(self):
+        pass
