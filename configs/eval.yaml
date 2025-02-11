@@ -3,6 +3,7 @@ defaults:
 
   - hand: fourier_dexpilot
   - robot: "gr1t1_legacy"
+  - camera: oak_97
   - override hydra/job_logging: colorlog
   - override hydra/hydra_logging: colorlog
 
@@ -54,22 +55,8 @@ hydra:
 
 camera:
   instance:
-    _target_: teleoperation.camera.camera_oak.CameraOak
-    key: "top"
-    fps: 30
-    use_depth: false
-    stereo_resolution: "400p"
-    color_resolution: "800p"
-
-    save_processes: 1
-    save_threads: 1
-    save_queue_size: 1
-
-    display_mode: "none"
-    display_resolution: [400, 640]
-    display_crop_sizes: [0, 0, 0, 0]
-
     eval_mode: true
+
 robot:
   policy:
     type: "pi0"
@@ -78,8 +65,12 @@ robot:
 eval:
   rerun_endpoint: 192.168.31.184:9876
   prompt: "Pour from the cup into the bowl."
-  states: ["qpos", "hand_qpos"]
-  actions: ["qpos", "hand_qpos"]
+  states:
+    qpos: [0, 20]
+    hand_qpos: [20, 32]
+  actions:
+    qpos: [0, 20]
+    hand_qpos: [20, 32]
   cameras:
     top:
       streams: ["rgb"]

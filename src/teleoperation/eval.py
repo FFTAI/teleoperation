@@ -25,8 +25,18 @@ def main(cfg: DictConfig):
             action = robot.step()
             if action is None:
                 continue
-            robot.control_joints(action[:20])
-            robot.control_hands(action[-12:])
+
+            for name, dim in cfg.eval.actions.items():
+                if name == "hand_qpos":
+                    robot.control_hands(action[dim[0] : dim[1]])
+                elif name == "qpos":
+                    robot.control_joints(action[dim[0] : dim[1]])
+                elif name == "xyzquat":
+                    raise NotImplementedError("Quat control is not implemented yet.")
+                elif name == "ortho6d":
+                    raise NotImplementedError("Ortho6d control is not implemented yet.")
+                else:
+                    raise ValueError(f"Unknown action type {name}")
             time.sleep(1 / 20)
 
     except KeyboardInterrupt:
