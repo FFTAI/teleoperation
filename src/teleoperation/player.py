@@ -28,9 +28,9 @@ try:
     import rerun as rr
     import torch
     from lerobot.common.datasets.lerobot_dataset import LeRobotDataset, LeRobotDatasetMetadata
-    from lerobot.common.policies.factory import get_policy_class, make_policy
-    from lerobot.configs.policies import PreTrainedConfig
-    from lerobot.configs.train import TrainPipelineConfig
+    from lerobot.common.datasets.utils import dataset_to_policy_features
+    from lerobot.common.policies.factory import get_policy_class, make_policy_config
+    from lerobot.configs.types import FeatureType
 except ImportError:
     logger.warning("LeRobot not installed.")
     LEROBOT_AVAILABLE = False
@@ -437,9 +437,24 @@ class EvalRobot(DexRobot, CameraMixin):
     def _init_policy(self):
         self.device = "cuda" if torch.cuda.is_available() else "cpu"
         logger.info(f"Device: {self.device}")
+        logger.info(f"Loading policy {self.config.policy.type} from {self.config.policy.pretrained_path}")
+
+        ds_meta = LeRobotDatasetMetadata(self.config.policy.repo_id, local_files_only=True)
+
+        cfg = make_policy_config(self.config.policy.type, **self.config.policy.config)
+
+        kwargs = {}
+        features = dataset_to_policy_features(ds_meta.features)
+        kwargs["dataset_stats"] = ds_meta.stats
+
+        cfg.output_features = {key: ft for key, ft in features.items() if ft.type is FeatureType.ACTION}
+        cfg.input_features = {key: ft for key, ft in features.items() if key not in cfg.output_features}
+        kwargs["config"] = cfg
+
         self.policy = get_policy_class(self.config.policy.type).from_pretrained(
-            self.config.policy.pretrained_path, local_files_only=True, map_location=self.device
+            self.config.policy.pretrained_path, local_files_only=True, map_location=self.device, **kwargs
         )
+
         # self.policy = torch.compile(self.policy, mode="reduce-overhead")
         self.policy.eval()
         self.policy.to(self.device)
@@ -465,6 +480,7 @@ class EvalRobot(DexRobot, CameraMixin):
 
         # TODO: add injectable obs_transform()
         obs = np.concatenate([qpos[12:], hand_qpos])
+
         rr.log("/observation/state", rr.BarChart(obs.tolist()))
         obs = torch.tensor(obs, dtype=torch.float32).unsqueeze(0).to(self.device)
 
@@ -490,6 +506,7 @@ class EvalRobot(DexRobot, CameraMixin):
 
     def observe(self):
         left_qpos, right_qpos = self.left_hand.get_positions(), self.right_hand.get_positions()
+
         # left_qpos, right_qpos = self.hand_retarget.real_to_qpos(left_qpos, right_qpos)
         hand_qpos = np.hstack([left_qpos, right_qpos])
 
@@ -559,8 +576,12 @@ class EvalRobot(DexRobot, CameraMixin):
         self.upsampler.join()
         self.client.disconnect()
         with ThreadPoolExecutor(max_workers=2) as executor:
-            executor.submit(self.left_hand.reset)
-            executor.submit(self.left_hand.reset)
+            f = []
+            f.append(executor.submit(self.left_hand.reset))
+            f.append(executor.submit(self.left_hand.reset))
+
+            for future in f:
+                future.result()
         self.left_hand.stop()
         self.right_hand.stop()
 
