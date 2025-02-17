@@ -37,7 +37,7 @@ def main(cfg: DictConfig):
                     raise NotImplementedError("Ortho6d control is not implemented yet.")
                 else:
                     raise ValueError(f"Unknown action type {name}")
-            time.sleep(1 / 20)
+            time.sleep(1 / cfg.frequency)
 
     except KeyboardInterrupt:
         logger.info("Exiting...")

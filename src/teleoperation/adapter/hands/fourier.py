@@ -16,16 +16,15 @@ class FourierDexHand:
         self.dimension = dimension
         self._hand_positions = [0] * dimension
         self._cmd = [0] * dimension
+        self._cmd_lock = threading.Lock()
+        self._stop_event = threading.Event()
 
         self._hand_pos_lock = threading.Lock()
         self.get_pos_thread = threading.Thread(target=self._get_positions, daemon=True)
         self.get_pos_thread.start()
 
-        self._cmd_lock = threading.Lock()
         self.set_pos_thread = threading.Thread(target=self._set_positions, daemon=True)
         self.set_pos_thread.start()
-
-        self._stop_event = threading.Event()
 
     def _get_positions(self):
         while True and not self._stop_event.is_set():
@@ -74,6 +73,8 @@ class FourierDexHand:
         self._stop_event.set()
         self.get_pos_thread.join()
         self.set_pos_thread.join()
+
+        self.reset()
 
 
 class FourierDexHand12dof:

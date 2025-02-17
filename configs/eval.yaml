@@ -30,7 +30,7 @@ cpu:
 
 recording:
   enabled: false
-  task_name: "teleop"
+  task_name: "eval"
 
 joint_filter:
   min_cutoff: 0.01
@@ -59,12 +59,18 @@ camera:
 
 robot:
   policy:
+    repo_id: "FourierIntelligence/pouring"
     type: "pi0"
     pretrained_path: ???
 
+    config:
+      n_action_steps: 10
+      center_crop: true
+
 eval:
   rerun_endpoint: 192.168.31.184:9876
-  prompt: "Pour from the cup into the bowl."
+  # prompt: "Pick up the lemon on the table and put it into the white cabinet and close the door."
+  prompt: "Put the blue clamp inside the plate"
   states:
     qpos: [0, 20]
     hand_qpos: [20, 32]

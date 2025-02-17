@@ -46,7 +46,7 @@ lerobot = ["lerobot[pi0]"]
 
 [tool.uv]
 package = true
-default-groups = ["fourier"]
+default-groups = ["dev", "fourier"]
 environments = ["sys_platform == 'linux' and platform_machine != 'aarch64'"]
 conflicts = [[{ extra = "cpu" }, { extra = "gpu" }, { extra = "lerobot" }]]
 
