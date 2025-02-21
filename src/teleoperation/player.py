@@ -412,7 +412,6 @@ class EvalRobot(DexRobot, CameraMixin):
                 initial_command=self.client.joint_positions,
                 gravity_compensation=cfg.upsampler.gravity_compensation,
             )
-            self.upsampler.start()
 
             logger.info("Init hands.")
             self.left_hand: HandAdapter = hydra.utils.instantiate(cfg.hand.left_hand)
@@ -561,8 +560,9 @@ class EvalRobot(DexRobot, CameraMixin):
     def init_control_joints(self):
         if self._init_command_sent:
             return
-
-        self.client.init_command_joints(self.q_real)
+        # self.client.init_command_joints(self.q_real)
+        self.upsampler.start()
+        self.upsampler.put(self.q_real)
         self._init_command_sent = True
         logger.info("Init command sent.")
 
