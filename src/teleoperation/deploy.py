@@ -161,7 +161,7 @@ def main(task_id: str = "", exp_id: str = "", policy: str = "", episode: int = 1
                 act = act * norm_stats["action_std"] + norm_stats["action_mean"]
 
                 print(f"Time taken: {time.time() - start_1}")
-                print(f"hz: {1/(time.time() - start_1)}")
+                print(f"hz: {1 / (time.time() - start_1)}")
                 print(act)
 
                 player.step(act, left_image, right_image)

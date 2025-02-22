@@ -175,7 +175,7 @@ class CameraOpencv:
         self.height = round(camera.get(cv2.CAP_PROP_FRAME_HEIGHT))
 
         logger.info(
-            f"Camera {self.key} opened at port {self.port} with resolution {self.width*num_images}x{self.height} and fps {self.fps}"
+            f"Camera {self.key} opened at port {self.port} with resolution {self.width * num_images}x{self.height} and fps {self.fps}"
         )
 
         return camera

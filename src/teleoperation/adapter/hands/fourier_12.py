@@ -1,8 +1,8 @@
 import logging
 import time
-import numpy as np
 
 import dexhandpy.fdexhand as fdh
+import numpy as np
 
 logger = logging.getLogger(__name__)
 
@@ -16,30 +16,25 @@ class FourierDexHand12dof:
             logger.info("Successfully initialized DexHand")
         else:
             logger.error(f"Failed to initialize DexHand, error code {self.ret}")
-        
+
         self.hand_ip = hand_ip
         self.name = self.dh.get_name(self.hand_ip)
         self.type = self.dh.get_type(self.hand_ip)
-        
+
         self.calibrate()
         time.sleep(1)
-        
-        
+
         self.pos = [-1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1]
         self.dimension = dimension
-        
-        
 
     def calibrate(self):
         # calibrate all devices
-        
+
         if self.dh.calibration(self.hand_ip) == self.result.SUCCESS:
             # time.sleep(1)
             logger.info("Calibrated successfully")
         else:
             logger.error("Failed to calibrate")
-
-        
 
     def get_positions(self):
         pos = self.dh.get_pos(self.hand_ip)
@@ -48,7 +43,7 @@ class FourierDexHand12dof:
             logger.warning(f"Getting hand pos error: {self.ret}")
         else:
             self._hand_positions = pos
-            
+
         return self._hand_positions
 
     def set_positions(self, positions, wait_reply=False):
@@ -66,7 +61,7 @@ class FourierDexHand12dof:
         finger_data = np.array([data[index] for index in tactile_index])
 
         return finger_data
-    
+
     def reset(self):
         ret = self.dh.reboot(self.hand_ip)
         if ret != self.result.SUCCESS:
