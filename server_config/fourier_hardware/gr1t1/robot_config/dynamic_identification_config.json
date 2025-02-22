@@ -1,0 +1,11 @@
+{
+    "algorithm_type":"LD_SLSQP",
+    "ftc_factor_l":0.7,
+    "ftc_factor_u":1.3,
+    "ftv_factor_l":0.7,
+    "ftv_factor_u":1.3,
+    "fti_factor_l":0.7,
+    "fti_factor_u":1.3,
+    "m_factor_l":0.8,
+    "m_factor_u":1.2
+}
