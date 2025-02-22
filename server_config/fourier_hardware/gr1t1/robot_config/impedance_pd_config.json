@@ -1,0 +1,31 @@
+{
+    "joint_impedance_pd":
+    {
+        "head_pitch":[3,0.5],
+        "head_roll":[4,0.5],
+        "head_yaw":[6,0.5],
+        "l_elbow_pitch":[100,10],
+        "l_shoulder_pitch":[100,10],
+        "l_shoulder_roll":[100,10],
+        "l_shoulder_yaw":[100,10],
+        "l_wrist_yaw":[12,1],
+        "r_elbow_pitch":[100,10],
+        "r_shoulder_pitch":[100,10],
+        "r_shoulder_roll":[100,10],
+        "r_shoulder_yaw":[100,10],
+        "r_wrist_yaw":[12,1],
+        "waist_pitch":[100,10],
+        "waist_roll":[100,10],
+        "waist_yaw":[100,10]
+    },
+    "cartesian_impedance_pd":
+    {
+        "X":[0.0, 0.0],
+        "Y":[0.0, 0.0],
+        "Z":[0.0, 0.0],
+        "rX":[0.0, 0.0],
+        "rY":[0.0, 0.0],
+        "rZ":[0.0, 0.0]
+    }
+    
+}

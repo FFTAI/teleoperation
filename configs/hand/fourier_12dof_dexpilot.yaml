@@ -1,14 +1,13 @@
 type: "fourier"
+dimension: 12
 
 left_hand:
-  _target_: teleoperation.adapter.hands.fourier.FourierDexHand
+  _target_: teleoperation.adapter.hands.fourier_12.FourierDexHand12dof
   hand_ip: "192.168.137.19"
-  dimension: 12
 
 right_hand:
-  _target_: teleoperation.adapter.hands.fourier.FourierDexHand
+  _target_: teleoperation.adapter.hands.fourier_12.FourierDexHand12dof
   hand_ip: "192.168.137.39"
-  dimension: 12
 
 prefix_left: "L_"
 prefix_right: "R_"
@@ -17,8 +16,12 @@ tip_indices: [4, 9, 14, 19, 24]
 
 actuated_indices: [2, 1, 0, 4, 3, 8, 7, 6, 5, 11, 10, 9]
 range_max:
-  [5300, 5300, 800, 5300, 5300, 5300, 5300, 5300, 5300, 4800, 4400, 5300]
-range_min: [0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0]
+  [1780, 1780, 576, 1780, 1780, 1780, 1780, 1780, 1780, 0.0, 0.0, 1700]
+range_min: [0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 1700, 1700, 0.0]
+
+# range_max:
+#   [5300, 5300, 800, 5300, 5300, 5300, 5300, 5300, 5300, 4800, 4400, 5300]
+# range_min: [0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0]
 
 left:
   type: DexPilot
@@ -52,7 +55,7 @@ left:
   scaling_factor: 1.1
 
   # A smaller alpha means stronger filtering, i.e. more smooth but also larger latency
-  low_pass_alpha: 0.5
+  low_pass_alpha: 0.3
 
 right:
   type: DexPilot
@@ -84,4 +87,4 @@ right:
     ]
   scaling_factor: 1.1
   # A smaller alpha means stronger filtering, i.e. more smooth but also larger latency
-  low_pass_alpha: 0.5
+  low_pass_alpha: 0.3

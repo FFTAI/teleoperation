@@ -1,0 +1,6 @@
+{
+    "topic_prefix":"/gr1t1_",
+    "dds_domain_id":0,
+    "protect_sub":true,
+    "control_groups":["waist","head","left_manipulator","right_manipulator"]
+}

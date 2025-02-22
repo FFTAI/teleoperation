@@ -346,7 +346,9 @@ class TeleopRobot(DexRobot, CameraMixin):
         if self._init_command_sent:
             return
 
-        self.client.init_command_joints(self.q_real)
+        # next_cmd = self.client.init_command_joints(self.q_real)
+        self.upsampler.start()
+        self.upsampler.put(self.q_real)
         self._init_command_sent = True
         logger.info("Init command sent.")
 
