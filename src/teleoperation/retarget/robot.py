@@ -170,6 +170,7 @@ class DexRobot(IKRobot):
 
         self.left_hand_prefix = config.hand.prefix_left
         self.right_hand_prefix = config.hand.prefix_right
+        self.hand_dimension = config.hand.dimension
 
         self.hand_filter = OneEuroFilter(min_cutoff=config.hand_filter.min_cutoff, beta=config.hand_filter.beta)
         self.joint_filter = OneEuroFilter(min_cutoff=config.joint_filter.min_cutoff, beta=config.joint_filter.beta)
@@ -194,7 +195,7 @@ class DexRobot(IKRobot):
             else:
                 raise ValueError("Invalid hand type.")
 
-        return filtered_hand_qpos[:6], filtered_hand_qpos[6:]
+        return filtered_hand_qpos[: self.hand_dimension], filtered_hand_qpos[self.hand_dimension :]
 
     def set_hand_joints(self, left_hand_qpos: np.ndarray, right_hand_qpos: np.ndarray):
         """Set the joint positions of the hands to pinocchio
