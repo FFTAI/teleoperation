@@ -853,6 +853,18 @@ wheels = [
 ]
 
 [[package]]
+name = "dexhandpy"
+version = "0.0.36"
+source = { registry = "https://test.pypi.org/simple" }
+dependencies = [
+    { name = "pybind11", marker = "(platform_machine != 'aarch64' and sys_platform == 'linux') or (platform_machine == 'aarch64' and extra == 'extra-13-teleoperation-cpu' and extra == 'extra-13-teleoperation-gpu') or (platform_machine == 'aarch64' and extra == 'extra-13-teleoperation-cpu' and extra == 'extra-13-teleoperation-lerobot') or (platform_machine == 'aarch64' and extra == 'extra-13-teleoperation-gpu' and extra == 'extra-13-teleoperation-lerobot') or (sys_platform != 'linux' and extra == 'extra-13-teleoperation-cpu' and extra == 'extra-13-teleoperation-gpu') or (sys_platform != 'linux' and extra == 'extra-13-teleoperation-cpu' and extra == 'extra-13-teleoperation-lerobot') or (sys_platform != 'linux' and extra == 'extra-13-teleoperation-gpu' and extra == 'extra-13-teleoperation-lerobot')" },
+]
+sdist = { url = "https://test-files.pythonhosted.org/packages/41/00/4ad55d2d7607d73025fb39f118e956fb6837bda24345fa07f05089bf57d0/dexhandpy-0.0.36.tar.gz", hash = "sha256:776eecfb8b6d0be89692c9ba2fdaf0bf56572cb8479f3419bfe155a78752dbf3", size = 400592 }
+wheels = [
+    { url = "https://test-files.pythonhosted.org/packages/a0/0c/a56174db344d19d707a0234240efd08d53ce81f0f3c53b0415cedb5a42dc/dexhandpy-0.0.36-py3-none-any.whl", hash = "sha256:4d9f6f961445c274be8ffd11b27452a19c3419bbfdc440e68be864f75e5a1700", size = 511582 },
+]
+
+[[package]]
 name = "diffusers"
 version = "0.32.2"
 source = { registry = "https://pypi.tuna.tsinghua.edu.cn/simple" }
@@ -1364,9 +1376,9 @@ name = "hydra-core"
 version = "1.3.2"
 source = { registry = "https://pypi.tuna.tsinghua.edu.cn/simple" }
 dependencies = [
-    { name = "antlr4-python3-runtime", marker = "(platform_machine != 'aarch64' and sys_platform == 'linux') or (platform_machine == 'aarch64' and extra == 'extra-13-teleoperation-cpu' and extra == 'extra-13-teleoperation-gpu') or (platform_machine == 'aarch64' and extra == 'extra-13-teleoperation-cpu' and extra == 'extra-13-teleoperation-lerobot') or (platform_machine == 'aarch64' and extra == 'extra-13-teleoperation-gpu' and extra == 'extra-13-teleoperation-lerobot') or (sys_platform != 'linux' and extra == 'extra-13-teleoperation-cpu' and extra == 'extra-13-teleoperation-gpu') or (sys_platform != 'linux' and extra == 'extra-13-teleoperation-cpu' and extra == 'extra-13-teleoperation-lerobot') or (sys_platform != 'linux' and extra == 'extra-13-teleoperation-gpu' and extra == 'extra-13-teleoperation-lerobot')" },
-    { name = "omegaconf", marker = "(platform_machine != 'aarch64' and sys_platform == 'linux') or (platform_machine == 'aarch64' and extra == 'extra-13-teleoperation-cpu' and extra == 'extra-13-teleoperation-gpu') or (platform_machine == 'aarch64' and extra == 'extra-13-teleoperation-cpu' and extra == 'extra-13-teleoperation-lerobot') or (platform_machine == 'aarch64' and extra == 'extra-13-teleoperation-gpu' and extra == 'extra-13-teleoperation-lerobot') or (sys_platform != 'linux' and extra == 'extra-13-teleoperation-cpu' and extra == 'extra-13-teleoperation-gpu') or (sys_platform != 'linux' and extra == 'extra-13-teleoperation-cpu' and extra == 'extra-13-teleoperation-lerobot') or (sys_platform != 'linux' and extra == 'extra-13-teleoperation-gpu' and extra == 'extra-13-teleoperation-lerobot')" },
-    { name = "packaging", marker = "(platform_machine != 'aarch64' and sys_platform == 'linux') or (platform_machine == 'aarch64' and extra == 'extra-13-teleoperation-cpu' and extra == 'extra-13-teleoperation-gpu') or (platform_machine == 'aarch64' and extra == 'extra-13-teleoperation-cpu' and extra == 'extra-13-teleoperation-lerobot') or (platform_machine == 'aarch64' and extra == 'extra-13-teleoperation-gpu' and extra == 'extra-13-teleoperation-lerobot') or (sys_platform != 'linux' and extra == 'extra-13-teleoperation-cpu' and extra == 'extra-13-teleoperation-gpu') or (sys_platform != 'linux' and extra == 'extra-13-teleoperation-cpu' and extra == 'extra-13-teleoperation-lerobot') or (sys_platform != 'linux' and extra == 'extra-13-teleoperation-gpu' and extra == 'extra-13-teleoperation-lerobot')" },
+    { name = "antlr4-python3-runtime", marker = "platform_machine != 'aarch64' and sys_platform == 'linux'" },
+    { name = "omegaconf", marker = "platform_machine != 'aarch64' and sys_platform == 'linux'" },
+    { name = "packaging", marker = "platform_machine != 'aarch64' and sys_platform == 'linux'" },
 ]
 sdist = { url = "https://pypi.tuna.tsinghua.edu.cn/packages/6d/8e/07e42bc434a847154083b315779b0a81d567154504624e181caf2c71cd98/hydra-core-1.3.2.tar.gz", hash = "sha256:8a878ed67216997c3e9d88a8e72e7b4767e81af37afb4ea3334b269a4390a824", size = 3263494 }
 wheels = [
@@ -1630,14 +1642,15 @@ dependencies = [
     { name = "gymnasium", marker = "platform_machine != 'aarch64' and sys_platform == 'linux'" },
     { name = "h5py", marker = "platform_machine != 'aarch64' and sys_platform == 'linux'" },
     { name = "huggingface-hub", extra = ["cli", "hf-transfer"], marker = "platform_machine != 'aarch64' and sys_platform == 'linux'" },
+    { name = "hydra-core", marker = "platform_machine != 'aarch64' and sys_platform == 'linux'" },
     { name = "imageio", extra = ["ffmpeg"], marker = "platform_machine != 'aarch64' and sys_platform == 'linux'" },
     { name = "jsonlines", marker = "platform_machine != 'aarch64' and sys_platform == 'linux'" },
     { name = "numba", marker = "platform_machine != 'aarch64' and sys_platform == 'linux'" },
+    { name = "omegaconf", marker = "platform_machine != 'aarch64' and sys_platform == 'linux'" },
     { name = "opencv-python", marker = "platform_machine != 'aarch64' and sys_platform == 'linux'" },
     { name = "pyav", marker = "platform_machine != 'aarch64' and sys_platform == 'linux'" },
     { name = "pymunk", marker = "platform_machine != 'aarch64' and sys_platform == 'linux'" },
     { name = "rerun-sdk", marker = "platform_machine != 'aarch64' and sys_platform == 'linux'" },
-    { name = "setuptools", marker = "platform_machine != 'aarch64' and sys_platform == 'linux'" },
     { name = "termcolor", marker = "platform_machine != 'aarch64' and sys_platform == 'linux'" },
     { name = "torch", version = "2.6.0", source = { registry = "https://pypi.tuna.tsinghua.edu.cn/simple" }, marker = "platform_machine != 'aarch64' and sys_platform == 'linux'" },
     { name = "torchvision", version = "0.21.0", source = { registry = "https://pypi.tuna.tsinghua.edu.cn/simple" }, marker = "platform_machine != 'aarch64' and sys_platform == 'linux'" },
@@ -1648,7 +1661,7 @@ dependencies = [
 
 [package.optional-dependencies]
 pi0 = [
-    { name = "pytest", marker = "platform_machine != 'aarch64' and sys_platform == 'linux'" },
+    { name = "sentencepiece", marker = "platform_machine != 'aarch64' and sys_platform == 'linux'" },
     { name = "tiktoken", marker = "platform_machine != 'aarch64' and sys_platform == 'linux'" },
     { name = "transformers", marker = "platform_machine != 'aarch64' and sys_platform == 'linux'" },
 ]
@@ -1666,24 +1679,39 @@ requires-dist = [
     { name = "gdown", specifier = ">=5.1.0" },
     { name = "gymnasium", specifier = "==0.29.1" },
     { name = "h5py", specifier = ">=3.10.0" },
-    { name = "huggingface-hub", extras = ["hf-transfer", "cli"], specifier = ">=0.27.1" },
+    { name = "huggingface-hub", extras = ["hf-transfer", "cli"], marker = "python_full_version < '4.0'", specifier = ">=0.27.1" },
+    { name = "hydra-core", specifier = ">=1.3.2" },
     { name = "imageio", extras = ["ffmpeg"], specifier = ">=2.34.0" },
     { name = "jsonlines", specifier = ">=4.0.0" },
     { name = "numba", specifier = ">=0.59.0" },
+    { name = "omegaconf", specifier = ">=2.3.0" },
     { name = "opencv-python", specifier = ">=4.9.0" },
     { name = "pre-commit", marker = "extra == 'dev'", specifier = ">=3.7.0" },
     { name = "pyav", specifier = ">=12.0.5" },
     { name = "pymunk", specifier = ">=6.6.0" },
-    { name = "pytest", marker = "extra == 'pi0'", specifier = ">=8.3.4" },
+    { name = "pyserial", marker = "extra == 'test'", specifier = ">=3.5" },
+    { name = "pytest", marker = "extra == 'test'", specifier = ">=8.1.0" },
+    { name = "pytest-cov", marker = "extra == 'test'", specifier = ">=5.0.0" },
     { name = "rerun-sdk", specifier = ">=0.21.0" },
-    { name = "setuptools", specifier = "!=71.0.1" },
+    { name = "sentencepiece", marker = "extra == 'pi0'", specifier = ">=0.2.0", index = "https://pypi.tuna.tsinghua.edu.cn/simple" },
     { name = "termcolor", specifier = ">=2.4.0" },
-    { name = "tiktoken", marker = "extra == 'pi0'", specifier = ">=0.8.0" },
+    { name = "tiktoken", marker = "extra == 'pi0'", specifier = ">=0.9.0", index = "https://pypi.tuna.tsinghua.edu.cn/simple" },
     { name = "torch", specifier = ">=2.2.1" },
     { name = "torchvision", specifier = ">=0.21.0" },
     { name = "transformers", marker = "extra == 'pi0'", specifier = ">=4.48.0" },
     { name = "wandb", specifier = ">=0.16.3" },
     { name = "zarr", specifier = ">=2.17.0" },
+]
+
+[package.metadata.requires-dev]
+dev = [
+    { name = "debugpy", specifier = ">=1.8.1" },
+    { name = "pre-commit", specifier = ">=3.7.0" },
+]
+pi0 = [
+    { name = "pytest", specifier = ">=8.3.4" },
+    { name = "tiktoken", specifier = ">=0.8.0", index = "https://pypi.tuna.tsinghua.edu.cn/simple" },
+    { name = "transformers", specifier = ">=4.48.0" },
 ]
 
 [[package]]
@@ -2474,8 +2502,8 @@ name = "omegaconf"
 version = "2.3.0"
 source = { registry = "https://pypi.tuna.tsinghua.edu.cn/simple" }
 dependencies = [
-    { name = "antlr4-python3-runtime", marker = "(platform_machine != 'aarch64' and sys_platform == 'linux') or (platform_machine == 'aarch64' and extra == 'extra-13-teleoperation-cpu' and extra == 'extra-13-teleoperation-gpu') or (platform_machine == 'aarch64' and extra == 'extra-13-teleoperation-cpu' and extra == 'extra-13-teleoperation-lerobot') or (platform_machine == 'aarch64' and extra == 'extra-13-teleoperation-gpu' and extra == 'extra-13-teleoperation-lerobot') or (sys_platform != 'linux' and extra == 'extra-13-teleoperation-cpu' and extra == 'extra-13-teleoperation-gpu') or (sys_platform != 'linux' and extra == 'extra-13-teleoperation-cpu' and extra == 'extra-13-teleoperation-lerobot') or (sys_platform != 'linux' and extra == 'extra-13-teleoperation-gpu' and extra == 'extra-13-teleoperation-lerobot')" },
-    { name = "pyyaml", marker = "(platform_machine != 'aarch64' and sys_platform == 'linux') or (platform_machine == 'aarch64' and extra == 'extra-13-teleoperation-cpu' and extra == 'extra-13-teleoperation-gpu') or (platform_machine == 'aarch64' and extra == 'extra-13-teleoperation-cpu' and extra == 'extra-13-teleoperation-lerobot') or (platform_machine == 'aarch64' and extra == 'extra-13-teleoperation-gpu' and extra == 'extra-13-teleoperation-lerobot') or (sys_platform != 'linux' and extra == 'extra-13-teleoperation-cpu' and extra == 'extra-13-teleoperation-gpu') or (sys_platform != 'linux' and extra == 'extra-13-teleoperation-cpu' and extra == 'extra-13-teleoperation-lerobot') or (sys_platform != 'linux' and extra == 'extra-13-teleoperation-gpu' and extra == 'extra-13-teleoperation-lerobot')" },
+    { name = "antlr4-python3-runtime", marker = "platform_machine != 'aarch64' and sys_platform == 'linux'" },
+    { name = "pyyaml", marker = "platform_machine != 'aarch64' and sys_platform == 'linux'" },
 ]
 sdist = { url = "https://pypi.tuna.tsinghua.edu.cn/packages/09/48/6388f1bb9da707110532cb70ec4d2822858ddfb44f1cdf1233c20a80ea4b/omegaconf-2.3.0.tar.gz", hash = "sha256:d5d4b6d29955cc50ad50c46dc269bcd92c6e00f5f90d23ab5fee7bfca4ba4cc7", size = 3298120 }
 wheels = [
@@ -2880,6 +2908,15 @@ wheels = [
 ]
 
 [[package]]
+name = "pybind11"
+version = "2.13.6"
+source = { registry = "https://pypi.tuna.tsinghua.edu.cn/simple" }
+sdist = { url = "https://pypi.tuna.tsinghua.edu.cn/packages/d2/c1/72b9622fcb32ff98b054f724e213c7f70d6898baa714f4516288456ceaba/pybind11-2.13.6.tar.gz", hash = "sha256:ba6af10348c12b24e92fa086b39cfba0eff619b61ac77c406167d813b096d39a", size = 218403 }
+wheels = [
+    { url = "https://pypi.tuna.tsinghua.edu.cn/packages/13/2f/0f24b288e2ce56f51c920137620b4434a38fd80583dbbe24fc2a1656c388/pybind11-2.13.6-py3-none-any.whl", hash = "sha256:237c41e29157b962835d356b370ededd57594a26d5894a795960f0047cb5caf5", size = 243282 },
+]
+
+[[package]]
 name = "pycparser"
 version = "2.22"
 source = { registry = "https://pypi.tuna.tsinghua.edu.cn/simple" }
@@ -3062,11 +3099,11 @@ name = "pytest"
 version = "8.3.4"
 source = { registry = "https://pypi.tuna.tsinghua.edu.cn/simple" }
 dependencies = [
-    { name = "exceptiongroup", marker = "python_full_version < '3.11' and platform_machine != 'aarch64' and sys_platform == 'linux'" },
-    { name = "iniconfig", marker = "platform_machine != 'aarch64' and sys_platform == 'linux'" },
-    { name = "packaging", marker = "platform_machine != 'aarch64' and sys_platform == 'linux'" },
-    { name = "pluggy", marker = "platform_machine != 'aarch64' and sys_platform == 'linux'" },
-    { name = "tomli", marker = "python_full_version < '3.11' and platform_machine != 'aarch64' and sys_platform == 'linux'" },
+    { name = "exceptiongroup", marker = "(python_full_version < '3.11' and platform_machine != 'aarch64' and sys_platform == 'linux') or (python_full_version >= '3.11' and platform_machine != 'aarch64' and extra == 'extra-13-teleoperation-cpu' and extra == 'extra-13-teleoperation-gpu') or (python_full_version >= '3.11' and platform_machine != 'aarch64' and extra == 'extra-13-teleoperation-cpu' and extra == 'extra-13-teleoperation-lerobot') or (python_full_version >= '3.11' and platform_machine != 'aarch64' and extra == 'extra-13-teleoperation-gpu' and extra == 'extra-13-teleoperation-lerobot') or (platform_machine == 'aarch64' and extra == 'extra-13-teleoperation-cpu' and extra == 'extra-13-teleoperation-gpu') or (platform_machine == 'aarch64' and extra == 'extra-13-teleoperation-cpu' and extra == 'extra-13-teleoperation-lerobot') or (platform_machine == 'aarch64' and extra == 'extra-13-teleoperation-gpu' and extra == 'extra-13-teleoperation-lerobot') or (sys_platform != 'linux' and extra == 'extra-13-teleoperation-cpu' and extra == 'extra-13-teleoperation-gpu') or (sys_platform != 'linux' and extra == 'extra-13-teleoperation-cpu' and extra == 'extra-13-teleoperation-lerobot') or (sys_platform != 'linux' and extra == 'extra-13-teleoperation-gpu' and extra == 'extra-13-teleoperation-lerobot')" },
+    { name = "iniconfig", marker = "(platform_machine != 'aarch64' and sys_platform == 'linux') or (platform_machine == 'aarch64' and extra == 'extra-13-teleoperation-cpu' and extra == 'extra-13-teleoperation-gpu') or (platform_machine == 'aarch64' and extra == 'extra-13-teleoperation-cpu' and extra == 'extra-13-teleoperation-lerobot') or (platform_machine == 'aarch64' and extra == 'extra-13-teleoperation-gpu' and extra == 'extra-13-teleoperation-lerobot') or (sys_platform != 'linux' and extra == 'extra-13-teleoperation-cpu' and extra == 'extra-13-teleoperation-gpu') or (sys_platform != 'linux' and extra == 'extra-13-teleoperation-cpu' and extra == 'extra-13-teleoperation-lerobot') or (sys_platform != 'linux' and extra == 'extra-13-teleoperation-gpu' and extra == 'extra-13-teleoperation-lerobot')" },
+    { name = "packaging", marker = "(platform_machine != 'aarch64' and sys_platform == 'linux') or (platform_machine == 'aarch64' and extra == 'extra-13-teleoperation-cpu' and extra == 'extra-13-teleoperation-gpu') or (platform_machine == 'aarch64' and extra == 'extra-13-teleoperation-cpu' and extra == 'extra-13-teleoperation-lerobot') or (platform_machine == 'aarch64' and extra == 'extra-13-teleoperation-gpu' and extra == 'extra-13-teleoperation-lerobot') or (sys_platform != 'linux' and extra == 'extra-13-teleoperation-cpu' and extra == 'extra-13-teleoperation-gpu') or (sys_platform != 'linux' and extra == 'extra-13-teleoperation-cpu' and extra == 'extra-13-teleoperation-lerobot') or (sys_platform != 'linux' and extra == 'extra-13-teleoperation-gpu' and extra == 'extra-13-teleoperation-lerobot')" },
+    { name = "pluggy", marker = "(platform_machine != 'aarch64' and sys_platform == 'linux') or (platform_machine == 'aarch64' and extra == 'extra-13-teleoperation-cpu' and extra == 'extra-13-teleoperation-gpu') or (platform_machine == 'aarch64' and extra == 'extra-13-teleoperation-cpu' and extra == 'extra-13-teleoperation-lerobot') or (platform_machine == 'aarch64' and extra == 'extra-13-teleoperation-gpu' and extra == 'extra-13-teleoperation-lerobot') or (sys_platform != 'linux' and extra == 'extra-13-teleoperation-cpu' and extra == 'extra-13-teleoperation-gpu') or (sys_platform != 'linux' and extra == 'extra-13-teleoperation-cpu' and extra == 'extra-13-teleoperation-lerobot') or (sys_platform != 'linux' and extra == 'extra-13-teleoperation-gpu' and extra == 'extra-13-teleoperation-lerobot')" },
+    { name = "tomli", marker = "(python_full_version < '3.11' and platform_machine != 'aarch64' and sys_platform == 'linux') or (python_full_version >= '3.11' and platform_machine != 'aarch64' and extra == 'extra-13-teleoperation-cpu' and extra == 'extra-13-teleoperation-gpu') or (python_full_version >= '3.11' and platform_machine != 'aarch64' and extra == 'extra-13-teleoperation-cpu' and extra == 'extra-13-teleoperation-lerobot') or (python_full_version >= '3.11' and platform_machine != 'aarch64' and extra == 'extra-13-teleoperation-gpu' and extra == 'extra-13-teleoperation-lerobot') or (platform_machine == 'aarch64' and extra == 'extra-13-teleoperation-cpu' and extra == 'extra-13-teleoperation-gpu') or (platform_machine == 'aarch64' and extra == 'extra-13-teleoperation-cpu' and extra == 'extra-13-teleoperation-lerobot') or (platform_machine == 'aarch64' and extra == 'extra-13-teleoperation-gpu' and extra == 'extra-13-teleoperation-lerobot') or (sys_platform != 'linux' and extra == 'extra-13-teleoperation-cpu' and extra == 'extra-13-teleoperation-gpu') or (sys_platform != 'linux' and extra == 'extra-13-teleoperation-cpu' and extra == 'extra-13-teleoperation-lerobot') or (sys_platform != 'linux' and extra == 'extra-13-teleoperation-gpu' and extra == 'extra-13-teleoperation-lerobot')" },
 ]
 sdist = { url = "https://pypi.tuna.tsinghua.edu.cn/packages/05/35/30e0d83068951d90a01852cb1cef56e5d8a09d20c7f511634cc2f7e0372a/pytest-8.3.4.tar.gz", hash = "sha256:965370d062bce11e73868e0335abac31b4d3de0e82f4007408d242b4f8610761", size = 1445919 }
 wheels = [
@@ -3437,6 +3474,30 @@ wheels = [
 ]
 
 [[package]]
+name = "sentencepiece"
+version = "0.2.0"
+source = { registry = "https://pypi.tuna.tsinghua.edu.cn/simple" }
+sdist = { url = "https://pypi.tuna.tsinghua.edu.cn/packages/c9/d2/b9c7ca067c26d8ff085d252c89b5f69609ca93fb85a00ede95f4857865d4/sentencepiece-0.2.0.tar.gz", hash = "sha256:a52c19171daaf2e697dc6cbe67684e0fa341b1248966f6aebb541de654d15843", size = 2632106 }
+wheels = [
+    { url = "https://pypi.tuna.tsinghua.edu.cn/packages/f6/71/98648c3b64b23edb5403f74bcc906ad21766872a6e1ada26ea3f1eb941ab/sentencepiece-0.2.0-cp310-cp310-macosx_10_9_universal2.whl", hash = "sha256:188779e1298a1c8b8253c7d3ad729cb0a9891e5cef5e5d07ce4592c54869e227", size = 2408979 },
+    { url = "https://pypi.tuna.tsinghua.edu.cn/packages/77/9f/7efbaa6d4c0c718a9affbecc536b03ca62f99f421bdffb531c16030e2d2b/sentencepiece-0.2.0-cp310-cp310-macosx_10_9_x86_64.whl", hash = "sha256:bed9cf85b296fa2b76fc2547b9cbb691a523864cebaee86304c43a7b4cb1b452", size = 1238845 },
+    { url = "https://pypi.tuna.tsinghua.edu.cn/packages/1c/e4/c2541027a43ec6962ba9b601805d17ba3f86b38bdeae0e8ac65a2981e248/sentencepiece-0.2.0-cp310-cp310-macosx_11_0_arm64.whl", hash = "sha256:d7b67e724bead13f18db6e1d10b6bbdc454af574d70efbb36f27d90387be1ca3", size = 1181472 },
+    { url = "https://pypi.tuna.tsinghua.edu.cn/packages/fd/46/316c1ba6c52b97de76aff7b9da678f7afbb52136afb2987c474d95630e65/sentencepiece-0.2.0-cp310-cp310-manylinux_2_17_aarch64.manylinux2014_aarch64.whl", hash = "sha256:2fde4b08cfe237be4484c6c7c2e2c75fb862cfeab6bd5449ce4caeafd97b767a", size = 1259151 },
+    { url = "https://pypi.tuna.tsinghua.edu.cn/packages/aa/5a/3c48738a0835d76dd06c62b6ac48d39c923cde78dd0f587353bdcbb99851/sentencepiece-0.2.0-cp310-cp310-manylinux_2_17_i686.manylinux2014_i686.whl", hash = "sha256:4c378492056202d1c48a4979650981635fd97875a00eabb1f00c6a236b013b5e", size = 1355931 },
+    { url = "https://pypi.tuna.tsinghua.edu.cn/packages/a6/27/33019685023221ca8ed98e8ceb7ae5e166032686fa3662c68f1f1edf334e/sentencepiece-0.2.0-cp310-cp310-manylinux_2_17_x86_64.manylinux2014_x86_64.whl", hash = "sha256:1380ce6540a368de2ef6d7e6ba14ba8f3258df650d39ba7d833b79ee68a52040", size = 1301537 },
+    { url = "https://pypi.tuna.tsinghua.edu.cn/packages/ca/e4/55f97cef14293171fef5f96e96999919ab5b4d1ce95b53547ad653d7e3bf/sentencepiece-0.2.0-cp310-cp310-win32.whl", hash = "sha256:a1151d6a6dd4b43e552394aed0edfe9292820272f0194bd56c7c1660a0c06c3d", size = 936747 },
+    { url = "https://pypi.tuna.tsinghua.edu.cn/packages/85/f4/4ef1a6e0e9dbd8a60780a91df8b7452ada14cfaa0e17b3b8dfa42cecae18/sentencepiece-0.2.0-cp310-cp310-win_amd64.whl", hash = "sha256:d490142b0521ef22bc1085f061d922a2a6666175bb6b42e588ff95c0db6819b2", size = 991525 },
+    { url = "https://pypi.tuna.tsinghua.edu.cn/packages/32/43/8f8885168a47a02eba1455bd3f4f169f50ad5b8cebd2402d0f5e20854d04/sentencepiece-0.2.0-cp311-cp311-macosx_10_9_universal2.whl", hash = "sha256:17982700c4f6dbb55fa3594f3d7e5dd1c8659a274af3738e33c987d2a27c9d5c", size = 2409036 },
+    { url = "https://pypi.tuna.tsinghua.edu.cn/packages/0f/35/e63ba28062af0a3d688a9f128e407a1a2608544b2f480cb49bf7f4b1cbb9/sentencepiece-0.2.0-cp311-cp311-macosx_10_9_x86_64.whl", hash = "sha256:7c867012c0e8bcd5bdad0f791609101cb5c66acb303ab3270218d6debc68a65e", size = 1238921 },
+    { url = "https://pypi.tuna.tsinghua.edu.cn/packages/de/42/ae30952c4a0bd773e90c9bf2579f5533037c886dfc8ec68133d5694f4dd2/sentencepiece-0.2.0-cp311-cp311-macosx_11_0_arm64.whl", hash = "sha256:7fd6071249c74f779c5b27183295b9202f8dedb68034e716784364443879eaa6", size = 1181477 },
+    { url = "https://pypi.tuna.tsinghua.edu.cn/packages/e3/ac/2f2ab1d60bb2d795d054eebe5e3f24b164bc21b5a9b75fba7968b3b91b5a/sentencepiece-0.2.0-cp311-cp311-manylinux_2_17_aarch64.manylinux2014_aarch64.whl", hash = "sha256:27f90c55a65013cbb8f4d7aab0599bf925cde4adc67ae43a0d323677b5a1c6cb", size = 1259182 },
+    { url = "https://pypi.tuna.tsinghua.edu.cn/packages/45/fb/14633c6ecf262c468759ffcdb55c3a7ee38fe4eda6a70d75ee7c7d63c58b/sentencepiece-0.2.0-cp311-cp311-manylinux_2_17_i686.manylinux2014_i686.whl", hash = "sha256:b293734059ef656dcd65be62ff771507bea8fed0a711b6733976e1ed3add4553", size = 1355537 },
+    { url = "https://pypi.tuna.tsinghua.edu.cn/packages/fb/12/2f5c8d4764b00033cf1c935b702d3bb878d10be9f0b87f0253495832d85f/sentencepiece-0.2.0-cp311-cp311-manylinux_2_17_x86_64.manylinux2014_x86_64.whl", hash = "sha256:e58b47f933aca74c6a60a79dcb21d5b9e47416256c795c2d58d55cec27f9551d", size = 1301464 },
+    { url = "https://pypi.tuna.tsinghua.edu.cn/packages/4e/b1/67afc0bde24f6dcb3acdea0dd8dcdf4b8b0db240f6bacd39378bd32d09f8/sentencepiece-0.2.0-cp311-cp311-win32.whl", hash = "sha256:c581258cf346b327c62c4f1cebd32691826306f6a41d8c4bec43b010dee08e75", size = 936749 },
+    { url = "https://pypi.tuna.tsinghua.edu.cn/packages/a2/f6/587c62fd21fc988555b85351f50bbde43a51524caafd63bc69240ded14fd/sentencepiece-0.2.0-cp311-cp311-win_amd64.whl", hash = "sha256:0993dbc665f4113017892f1b87c3904a44d0640eda510abcacdfb07f74286d36", size = 991520 },
+]
+
+[[package]]
 name = "sentry-sdk"
 version = "1.21.0"
 source = { registry = "https://pypi.tuna.tsinghua.edu.cn/simple" }
@@ -3549,7 +3610,7 @@ wheels = [
 
 [[package]]
 name = "teleoperation"
-version = "0.5.9"
+version = "0.5.10"
 source = { editable = "." }
 dependencies = [
     { name = "dex-retargeting", marker = "(platform_machine != 'aarch64' and sys_platform == 'linux') or (platform_machine == 'aarch64' and extra == 'extra-13-teleoperation-cpu' and extra == 'extra-13-teleoperation-gpu') or (platform_machine == 'aarch64' and extra == 'extra-13-teleoperation-cpu' and extra == 'extra-13-teleoperation-lerobot') or (platform_machine == 'aarch64' and extra == 'extra-13-teleoperation-gpu' and extra == 'extra-13-teleoperation-lerobot') or (sys_platform != 'linux' and extra == 'extra-13-teleoperation-cpu' and extra == 'extra-13-teleoperation-gpu') or (sys_platform != 'linux' and extra == 'extra-13-teleoperation-cpu' and extra == 'extra-13-teleoperation-lerobot') or (sys_platform != 'linux' and extra == 'extra-13-teleoperation-gpu' and extra == 'extra-13-teleoperation-lerobot')" },
@@ -3615,8 +3676,10 @@ dev = [
     { name = "ruff", marker = "(platform_machine != 'aarch64' and sys_platform == 'linux') or (platform_machine == 'aarch64' and extra == 'extra-13-teleoperation-cpu' and extra == 'extra-13-teleoperation-gpu') or (platform_machine == 'aarch64' and extra == 'extra-13-teleoperation-cpu' and extra == 'extra-13-teleoperation-lerobot') or (platform_machine == 'aarch64' and extra == 'extra-13-teleoperation-gpu' and extra == 'extra-13-teleoperation-lerobot') or (sys_platform != 'linux' and extra == 'extra-13-teleoperation-cpu' and extra == 'extra-13-teleoperation-gpu') or (sys_platform != 'linux' and extra == 'extra-13-teleoperation-cpu' and extra == 'extra-13-teleoperation-lerobot') or (sys_platform != 'linux' and extra == 'extra-13-teleoperation-gpu' and extra == 'extra-13-teleoperation-lerobot')" },
 ]
 fourier = [
+    { name = "dexhandpy", marker = "(platform_machine != 'aarch64' and sys_platform == 'linux') or (platform_machine == 'aarch64' and extra == 'extra-13-teleoperation-cpu' and extra == 'extra-13-teleoperation-gpu') or (platform_machine == 'aarch64' and extra == 'extra-13-teleoperation-cpu' and extra == 'extra-13-teleoperation-lerobot') or (platform_machine == 'aarch64' and extra == 'extra-13-teleoperation-gpu' and extra == 'extra-13-teleoperation-lerobot') or (sys_platform != 'linux' and extra == 'extra-13-teleoperation-cpu' and extra == 'extra-13-teleoperation-gpu') or (sys_platform != 'linux' and extra == 'extra-13-teleoperation-cpu' and extra == 'extra-13-teleoperation-lerobot') or (sys_platform != 'linux' and extra == 'extra-13-teleoperation-gpu' and extra == 'extra-13-teleoperation-lerobot')" },
     { name = "fourier-dhx", marker = "(platform_machine != 'aarch64' and sys_platform == 'linux') or (platform_machine == 'aarch64' and extra == 'extra-13-teleoperation-cpu' and extra == 'extra-13-teleoperation-gpu') or (platform_machine == 'aarch64' and extra == 'extra-13-teleoperation-cpu' and extra == 'extra-13-teleoperation-lerobot') or (platform_machine == 'aarch64' and extra == 'extra-13-teleoperation-gpu' and extra == 'extra-13-teleoperation-lerobot') or (sys_platform != 'linux' and extra == 'extra-13-teleoperation-cpu' and extra == 'extra-13-teleoperation-gpu') or (sys_platform != 'linux' and extra == 'extra-13-teleoperation-cpu' and extra == 'extra-13-teleoperation-lerobot') or (sys_platform != 'linux' and extra == 'extra-13-teleoperation-gpu' and extra == 'extra-13-teleoperation-lerobot')" },
     { name = "fourier-grx-client", marker = "(platform_machine != 'aarch64' and sys_platform == 'linux') or (platform_machine == 'aarch64' and extra == 'extra-13-teleoperation-cpu' and extra == 'extra-13-teleoperation-gpu') or (platform_machine == 'aarch64' and extra == 'extra-13-teleoperation-cpu' and extra == 'extra-13-teleoperation-lerobot') or (platform_machine == 'aarch64' and extra == 'extra-13-teleoperation-gpu' and extra == 'extra-13-teleoperation-lerobot') or (sys_platform != 'linux' and extra == 'extra-13-teleoperation-cpu' and extra == 'extra-13-teleoperation-gpu') or (sys_platform != 'linux' and extra == 'extra-13-teleoperation-cpu' and extra == 'extra-13-teleoperation-lerobot') or (sys_platform != 'linux' and extra == 'extra-13-teleoperation-gpu' and extra == 'extra-13-teleoperation-lerobot')" },
+    { name = "pybind11", marker = "(platform_machine != 'aarch64' and sys_platform == 'linux') or (platform_machine == 'aarch64' and extra == 'extra-13-teleoperation-cpu' and extra == 'extra-13-teleoperation-gpu') or (platform_machine == 'aarch64' and extra == 'extra-13-teleoperation-cpu' and extra == 'extra-13-teleoperation-lerobot') or (platform_machine == 'aarch64' and extra == 'extra-13-teleoperation-gpu' and extra == 'extra-13-teleoperation-lerobot') or (sys_platform != 'linux' and extra == 'extra-13-teleoperation-cpu' and extra == 'extra-13-teleoperation-gpu') or (sys_platform != 'linux' and extra == 'extra-13-teleoperation-cpu' and extra == 'extra-13-teleoperation-lerobot') or (sys_platform != 'linux' and extra == 'extra-13-teleoperation-gpu' and extra == 'extra-13-teleoperation-lerobot')" },
 ]
 
 [package.metadata]
@@ -3668,8 +3731,10 @@ dev = [
     { name = "ruff", specifier = ">=0.9.1" },
 ]
 fourier = [
+    { name = "dexhandpy", specifier = "==0.0.36", index = "https://test.pypi.org/simple" },
     { name = "fourier-dhx", specifier = ">=0.0.2" },
     { name = "fourier-grx-client", specifier = "==0.2.0a8" },
+    { name = "pybind11", specifier = ">=2.13.6", index = "https://pypi.tuna.tsinghua.edu.cn/simple" },
 ]
 
 [[package]]
@@ -3683,26 +3748,26 @@ wheels = [
 
 [[package]]
 name = "tiktoken"
-version = "0.8.0"
+version = "0.9.0"
 source = { registry = "https://pypi.tuna.tsinghua.edu.cn/simple" }
 dependencies = [
     { name = "regex", marker = "platform_machine != 'aarch64' and sys_platform == 'linux'" },
     { name = "requests", marker = "platform_machine != 'aarch64' and sys_platform == 'linux'" },
 ]
-sdist = { url = "https://pypi.tuna.tsinghua.edu.cn/packages/37/02/576ff3a6639e755c4f70997b2d315f56d6d71e0d046f4fb64cb81a3fb099/tiktoken-0.8.0.tar.gz", hash = "sha256:9ccbb2740f24542534369c5635cfd9b2b3c2490754a78ac8831d99f89f94eeb2", size = 35107 }
+sdist = { url = "https://pypi.tuna.tsinghua.edu.cn/packages/ea/cf/756fedf6981e82897f2d570dd25fa597eb3f4459068ae0572d7e888cfd6f/tiktoken-0.9.0.tar.gz", hash = "sha256:d02a5ca6a938e0490e1ff957bc48c8b078c88cb83977be1625b1fd8aac792c5d", size = 35991 }
 wheels = [
-    { url = "https://pypi.tuna.tsinghua.edu.cn/packages/c9/ba/a35fad753bbca8ba0cc1b0f3402a70256a110ced7ac332cf84ba89fc87ab/tiktoken-0.8.0-cp310-cp310-macosx_10_9_x86_64.whl", hash = "sha256:b07e33283463089c81ef1467180e3e00ab00d46c2c4bbcef0acab5f771d6695e", size = 1039905 },
-    { url = "https://pypi.tuna.tsinghua.edu.cn/packages/91/05/13dab8fd7460391c387b3e69e14bf1e51ff71fe0a202cd2933cc3ea93fb6/tiktoken-0.8.0-cp310-cp310-macosx_11_0_arm64.whl", hash = "sha256:9269348cb650726f44dd3bbb3f9110ac19a8dcc8f54949ad3ef652ca22a38e21", size = 982417 },
-    { url = "https://pypi.tuna.tsinghua.edu.cn/packages/e9/98/18ec4a8351a6cf4537e40cd6e19a422c10cce1ef00a2fcb716e0a96af58b/tiktoken-0.8.0-cp310-cp310-manylinux_2_17_aarch64.manylinux2014_aarch64.whl", hash = "sha256:25e13f37bc4ef2d012731e93e0fef21dc3b7aea5bb9009618de9a4026844e560", size = 1144915 },
-    { url = "https://pypi.tuna.tsinghua.edu.cn/packages/2e/28/cf3633018cbcc6deb7805b700ccd6085c9a5a7f72b38974ee0bffd56d311/tiktoken-0.8.0-cp310-cp310-manylinux_2_17_x86_64.manylinux2014_x86_64.whl", hash = "sha256:f13d13c981511331eac0d01a59b5df7c0d4060a8be1e378672822213da51e0a2", size = 1177221 },
-    { url = "https://pypi.tuna.tsinghua.edu.cn/packages/57/81/8a5be305cbd39d4e83a794f9e80c7f2c84b524587b7feb27c797b2046d51/tiktoken-0.8.0-cp310-cp310-musllinux_1_2_x86_64.whl", hash = "sha256:6b2ddbc79a22621ce8b1166afa9f9a888a664a579350dc7c09346a3b5de837d9", size = 1237398 },
-    { url = "https://pypi.tuna.tsinghua.edu.cn/packages/dc/da/8d1cc3089a83f5cf11c2e489332752981435280285231924557350523a59/tiktoken-0.8.0-cp310-cp310-win_amd64.whl", hash = "sha256:d8c2d0e5ba6453a290b86cd65fc51fedf247e1ba170191715b049dac1f628005", size = 884215 },
-    { url = "https://pypi.tuna.tsinghua.edu.cn/packages/f6/1e/ca48e7bfeeccaf76f3a501bd84db1fa28b3c22c9d1a1f41af9fb7579c5f6/tiktoken-0.8.0-cp311-cp311-macosx_10_9_x86_64.whl", hash = "sha256:d622d8011e6d6f239297efa42a2657043aaed06c4f68833550cac9e9bc723ef1", size = 1039700 },
-    { url = "https://pypi.tuna.tsinghua.edu.cn/packages/8c/f8/f0101d98d661b34534769c3818f5af631e59c36ac6d07268fbfc89e539ce/tiktoken-0.8.0-cp311-cp311-macosx_11_0_arm64.whl", hash = "sha256:2efaf6199717b4485031b4d6edb94075e4d79177a172f38dd934d911b588d54a", size = 982413 },
-    { url = "https://pypi.tuna.tsinghua.edu.cn/packages/ac/3c/2b95391d9bd520a73830469f80a96e3790e6c0a5ac2444f80f20b4b31051/tiktoken-0.8.0-cp311-cp311-manylinux_2_17_aarch64.manylinux2014_aarch64.whl", hash = "sha256:5637e425ce1fc49cf716d88df3092048359a4b3bbb7da762840426e937ada06d", size = 1144242 },
-    { url = "https://pypi.tuna.tsinghua.edu.cn/packages/01/c4/c4a4360de845217b6aa9709c15773484b50479f36bb50419c443204e5de9/tiktoken-0.8.0-cp311-cp311-manylinux_2_17_x86_64.manylinux2014_x86_64.whl", hash = "sha256:9fb0e352d1dbe15aba082883058b3cce9e48d33101bdaac1eccf66424feb5b47", size = 1176588 },
-    { url = "https://pypi.tuna.tsinghua.edu.cn/packages/f8/a3/ef984e976822cd6c2227c854f74d2e60cf4cd6fbfca46251199914746f78/tiktoken-0.8.0-cp311-cp311-musllinux_1_2_x86_64.whl", hash = "sha256:56edfefe896c8f10aba372ab5706b9e3558e78db39dd497c940b47bf228bc419", size = 1237261 },
-    { url = "https://pypi.tuna.tsinghua.edu.cn/packages/1e/86/eea2309dc258fb86c7d9b10db536434fc16420feaa3b6113df18b23db7c2/tiktoken-0.8.0-cp311-cp311-win_amd64.whl", hash = "sha256:326624128590def898775b722ccc327e90b073714227175ea8febbc920ac0a99", size = 884537 },
+    { url = "https://pypi.tuna.tsinghua.edu.cn/packages/64/f3/50ec5709fad61641e4411eb1b9ac55b99801d71f1993c29853f256c726c9/tiktoken-0.9.0-cp310-cp310-macosx_10_12_x86_64.whl", hash = "sha256:586c16358138b96ea804c034b8acf3f5d3f0258bd2bc3b0227af4af5d622e382", size = 1065770 },
+    { url = "https://pypi.tuna.tsinghua.edu.cn/packages/d6/f8/5a9560a422cf1755b6e0a9a436e14090eeb878d8ec0f80e0cd3d45b78bf4/tiktoken-0.9.0-cp310-cp310-macosx_11_0_arm64.whl", hash = "sha256:d9c59ccc528c6c5dd51820b3474402f69d9a9e1d656226848ad68a8d5b2e5108", size = 1009314 },
+    { url = "https://pypi.tuna.tsinghua.edu.cn/packages/bc/20/3ed4cfff8f809cb902900ae686069e029db74567ee10d017cb254df1d598/tiktoken-0.9.0-cp310-cp310-manylinux_2_17_aarch64.manylinux2014_aarch64.whl", hash = "sha256:f0968d5beeafbca2a72c595e8385a1a1f8af58feaebb02b227229b69ca5357fd", size = 1143140 },
+    { url = "https://pypi.tuna.tsinghua.edu.cn/packages/f1/95/cc2c6d79df8f113bdc6c99cdec985a878768120d87d839a34da4bd3ff90a/tiktoken-0.9.0-cp310-cp310-manylinux_2_17_x86_64.manylinux2014_x86_64.whl", hash = "sha256:92a5fb085a6a3b7350b8fc838baf493317ca0e17bd95e8642f95fc69ecfed1de", size = 1197860 },
+    { url = "https://pypi.tuna.tsinghua.edu.cn/packages/c7/6c/9c1a4cc51573e8867c9381db1814223c09ebb4716779c7f845d48688b9c8/tiktoken-0.9.0-cp310-cp310-musllinux_1_2_x86_64.whl", hash = "sha256:15a2752dea63d93b0332fb0ddb05dd909371ededa145fe6a3242f46724fa7990", size = 1259661 },
+    { url = "https://pypi.tuna.tsinghua.edu.cn/packages/cd/4c/22eb8e9856a2b1808d0a002d171e534eac03f96dbe1161978d7389a59498/tiktoken-0.9.0-cp310-cp310-win_amd64.whl", hash = "sha256:26113fec3bd7a352e4b33dbaf1bd8948de2507e30bd95a44e2b1156647bc01b4", size = 894026 },
+    { url = "https://pypi.tuna.tsinghua.edu.cn/packages/4d/ae/4613a59a2a48e761c5161237fc850eb470b4bb93696db89da51b79a871f1/tiktoken-0.9.0-cp311-cp311-macosx_10_12_x86_64.whl", hash = "sha256:f32cc56168eac4851109e9b5d327637f15fd662aa30dd79f964b7c39fbadd26e", size = 1065987 },
+    { url = "https://pypi.tuna.tsinghua.edu.cn/packages/3f/86/55d9d1f5b5a7e1164d0f1538a85529b5fcba2b105f92db3622e5d7de6522/tiktoken-0.9.0-cp311-cp311-macosx_11_0_arm64.whl", hash = "sha256:45556bc41241e5294063508caf901bf92ba52d8ef9222023f83d2483a3055348", size = 1009155 },
+    { url = "https://pypi.tuna.tsinghua.edu.cn/packages/03/58/01fb6240df083b7c1916d1dcb024e2b761213c95d576e9f780dfb5625a76/tiktoken-0.9.0-cp311-cp311-manylinux_2_17_aarch64.manylinux2014_aarch64.whl", hash = "sha256:03935988a91d6d3216e2ec7c645afbb3d870b37bcb67ada1943ec48678e7ee33", size = 1142898 },
+    { url = "https://pypi.tuna.tsinghua.edu.cn/packages/b1/73/41591c525680cd460a6becf56c9b17468d3711b1df242c53d2c7b2183d16/tiktoken-0.9.0-cp311-cp311-manylinux_2_17_x86_64.manylinux2014_x86_64.whl", hash = "sha256:8b3d80aad8d2c6b9238fc1a5524542087c52b860b10cbf952429ffb714bc1136", size = 1197535 },
+    { url = "https://pypi.tuna.tsinghua.edu.cn/packages/7d/7c/1069f25521c8f01a1a182f362e5c8e0337907fae91b368b7da9c3e39b810/tiktoken-0.9.0-cp311-cp311-musllinux_1_2_x86_64.whl", hash = "sha256:b2a21133be05dc116b1d0372af051cd2c6aa1d2188250c9b553f9fa49301b336", size = 1259548 },
+    { url = "https://pypi.tuna.tsinghua.edu.cn/packages/6f/07/c67ad1724b8e14e2b4c8cca04b15da158733ac60136879131db05dda7c30/tiktoken-0.9.0-cp311-cp311-win_amd64.whl", hash = "sha256:11a20e67fdf58b0e2dea7b8654a288e481bb4fc0289d3ad21291f8d0849915fb", size = 893895 },
 ]
 
 [[package]]
