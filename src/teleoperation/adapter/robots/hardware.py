@@ -207,8 +207,8 @@ class GR1Robot:
         right_arm = self.client.getControlGroupState("right_manipulator").q[7:]
 
 
-        traj_left_0 = fourier_hardware_py.bridgeTrajectory(left_arm, positions_0[:7])
-        traj_right_0 = fourier_hardware_py.bridgeTrajectory(right_arm, positions_0[7:])
+        traj_left_0 = fourier_hardware_py.bridgeTrajectory(left_arm, self.default_qpos[3:10])
+        traj_right_0 = fourier_hardware_py.bridgeTrajectory(right_arm, self.default_qpos[10:17])
 
 
 
@@ -230,25 +230,25 @@ class GR1Robot:
 
 
 
-        if init:
-            traj_left_1 = fourier_hardware_py.bridgeTrajectory(positions_0[:7], self.default_qpos[3:10])
-            traj_right_1 = fourier_hardware_py.bridgeTrajectory(positions_0[7:], self.default_qpos[10:17])
+        # if init:
+        #     traj_left_1 = fourier_hardware_py.bridgeTrajectory(positions_0[:7], self.default_qpos[3:10])
+        #     traj_right_1 = fourier_hardware_py.bridgeTrajectory(positions_0[7:], self.default_qpos[10:17])
 
-            len_left_1 = len(traj_left_1[1])
-            len_right_1 = len(traj_right_1[1])
+        #     len_left_1 = len(traj_left_1[1])
+        #     len_right_1 = len(traj_right_1[1])
 
-            if traj_left_1[0] and traj_right_1[0]:
-                for i in range(max(len_left_1, len_right_1)):
-                    if i < len_left_1:
-                        left_pos = traj_left_1[1][i]
-                        self.client.setControlGroupPosCmd("left_manipulator", left_pos, np.zeros(left_pos.shape), np.zeros(left_pos.shape))
+        #     if traj_left_1[0] and traj_right_1[0]:
+        #         for i in range(max(len_left_1, len_right_1)):
+        #             if i < len_left_1:
+        #                 left_pos = traj_left_1[1][i]
+        #                 self.client.setControlGroupPosCmd("left_manipulator", left_pos, np.zeros(left_pos.shape), np.zeros(left_pos.shape))
                     
-                    if i < len_right_1:
-                        right_pos = traj_right_1[1][i]
-                        self.client.setControlGroupPosCmd("right_manipulator",right_pos, np.zeros(right_pos.shape), np.zeros(right_pos.shape))
+        #             if i < len_right_1:
+        #                 right_pos = traj_right_1[1][i]
+        #                 self.client.setControlGroupPosCmd("right_manipulator",right_pos, np.zeros(right_pos.shape), np.zeros(right_pos.shape))
 
-                    time.sleep(1/400)
+        #             time.sleep(1/400)
 
-        time.sleep(0.5)
+        # time.sleep(0.5)
 
         logger.info("Moved to the default position.")
