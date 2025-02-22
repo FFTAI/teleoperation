@@ -1,4 +1,5 @@
 type: "inspire"
+dimension: 6
 
 left_hand:
   _target_: teleoperation.adapter.hands.inspire.InspireDexHand
