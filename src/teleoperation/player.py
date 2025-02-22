@@ -222,7 +222,6 @@ class TeleopRobot(DexRobot, CameraMixin):
                 initial_command=self.client.joint_positions,
                 gravity_compensation=cfg.upsampler.gravity_compensation,
             )
-            self.upsampler.start()
 
             logger.info("Init hands.")
             self.left_hand: HandAdapter = hydra.utils.instantiate(cfg.hand.left_hand)
@@ -239,7 +238,7 @@ class TeleopRobot(DexRobot, CameraMixin):
             self.upsampler = Upsampler(
                 self.client, dimension=cfg.robot.num_joints, target_hz=cfg.upsampler.frequency
             )  # TODO: dummy robot
-            self.upsampler.start()
+            # self.upsampler.start()
             hand_dimension = cfg.hand.left_hand.get("dimension", 6)
             self.left_hand: HandAdapter = DummyDexHand(hand_dimension)
             self.right_hand: HandAdapter = DummyDexHand(hand_dimension)
@@ -430,7 +429,7 @@ class EvalRobot(DexRobot, CameraMixin):
             self.upsampler = Upsampler(
                 self.client, dimension=cfg.robot.num_joints, target_hz=cfg.upsampler.frequency
             )  # TODO: dummy robot
-            self.upsampler.start()
+            # self.upsampler.start()
             hand_dimension = cfg.hand.left_hand.get("dimension", 6)
             self.left_hand: HandAdapter = DummyDexHand(hand_dimension)
             self.right_hand: HandAdapter = DummyDexHand(hand_dimension)
