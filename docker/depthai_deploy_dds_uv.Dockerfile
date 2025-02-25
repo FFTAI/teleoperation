@@ -16,7 +16,7 @@ RUN uv venv --python /opt/venv/bin/python
 RUN --mount=type=cache,target=/root/.cache/uv \
     --mount=type=bind,source=uv.lock,target=uv.lock \
     --mount=type=bind,source=pyproject.toml,target=pyproject.toml \
-    uv sync --frozen --no-install-project --no-dev --extra depthai
+    uv sync --frozen --no-install-project --no-dev --extra depthai --extra cpu --group fourier -vvv
 
 COPY src/ /app/src/
 COPY assets/ /app/assets/
@@ -26,10 +26,10 @@ COPY uv.lock /app/
 COPY README.md /app/
 
 RUN --mount=type=cache,target=/root/.cache/uv \
-    uv sync --frozen --no-dev --extra depthai
+    uv sync --frozen --no-dev --extra depthai --extra cpu --group fourier -vvv
 
-RUN --mount=type=cache,target=/root/.cache/uv \
-    uv pip install fourier-grx-dds==0.2.7a0
+# RUN --mount=type=cache,target=/root/.cache/uv \
+#     uv pip install fourier-grx-dds==0.2.7a0
 RUN uv pip uninstall typing
 
 # Place executables in the environment at the front of the path

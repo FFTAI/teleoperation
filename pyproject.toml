@@ -39,7 +39,7 @@ realsense = ["pyrealsense2>=2.55.1.6486"]
 depthai = ["depthai-sdk>=1.15.0", "av>=13.1.0"]
 cpu = ["torch==2.5.1+cpu", "torchvision==0.20.1+cpu"]
 gpu = ["torch", "torchvision"]
-fourier = ["fourier-grx-client==0.2.0a8", "fourier-dhx>=0.0.2"]
+# fourier = ["fourier-grx-client==0.2.0a8", "fourier-dhx>=0.0.2"]
 lerobot = ["lerobot[pi0]"]
 
 [tool.uv]
@@ -156,6 +156,7 @@ dev = [
 ]
 fourier = [
     "fourier-grx-client==0.2.0a8",
+    "fourier-grx-dds==0.2.7a0",
     "fourier-dhx>=0.0.2",
     "pybind11>=2.13.6",
     "dexhandpy==0.0.36",
