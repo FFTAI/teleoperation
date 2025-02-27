@@ -23,8 +23,8 @@ class FourierDexHand:
         self.calibrate()
         time.sleep(1)
 
-        self.pos = [-1, -1, -1, -1, -1, -1]
         self.dimension = dimension
+        self._hand_positions = [0.0] * dimension
 
     def calibrate(self):
         # calibrate all devices
@@ -36,12 +36,12 @@ class FourierDexHand:
             logger.error("Failed to calibrate")
 
     def get_positions(self):
-        pos = self.dh.get_pos(self.hand_ip)
+        res = self.dh.get_pos(self.hand_ip)
 
-        if self.ret != self.result.SUCCESS:
-            logger.warning(f"Getting hand pos error: {self.ret}")
+        if isinstance(res, list) and len(res) == self.dimension:
+            self._hand_positions = res
         else:
-            self._hand_positions = pos
+            logger.warning(f"Getting hand {self.hand_ip} pos error: {res}")
 
         return self._hand_positions
 
