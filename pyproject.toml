@@ -40,7 +40,7 @@ depthai = ["depthai-sdk>=1.15.0", "av>=13.1.0"]
 cpu = ["torch==2.5.1+cpu", "torchvision==0.20.1+cpu"]
 gpu = ["torch", "torchvision"]
 # fourier = ["fourier-grx-client==0.2.0a8", "fourier-dhx>=0.0.2"]
-lerobot = ["lerobot[pi0]"]
+# lerobot = ["lerobot[pi0]"]
 
 [tool.uv]
 package = true
@@ -58,7 +58,7 @@ torchvision = [
     { index = "torch-gpu", extra = "gpu" },
 ]
 pre-commit = { index = "tuna" }
-lerobot = { path = "../fourier-lerobot", editable = true }
+# lerobot = { path = "../fourier-lerobot", editable = true }
 rerun-sdk = { index = "tuna" }
 pybind11 = { index = "tuna" }
 dexhandpy = { index = "test" }
