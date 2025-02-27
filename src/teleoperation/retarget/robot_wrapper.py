@@ -23,6 +23,8 @@ class RobotWrapper:
             package_dirs=[str(ASSET_DIR / d) for d in self.config.urdf_package_dirs],
             root_joint=pin.JointModelFreeFlyer(),
         )
+        
+        self.num_joints = self.config.num_joints
 
         if self.config.joints_to_lock:
             logger.info(f"Locking joints: {self.config.joints_to_lock}")
@@ -274,8 +276,10 @@ class RobotWrapper:
             frame_name (str): Name of the frame.
             source_frame (str | None, optional): Name of the source frame. Defaults to None. If None, the default world frame is used.
         """
-        if len(q) == 32:
+        if len(q) == self.num_joints:
             q = self.q_real2pink(q)
+        elif len(q) != self.model.nq:
+            raise ValueError(f"Invalid q vector length: {len(q)}, model num joints: {self.model.nq}; robot num joints: {self.num_joints}")
 
         frame_idx = self.model.getFrameId(frame_name)
         frame_transform = self.robot.framePlacement(q, frame_idx)

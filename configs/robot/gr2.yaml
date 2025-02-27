@@ -14,8 +14,8 @@ urdf_package_dirs: ["urdf"]
 controlled_joint_indices: "${eval:'list(range(12, 29))'}"
 default_qpos: "${eval:'np.array([
   0.0, 0.0, 0.0,
-  -np.pi / 12, 0.1, 0, -np.pi / 2 + np.deg2rad(22.5) , 0, 0, 0,
-  -np.pi / 12, -0.1, 0, -np.pi / 2 + np.deg2rad(22.5), 0, 0, 0])'}"
+  -np.pi / 12, 0.1, 0, -np.deg2rad(90 - 22.5) , 0, 0, 0,
+  -np.pi / 12, -0.1, 0, -np.deg2rad(90 - 22.5), 0, 0, 0])'}"
 num_joints: 29
 joint_names:
   [
@@ -140,8 +140,8 @@ named_links:
   # right_elbow_pitch_joint: "right_elbow_pitch_joint"
 
 calibration_pose:
-  left_elbow_pitch_joint: "${eval:'-np.pi / 2'}"
-  right_elbow_pitch_joint: "${eval:'-np.pi / 2'}"
+  left_elbow_pitch_joint: "${eval:'-np.deg2rad(90 - 22.5)'}"
+  right_elbow_pitch_joint: "${eval:'-np.deg2rad(90 - 22.5)'}"
 
 dds_config:
   domain_id: "${robot.dds_domain_id}"
