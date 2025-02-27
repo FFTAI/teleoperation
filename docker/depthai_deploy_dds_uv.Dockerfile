@@ -43,4 +43,6 @@ ENV PATH="/app/.venv/bin:$PATH"
 RUN ln -s /app/.venv/lib/python3.11/site-packages/fourier_grx_dds/libraries/libfastcdr.so.2.2.5 /app/.venv/lib/python3.11/site-packages/fourier_grx_dds/libraries/libfastcdr.so.2 && \
     ln -s /app/.venv/lib/python3.11/site-packages/fourier_grx_dds/libraries/libfastdds.so.3.1.0 /app/.venv/lib/python3.11/site-packages/fourier_grx_dds/libraries/libfastdds.so.3.1
 
-ENV LD_LIBRARY_PATH=/usr/lib/x86_64-linux-gnu/:/app/.venv/lib/python3.11/site-packages/fourier_grx_dds/libraries/
+ENV LD_LIBRARY_PATH=/usr/lib/x86_64-linux-gnu/:/app/.venv/lib:/app/.venv/lib/python3.11/site-packages/fourier_grx_dds/libraries/
+
+CMD ["source", "/app/.venv/bin/activate"]

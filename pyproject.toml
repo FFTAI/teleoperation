@@ -159,5 +159,5 @@ fourier = [
     "fourier-grx-dds==0.2.7a0",
     "fourier-dhx>=0.0.2",
     "pybind11>=2.13.6",
-    "dexhandpy==0.0.36",
+    "dexhandpy==0.0.37",
 ]
