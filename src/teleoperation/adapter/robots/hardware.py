@@ -5,7 +5,6 @@ import fourier_hardware_py
 import numpy as np
 
 logger = logging.getLogger(__name__)
-import os
 
 
 class GR1Robot:
@@ -162,11 +161,11 @@ class GR1Robot:
         # self.command_joints(stopped_at, gravity_compensation=False)
         return stopped_at
 
-    def observe(self):
+    def observe(self):  # -> NDArray[Any]:
         positions = []
         for group in self.all_groups:
             positions.extend(self.client.getControlGroupState(group).q[7:])
-        return np.array(positions).copy()
+        return (np.array(positions).copy(),)
 
     def disconnect(self):
         logger.info(f"Disconnecting from {self.__class__.__name__}...")
