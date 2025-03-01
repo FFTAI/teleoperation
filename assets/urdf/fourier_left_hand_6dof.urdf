@@ -1,6 +1,6 @@
 <?xml version="1.0" encoding="utf-8"?>
 
-<!-- 10162024-alpha-1 -->
+<!-- 03012024-alpha-1 -->
 
 <robot name="fourier_left_hand_6dof">
   <link
@@ -30,7 +30,7 @@
       <material
         name="">
         <color
-          rgba="0.86667 0.86667 0.8902 1" />
+          rgba="1 1 1 1" />
       </material>
     </visual>
     <collision>
@@ -47,7 +47,7 @@
     name="L_hand_base_joint"
     type="fixed">
     <origin
-      xyz="0 0 -0.021"
+      xyz="0 0 0"
       rpy="0 0 0" />
     <parent
       link="left_end_effector_link" />
@@ -83,7 +83,7 @@
       <material
         name="">
         <color
-          rgba="0.8902 0.8902 0.91373 1" />
+          rgba="1 1 1 1" />
       </material>
     </visual>
     <collision>
@@ -101,7 +101,7 @@
     type="revolute">
     <origin
       xyz="0.022 -0.015498 -0.025093"
-      rpy="0 -1.221E-05 0" />
+      rpy="0 -1.3915E-05 0.025" />
     <parent
       link="L_hand_base_link" />
     <child
@@ -109,7 +109,7 @@
     <axis
       xyz="0 0 1" />
     <limit
-      lower="-1.74"
+      lower="-1.715"
       upper="0"
       effort="10"
       velocity="0.8" />
@@ -141,7 +141,7 @@
       <material
         name="">
         <color
-          rgba="0.86667 0.86667 0.8902 1" />
+          rgba="1 1 1 1" />
       </material>
     </visual>
     <collision>
@@ -168,7 +168,7 @@
       xyz="0 0 1" />
     <limit
       lower="0"
-      upper="1.22"
+      upper="1.215"
       effort="10"
       velocity="0.8" />
   </joint>
@@ -199,7 +199,7 @@
       <material
         name="">
         <color
-          rgba="0.79216 0.81961 0.93333 1" />
+          rgba="1 1 1 1" />
       </material>
     </visual>
     <collision>
@@ -216,22 +216,22 @@
     name="L_thumb_distal_joint"
     type="revolute">
     <origin
-      xyz="0.061549 0.0074616 0"
-      rpy="0 0 1.221E-05" />
+      xyz="0.061298 0.0093066 0"
+      rpy="1.5707 -8.6792E-05 -0.002198" />
     <parent
       link="L_thumb_proximal_link" />
     <child
       link="L_thumb_distal_link" />
     <axis
-      xyz="0 0 1" />
+      xyz="0 1 0" />
     <limit
       lower="0"
-      upper="1.23"
+      upper="1.025"
       effort="10"
       velocity="0.8" />
     <mimic
       joint="L_thumb_proximal_pitch_joint"
-      multiplier="0.974"
+      multiplier="0.8435"
       offset="0" />
   </joint>
 
@@ -282,7 +282,7 @@
       <material
         name="">
         <color
-          rgba="0.86667 0.86667 0.8902 1" />
+          rgba="1 1 1 1" />
       </material>
     </visual>
     <collision>
@@ -308,7 +308,7 @@
     <axis
       xyz="0 0 1" />
     <limit
-      lower="-1.57"
+      lower="-1.515"
       upper="0"
       effort="10"
       velocity="0.8" />
@@ -340,7 +340,7 @@
       <material
         name="">
         <color
-          rgba="0.79216 0.81961 0.93333 1" />
+          rgba="1 1 1 1" />
       </material>
     </visual>
     <collision>
@@ -357,8 +357,8 @@
     name="L_index_intermediate_joint"
     type="revolute">
     <origin
-      xyz="0.031532 -0.0054551 0"
-      rpy="0 0 -6.8256E-05" />
+      xyz="0.031029 -0.0078234 0"
+      rpy="-3.9519E-05 0.00014029 -0.2501" />
     <parent
       link="L_index_proximal_link" />
     <child
@@ -366,13 +366,13 @@
     <axis
       xyz="0 0 1" />
     <limit
-      lower="-1.74"
+      lower="-1.582"
       upper="0"
       effort="10"
       velocity="0.8" />
     <mimic
       joint="L_index_proximal_joint"
-      multiplier="1.128"
+      multiplier="1.044"
       offset="0" />
   </joint>
 
@@ -423,7 +423,7 @@
       <material
         name="">
         <color
-          rgba="0.8902 0.8902 0.91373 1" />
+          rgba="1 1 1 1" />
       </material>
     </visual>
     <collision>
@@ -449,7 +449,7 @@
     <axis
       xyz="0 0 1" />
     <limit
-      lower="-1.57"
+      lower="-1.503"
       upper="0"
       effort="10"
       velocity="0.8" />
@@ -481,7 +481,7 @@
       <material
         name="">
         <color
-          rgba="0.79216 0.81961 0.93333 1" />
+          rgba="1 1 1 1" />
       </material>
     </visual>
     <collision>
@@ -498,8 +498,8 @@
     name="L_middle_intermediate_joint"
     type="revolute">
     <origin
-      xyz="0.031662 -0.0046408 0"
-      rpy="0 0 -6.835E-05" />
+      xyz="0.030933 -0.0081952 0"
+      rpy="-3.5005E-05 0.00014792 -0.23244" />
     <parent
       link="L_middle_proximal_link" />
     <child
@@ -507,13 +507,13 @@
     <axis
       xyz="0 0 1" />
     <limit
-      lower="-1.74"
+      lower="-1.601"
       upper="0"
       effort="10"
       velocity="0.8" />
     <mimic
       joint="L_middle_proximal_joint"
-      multiplier="1.131"
+      multiplier="1.065"
       offset="0" />
   </joint>
 
@@ -533,10 +533,10 @@
   <joint name="L_middle_tip_joint" type="fixed">
     <parent link="L_middle_intermediate_link" />
     <child link="L_middle_tip_link" />
-    <origin rpy="0 0 0" xyz="0.045 0.0005 0" />
+    <origin rpy="0 0 0" xyz="0.045 -0.001 0" />
   </joint>
 
-
+  
   <link
     name="L_ring_proximal_link">
     <inertial>
@@ -564,7 +564,7 @@
       <material
         name="">
         <color
-          rgba="0.8902 0.8902 0.91373 1" />
+          rgba="1 1 1 1" />
       </material>
     </visual>
     <collision>
@@ -590,7 +590,7 @@
     <axis
       xyz="0 0 1" />
     <limit
-      lower="-1.57"
+      lower="-1.512"
       upper="0"
       effort="10"
       velocity="0.8" />
@@ -622,7 +622,7 @@
       <material
         name="">
         <color
-          rgba="0.79216 0.81961 0.93333 1" />
+          rgba="1 1 1 1" />
       </material>
     </visual>
     <collision>
@@ -639,8 +639,8 @@
     name="L_ring_intermediate_joint"
     type="revolute">
     <origin
-      xyz="0.031532 -0.0054551 0"
-      rpy="0 0 -6.8256E-05" />
+      xyz="0.031005 -0.0079165 0"
+      rpy="-3.5054E-05 0.0001607 -0.23658" />
     <parent
       link="L_ring_proximal_link" />
     <child
@@ -648,13 +648,13 @@
     <axis
       xyz="0 0 1" />
     <limit
-      lower="-1.74"
+      lower="-1.561"
       upper="0"
       effort="10"
       velocity="0.8" />
     <mimic
       joint="L_ring_proximal_joint"
-      multiplier="1.143"
+      multiplier="1.032"
       offset="0" />
   </joint>
 
@@ -705,7 +705,7 @@
       <material
         name="">
         <color
-          rgba="0.8902 0.8902 0.91373 1" />
+          rgba="1 1 1 1" />
       </material>
     </visual>
     <collision>
@@ -731,7 +731,7 @@
     <axis
       xyz="0 0 1" />
     <limit
-      lower="-1.57"
+      lower="-1.503"
       upper="0"
       effort="10"
       velocity="0.8" />
@@ -763,7 +763,7 @@
       <material
         name="">
         <color
-          rgba="0.79216 0.81961 0.93333 1" />
+          rgba="1 1 1 1" />
       </material>
     </visual>
     <collision>
@@ -780,8 +780,8 @@
     name="L_pinky_intermediate_joint"
     type="revolute">
     <origin
-      xyz="0.031338 -0.0064763 0"
-      rpy="0 0 -6.7976E-05" />
+      xyz="0.030933 -0.0081952 0"
+      rpy="-9.8304E-05 0.00031806 -0.32129" />
     <parent
       link="L_pinky_proximal_link" />
     <child
@@ -789,13 +789,13 @@
     <axis
       xyz="0 0 1" />
     <limit
-      lower="-1.74"
+      lower="-1.532"
       upper="0"
       effort="10"
       velocity="0.8" />
     <mimic
       joint="L_pinky_proximal_joint"
-      multiplier="1.129"
+      multiplier="1.019"
       offset="0" />
   </joint>
 
@@ -815,7 +815,7 @@
   <joint name="L_pinky_tip_joint" type="fixed">
     <parent link="L_pinky_intermediate_link" />
     <child link="L_pinky_tip_link" />
-    <origin rpy="0 0 0" xyz="0.031 -0.0040 0" />
+    <origin rpy="0 0 0" xyz="0.031 0 0" />
   </joint>
 
 </robot>

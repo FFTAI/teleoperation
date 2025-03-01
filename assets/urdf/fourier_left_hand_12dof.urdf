@@ -1,6 +1,6 @@
 <?xml version="1.0" encoding="utf-8"?>
 
-<!-- 10162024-alpha-1 -->
+<!-- 02282025-alpha-1 -->
 
 <robot
   name="fourier_left_hand_12dof">
@@ -31,7 +31,7 @@
       <material
         name="">
         <color
-          rgba="0.75294 0.75294 0.75294 1" />
+          rgba="1 1 1 1" />
       </material>
     </visual>
     <collision>
@@ -44,6 +44,19 @@
       </geometry>
     </collision>
   </link>
+  <!-- <joint
+    name="L_hand_base_joint"
+    type="fixed">
+    <origin
+      xyz="0 0 -0.021"
+      rpy="0 0 0" />
+    <parent
+      link="left_end_effector_link" />
+    <child
+      link="L_hand_base_link" />
+    <axis
+      xyz="0 0 0" />
+  </joint> -->
   <link
     name="L_thumb_proximal_yaw_link">
     <inertial>
@@ -71,7 +84,7 @@
       <material
         name="">
         <color
-          rgba="0.86667 0.86667 0.8902 1" />
+          rgba="1 1 1 1" />
       </material>
     </visual>
     <collision>
@@ -129,7 +142,7 @@
       <material
         name="">
         <color
-          rgba="0.75294 0.75294 0.75294 1" />
+          rgba="1 1 1 1" />
       </material>
     </visual>
     <collision>
@@ -187,7 +200,7 @@
       <material
         name="">
         <color
-          rgba="0.75294 0.75294 0.75294 1" />
+          rgba="1 1 1 1" />
       </material>
     </visual>
     <collision>
@@ -204,8 +217,8 @@
     name="L_thumb_distal_joint"
     type="revolute">
     <origin
-      xyz="0.05154 0.0069005 0"
-      rpy="0 0 0.10654" />
+      xyz="0.05175 0.0050976 0"
+      rpy="0 0 0.071635" />
     <parent
       link="L_thumb_proximal_pitch_link" />
     <child
@@ -266,7 +279,7 @@
       <material
         name="">
         <color
-          rgba="0.75294 0.75294 0.75294 1" />
+          rgba="1 1 1 1" />
       </material>
     </visual>
     <collision>
@@ -284,7 +297,7 @@
     type="revolute">
     <origin
       xyz="0.0305 -0.0118 -0.088496"
-      rpy="0 1.4946 0" />
+      rpy="3.1416 1.4946 0" />
     <parent
       link="L_hand_base_link" />
     <child
@@ -292,8 +305,8 @@
     <axis
       xyz="0 1 0" />
     <limit
-      lower="-0.2618"
-      upper="0.0524"
+      lower="-0.0524"
+      upper="0.2618"
       effort="0"
       velocity="0" />
   </joint>
@@ -324,7 +337,7 @@
       <material
         name="">
         <color
-          rgba="0.75294 0.75294 0.75294 1" />
+          rgba="1 1 1 1" />
       </material>
     </visual>
     <collision>
@@ -341,8 +354,8 @@
     name="L_index_proximal_joint"
     type="revolute">
     <origin
-      xyz="0.012 0.0005 0"
-      rpy="0 0 0" />
+      xyz="0.012 -0.0005 0"
+      rpy="3.1416 0 0" />
     <parent
       link="L_index_metacarpal_link" />
     <child
@@ -382,7 +395,7 @@
       <material
         name="">
         <color
-          rgba="0.75294 0.75294 0.75294 1" />
+          rgba="1 1 1 1" />
       </material>
     </visual>
     <collision>
@@ -433,27 +446,6 @@
     <origin rpy="0 0 0" xyz="0.047 0.001 0" />
   </joint>
 
-
-  <link name="L_middle_tip_link">
-    <visual>
-      <origin
-        xyz="0 0 0"
-        rpy="0 0 0" />
-      <geometry>
-        <sphere radius="0.005" />
-      </geometry>
-      <material name="yellow">
-        <color rgba="0.9 1 0 1" />
-      </material>
-    </visual>
-  </link>
-  <joint name="L_middle_tip_joint" type="fixed">
-    <parent link="L_middle_intermediate_link" />
-    <child link="L_middle_tip_link" />
-    <origin rpy="0 0 0" xyz="0.055 0.0012 0" />
-  </joint>
-
-
   <link
     name="L_middle_proximal_link">
     <inertial>
@@ -481,7 +473,7 @@
       <material
         name="">
         <color
-          rgba="0.75294 0.75294 0.75294 1" />
+          rgba="1 1 1 1" />
       </material>
     </visual>
     <collision>
@@ -539,7 +531,7 @@
       <material
         name="">
         <color
-          rgba="0.75294 0.75294 0.75294 1" />
+          rgba="1 1 1 1" />
       </material>
     </visual>
     <collision>
@@ -570,6 +562,27 @@
       effort="0"
       velocity="0" />
   </joint>
+
+  <link name="L_middle_tip_link">
+    <visual>
+      <origin
+        xyz="0 0 0"
+        rpy="0 0 0" />
+      <geometry>
+        <sphere radius="0.005" />
+      </geometry>
+      <material name="yellow">
+        <color rgba="0.9 1 0 1" />
+      </material>
+    </visual>
+  </link>
+  <joint name="L_middle_tip_joint" type="fixed">
+    <parent link="L_middle_intermediate_link" />
+    <child link="L_middle_tip_link" />
+    <origin rpy="0 0 0" xyz="0.055 0.0012 0" />
+  </joint>
+
+
   <link
     name="L_ring_proximal_link">
     <inertial>
@@ -597,7 +610,7 @@
       <material
         name="">
         <color
-          rgba="0.75294 0.75294 0.75294 1" />
+          rgba="1 1 1 1" />
       </material>
     </visual>
     <collision>
@@ -655,7 +668,7 @@
       <material
         name="">
         <color
-          rgba="0.75294 0.75294 0.75294 1" />
+          rgba="1 1 1 1" />
       </material>
     </visual>
     <collision>
@@ -734,7 +747,7 @@
       <material
         name="">
         <color
-          rgba="0.75294 0.75294 0.75294 1" />
+          rgba="1 1 1 1" />
       </material>
     </visual>
     <collision>
@@ -792,7 +805,7 @@
       <material
         name="">
         <color
-          rgba="0.75294 0.75294 0.75294 1" />
+          rgba="1 1 1 1" />
       </material>
     </visual>
     <collision>
@@ -816,7 +829,7 @@
     <child
       link="L_pinky_intermediate_link" />
     <axis
-      xyz="0 0 1" />
+      xyz="0.0013299 0 1" />
     <limit
       lower="-1.5708"
       upper="0"
@@ -842,5 +855,6 @@
     <child link="L_pinky_tip_link" />
     <origin rpy="0 0 0" xyz="0.038 0.001 0" />
   </joint>
+
 
 </robot>

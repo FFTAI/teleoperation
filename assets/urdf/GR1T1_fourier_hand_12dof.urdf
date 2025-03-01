@@ -1,24 +1,24 @@
 <?xml version="1.0" encoding="utf-8"?>
 
-<!-- 03012025-alpha-1 -->
+<!-- 02282025-alpha-1 -->
 
 <robot
-  name="GR1T2_fourier_hand_6dof">
+  name="GR1T1_fourier_hand_12dof">
   <link
     name="base_link">
     <inertial>
       <origin
-        xyz="-0.06032 -9.9E-5 -0.008574"
+        xyz="-0.06584 -9.765E-5 -0.01434"
         rpy="0 0 0" />
       <mass
-        value="3.96" />
+        value="3.84" />
       <inertia
-        ixx="0.04109"
-        ixy="-6E-6"
-        ixz="-0.001996"
-        iyy="0.01336"
-        iyz="-9E-6"
-        izz="0.04269" />
+        ixx="0.03190"
+        ixy="-3.35E-6"
+        ixz="-0.001722"
+        iyy="0.01048"
+        iyz="-1.394E-5"
+        izz="0.03496" />
     </inertial>
     <visual>
       <origin
@@ -26,7 +26,7 @@
         rpy="0 0 0" />
       <geometry>
         <mesh
-          filename="../meshes/gr1t2/base_link.STL" />
+          filename="../meshes/gr1t1/base_link.STL" />
       </geometry>
       <material
         name="">
@@ -45,17 +45,17 @@
     name="left_thigh_roll_link">
     <inertial>
       <origin
-        xyz="0.001095 2.4e-5 0.001761"
+        xyz="-0.0327 9.169E-5 0.002323"
         rpy="0 0 0" />
       <mass
-        value="1.47" />
+        value="1.45" />
       <inertia
-        ixx="0.001575"
-        ixy="4e-6"
-        ixz="-6e-6"
-        iyy="0.002478"
-        iyz="-9e-6"
-        izz="0.002575" />
+        ixx="0.001545"
+        ixy="8.2E-7"
+        ixz="-2.999E-5"
+        iyy="0.002427"
+        iyz="-7.46E-6"
+        izz="0.002505" />
     </inertial>
     <visual>
       <origin
@@ -63,7 +63,7 @@
         rpy="0 0 0" />
       <geometry>
         <mesh
-          filename="../meshes/gr1t2/left_thigh_roll_link.STL" />
+          filename="../meshes/gr1t1/left_thigh_roll_link.STL" />
       </geometry>
       <material
         name="">
@@ -77,7 +77,7 @@
         rpy="0 0 0" />
       <geometry>
         <mesh
-          filename="../meshes/gr1t2/left_thigh_roll_link.STL" />
+          filename="../meshes/gr1t1/left_thigh_roll_link.STL" />
       </geometry>
     </collision> -->
   </link>
@@ -85,7 +85,7 @@
     name="left_hip_roll_joint"
     type="revolute">
     <origin
-      xyz="-0.031635 0.105 -0.0276"
+      xyz="-0.0025 0.105 -0.0276"
       rpy="0 0 0" />
     <parent
       link="base_link" />
@@ -103,17 +103,17 @@
     name="left_thigh_yaw_link">
     <inertial>
       <origin
-        xyz="-0.000705 0.0384 -0.1103"
+        xyz="-0.00019288 0.03547 -0.1073"
         rpy="0 0 0" />
       <mass
-        value="3.47" />
+        value="3.17" />
       <inertia
-        ixx="0.02003"
-        ixy="-0.00165"
-        ixz="0.000145"
-        iyy="0.02123"
-        iyz="0.005516"
-        izz="0.01146" />
+        ixx="0.01555"
+        ixy="-0.0001138"
+        ixz="0.0001964"
+        iyy="0.01777"
+        iyz="0.003461"
+        izz="0.006507" />
     </inertial>
     <visual>
       <origin
@@ -121,7 +121,7 @@
         rpy="0 0 0" />
       <geometry>
         <mesh
-          filename="../meshes/gr1t2/left_thigh_yaw_link.STL" />
+          filename="../meshes/gr1t1/left_thigh_yaw_link.STL" />
       </geometry>
       <material
         name="">
@@ -135,7 +135,7 @@
         rpy="0 0 0" />
       <geometry>
         <mesh
-          filename="../meshes/gr1t2/left_thigh_yaw_link.STL" />
+          filename="../meshes/gr1t1/left_thigh_yaw_link.STL" />
       </geometry>
     </collision> -->
   </link>
@@ -143,7 +143,7 @@
     name="left_hip_yaw_joint"
     type="revolute">
     <origin
-      xyz="0.033135 0 0.00075"
+      xyz="0 0 0"
       rpy="0 0 0" />
     <parent
       link="left_thigh_roll_link" />
@@ -161,17 +161,17 @@
     name="left_thigh_pitch_link">
     <inertial>
       <origin
-        xyz="0.001387 -0.02832 -0.0640"
+        xyz="0.001419 -0.02869 -0.05999"
         rpy="0 0 0" />
       <mass
-        value="8.35" />
+        value="7.99" />
       <inertia
-        ixx="0.09287"
-        ixy="0.000089"
-        ixz="0.001262"
-        iyy="0.08956"
-        iyz="-0.001832"
-        izz="0.02835" />
+        ixx="0.07222"
+        ixy="-7.201e-5"
+        ixz="0.001533"
+        iyy="0.07244"
+        iyz="-0.003014"
+        izz="0.02139" />
     </inertial>
     <visual>
       <origin
@@ -179,7 +179,7 @@
         rpy="0 0 0" />
       <geometry>
         <mesh
-          filename="../meshes/gr1t2/left_thigh_pitch_link.STL" />
+          filename="../meshes/gr1t1/left_thigh_pitch_link.STL" />
       </geometry>
       <material
         name="">
@@ -188,9 +188,9 @@
       </material>
     </visual>
     <collision name="left_thigh_pitch_link.STL">
-      <origin xyz="0.0007000513673618543 -0.030 -0.1670560397414535" rpy="0 0 0 "/>
+      <origin xyz="0.0007000513673618543 -0.03015965784976181 -0.1670560397414535" rpy="0 0 0 "/>
       <geometry>
-        <cylinder radius="0.082" length="0.24982894507630515"/>
+        <cylinder radius="0.08587689590118133" length="0.24982894507630515"/>
       </geometry>
     </collision>
   </link>
@@ -198,7 +198,7 @@
     name="left_hip_pitch_joint"
     type="revolute">
     <origin
-      xyz="0 0.0223 -0.14027"
+      xyz="0 0.0223 -0.1405"
       rpy="0 0 0" />
     <parent
       link="left_thigh_yaw_link" />
@@ -216,17 +216,17 @@
     name="left_shank_pitch_link">
     <inertial>
       <origin
-        xyz="0.001482 -0.00080 -0.1154"
+        xyz="0.001724 -3.024E-5 -0.1128"
         rpy="0 0 0" />
       <mass
-        value="1.76" />
+        value="1.93" />
       <inertia
-        ixx="0.01079"
-        ixy="-7e-6"
-        ixz="-0.000149"
-        iyy="0.01068"
-        iyz="-0.000146"
-        izz="0.001262" />
+        ixx="0.009915"
+        ixy="-2.24E-6"
+        ixz="-1.716E-5"
+        iyy="0.009913"
+        iyz="-0.0001199"
+        izz="0.0009499" />
     </inertial>
     <visual>
       <origin
@@ -234,7 +234,7 @@
         rpy="0 0 0" />
       <geometry>
         <mesh
-          filename="../meshes/gr1t2/left_shank_pitch_link.STL" />
+          filename="../meshes/gr1t1/left_shank_pitch_link.STL" />
       </geometry>
       <material
         name="">
@@ -253,7 +253,7 @@
     name="left_knee_pitch_joint"
     type="revolute">
     <origin
-      xyz="0 -0.019512 -0.36"
+      xyz="0 -0.0213 -0.36"
       rpy="0 0 0" />
     <parent
       link="left_thigh_pitch_link" />
@@ -271,17 +271,17 @@
     name="left_foot_pitch_link">
     <inertial>
       <origin
-        xyz="0 0 0"
+        xyz="0.0284 0.00121 -0.0293"
         rpy="0 0 0" />
       <mass
-        value="0.057" />
+        value="0.538" />
       <inertia
-        ixx="5.31E-6"
-        ixy="0"
-        ixz="0"
-        iyy="5.65E-6"
-        iyz="0"
-        izz="6.36E-6" />
+        ixx="0.000394"
+        ixy="-9.64E-6"
+        ixz="0.000173"
+        iyy="0.00232"
+        iyz="4.36E-6"
+        izz="0.002474" />
     </inertial>
     <visual>
       <origin
@@ -289,7 +289,7 @@
         rpy="0 0 0" />
       <geometry>
         <mesh
-          filename="../meshes/gr1t2/left_foot_pitch_link.STL" />
+          filename="../meshes/gr1t1/left_foot_pitch_link.STL" />
       </geometry>
       <material
         name="">
@@ -303,7 +303,7 @@
         rpy="0 0 0" />
       <geometry>
         <mesh
-          filename="../meshes/gr1t2/left_foot_pitch_link.STL" />
+          filename="../meshes/gr1t1/left_foot_pitch_link.STL" />
       </geometry>
     </collision> -->
   </link>
@@ -311,7 +311,7 @@
     name="left_ankle_pitch_joint"
     type="revolute">
     <origin
-      xyz="0 -0.00125 -0.34"
+      xyz="0 0 -0.34"
       rpy="0 0 0" />
     <parent
       link="left_shank_pitch_link" />
@@ -329,17 +329,17 @@
     name="left_foot_roll_link">
     <inertial>
       <origin
-        xyz="0.0367 0.0001 -0.03837"
+        xyz="0.0284 0.00121 -0.0293"
         rpy="0 0 0" />
       <mass
-        value="1.07" />
+        value="0.538" />
       <inertia
-        ixx="0.0007664"
-        ixy="3.75E-6"
-        ixz="0.0002441"
-        iyy="0.005085"
-        iyz="-1.53E-6"
-        izz="0.005559" />
+        ixx="0.000394"
+        ixy="-9.64E-6"
+        ixz="0.000173"
+        iyy="0.00232"
+        iyz="4.36E-6"
+        izz="0.002474" />
     </inertial>
     <visual>
       <origin
@@ -347,7 +347,7 @@
         rpy="0 0 0" />
       <geometry>
         <mesh
-          filename="../meshes/gr1t2/left_foot_roll_link.STL" />
+          filename="../meshes/gr1t1/left_foot_roll_link.STL" />
       </geometry>
       <material
         name="">
@@ -390,17 +390,17 @@
     name="right_thigh_roll_link">
     <inertial>
       <origin
-        xyz="0.001319 -9.8e-5 0.001752"
+        xyz="-0.0325 -7.432E-5 0.002322"
         rpy="0 0 0" />
       <mass
-        value="1.47" />
+        value="1.45" />
       <inertia
-        ixx="0.001572"
-        ixy="1.2e-5"
-        ixz="-5e-6"
-        iyy="0.002502"
-        iyz="6e-6"
-        izz="0.002594" />
+        ixx="0.001545"
+        ixy="8.68E-6"
+        ixz="-3.071E-5"
+        iyy="0.002445"
+        iyz="7.47E-6"
+        izz="0.002523" />
     </inertial>
     <visual>
       <origin
@@ -408,7 +408,7 @@
         rpy="0 0 0" />
       <geometry>
         <mesh
-          filename="../meshes/gr1t2/right_thigh_roll_link.STL" />
+          filename="../meshes/gr1t1/right_thigh_roll_link.STL" />
       </geometry>
       <material
         name="">
@@ -422,7 +422,7 @@
         rpy="0 0 0" />
       <geometry>
         <mesh
-          filename="../meshes/gr1t2/right_thigh_roll_link.STL" />
+          filename="../meshes/gr1t1/right_thigh_roll_link.STL" />
       </geometry>
     </collision> -->
   </link>
@@ -430,7 +430,7 @@
     name="right_hip_roll_joint"
     type="revolute">
     <origin
-      xyz="-0.031635 -0.105 -0.0276"
+      xyz="-0.0025 -0.105 -0.0276"
       rpy="0 0 0" />
     <parent
       link="base_link" />
@@ -448,17 +448,17 @@
     name="right_thigh_yaw_link">
     <inertial>
       <origin
-        xyz="-0.000705 -0.03841 -0.1104"
+        xyz="-0.0001289 -0.03547 -0.1132"
         rpy="0 0 0" />
       <mass
-        value="3.47" />
+        value="3.17" />
       <inertia
-        ixx="0.01912"
-        ixy="-5.8e-5"
-        ixz="0.0000146"
-        iyy="0.02124"
-        iyz="-0.005568"
-        izz="0.01149" />
+        ixx="0.01555"
+        ixy="8.397E-5"
+        ixz="5.579E-5"
+        iyy="0.01777"
+        iyz="-0.003462"
+        izz="0.006503" />
     </inertial>
     <visual>
       <origin
@@ -466,7 +466,7 @@
         rpy="0 0 0" />
       <geometry>
         <mesh
-          filename="../meshes/gr1t2/right_thigh_yaw_link.STL" />
+          filename="../meshes/gr1t1/right_thigh_yaw_link.STL" />
       </geometry>
       <material
         name="">
@@ -480,7 +480,7 @@
         rpy="0 0 0" />
       <geometry>
         <mesh
-          filename="../meshes/gr1t2/right_thigh_yaw_link.STL" />
+          filename="../meshes/gr1t1/right_thigh_yaw_link.STL" />
       </geometry>
     </collision> -->
   </link>
@@ -488,7 +488,7 @@
     name="right_hip_yaw_joint"
     type="revolute">
     <origin
-      xyz="0.033135 0 0.00075"
+      xyz="0 0 0"
       rpy="0 0 0" />
     <parent
       link="right_thigh_roll_link" />
@@ -506,17 +506,17 @@
     name="right_thigh_pitch_link">
     <inertial>
       <origin
-        xyz="0.001386 0.02815 -0.06399"
+        xyz="0.00151 0.02868 -0.0598"
         rpy="0 0 0" />
       <mass
-        value="8.35" />
+        value="7.99" />
       <inertia
-        ixx="0.09315"
-        ixy="9e-5"
-        ixz="0.001548"
-        iyy="0.08956"
-        iyz="-0.001825"
-        izz="0.028" />
+        ixx="0.07228"
+        ixy="5.837E-5"
+        ixz="0.001505"
+        iyy="0.07250"
+        iyz="0.002950"
+        izz="0.0214" />
     </inertial>
     <visual>
       <origin
@@ -524,7 +524,7 @@
         rpy="0 0 0" />
       <geometry>
         <mesh
-          filename="../meshes/gr1t2/right_thigh_pitch_link.STL" />
+          filename="../meshes/gr1t1/right_thigh_pitch_link.STL" />
       </geometry>
       <material
         name="">
@@ -533,9 +533,9 @@
       </material>
     </visual>
     <collision name="right_thigh_pitch_link.STL">
-      <origin xyz="-0.0021232671369708286 0.030 -0.16705638592" rpy="0.005397062281218166 0.014125499755146664 3.8118827309907216e-05"/>
+      <origin xyz="-0.0021232671369708286 0.0301596122658223 -0.16705638592" rpy="0.005397062281218166 0.014125499755146664 3.8118827309907216e-05"/>
       <geometry>
-        <cylinder radius="0.082" length="0.24982123520352716"/>
+        <cylinder radius="0.0858779947877418" length="0.24982123520352716"/>
       </geometry>
     </collision>
   </link>
@@ -543,7 +543,7 @@
     name="right_hip_pitch_joint"
     type="revolute">
     <origin
-      xyz="0 -0.0223 -0.14027"
+      xyz="0 -0.0223 -0.1405"
       rpy="0 0 0" />
     <parent
       link="right_thigh_yaw_link" />
@@ -561,17 +561,17 @@
     name="right_shank_pitch_link">
     <inertial>
       <origin
-        xyz="0.001486 0.000785 -0.1152"
+        xyz="0.00172 3.024E-5 -0.1128"
         rpy="0 0 0" />
       <mass
-        value="1.76" />
+        value="1.93" />
       <inertia
-        ixx="0.01075"
-        ixy="7e-6"
-        ixz="-8.7e-5"
-        iyy="0.01063"
-        iyz="0.00014"
-        izz="0.001242" />
+        ixx="0.009905"
+        ixy="2.58E-6"
+        ixz="-5.473E-5"
+        iyy="0.009913"
+        iyz="0.0001198"
+        izz="0.0009603" />
     </inertial>
     <visual>
       <origin
@@ -579,7 +579,7 @@
         rpy="0 0 0" />
       <geometry>
         <mesh
-          filename="../meshes/gr1t2/right_shank_pitch_link.STL" />
+          filename="../meshes/gr1t1/right_shank_pitch_link.STL" />
       </geometry>
       <material
         name="">
@@ -598,7 +598,7 @@
     name="right_knee_pitch_joint"
     type="revolute">
     <origin
-      xyz="0 0.019762 -0.36"
+      xyz="0 0.0213 -0.36"
       rpy="0 0 0" />
     <parent
       link="right_thigh_pitch_link" />
@@ -616,17 +616,17 @@
     name="right_foot_pitch_link">
     <inertial>
       <origin
-        xyz="0 0 0"
+        xyz="0.0284 -0.00121 -0.0293"
         rpy="0 0 0" />
       <mass
-        value="0.057" />
+        value="0.538" />
       <inertia
-        ixx="5.31E-6"
-        ixy="0"
-        ixz="0"
-        iyy="5.56E-6"
-        iyz="0"
-        izz="6.36E-6" />
+        ixx="0.000394"
+        ixy="9.6E-6"
+        ixz="0.000173"
+        iyy="0.00232"
+        iyz="-4.36E-6"
+        izz="0.00247" />
     </inertial>
     <visual>
       <origin
@@ -634,7 +634,7 @@
         rpy="0 0 0" />
       <geometry>
         <mesh
-          filename="../meshes/gr1t2/right_foot_pitch_link.STL" />
+          filename="../meshes/gr1t1/right_foot_pitch_link.STL" />
       </geometry>
       <material
         name="">
@@ -648,7 +648,7 @@
         rpy="0 0 0" />
       <geometry>
         <mesh
-          filename="../meshes/gr1t2/right_foot_pitch_link.STL" />
+          filename="../meshes/gr1t1/right_foot_pitch_link.STL" />
       </geometry>
     </collision> -->
   </link>
@@ -656,7 +656,7 @@
     name="right_ankle_pitch_joint"
     type="revolute">
     <origin
-      xyz="0 0.00125 -0.34"
+      xyz="0 0 -0.34"
       rpy="0 0 0" />
     <parent
       link="right_shank_pitch_link" />
@@ -674,17 +674,17 @@
     name="right_foot_roll_link">
     <inertial>
       <origin
-        xyz="0.0367 -0.0001 -0.03837"
+        xyz="0.0284 -0.00121 -0.0293"
         rpy="0 0 0" />
       <mass
-        value="1.07" />
+        value="0.538" />
       <inertia
-        ixx="0.0007664"
-        ixy="-3.75E-6"
-        ixz="0.0002441"
-        iyy="0.005085"
-        iyz="1.53E-6"
-        izz="0.005559" />
+        ixx="0.000394"
+        ixy="9.6E-6"
+        ixz="0.000173"
+        iyy="0.00232"
+        iyz="-4.36E-6"
+        izz="0.00247" />
     </inertial>
     <visual>
       <origin
@@ -692,7 +692,7 @@
         rpy="0 0 0" />
       <geometry>
         <mesh
-          filename="../meshes/gr1t2/right_foot_roll_link.STL" />
+          filename="../meshes/gr1t1/right_foot_roll_link.STL" />
       </geometry>
       <material
         name="">
@@ -735,17 +735,17 @@
     name="waist_yaw_link">
     <inertial>
       <origin
-        xyz="-0.00152 -0.00691 0.05223"
+        xyz="-0.002641 -0.009332 0.05066"
         rpy="0 0 0" />
       <mass
-        value="1.66" />
+        value="1.49" />
       <inertia
-        ixx="0.003573"
-        ixy="1.476E-05"
-        ixz="5.805E-05"
-        iyy="0.0031429"
-        iyz="0.00039781"
-        izz="0.0023119" />
+        ixx="0.00302"
+        ixy="3.832E-5"
+        ixz="1.016E-5"
+        iyy="0.002711"
+        iyz="0.0005105"
+        izz="0.001679" />
     </inertial>
     <visual>
       <origin
@@ -753,7 +753,7 @@
         rpy="0 0 0" />
       <geometry>
         <mesh
-          filename="../meshes/gr1t2/waist_yaw_link.STL" />
+          filename="../meshes/gr1t1/waist_yaw_link.STL" />
       </geometry>
       <material
         name="">
@@ -767,7 +767,7 @@
         rpy="0 0 0" />
       <geometry>
         <mesh
-          filename="../meshes/gr1t2/waist_yaw_link.STL" />
+          filename="../meshes/gr1t1/waist_yaw_link.STL" />
       </geometry>
     </collision> -->
   </link>
@@ -793,17 +793,17 @@
     name="waist_pitch_link">
     <inertial>
       <origin
-        xyz="0.004581 -0.004697 0.04034"
+        xyz="0.00451 -0.00439 0.0406"
         rpy="0 0 0" />
       <mass
-        value="1.54" />
+        value="1.62" />
       <inertia
-        ixx="0.0046064" 
-        ixy="-2.297E-05"
-        ixz="-0.00026084"
-        iyy="0.0045722"
-        iyz="-0.00024591"
-        izz="0.0018747" />
+        ixx="0.00456"
+        ixy="-2.99E-5"
+        ixz="-0.0002541"
+        iyy="0.004563"
+        iyz="-0.0002748"
+        izz="0.001855" />
     </inertial>
     <visual>
       <origin
@@ -811,7 +811,7 @@
         rpy="0 0 0" />
       <geometry>
         <mesh
-          filename="../meshes/gr1t2/waist_pitch_link.STL" />
+          filename="../meshes/gr1t1/waist_pitch_link.STL" />
       </geometry>
       <material
         name="">
@@ -825,7 +825,7 @@
         rpy="0 0 0" />
       <geometry>
         <mesh
-          filename="../meshes/gr1t2/waist_pitch_link.STL" />
+          filename="../meshes/gr1t1/waist_pitch_link.STL" />
       </geometry>
     </collision> -->
   </link>
@@ -833,7 +833,7 @@
     name="waist_pitch_joint"
     type="revolute">
     <origin
-      xyz="0 0 0.0869"
+      xyz="0 0 0.0873"
       rpy="0 0 0" />
     <parent
       link="waist_yaw_link" />
@@ -851,17 +851,17 @@
     name="waist_roll_link">
     <inertial>
       <origin
-        xyz="0.00823 0.00004 0.01227"
+        xyz="0.01038 -1.48E-6 0.01312"
         rpy="0 0 0" />
       <mass
-        value="0.96" />
+        value="0.91" />
       <inertia
-        ixx="0.00100959" 
-        ixy="4.9E-7"
-        ixz="9.99E-5"
-        iyy="1.30981E-3"
-        iyz="-5.3E-7"
-        izz="1.16922E-3"/>
+        ixx="0.001"
+        ixy="-1E-8"
+        ixz="0.0001508"
+        iyy="0.001226"
+        iyz="8E-8"
+        izz="0.001087" />
     </inertial>
     <visual>
       <origin
@@ -869,7 +869,7 @@
         rpy="0 0 0" />
       <geometry>
         <mesh
-          filename="../meshes/gr1t2/waist_roll_link.STL" />
+          filename="../meshes/gr1t1/waist_roll_link.STL" />
       </geometry>
       <material
         name="">
@@ -883,7 +883,7 @@
         rpy="0 0 0" />
       <geometry>
         <mesh
-          filename="../meshes/gr1t2/waist_roll_link.STL" />
+          filename="../meshes/gr1t1/waist_roll_link.STL" />
       </geometry>
     </collision> -->
   </link>
@@ -891,7 +891,7 @@
     name="waist_roll_joint"
     type="revolute">
     <origin
-      xyz="0.00525 -0.0005 0.081"
+      xyz="0 0 0.081"
       rpy="0 0 0" />
     <parent
       link="waist_pitch_link" />
@@ -909,17 +909,17 @@
     name="torso_link">
     <inertial>
       <origin
-        xyz="-0.01325 0.000292 0.009517"
+        xyz="-0.00667 0.0001533 0.01837"
         rpy="0 0 0" />
       <mass
-        value="5.67" />
+        value="6.40" />
       <inertia
-        ixx="0.04082"
-        ixy="-2e-6"
-        ixz="-0.00047"
-        iyy="0.03729"
-        iyz="-1.4e-5"
-        izz="0.03397" />
+        ixx="0.04162"
+        ixy="2.011E-5"
+        ixz="-0.001691"
+        iyy="0.03127"
+        iyz="1.097E-5"
+        izz="0.02553" />
     </inertial>
     <visual>
       <origin
@@ -927,7 +927,7 @@
         rpy="0 0 0" />
       <geometry>
         <mesh
-          filename="../meshes/gr1t2/torso_link.STL" />
+          filename="../meshes/gr1t1/torso_link.STL" />
       </geometry>
       <material
         name="">
@@ -938,7 +938,7 @@
     <collision name="torso_link.STL">
       <origin xyz="-0.0158159258618006 0.005195369607133852 -0.01252051000214107" rpy="0 0 0"/>
       <geometry>
-        <cylinder radius="0.15742740516179015" length="0.0603859984881334"/>
+        <cylinder radius="0.12742740516179015" length="0.1603859984881334"/>
       </geometry>
     </collision>
   </link>
@@ -946,7 +946,7 @@
     name="torso_joint"
     type="fixed">
     <origin
-      xyz="-0.00225 0.00057443 0.16035"
+      xyz="-0.00414 0 0.16071"
       rpy="0 0 0" />
     <parent
       link="waist_roll_link" />
@@ -959,17 +959,17 @@
     name="left_upper_arm_pitch_link">
     <inertial>
       <origin
-        xyz="0.0033 0.05361 -0.00011"
+        xyz="0.00323 0.05324 0.000192"
         rpy="0 0 0" />
       <mass
-        value="0.82" />
+        value="0.81" />
       <inertia
-        ixx="2.04209E-3"
-        ixy="-1.0845E-4"
-        ixz="-5.7E-6"
-        iyy="5.02E-4"
-        iyz="-2.88E-6"
-        izz="1.98176E-3" />
+        ixx="0.002024"
+        ixy="-9.67E-5"
+        ixz="-4.2E-7"
+        iyy="0.0005"
+        iyz="1.71E-6"
+        izz="0.001957" />
     </inertial>
     <visual>
       <origin
@@ -977,7 +977,7 @@
         rpy="0 0 0" />
       <geometry>
         <mesh
-          filename="../meshes/gr1t2/left_upper_arm_pitch_link.STL" />
+          filename="../meshes/gr1t1/left_upper_arm_pitch_link.STL" />
       </geometry>
       <material
         name="">
@@ -991,7 +991,7 @@
         rpy="0 0 0" />
       <geometry>
         <mesh
-          filename="../meshes/gr1t2/left_upper_arm_pitch_link.STL" />
+          filename="../meshes/gr1t1/left_upper_arm_pitch_link.STL" />
       </geometry>
     </collision> -->
   </link>
@@ -999,8 +999,8 @@
     name="left_shoulder_pitch_joint"
     type="revolute">
     <origin
-      xyz="0 0.10128 0.046651"
-      rpy="0.43275 0 0" />
+      xyz="0 0.10111 0.047149"
+      rpy="0.43633 0 0" />
     <parent
       link="torso_link" />
     <child
@@ -1017,17 +1017,17 @@
     name="left_upper_arm_roll_link">
     <inertial>
       <origin
-        xyz="0.005026 0.01740 -0.02398"
+        xyz="0.003427 0.01466 -0.02316"
         rpy="0 0 0" />
       <mass
-        value="0.61" />
+        value="0.5" />
       <inertia
-        ixx="0.0010175"
-        ixy="8.5E-07"
-        ixz="-2.686E-05"
-        iyy="0.00080346"
-        iyz="0.00031013"
-        izz="0.00056524" />
+        ixx="0.0008749"
+        ixy="-1.593E-5"
+        ixz="2.96E-6"
+        iyy="0.0006958"
+        iyz="0.0002863"
+        izz="0.0004119" />
     </inertial>
     <visual>
       <origin
@@ -1035,7 +1035,7 @@
         rpy="0 0 0" />
       <geometry>
         <mesh
-          filename="../meshes/gr1t2/left_upper_arm_roll_link.STL" />
+          filename="../meshes/gr1t1/left_upper_arm_roll_link.STL" />
       </geometry>
       <material
         name="">
@@ -1049,7 +1049,7 @@
         rpy="0 0 0" />
       <geometry>
         <mesh
-          filename="../meshes/gr1t2/left_upper_arm_roll_link.STL" />
+          filename="../meshes/gr1t1/left_upper_arm_roll_link.STL" />
       </geometry>
     </collision> -->
   </link>
@@ -1058,7 +1058,7 @@
     type="revolute">
     <origin
       xyz="0 0.09515 0"
-      rpy="-0.43275 0 0" />
+      rpy="-0.43633 0 0" />
     <parent
       link="left_upper_arm_pitch_link" />
     <child
@@ -1067,7 +1067,7 @@
       xyz="1 0 0" />
     <limit
       lower="-0.57"
-      upper="2.53"
+      upper="3.27"
       effort="38"
       velocity="9.11" />
   </joint>
@@ -1075,17 +1075,17 @@
     name="left_upper_arm_yaw_link">
     <inertial>
       <origin
-        xyz="-1.7E-5 -0.0002 -0.08761"
+        xyz="5.47E-5 0.002013 -0.0852"
         rpy="0 0 0" />
       <mass
-        value="0.54" />
+        value="0.55" />
       <inertia
-        ixx="0.0035571"
-        ixy="-1.6E-07"
-        ixz="-7.1E-07"
-        iyy="0.003544"
-        iyz="4.560E-05"
-        izz="0.00026034" />
+        ixx="0.003544"
+        ixy="-1.8E-7"
+        ixz="-1.75E-6"
+        iyy="0.003537"
+        iyz="9.928E-5"
+        izz="0.0002512" />
     </inertial>
     <visual>
       <origin
@@ -1093,7 +1093,7 @@
         rpy="0 0 0" />
       <geometry>
         <mesh
-          filename="../meshes/gr1t2/left_upper_arm_yaw_link.STL" />
+          filename="../meshes/gr1t1/left_upper_arm_yaw_link.STL" />
       </geometry>
       <material
         name="">
@@ -1112,7 +1112,7 @@
     name="left_shoulder_yaw_joint"
     type="revolute">
     <origin
-      xyz="0 0.04 -0.0709"
+      xyz="0 0.04 -0.07095"
       rpy="0 0 0" />
     <parent
       link="left_upper_arm_roll_link" />
@@ -1130,17 +1130,17 @@
     name="left_lower_arm_pitch_link">
     <inertial>
       <origin
-        xyz="0 0.008102 -0.02528"
+        xyz="3.31E-6 0.007846 -0.02549"
         rpy="0 0 0" />
       <mass
-        value="0.33" />
+        value="0.32" />
       <inertia
-        ixx="0.00029558"
-        ixy="2E-08"
-        ixz="7E-08"
-        iyy="0.000287"
-        iyz="-5.014E-05"
-        izz="0.00011171" />
+        ixx="0.0002916"
+        ixy="1E-8"
+        ixz="-6E-8"
+        iyy="0.0002848"
+        iyz="-4.858E-5"
+        izz="0.0001090" />
     </inertial>
     <visual>
       <origin
@@ -1148,7 +1148,7 @@
         rpy="0 0 0" />
       <geometry>
         <mesh
-          filename="../meshes/gr1t2/left_lower_arm_pitch_link.STL" />
+          filename="../meshes/gr1t1/left_lower_arm_pitch_link.STL" />
       </geometry>
       <material
         name="">
@@ -1162,7 +1162,7 @@
         rpy="0 0 0" />
       <geometry>
         <mesh
-          filename="../meshes/gr1t2/left_lower_arm_pitch_link.STL" />
+          filename="../meshes/gr1t1/left_lower_arm_pitch_link.STL" />
       </geometry>
     </collision> -->
   </link>
@@ -1170,7 +1170,7 @@
     name="left_elbow_pitch_joint"
     type="revolute">
     <origin
-      xyz="0 0.0010503 -0.1786"
+      xyz="0 0 -0.1751"
       rpy="0 0 0" />
     <parent
       link="left_upper_arm_yaw_link" />
@@ -1188,17 +1188,17 @@
     name="left_hand_yaw_link">
     <inertial>
       <origin
-        xyz="0.00044 0.00196 -0.07313"
+        xyz="-2.923E-5 0.002124 -0.06117"
         rpy="0 0 0" />
       <mass
-        value="0.99" />
+        value="0.89" />
       <inertia
-        ixx="0.0026215"
-        ixy="1.29E-06"
-        ixz="6.12E-06"
-        iyy="0.0025491"
-        iyz="-1.585E-05"
-        izz="0.00049784" />
+        ixx="0.001867"
+        ixy="3.1E-7"
+        ixz="1.064E-5"
+        iyy="0.001863"
+        iyz="1.649E-5"
+        izz="0.0003211" />
     </inertial>
     <visual>
       <origin
@@ -1206,7 +1206,7 @@
         rpy="0 0 0" />
       <geometry>
         <mesh
-          filename="../meshes/gr1t2/left_hand_yaw_link.STL" />
+          filename="../meshes/gr1t1/left_hand_yaw_link.STL" />
       </geometry>
       <material
         name="">
@@ -1225,7 +1225,7 @@
     name="left_wrist_yaw_joint"
     type="revolute">
     <origin
-      xyz="0 0 -0.05945"
+      xyz="0 5.033E-05 -0.05395"
       rpy="0 0 0" />
     <parent
       link="left_lower_arm_pitch_link" />
@@ -1243,17 +1243,17 @@
     name="left_hand_roll_link">
     <inertial>
       <origin
-        xyz="0 0 0"
+        xyz="0 0.001292 -0.01174"
         rpy="0 0 0" />
       <mass
-        value="0.005" />
+        value="0.02955" />
       <inertia
-        ixx="7E-8"
+        ixx="5.38E-6"
         ixy="0"
         ixz="0"
-        iyy="3.5E-7"
-        iyz="0"
-        izz="3.5E-7" />
+        iyy="1E-5"
+        iyz="-4.6E-7"
+        izz="8.92E-6" />
     </inertial>
     <visual>
       <origin
@@ -1261,7 +1261,7 @@
         rpy="0 0 0" />
       <geometry>
         <mesh
-          filename="../meshes/gr1t2/left_hand_roll_link.STL" />
+          filename="../meshes/gr1t1/left_hand_roll_link.STL" />
       </geometry>
       <material
         name="">
@@ -1275,7 +1275,7 @@
         rpy="0 0 0" />
       <geometry>
         <mesh
-          filename="../meshes/gr1t2/left_hand_roll_link.STL" />
+          filename="../meshes/gr1t1/left_hand_roll_link.STL" />
       </geometry>
     </collision> -->
   </link>
@@ -1283,7 +1283,7 @@
     name="left_wrist_roll_joint"
     type="revolute">
     <origin
-      xyz="0 0 -0.19115"
+      xyz="0 0 -0.18765"
       rpy="0 0 0" />
     <parent
       link="left_hand_yaw_link" />
@@ -1301,17 +1301,17 @@
     name="left_hand_pitch_link">
     <inertial>
       <origin
-        xyz="0 0.00567 -0.00938"
+        xyz="0 0.001292 -0.01174"
         rpy="0 0 0" />
       <mass
-        value="0.05" />
+        value="0.02955" />
       <inertia
-        ixx="1.065E-5"
+        ixx="5.38E-6"
         ixy="0"
         ixz="0"
-        iyy="1.947E-5"
-        iyz="-1.1E-6"
-        izz="2.011E-5" />
+        iyy="1E-5"
+        iyz="-4.6E-7"
+        izz="8.92E-6" />
     </inertial>
     <visual>
       <origin
@@ -1319,7 +1319,7 @@
         rpy="0 0 0" />
       <geometry>
         <mesh
-          filename="../meshes/gr1t2/left_hand_pitch_link.STL" />
+          filename="../meshes/gr1t1/left_hand_pitch_link.STL" />
       </geometry>
       <material
         name="">
@@ -1333,7 +1333,7 @@
         rpy="0 0 0" />
       <geometry>
         <mesh
-          filename="../meshes/gr1t2/left_hand_pitch_link.STL" />
+          filename="../meshes/gr1t1/left_hand_pitch_link.STL" />
       </geometry>
     </collision> -->
   </link>
@@ -1365,7 +1365,7 @@
     name="left_end_effector_joint"
     type="fixed">
     <origin
-      xyz="0 0 -0.021"
+      xyz="0 0 -0.023"
       rpy="0 0 0" />
     <parent
       link="left_hand_pitch_link" />
@@ -1375,22 +1375,21 @@
 
 
 
-
   <link
     name="L_hand_base_link">
     <inertial>
       <origin
-        xyz="-0.0004466 -0.009158 -0.04325"
+        xyz="-0.0027 -0.009658 -0.044243"
         rpy="0 0 0" />
       <mass
-        value="0.306" />
+        value="0.281" />
       <inertia
-        ixx="0.0003042"
-        ixy="-5E-07"
-        ixz="1E-07"
-        iyy="0.0004110"
-        iyz="4E-08"
-        izz="0.0001951" />
+        ixx="0.000344"
+        ixy="-3.26E-06"
+        ixz="8.99E-06"
+        iyy="0.000474"
+        iyz="-1.063E-05"
+        izz="0.000217" />
     </inertial>
     <visual>
       <origin
@@ -1398,7 +1397,7 @@
         rpy="0 0 0" />
       <geometry>
         <mesh
-          filename="../meshes/fourier_hand_6dof/L_hand_base_link.STL" />
+          filename="../meshes/fourier_hand_12dof/L_hand_base_link.STL" />
       </geometry>
       <material
         name="">
@@ -1412,7 +1411,7 @@
         rpy="0 0 0" />
       <geometry>
         <mesh
-          filename="../meshes/fourier_hand_6dof/L_hand_base_link.STL" />
+          filename="../meshes/fourier_hand_12dof/L_hand_base_link.STL" />
       </geometry>
     </collision>
   </link>
@@ -1430,20 +1429,20 @@
       xyz="0 0 0" />
   </joint>
   <link
-    name="L_thumb_proximal_base_link">
+    name="L_thumb_proximal_yaw_link">
     <inertial>
       <origin
-        xyz="0.011017 -2.4767E-05 0.00077605"
+        xyz="0.010856 -0.001425 0.000443"
         rpy="0 0 0" />
       <mass
-        value="0.00948527" />
+        value="0.04" />
       <inertia
-        ixx="3E-07"
-        ixy="1E-08"
-        ixz="-4E-08"
-        iyy="9.5E-07"
-        iyz="-1E-08"
-        izz="9.7E-07" />
+        ixx="4.48E-06"
+        ixy="7E-07"
+        ixz="-7.4E-07"
+        iyy="7.55E-06"
+        iyz="6E-8"
+        izz="6.88E-06" />
     </inertial>
     <visual>
       <origin
@@ -1451,7 +1450,7 @@
         rpy="0 0 0" />
       <geometry>
         <mesh
-          filename="../meshes/fourier_hand_6dof/L_thumb_proximal_base_link.STL" />
+          filename="../meshes/fourier_hand_12dof/L_thumb_proximal_yaw_link.STL" />
       </geometry>
       <material
         name="">
@@ -1465,7 +1464,7 @@
         rpy="0 0 0" />
       <geometry>
         <mesh
-          filename="../meshes/fourier_hand_6dof/L_thumb_proximal_base_link.STL" />
+          filename="../meshes/fourier_hand_12dof/L_thumb_proximal_yaw_link.STL" />
       </geometry>
     </collision>
   </link>
@@ -1473,35 +1472,35 @@
     name="L_thumb_proximal_yaw_joint"
     type="revolute">
     <origin
-      xyz="0.022 -0.015498 -0.025093"
-      rpy="0 -1.3915E-05 0.025" />
+      xyz="0.014 -0.012 -0.023196"
+      rpy="0 0 0" />
     <parent
       link="L_hand_base_link" />
     <child
-      link="L_thumb_proximal_base_link" />
+      link="L_thumb_proximal_yaw_link" />
     <axis
       xyz="0 0 1" />
     <limit
-      lower="-1.715"
+      lower="-1.4661"
       upper="0"
-      effort="10"
-      velocity="0.8" />
+      effort="0"
+      velocity="0" />
   </joint>
   <link
-    name="L_thumb_proximal_link">
+    name="L_thumb_proximal_pitch_link">
     <inertial>
       <origin
-        xyz="0.03196306 -0.00014118 -2.861E-05"
+        xyz="0.026449 -0.000321 3.22E-06"
         rpy="0 0 0" />
       <mass
-        value="0.07347612" />
+        value="0.0415" />
       <inertia
-        ixx="1.131E-05"
-        ixy="1E-07"
-        ixz="4E-08"
-        iyy="3.183E-05"
-        iyz="-1E-08"
-        izz="3.376E-05" />
+        ixx="5.76E-06"
+        ixy="3.7e-7"
+        ixz="0"
+        iyy="1.33E-05"
+        iyz="0"
+        izz="1.39E-05" />
     </inertial>
     <visual>
       <origin
@@ -1509,7 +1508,7 @@
         rpy="0 0 0" />
       <geometry>
         <mesh
-          filename="../meshes/fourier_hand_6dof/L_thumb_proximal_link.STL" />
+          filename="../meshes/fourier_hand_12dof/L_thumb_proximal_pitch_link.STL" />
       </geometry>
       <material
         name="">
@@ -1523,7 +1522,7 @@
         rpy="0 0 0" />
       <geometry>
         <mesh
-          filename="../meshes/fourier_hand_6dof/L_thumb_proximal_link.STL" />
+          filename="../meshes/fourier_hand_12dof/L_thumb_proximal_pitch_link.STL" />
       </geometry>
     </collision>
   </link>
@@ -1531,35 +1530,35 @@
     name="L_thumb_proximal_pitch_joint"
     type="revolute">
     <origin
-      xyz="0.02175 0 0"
-      rpy="-1.5707 0 0" />
+      xyz="0.034322 -0.0054361 0.001"
+      rpy="-1.5708 0 -0.15708" />
     <parent
-      link="L_thumb_proximal_base_link" />
+      link="L_thumb_proximal_yaw_link" />
     <child
-      link="L_thumb_proximal_link" />
+      link="L_thumb_proximal_pitch_link" />
     <axis
       xyz="0 0 1" />
     <limit
       lower="0"
-      upper="1.215"
-      effort="10"
-      velocity="0.8" />
+      upper="1.274"
+      effort="0"
+      velocity="0" />
   </joint>
   <link
     name="L_thumb_distal_link">
     <inertial>
       <origin
-        xyz="0.01321529 -0.00326134 0"
+        xyz="0.0186 -0.00514 1.569E-05"
         rpy="0 0 0" />
       <mass
-        value="0.02031766" />
+        value="0.0198" />
       <inertia
-        ixx="9.2E-07"
-        ixy="-9E-08"
+        ixx="1.15E-06"
+        ixy="-6E-8"
         ixz="0"
-        iyy="2.48E-06"
+        iyy="3.43E-06"
         iyz="0"
-        izz="2.34E-06" />
+        izz="3.24E-06" />
     </inertial>
     <visual>
       <origin
@@ -1567,7 +1566,7 @@
         rpy="0 0 0" />
       <geometry>
         <mesh
-          filename="../meshes/fourier_hand_6dof/L_thumb_distal_link.STL" />
+          filename="../meshes/fourier_hand_12dof/L_thumb_distal_link.STL" />
       </geometry>
       <material
         name="">
@@ -1581,7 +1580,7 @@
         rpy="0 0 0" />
       <geometry>
         <mesh
-          filename="../meshes/fourier_hand_6dof/L_thumb_distal_link.STL" />
+          filename="../meshes/fourier_hand_12dof/L_thumb_distal_link.STL" />
       </geometry>
     </collision>
   </link>
@@ -1589,23 +1588,19 @@
     name="L_thumb_distal_joint"
     type="revolute">
     <origin
-      xyz="0.061298 0.0093066 0"
-      rpy="1.5707 -8.6792E-05 -0.002198" />
+      xyz="0.05175 0.0050976 0"
+      rpy="0 0 0.071635" />
     <parent
-      link="L_thumb_proximal_link" />
+      link="L_thumb_proximal_pitch_link" />
     <child
       link="L_thumb_distal_link" />
     <axis
-      xyz="0 1 0" />
+      xyz="0 0 1" />
     <limit
       lower="0"
-      upper="1.025"
-      effort="10"
-      velocity="0.8" />
-    <mimic
-      joint="L_thumb_proximal_pitch_joint"
-      multiplier="0.8435"
-      offset="0" />
+      upper="1.3614"
+      effort="0"
+      velocity="0" />
   </joint>
 
   <link name="L_thumb_tip_link">
@@ -1624,25 +1619,25 @@
   <joint name="L_thumb_tip_joint" type="fixed">
     <parent link="L_thumb_distal_link" />
     <child link="L_thumb_tip_link" />
-    <origin rpy="0 0 0" xyz="0.031 -0.001 0" />
+    <origin rpy="0 0 0" xyz="0.035 -0.001 0" />
   </joint>
 
 
   <link
-    name="L_index_proximal_link">
+    name="L_index_metacarpal_link">
     <inertial>
       <origin
-        xyz="0.0095993 0.000443 2.96E-06"
+        xyz="-0.00912 0.00394 0"
         rpy="0 0 0" />
       <mass
-        value="0.019117" />
+        value="0.0321" />
       <inertia
-        ixx="8.6E-07"
-        ixy="1.2E-07"
+        ixx="1.09E-06"
+        ixy="1.85E-06"
         ixz="0"
-        iyy="3.71E-06"
+        iyy="7.7E-06"
         iyz="0"
-        izz="3.85E-06" />
+        izz="7.94E-06" />
     </inertial>
     <visual>
       <origin
@@ -1650,7 +1645,7 @@
         rpy="0 0 0" />
       <geometry>
         <mesh
-          filename="../meshes/fourier_hand_6dof/L_index_proximal_link.STL" />
+          filename="../meshes/fourier_hand_12dof/L_index_metacarpal_link.STL" />
       </geometry>
       <material
         name="">
@@ -1664,7 +1659,65 @@
         rpy="0 0 0" />
       <geometry>
         <mesh
-          filename="../meshes/fourier_hand_6dof/L_index_proximal_link.STL" />
+          filename="../meshes/fourier_hand_12dof/L_index_metacarpal_link.STL" />
+      </geometry>
+    </collision>
+  </link>
+  <joint
+    name="L_index_metacarpal_joint"
+    type="revolute">
+    <origin
+      xyz="0.0305 -0.0118 -0.088496"
+      rpy="3.1416 1.4946 0" />
+    <parent
+      link="L_hand_base_link" />
+    <child
+      link="L_index_metacarpal_link" />
+    <axis
+      xyz="0 1 0" />
+    <limit
+      lower="-0.0524"
+      upper="0.2618"
+      effort="0"
+      velocity="0" />
+  </joint>
+  <link
+    name="L_index_proximal_link">
+    <inertial>
+      <origin
+        xyz="0.01736 0.0045 0"
+        rpy="0 0 0" />
+      <mass
+        value="0.0358" />
+      <inertia
+        ixx="3.91E-06"
+        ixy="-2.7E-7"
+        ixz="0"
+        iyy="7.43E-06"
+        iyz="0"
+        izz="7.77E-06" />
+    </inertial>
+    <visual>
+      <origin
+        xyz="0 0 0"
+        rpy="0 0 0" />
+      <geometry>
+        <mesh
+          filename="../meshes/fourier_hand_12dof/L_index_proximal_link.STL" />
+      </geometry>
+      <material
+        name="">
+        <color
+          rgba="1 1 1 1" />
+      </material>
+    </visual>
+    <collision>
+      <origin
+        xyz="0 0 0"
+        rpy="0 0 0" />
+      <geometry>
+        <mesh
+          filename="../meshes/fourier_hand_12dof/L_index_proximal_link.STL" />
       </geometry>
     </collision>
   </link>
@@ -1672,35 +1725,35 @@
     name="L_index_proximal_joint"
     type="revolute">
     <origin
-      xyz="0.026869 -0.012293 -0.095989"
-      rpy="0.0013057 1.5184 0.0013039" />
+      xyz="0.012 -0.0005 0"
+      rpy="3.1416 0 0" />
     <parent
-      link="L_hand_base_link" />
+      link="L_index_metacarpal_link" />
     <child
       link="L_index_proximal_link" />
     <axis
       xyz="0 0 1" />
     <limit
-      lower="-1.515"
+      lower="-1.5185"
       upper="0"
-      effort="10"
-      velocity="0.8" />
+      effort="0"
+      velocity="0" />
   </joint>
   <link
     name="L_index_intermediate_link">
     <inertial>
       <origin
-        xyz="0.01800421 0.00300042 -9.23E-06"
+        xyz="0.02243 0.002908 1.624e-5"
         rpy="0 0 0" />
       <mass
-        value="0.01292544" />
+        value="0.0199" />
       <inertia
-        ixx="3.7E-07"
-        ixy="2.5E-07"
-        ixz="0"
-        iyy="2.01E-06"
+        ixx="8.4E-7"
+        ixy="4E-8"
+        ixz="1E-8"
+        iyy="4.82E-6"
         iyz="0"
-        izz="2.04E-06" />
+        izz="4.72E-6" />
     </inertial>
     <visual>
       <origin
@@ -1708,7 +1761,7 @@
         rpy="0 0 0" />
       <geometry>
         <mesh
-          filename="../meshes/fourier_hand_6dof/L_index_intermediate_link.STL" />
+          filename="../meshes/fourier_hand_12dof/L_index_intermediate_link.STL" />
       </geometry>
       <material
         name="">
@@ -1722,7 +1775,7 @@
         rpy="0 0 0" />
       <geometry>
         <mesh
-          filename="../meshes/fourier_hand_6dof/L_index_intermediate_link.STL" />
+          filename="../meshes/fourier_hand_12dof/L_index_intermediate_link.STL" />
       </geometry>
     </collision>
   </link>
@@ -1730,8 +1783,8 @@
     name="L_index_intermediate_joint"
     type="revolute">
     <origin
-      xyz="0.031029 -0.0078234 0"
-      rpy="-3.9519E-05 0.00014029 -0.2501" />
+      xyz="0.038948 0.0020202 0"
+      rpy="0 0 -0.19585" />
     <parent
       link="L_index_proximal_link" />
     <child
@@ -1739,14 +1792,10 @@
     <axis
       xyz="0 0 1" />
     <limit
-      lower="-1.582"
+      lower="-1.5708"
       upper="0"
-      effort="10"
-      velocity="0.8" />
-    <mimic
-      joint="L_index_proximal_joint"
-      multiplier="1.044"
-      offset="0" />
+      effort="0"
+      velocity="0" />
   </joint>
 
   <link name="L_index_tip_link">
@@ -1765,25 +1814,24 @@
   <joint name="L_index_tip_joint" type="fixed">
     <parent link="L_index_intermediate_link" />
     <child link="L_index_tip_link" />
-    <origin rpy="0 0 0" xyz="0.038 -0.0015 0" />
+    <origin rpy="0 0 0" xyz="0.047 0.001 0" />
   </joint>
-
 
   <link
     name="L_middle_proximal_link">
     <inertial>
       <origin
-        xyz="0.00955708 0.00071862 2.96E-06"
+        xyz="0.017361 0.0045 0"
         rpy="0 0 0" />
       <mass
-        value="0.01911771" />
+        value="0.0358" />
       <inertia
-        ixx="8.6E-07"
-        ixy="6E-08"
+        ixx="3.91E-06"
+        ixy="-2.7E-7"
         ixz="0"
-        iyy="3.72E-06"
+        iyy="7.43E-06"
         iyz="0"
-        izz="3.85E-06" />
+        izz="7.77E-06" />
     </inertial>
     <visual>
       <origin
@@ -1791,7 +1839,7 @@
         rpy="0 0 0" />
       <geometry>
         <mesh
-          filename="../meshes/fourier_hand_6dof/L_middle_proximal_link.STL" />
+          filename="../meshes/fourier_hand_12dof/L_middle_proximal_link.STL" />
       </geometry>
       <material
         name="">
@@ -1805,7 +1853,7 @@
         rpy="0 0 0" />
       <geometry>
         <mesh
-          filename="../meshes/fourier_hand_6dof/L_middle_proximal_link.STL" />
+          filename="../meshes/fourier_hand_12dof/L_middle_proximal_link.STL" />
       </geometry>
     </collision>
   </link>
@@ -1813,8 +1861,8 @@
     name="L_middle_proximal_joint"
     type="revolute">
     <origin
-      xyz="0.0085012 -0.012293 -0.097993"
-      rpy="1.394 1.5707 1.394" />
+      xyz="0.0095 -0.0113 -0.10005"
+      rpy="0 1.5708 0" />
     <parent
       link="L_hand_base_link" />
     <child
@@ -1822,26 +1870,26 @@
     <axis
       xyz="0 0 1" />
     <limit
-      lower="-1.503"
+      lower="-1.5185"
       upper="0"
-      effort="10"
-      velocity="0.8" />
+      effort="0"
+      velocity="0" />
   </joint>
   <link
     name="L_middle_intermediate_link">
     <inertial>
       <origin
-        xyz="0.02127931 0.00408456 -9.98E-06"
+        xyz="0.0247 0.00323 1.39E-5"
         rpy="0 0 0" />
       <mass
-        value="0.01535007" />
+        value="0.0234" />
       <inertia
-        ixx="4.1E-07"
-        ixy="2.2E-07"
-        ixz="0"
-        iyy="3.28E-06"
+        ixx="1.01E-6"
+        ixy="-4E-8"
+        ixz="1E-8"
+        iyy="6.94E-6"
         iyz="0"
-        izz="3.29E-06" />
+        izz="6.82E-6" />
     </inertial>
     <visual>
       <origin
@@ -1849,7 +1897,7 @@
         rpy="0 0 0" />
       <geometry>
         <mesh
-          filename="../meshes/fourier_hand_6dof/L_middle_intermediate_link.STL" />
+          filename="../meshes/fourier_hand_12dof/L_middle_intermediate_link.STL" />
       </geometry>
       <material
         name="">
@@ -1863,7 +1911,7 @@
         rpy="0 0 0" />
       <geometry>
         <mesh
-          filename="../meshes/fourier_hand_6dof/L_middle_intermediate_link.STL" />
+          filename="../meshes/fourier_hand_12dof/L_middle_intermediate_link.STL" />
       </geometry>
     </collision>
   </link>
@@ -1871,8 +1919,8 @@
     name="L_middle_intermediate_joint"
     type="revolute">
     <origin
-      xyz="0.030933 -0.0081952 0"
-      rpy="-3.5005E-05 0.00014792 -0.23244" />
+      xyz="0.038948 0.0020202 0"
+      rpy="0 0 -0.19218" />
     <parent
       link="L_middle_proximal_link" />
     <child
@@ -1880,14 +1928,10 @@
     <axis
       xyz="0 0 1" />
     <limit
-      lower="-1.601"
+      lower="-1.5708"
       upper="0"
-      effort="10"
-      velocity="0.8" />
-    <mimic
-      joint="L_middle_proximal_joint"
-      multiplier="1.065"
-      offset="0" />
+      effort="0"
+      velocity="0" />
   </joint>
 
   <link name="L_middle_tip_link">
@@ -1906,25 +1950,25 @@
   <joint name="L_middle_tip_joint" type="fixed">
     <parent link="L_middle_intermediate_link" />
     <child link="L_middle_tip_link" />
-    <origin rpy="0 0 0" xyz="0.045 -0.001 0" />
+    <origin rpy="0 0 0" xyz="0.055 0.0012 0" />
   </joint>
 
-  
+
   <link
     name="L_ring_proximal_link">
     <inertial>
       <origin
-        xyz="0.00959983 0.0004431 2.96E-06"
+        xyz="0.017361 0.0045 0"
         rpy="0 0 0" />
       <mass
-        value="0.01911771" />
+        value="0.035778" />
       <inertia
-        ixx="8.6E-07"
-        ixy="1.2E-07"
+        ixx="3.91E-06"
+        ixy="-2.7E-7"
         ixz="0"
-        iyy="3.71E-06"
+        iyy="7.4E-06"
         iyz="0"
-        izz="3.85E-06" />
+        izz="7.7E-06" />
     </inertial>
     <visual>
       <origin
@@ -1932,7 +1976,7 @@
         rpy="0 0 0" />
       <geometry>
         <mesh
-          filename="../meshes/fourier_hand_6dof/L_ring_proximal_link.STL" />
+          filename="../meshes/fourier_hand_12dof/L_ring_proximal_link.STL" />
       </geometry>
       <material
         name="">
@@ -1946,7 +1990,7 @@
         rpy="0 0 0" />
       <geometry>
         <mesh
-          filename="../meshes/fourier_hand_6dof/L_ring_proximal_link.STL" />
+          filename="../meshes/fourier_hand_12dof/L_ring_proximal_link.STL" />
       </geometry>
     </collision>
   </link>
@@ -1954,8 +1998,8 @@
     name="L_ring_proximal_joint"
     type="revolute">
     <origin
-      xyz="-0.00996 -0.012293 -0.097938"
-      rpy="3.1403 1.5184 3.1403" />
+      xyz="-0.010987 -0.0113 -0.10003"
+      rpy="-3.1416 1.5184 -3.1416" />
     <parent
       link="L_hand_base_link" />
     <child
@@ -1963,26 +2007,26 @@
     <axis
       xyz="0 0 1" />
     <limit
-      lower="-1.512"
+      lower="-1.5185"
       upper="0"
-      effort="10"
-      velocity="0.8" />
+      effort="0"
+      velocity="0" />
   </joint>
   <link
     name="L_ring_intermediate_link">
     <inertial>
       <origin
-        xyz="0.01800421 0.00300042 -9.23E-06"
+        xyz="0.02243 0.002908 1.624E-5"
         rpy="0 0 0" />
       <mass
-        value="0.01292544" />
+        value="0.0199" />
       <inertia
-        ixx="3.7E-07"
-        ixy="2.5E-07"
-        ixz="0"
-        iyy="2.01E-06"
+        ixx="8.4E-7"
+        ixy="4E-8"
+        ixz="1E-8"
+        iyy="4.82E-6"
         iyz="0"
-        izz="2.04E-06" />
+        izz="4.72E-6" />
     </inertial>
     <visual>
       <origin
@@ -1990,7 +2034,7 @@
         rpy="0 0 0" />
       <geometry>
         <mesh
-          filename="../meshes/fourier_hand_6dof/L_ring_intermediate_link.STL" />
+          filename="../meshes/fourier_hand_12dof/L_ring_intermediate_link.STL" />
       </geometry>
       <material
         name="">
@@ -2004,7 +2048,7 @@
         rpy="0 0 0" />
       <geometry>
         <mesh
-          filename="../meshes/fourier_hand_6dof/L_ring_intermediate_link.STL" />
+          filename="../meshes/fourier_hand_12dof/L_ring_intermediate_link.STL" />
       </geometry>
     </collision>
   </link>
@@ -2012,8 +2056,8 @@
     name="L_ring_intermediate_joint"
     type="revolute">
     <origin
-      xyz="0.031005 -0.0079165 0"
-      rpy="-3.5054E-05 0.0001607 -0.23658" />
+      xyz="0.038948 0.0020202 0"
+      rpy="0 0 -0.19585" />
     <parent
       link="L_ring_proximal_link" />
     <child
@@ -2021,14 +2065,10 @@
     <axis
       xyz="0 0 1" />
     <limit
-      lower="-1.561"
+      lower="-1.5708"
       upper="0"
-      effort="10"
-      velocity="0.8" />
-    <mimic
-      joint="L_ring_proximal_joint"
-      multiplier="1.032"
-      offset="0" />
+      effort="0"
+      velocity="0" />
   </joint>
 
   <link name="L_ring_tip_link">
@@ -2047,7 +2087,7 @@
   <joint name="L_ring_tip_joint" type="fixed">
     <parent link="L_ring_intermediate_link" />
     <child link="L_ring_tip_link" />
-    <origin rpy="0 0 0" xyz="0.038 -0.002 0" />
+    <origin rpy="0 0 0" xyz="0.045 0.001 0" />
   </joint>
 
 
@@ -2055,17 +2095,17 @@
     name="L_pinky_proximal_link">
     <inertial>
       <origin
-        xyz="0.00964414 9.378E-05 2.96E-06"
+        xyz="0.017361 0.0045 0"
         rpy="0 0 0" />
       <mass
-        value="0.01911771" />
+        value="0.0358" />
       <inertia
-        ixx="8.8E-07"
-        ixy="2E-07"
+        ixx="3.91E-06"
+        ixy="-2.7E-7"
         ixz="0"
-        iyy="3.7E-06"
+        iyy="7.4E-06"
         iyz="0"
-        izz="3.85E-06" />
+        izz="7.77E-06" />
     </inertial>
     <visual>
       <origin
@@ -2073,7 +2113,7 @@
         rpy="0 0 0" />
       <geometry>
         <mesh
-          filename="../meshes/fourier_hand_6dof/L_pinky_proximal_link.STL" />
+          filename="../meshes/fourier_hand_12dof/L_pinky_proximal_link.STL" />
       </geometry>
       <material
         name="">
@@ -2087,7 +2127,7 @@
         rpy="0 0 0" />
       <geometry>
         <mesh
-          filename="../meshes/fourier_hand_6dof/L_pinky_proximal_link.STL" />
+          filename="../meshes/fourier_hand_12dof/L_pinky_proximal_link.STL" />
       </geometry>
     </collision>
   </link>
@@ -2095,8 +2135,8 @@
     name="L_pinky_proximal_joint"
     type="revolute">
     <origin
-      xyz="-0.028227 -0.012293 -0.096013"
-      rpy="3.1409 1.4661 3.1409" />
+      xyz="-0.031472 -0.0113 -0.099245"
+      rpy="-3.1416 1.4661 -3.1416" />
     <parent
       link="L_hand_base_link" />
     <child
@@ -2104,26 +2144,26 @@
     <axis
       xyz="0 0 1" />
     <limit
-      lower="-1.503"
+      lower="-1.5185"
       upper="0"
-      effort="10"
-      velocity="0.8" />
+      effort="0"
+      velocity="0" />
   </joint>
   <link
     name="L_pinky_intermediate_link">
     <inertial>
       <origin
-        xyz="0.01609604 0.00118817 -8.72E-06"
+        xyz="0.01875 0.00296 5.23E-6"
         rpy="0 0 0" />
       <mass
-        value="0.00568707" />
+        value="0.00812" />
       <inertia
-        ixx="1.7E-07"
-        ixy="1.3E-07"
-        ixz="0"
-        iyy="6.2E-07"
+        ixx="6.7E-7"
+        ixy="5E-8"
+        ixz="1E-8"
+        iyy="2.69E-06"
         iyz="0"
-        izz="6.7E-07" />
+        izz="2.6E-06" />
     </inertial>
     <visual>
       <origin
@@ -2131,7 +2171,7 @@
         rpy="0 0 0" />
       <geometry>
         <mesh
-          filename="../meshes/fourier_hand_6dof/L_pinky_intermediate_link.STL" />
+          filename="../meshes/fourier_hand_12dof/L_pinky_intermediate_link.STL" />
       </geometry>
       <material
         name="">
@@ -2145,7 +2185,7 @@
         rpy="0 0 0" />
       <geometry>
         <mesh
-          filename="../meshes/fourier_hand_6dof/L_pinky_intermediate_link.STL" />
+          filename="../meshes/fourier_hand_12dof/L_pinky_intermediate_link.STL" />
       </geometry>
     </collision>
   </link>
@@ -2153,23 +2193,19 @@
     name="L_pinky_intermediate_joint"
     type="revolute">
     <origin
-      xyz="0.030933 -0.0081952 0"
-      rpy="-9.8304E-05 0.00031806 -0.32129" />
+      xyz="0.038948 0.0020202 0"
+      rpy="0 -0.0013299 -0.20067" />
     <parent
       link="L_pinky_proximal_link" />
     <child
       link="L_pinky_intermediate_link" />
     <axis
-      xyz="0 0 1" />
+      xyz="0.0013299 0 1" />
     <limit
-      lower="-1.532"
+      lower="-1.5708"
       upper="0"
-      effort="10"
-      velocity="0.8" />
-    <mimic
-      joint="L_pinky_proximal_joint"
-      multiplier="1.019"
-      offset="0" />
+      effort="0"
+      velocity="0" />
   </joint>
 
   <link name="L_pinky_tip_link">
@@ -2188,10 +2224,8 @@
   <joint name="L_pinky_tip_joint" type="fixed">
     <parent link="L_pinky_intermediate_link" />
     <child link="L_pinky_tip_link" />
-    <origin rpy="0 0 0" xyz="0.031 0 0" />
+    <origin rpy="0 0 0" xyz="0.038 0.001 0" />
   </joint>
-
-
 
 
 
@@ -2199,17 +2233,17 @@
     name="right_upper_arm_pitch_link">
     <inertial>
       <origin
-        xyz="0.00338 -0.05364 0.00021"
+        xyz="0.00324 -0.0533 0.000185"
         rpy="0 0 0" />
       <mass
-        value="0.82" />
+        value="0.81" />
       <inertia
-        ixx="0.0020452"
-        ixy="0.00011066"
-        ixz="-3.5E-07"
-        iyy="0.00050607"
-        iyz="-3.27E-06"
-        izz="0.0019775"/>
+        ixx="0.00203"
+        ixy="0.000104"
+        ixz="2.96E-7"
+        iyy="0.000499"
+        iyz="-1.1E-6"
+        izz="0.001960" />
     </inertial>
     <visual>
       <origin
@@ -2217,7 +2251,7 @@
         rpy="0 0 0" />
       <geometry>
         <mesh
-          filename="../meshes/gr1t2/right_upper_arm_pitch_link.STL" />
+          filename="../meshes/gr1t1/right_upper_arm_pitch_link.STL" />
       </geometry>
       <material
         name="">
@@ -2231,7 +2265,7 @@
         rpy="0 0 0" />
       <geometry>
         <mesh
-          filename="../meshes/gr1t2/right_upper_arm_pitch_link.STL" />
+          filename="../meshes/gr1t1/right_upper_arm_pitch_link.STL" />
       </geometry>
     </collision> -->
   </link>
@@ -2239,8 +2273,8 @@
     name="right_shoulder_pitch_joint"
     type="revolute">
     <origin
-      xyz="0 -0.10128 0.046651"
-      rpy="-0.43275 0 0" />
+      xyz="0 -0.10111 0.047149"
+      rpy="-0.43633 0 0" />
     <parent
       link="torso_link" />
     <child
@@ -2257,17 +2291,17 @@
     name="right_upper_arm_roll_link">
     <inertial>
       <origin
-        xyz="0.004503 -0.0174 -0.02398"
+        xyz="0.00342 -0.0147 -0.0232"
         rpy="0 0 0" />
       <mass
-        value="0.61" />
+        value="0.5" />
       <inertia
-        ixx="0.0010174"
-        ixy="-8.4E-07"
-        ixz="-2.687E-05"
-        iyy="0.0008033"
-        iyz="-0.00031043"
-        izz="0.00056542" />
+        ixx="0.000875"
+        ixy="1.598E-5"
+        ixz="2.96E-6"
+        iyy="0.000696"
+        iyz="-0.0002866"
+        izz="0.0004121" />
     </inertial>
     <visual>
       <origin
@@ -2275,7 +2309,7 @@
         rpy="0 0 0" />
       <geometry>
         <mesh
-          filename="../meshes/gr1t2/right_upper_arm_roll_link.STL" />
+          filename="../meshes/gr1t1/right_upper_arm_roll_link.STL" />
       </geometry>
       <material
         name="">
@@ -2289,7 +2323,7 @@
         rpy="0 0 0" />
       <geometry>
         <mesh
-          filename="../meshes/gr1t2/right_upper_arm_roll_link.STL" />
+          filename="../meshes/gr1t1/right_upper_arm_roll_link.STL" />
       </geometry>
     </collision> -->
   </link>
@@ -2298,7 +2332,7 @@
     type="revolute">
     <origin
       xyz="0 -0.09515 0"
-      rpy="0.43275 0 0" />
+      rpy="0.43633 0 0" />
     <parent
       link="right_upper_arm_pitch_link" />
     <child
@@ -2306,7 +2340,7 @@
     <axis
       xyz="1 0 0" />
     <limit
-      lower="-2.53"
+      lower="-3.27"
       upper="0.57"
       effort="38"
       velocity="9.11" />
@@ -2315,17 +2349,17 @@
     name="right_upper_arm_yaw_link">
     <inertial>
       <origin
-        xyz="-1E-5 0.0002 -0.08761"
+        xyz="7.6E-5 -0.002032 -0.08519"
         rpy="0 0 0" />
       <mass
-        value="0.54" />
+        value="0.55" />
       <inertia
-        ixx="0.0035706"
-        ixy="3E-08"
-        ixz="7E-08"
-        iyy="0.0035441"
-        iyz="-4.555E-05"
-        izz="0.00026029" />
+        ixx="0.003543"
+        ixy="-1.9E-7"
+        ixz="-1.49E-6"
+        iyy="0.003536"
+        iyz="-9.89E-5"
+        izz="0.0002512" />
     </inertial>
     <visual>
       <origin
@@ -2333,7 +2367,7 @@
         rpy="0 0 0" />
       <geometry>
         <mesh
-          filename="../meshes/gr1t2/right_upper_arm_yaw_link.STL" />
+          filename="../meshes/gr1t1/right_upper_arm_yaw_link.STL" />
       </geometry>
       <material
         name="">
@@ -2352,7 +2386,7 @@
     name="right_shoulder_yaw_joint"
     type="revolute">
     <origin
-      xyz="0 -0.04 -0.0709"
+      xyz="0 -0.04 -0.07095"
       rpy="0 0 0" />
     <parent
       link="right_upper_arm_roll_link" />
@@ -2370,17 +2404,17 @@
     name="right_lower_arm_pitch_link">
     <inertial>
       <origin
-        xyz="0 -0.008102 -0.02528"
+        xyz="-1.69E-6 -0.007855 -0.02549"
         rpy="0 0 0" />
       <mass
-        value="0.33" />
+        value="0.32" />
       <inertia
-        ixx="0.00029558"
-        ixy="2E-08"
-        ixz="-7E-08"
-        iyy="0.000287"
-        iyz="5.014E-05"
-        izz="0.000112" />
+        ixx="0.0002914"
+        ixy="2E-8"
+        ixz="1E-8"
+        iyy="0.0002847"
+        iyz="4.85E-5"
+        izz="0.000109" />
     </inertial>
     <visual>
       <origin
@@ -2388,7 +2422,7 @@
         rpy="0 0 0" />
       <geometry>
         <mesh
-          filename="../meshes/gr1t2/right_lower_arm_pitch_link.STL" />
+          filename="../meshes/gr1t1/right_lower_arm_pitch_link.STL" />
       </geometry>
       <material
         name="">
@@ -2402,7 +2436,7 @@
         rpy="0 0 0" />
       <geometry>
         <mesh
-          filename="../meshes/gr1t2/right_lower_arm_pitch_link.STL" />
+          filename="../meshes/gr1t1/right_lower_arm_pitch_link.STL" />
       </geometry>
     </collision> -->
   </link>
@@ -2410,7 +2444,7 @@
     name="right_elbow_pitch_joint"
     type="revolute">
     <origin
-      xyz="0 -0.0010503 -0.1786"
+      xyz="0 0 -0.1751"
       rpy="0 0 0" />
     <parent
       link="right_upper_arm_yaw_link" />
@@ -2428,17 +2462,17 @@
     name="right_hand_yaw_link">
     <inertial>
       <origin
-        xyz="0.00047 -0.00196 -0.07239"
+        xyz="3.90E-5 -0.00212 -0.06117"
         rpy="0 0 0" />
       <mass
-        value="0.99" />
+        value="0.89" />
       <inertia
-        ixx="0.0025979"
-        ixy="3.47E-06"
-        ixz="2.86E-06"
-        iyy="0.0025255"
-        iyz="1.62E-05"
-        izz="0.00049776" />
+        ixx="0.001866"
+        ixy="3E-7"
+        ixz="-1.091E-5"
+        iyy="0.001862"
+        iyz="-1.679E-5"
+        izz="0.0003211" />
     </inertial>
     <visual>
       <origin
@@ -2446,7 +2480,7 @@
         rpy="0 0 0" />
       <geometry>
         <mesh
-          filename="../meshes/gr1t2/right_hand_yaw_link.STL" />
+          filename="../meshes/gr1t1/right_hand_yaw_link.STL" />
       </geometry>
       <material
         name="">
@@ -2465,7 +2499,7 @@
     name="right_wrist_yaw_joint"
     type="revolute">
     <origin
-      xyz="0 0 -0.05945"
+      xyz="0 -5.033E-05 -0.05395"
       rpy="0 0 0" />
     <parent
       link="right_lower_arm_pitch_link" />
@@ -2483,17 +2517,17 @@
     name="right_hand_roll_link">
     <inertial>
       <origin
-        xyz="0 0 0"
+        xyz="0 -0.00129 -0.0117"
         rpy="0 0 0" />
       <mass
-        value="0.005" />
+        value="0.0295" />
       <inertia
-        ixx="7E-8"
+        ixx="5.38E-6"
         ixy="0"
         ixz="0"
-        iyy="3.5E-7"
-        iyz="0"
-        izz="3.5E-7" />
+        iyy="1E-5"
+        iyz="4.6E-7"
+        izz="8.92E-6" />
     </inertial>
     <visual>
       <origin
@@ -2501,7 +2535,7 @@
         rpy="0 0 0" />
       <geometry>
         <mesh
-          filename="../meshes/gr1t2/right_hand_roll_link.STL" />
+          filename="../meshes/gr1t1/right_hand_roll_link.STL" />
       </geometry>
       <material
         name="">
@@ -2515,7 +2549,7 @@
         rpy="0 0 0" />
       <geometry>
         <mesh
-          filename="../meshes/gr1t2/right_hand_roll_link.STL" />
+          filename="../meshes/gr1t1/right_hand_roll_link.STL" />
       </geometry>
     </collision> -->
   </link>
@@ -2523,7 +2557,7 @@
     name="right_wrist_roll_joint"
     type="revolute">
     <origin
-      xyz="0 0 -0.19115"
+      xyz="0 0 -0.18765"
       rpy="0 0 0" />
     <parent
       link="right_hand_yaw_link" />
@@ -2541,17 +2575,17 @@
     name="right_hand_pitch_link">
     <inertial>
       <origin
-        xyz="0 -0.00567 -0.00938"
+        xyz="0 -0.00129 -0.0117"
         rpy="0 0 0" />
       <mass
-        value="0.05" />
+        value="0.0295" />
       <inertia
-        ixx="1.065E-5"
+        ixx="5.38E-6"
         ixy="0"
         ixz="0"
-        iyy="1.96E-5"
-        iyz="1.1E-6"
-        izz="2.022E-5" />
+        iyy="1E-5"
+        iyz="4.6E-7"
+        izz="8.92E-6" />
     </inertial>
     <visual>
       <origin
@@ -2559,7 +2593,7 @@
         rpy="0 0 0" />
       <geometry>
         <mesh
-          filename="../meshes/gr1t2/right_hand_pitch_link.STL" />
+          filename="../meshes/gr1t1/right_hand_pitch_link.STL" />
       </geometry>
       <material
         name="">
@@ -2573,7 +2607,7 @@
         rpy="0 0 0" />
       <geometry>
         <mesh
-          filename="../meshes/gr1t2/right_hand_pitch_link.STL" />
+          filename="../meshes/gr1t1/right_hand_pitch_link.STL" />
       </geometry>
     </collision> -->
   </link>
@@ -2604,7 +2638,7 @@
     name="right_end_effector_joint"
     type="fixed">
     <origin
-      xyz="0 0 -0.021"
+      xyz="0 0 -0.023"
       rpy="0 0 0" />
     <parent
       link="right_hand_pitch_link" />
@@ -2613,22 +2647,21 @@
   </joint>
 
 
-
   <link
     name="R_hand_base_link">
     <inertial>
       <origin
-        xyz="-0.00046411 0.00916118 -0.04313895"
+        xyz="-0.0031 0.00970 -0.0440"
         rpy="0 0 0" />
       <mass
-        value="0.306" />
+        value="0.281" />
       <inertia
-        ixx="0.00030404"
-        ixy="4.9E-07"
-        ixz="-3E-08"
-        iyy="0.00041091"
-        iyz="1E-08"
-        izz="0.00019509" />
+        ixx="0.000343"
+        ixy="2.91E-06"
+        ixz="9.85E-06"
+        iyy="0.000474"
+        iyz="1.066E-5"
+        izz="0.000217" />
     </inertial>
     <visual>
       <origin
@@ -2636,7 +2669,7 @@
         rpy="0 0 0" />
       <geometry>
         <mesh
-          filename="../meshes/fourier_hand_6dof/R_hand_base_link.STL" />
+          filename="../meshes/fourier_hand_12dof/R_hand_base_link.STL" />
       </geometry>
       <material
         name="">
@@ -2650,7 +2683,7 @@
         rpy="0 0 0" />
       <geometry>
         <mesh
-          filename="../meshes/fourier_hand_6dof/R_hand_base_link.STL" />
+          filename="../meshes/fourier_hand_12dof/R_hand_base_link.STL" />
       </geometry>
     </collision>
   </link>
@@ -2668,20 +2701,20 @@
       xyz="0 0 0" />
   </joint>
   <link
-    name="R_thumb_proximal_base_link">
+    name="R_thumb_proximal_yaw_link">
     <inertial>
       <origin
-        xyz="0.01102125 -2.455E-05 -0.00077678"
+        xyz="0.010856 -0.001425 -0.000443"
         rpy="0 0 0" />
       <mass
-        value="0.00948218" />
+        value="0.04" />
       <inertia
-        ixx="3E-07"
-        ixy="1E-08"
-        ixz="4E-08"
-        iyy="9.5E-07"
-        iyz="1E-08"
-        izz="9.7E-07" />
+        ixx="4.48E-6"
+        ixy="7E-7"
+        ixz="7.4E-7"
+        iyy="7.55E-6"
+        iyz="-6E-8"
+        izz="6.88E-06" />
     </inertial>
     <visual>
       <origin
@@ -2689,7 +2722,7 @@
         rpy="0 0 0" />
       <geometry>
         <mesh
-          filename="../meshes/fourier_hand_6dof/R_thumb_proximal_base_link.STL" />
+          filename="../meshes/fourier_hand_12dof/R_thumb_proximal_yaw_link.STL" />
       </geometry>
       <material
         name="">
@@ -2703,7 +2736,7 @@
         rpy="0 0 0" />
       <geometry>
         <mesh
-          filename="../meshes/fourier_hand_6dof/R_thumb_proximal_base_link.STL" />
+          filename="../meshes/fourier_hand_12dof/R_thumb_proximal_yaw_link.STL" />
       </geometry>
     </collision>
   </link>
@@ -2711,35 +2744,35 @@
     name="R_thumb_proximal_yaw_joint"
     type="revolute">
     <origin
-      xyz="0.021995 0.015502 -0.024995"
+      xyz="0.014 0.012 -0.023196"
       rpy="3.1416 0 0" />
     <parent
       link="R_hand_base_link" />
     <child
-      link="R_thumb_proximal_base_link" />
+      link="R_thumb_proximal_yaw_link" />
     <axis
       xyz="0 0 1" />
     <limit
-      lower="-1.715"
+      lower="-1.4661"
       upper="0"
-      effort="10"
-      velocity="0.8" />
+      effort="0"
+      velocity="0" />
   </joint>
   <link
-    name="R_thumb_proximal_link">
+    name="R_thumb_proximal_pitch_link">
     <inertial>
       <origin
-        xyz="0.03218903 0.000287 -2.839E-05"
+        xyz="0.026421 -0.001244 3.22E-06"
         rpy="0 0 0" />
       <mass
-        value="0.07405243" />
+        value="0.0415" />
       <inertia
-        ixx="1.132E-05"
-        ixy="-1.7E-07"
-        ixz="4E-08"
-        iyy="3.228E-05"
-        iyz="-1E-08"
-        izz="3.419E-05" />
+        ixx="5.78E-06"
+        ixy="4.3E-7"
+        ixz="0"
+        iyy="1.328E-05"
+        iyz="0"
+        izz="1.39E-05" />
     </inertial>
     <visual>
       <origin
@@ -2747,7 +2780,7 @@
         rpy="0 0 0" />
       <geometry>
         <mesh
-          filename="../meshes/fourier_hand_6dof/R_thumb_proximal_link.STL" />
+          filename="../meshes/fourier_hand_12dof/R_thumb_proximal_pitch_link.STL" />
       </geometry>
       <material
         name="">
@@ -2761,7 +2794,7 @@
         rpy="0 0 0" />
       <geometry>
         <mesh
-          filename="../meshes/fourier_hand_6dof/R_thumb_proximal_link.STL" />
+          filename="../meshes/fourier_hand_12dof/R_thumb_proximal_pitch_link.STL" />
       </geometry>
     </collision>
   </link>
@@ -2769,35 +2802,35 @@
     name="R_thumb_proximal_pitch_joint"
     type="revolute">
     <origin
-      xyz="0.02175 -0.00010875 0"
-      rpy="1.5709 1.2552E-05 -0.005" />
+      xyz="0.034322 -0.0054361 -0.001"
+      rpy="1.5708 0 -0.15708" />
     <parent
-      link="R_thumb_proximal_base_link" />
+      link="R_thumb_proximal_yaw_link" />
     <child
-      link="R_thumb_proximal_link" />
+      link="R_thumb_proximal_pitch_link" />
     <axis
       xyz="0 0 1" />
     <limit
       lower="0"
-      upper="1.215"
-      effort="10"
-      velocity="0.8" />
+      upper="1.274"
+      effort="0"
+      velocity="0" />
   </joint>
   <link
     name="R_thumb_distal_link">
     <inertial>
       <origin
-        xyz="0.01373199 -0.00277415 0"
+        xyz="0.01864 -0.005137 1.57E-05"
         rpy="0 0 0" />
       <mass
-        value="0.01974135" />
+        value="0.0198" />
       <inertia
-        ixx="9E-07"
-        ixy="-9E-08"
+        ixx="1.15E-06"
+        ixy="-6E-8"
         ixz="0"
-        iyy="2.33E-06"
+        iyy="3.43E-06"
         iyz="0"
-        izz="2.19E-06" />
+        izz="3.24E-06" />
     </inertial>
     <visual>
       <origin
@@ -2805,7 +2838,7 @@
         rpy="0 0 0" />
       <geometry>
         <mesh
-          filename="../meshes/fourier_hand_6dof/R_thumb_distal_link.STL" />
+          filename="../meshes/fourier_hand_12dof/R_thumb_distal_link.STL" />
       </geometry>
       <material
         name="">
@@ -2819,7 +2852,7 @@
         rpy="0 0 0" />
       <geometry>
         <mesh
-          filename="../meshes/fourier_hand_6dof/R_thumb_distal_link.STL" />
+          filename="../meshes/fourier_hand_12dof/R_thumb_distal_link.STL" />
       </geometry>
     </collision>
   </link>
@@ -2827,23 +2860,19 @@
     name="R_thumb_distal_joint"
     type="revolute">
     <origin
-      xyz="0.061388 0.0086932 0"
-      rpy="0 -8.6792E-05 -0.012198" />
+      xyz="0.05175 0.0050976 0"
+      rpy="0 0 0.071635" />
     <parent
-      link="R_thumb_proximal_link" />
+      link="R_thumb_proximal_pitch_link" />
     <child
       link="R_thumb_distal_link" />
     <axis
       xyz="0 0 1" />
     <limit
       lower="0"
-      upper="1.025"
-      effort="10"
-      velocity="0.8" />
-    <mimic
-      joint="R_thumb_proximal_pitch_joint"
-      multiplier="0.8435"
-      offset="0" />
+      upper="1.3614"
+      effort="0"
+      velocity="0" />
   </joint>
 
   <link name="R_thumb_tip_link">
@@ -2862,25 +2891,24 @@
   <joint name="R_thumb_tip_joint" type="fixed">
     <parent link="R_thumb_distal_link" />
     <child link="R_thumb_tip_link" />
-    <origin rpy="0 0 0" xyz="0.031 0 0" />
+    <origin rpy="0 0 0" xyz="0.035 -0.001 0" />
   </joint>
 
-
   <link
-    name="R_index_proximal_link">
+    name="R_index_metacarpal_link">
     <inertial>
       <origin
-        xyz="0.00959983 0.0004431 2.96E-06"
+        xyz="-0.00913 0.003944 0"
         rpy="0 0 0" />
       <mass
-        value="0.01911771" />
+        value="0.0321" />
       <inertia
-        ixx="8.6E-07"
-        ixy="1.2E-07"
+        ixx="1.09E-06"
+        ixy="1.85E-06"
         ixz="0"
-        iyy="3.71E-06"
+        iyy="7.7E-06"
         iyz="0"
-        izz="3.85E-06" />
+        izz="7.94E-06" />
     </inertial>
     <visual>
       <origin
@@ -2888,7 +2916,7 @@
         rpy="0 0 0" />
       <geometry>
         <mesh
-          filename="../meshes/fourier_hand_6dof/R_index_proximal_link.STL" />
+          filename="../meshes/fourier_hand_12dof/R_index_metacarpal_link.STL" />
       </geometry>
       <material
         name="">
@@ -2902,7 +2930,65 @@
         rpy="0 0 0" />
       <geometry>
         <mesh
-          filename="../meshes/fourier_hand_6dof/R_index_proximal_link.STL" />
+          filename="../meshes/fourier_hand_12dof/R_index_metacarpal_link.STL" />
+      </geometry>
+    </collision>
+  </link>
+  <joint
+    name="R_index_metacarpal_joint"
+    type="revolute">
+    <origin
+      xyz="0.0305 0.0118 -0.088496"
+      rpy="-3.1416 1.4588 0" />
+    <parent
+      link="R_hand_base_link" />
+    <child
+      link="R_index_metacarpal_link" />
+    <axis
+      xyz="0 1 0" />
+    <limit
+      lower="-0.0524"
+      upper="0.2618"
+      effort="0"
+      velocity="0" />
+  </joint>
+  <link
+    name="R_index_proximal_link">
+    <inertial>
+      <origin
+        xyz="0.017361 0.0045 0"
+        rpy="0 0 0" />
+      <mass
+        value="0.0358" />
+      <inertia
+        ixx="3.91E-06"
+        ixy="-2.7E-7"
+        ixz="0"
+        iyy="7.43E-06"
+        iyz="0"
+        izz="7.77E-06" />
+    </inertial>
+    <visual>
+      <origin
+        xyz="0 0 0"
+        rpy="0 0 0" />
+      <geometry>
+        <mesh
+          filename="../meshes/fourier_hand_12dof/R_index_proximal_link.STL" />
+      </geometry>
+      <material
+        name="">
+        <color
+          rgba="1 1 1 1" />
+      </material>
+    </visual>
+    <collision>
+      <origin
+        xyz="0 0 0"
+        rpy="0 0 0" />
+      <geometry>
+        <mesh
+          filename="../meshes/fourier_hand_12dof/R_index_proximal_link.STL" />
       </geometry>
     </collision>
   </link>
@@ -2910,35 +2996,35 @@
     name="R_index_proximal_joint"
     type="revolute">
     <origin
-      xyz="0.026864 0.012307 -0.095892"
-      rpy="-3.1403 1.5184 0.0013039" />
+      xyz="0.012 0.0005 0"
+      rpy="0 0 0" />
     <parent
-      link="R_hand_base_link" />
+      link="R_index_metacarpal_link" />
     <child
       link="R_index_proximal_link" />
     <axis
       xyz="0 0 1" />
     <limit
-      lower="-1.515"
+      lower="-1.5185"
       upper="0"
-      effort="10"
-      velocity="0.8" />
+      effort="0"
+      velocity="0" />
   </joint>
   <link
     name="R_index_intermediate_link">
     <inertial>
       <origin
-        xyz="0.01800441 0.00299919 -9.23E-06"
+        xyz="0.0224 0.002908 1.624E-5"
         rpy="0 0 0" />
       <mass
-        value="0.01292544" />
+        value="0.0199" />
       <inertia
-        ixx="3.7E-07"
-        ixy="2.5E-07"
-        ixz="0"
-        iyy="2.01E-06"
+        ixx="8.4E-7"
+        ixy="4E-8"
+        ixz="1E-8"
+        iyy="4.82E-6"
         iyz="0"
-        izz="2.04E-06" />
+        izz="4.72E-6" />
     </inertial>
     <visual>
       <origin
@@ -2946,7 +3032,7 @@
         rpy="0 0 0" />
       <geometry>
         <mesh
-          filename="../meshes/fourier_hand_6dof/R_index_intermediate_link.STL" />
+          filename="../meshes/fourier_hand_12dof/R_index_intermediate_link.STL" />
       </geometry>
       <material
         name="">
@@ -2960,7 +3046,7 @@
         rpy="0 0 0" />
       <geometry>
         <mesh
-          filename="../meshes/fourier_hand_6dof/R_index_intermediate_link.STL" />
+          filename="../meshes/fourier_hand_12dof/R_index_intermediate_link.STL" />
       </geometry>
     </collision>
   </link>
@@ -2968,8 +3054,8 @@
     name="R_index_intermediate_joint"
     type="revolute">
     <origin
-      xyz="0.031029 -0.0078234 0"
-      rpy="0 0.00014029 -0.2501" />
+      xyz="0.038948 0.0020202 0"
+      rpy="0 0 -0.19585" />
     <parent
       link="R_index_proximal_link" />
     <child
@@ -2977,14 +3063,10 @@
     <axis
       xyz="0 0 1" />
     <limit
-      lower="-1.582"
+      lower="-1.5708"
       upper="0"
-      effort="10"
-      velocity="0.8" />
-    <mimic
-      joint="R_index_proximal_joint"
-      multiplier="1.044"
-      offset="0" />
+      effort="0"
+      velocity="0" />
   </joint>
 
   <link name="R_index_tip_link">
@@ -3003,25 +3085,24 @@
   <joint name="R_index_tip_joint" type="fixed">
     <parent link="R_index_intermediate_link" />
     <child link="R_index_tip_link" />
-    <origin rpy="0 0 0" xyz="0.038 -0.0015 0" />
+    <origin rpy="0 0 0" xyz="0.047 0.001 0" />
   </joint>
-
 
   <link
     name="R_middle_proximal_link">
     <inertial>
       <origin
-        xyz="0.00955708 0.00071862 2.96E-06"
+        xyz="0.017361 0.0045 0"
         rpy="0 0 0" />
       <mass
-        value="0.01911771" />
+        value="0.0358" />
       <inertia
-        ixx="8.6E-07"
-        ixy="6E-08"
+        ixx="3.91E-06"
+        ixy="-2.7E-7"
         ixz="0"
-        iyy="3.72E-06"
+        iyy="7.43E-06"
         iyz="0"
-        izz="3.85E-06" />
+        izz="7.77E-06" />
     </inertial>
     <visual>
       <origin
@@ -3029,7 +3110,7 @@
         rpy="0 0 0" />
       <geometry>
         <mesh
-          filename="../meshes/fourier_hand_6dof/R_middle_proximal_link.STL" />
+          filename="../meshes/fourier_hand_12dof/R_middle_proximal_link.STL" />
       </geometry>
       <material
         name="">
@@ -3043,7 +3124,7 @@
         rpy="0 0 0" />
       <geometry>
         <mesh
-          filename="../meshes/fourier_hand_6dof/R_middle_proximal_link.STL" />
+          filename="../meshes/fourier_hand_12dof/R_middle_proximal_link.STL" />
       </geometry>
     </collision>
   </link>
@@ -3051,8 +3132,8 @@
     name="R_middle_proximal_joint"
     type="revolute">
     <origin
-      xyz="0.0084962 0.012307 -0.097896"
-      rpy="-1.7476 1.5707 1.394" />
+      xyz="0.0095 0.0113 -0.10005"
+      rpy="3.1416 1.5708 0" />
     <parent
       link="R_hand_base_link" />
     <child
@@ -3060,26 +3141,26 @@
     <axis
       xyz="0 0 1" />
     <limit
-      lower="-1.503"
+      lower="-1.5185"
       upper="0"
-      effort="10"
-      velocity="0.8" />
+      effort="0"
+      velocity="0" />
   </joint>
   <link
     name="R_middle_intermediate_link">
     <inertial>
       <origin
-        xyz="0.02128 0.0040831 -9.98E-06"
+        xyz="0.02470 0.003230 -1.394E-5"
         rpy="0 0 0" />
       <mass
-        value="0.01535" />
+        value="0.0234" />
       <inertia
-        ixx="4.1E-07"
-        ixy="2.2E-07"
-        ixz="0"
-        iyy="3.28E-06"
+        ixx="1.01E-6"
+        ixy="-4E-8"
+        ixz="1E-8"
+        iyy="6.94E-6"
         iyz="0"
-        izz="3.29E-06" />
+        izz="6.82E-6" />
     </inertial>
     <visual>
       <origin
@@ -3087,7 +3168,7 @@
         rpy="0 0 0" />
       <geometry>
         <mesh
-          filename="../meshes/fourier_hand_6dof/R_middle_intermediate_link.STL" />
+          filename="../meshes/fourier_hand_12dof/R_middle_intermediate_link.STL" />
       </geometry>
       <material
         name="">
@@ -3101,7 +3182,7 @@
         rpy="0 0 0" />
       <geometry>
         <mesh
-          filename="../meshes/fourier_hand_6dof/R_middle_intermediate_link.STL" />
+          filename="../meshes/fourier_hand_12dof/R_middle_intermediate_link.STL" />
       </geometry>
     </collision>
   </link>
@@ -3109,8 +3190,8 @@
     name="R_middle_intermediate_joint"
     type="revolute">
     <origin
-      xyz="0.030933 -0.0081952 0"
-      rpy="-3.5027E-05 0.00014792 -0.23244" />
+      xyz="0.038948 0.0020202 0"
+      rpy="0 0 -0.19218" />
     <parent
       link="R_middle_proximal_link" />
     <child
@@ -3118,14 +3199,10 @@
     <axis
       xyz="0 0 1" />
     <limit
-      lower="-1.601"
+      lower="-1.5708"
       upper="0"
-      effort="10"
-      velocity="0.8" />
-    <mimic
-      joint="R_middle_proximal_joint"
-      multiplier="1.065"
-      offset="0" />
+      effort="0"
+      velocity="0" />
   </joint>
 
   <link name="R_middle_tip_link">
@@ -3144,7 +3221,7 @@
   <joint name="R_middle_tip_joint" type="fixed">
     <parent link="R_middle_intermediate_link" />
     <child link="R_middle_tip_link" />
-    <origin rpy="0 0 0" xyz="0.045 -0.0005 0" />
+    <origin rpy="0 0 0" xyz="0.055 0.0012 0" />
   </joint>
 
 
@@ -3152,17 +3229,17 @@
     name="R_ring_proximal_link">
     <inertial>
       <origin
-        xyz="0.00959986 0.00044244 2.96E-06"
+        xyz="0.017361 0.0045 0"
         rpy="0 0 0" />
       <mass
-        value="0.01911771" />
+        value="0.035778" />
       <inertia
-        ixx="8.6E-07"
-        ixy="1.2E-07"
+        ixx="3.91E-06"
+        ixy="-2.7E-7"
         ixz="0"
-        iyy="3.71E-06"
+        iyy="7.43E-06"
         iyz="0"
-        izz="3.85E-06" />
+        izz="7.77E-06" />
     </inertial>
     <visual>
       <origin
@@ -3170,7 +3247,7 @@
         rpy="0 0 0" />
       <geometry>
         <mesh
-          filename="../meshes/fourier_hand_6dof/R_ring_proximal_link.STL" />
+          filename="../meshes/fourier_hand_12dof/R_ring_proximal_link.STL" />
       </geometry>
       <material
         name="">
@@ -3184,7 +3261,7 @@
         rpy="0 0 0" />
       <geometry>
         <mesh
-          filename="../meshes/fourier_hand_6dof/R_ring_proximal_link.STL" />
+          filename="../meshes/fourier_hand_12dof/R_ring_proximal_link.STL" />
       </geometry>
     </collision>
   </link>
@@ -3192,7 +3269,7 @@
     name="R_ring_proximal_joint"
     type="revolute">
     <origin
-      xyz="-0.009965 0.012307 -0.097841"
+      xyz="-0.010987 0.0113 -0.10003"
       rpy="0 1.5184 3.1416" />
     <parent
       link="R_hand_base_link" />
@@ -3201,26 +3278,26 @@
     <axis
       xyz="0 0 1" />
     <limit
-      lower="-1.512"
+      lower="-1.5185"
       upper="0"
-      effort="10"
-      velocity="0.8" />
+      effort="0"
+      velocity="0" />
   </joint>
   <link
     name="R_ring_intermediate_link">
     <inertial>
       <origin
-        xyz="0.018005 0.002998 -9.23E-06"
+        xyz="0.0224 0.002908 1.624E-5"
         rpy="0 0 0" />
       <mass
-        value="0.012925" />
+        value="0.0199" />
       <inertia
-        ixx="3.7E-07"
-        ixy="2.5E-07"
-        ixz="0"
-        iyy="2.01E-06"
+        ixx="8.4E-7"
+        ixy="4E-8"
+        ixz="1E-8"
+        iyy="4.82E-6"
         iyz="0"
-        izz="2.04E-06" />
+        izz="4.72E-6" />
     </inertial>
     <visual>
       <origin
@@ -3228,7 +3305,7 @@
         rpy="0 0 0" />
       <geometry>
         <mesh
-          filename="../meshes/fourier_hand_6dof/R_ring_intermediate_link.STL" />
+          filename="../meshes/fourier_hand_12dof/R_ring_intermediate_link.STL" />
       </geometry>
       <material
         name="">
@@ -3242,7 +3319,7 @@
         rpy="0 0 0" />
       <geometry>
         <mesh
-          filename="../meshes/fourier_hand_6dof/R_ring_intermediate_link.STL" />
+          filename="../meshes/fourier_hand_12dof/R_ring_intermediate_link.STL" />
       </geometry>
     </collision>
   </link>
@@ -3250,8 +3327,8 @@
     name="R_ring_intermediate_joint"
     type="revolute">
     <origin
-      xyz="0.031005 -0.0079186 0"
-      rpy="-3.5741E-05 0.00014029 -0.27416" />
+      xyz="0.038948 0.0020202 0"
+      rpy="0 0 -0.19585" />
     <parent
       link="R_ring_proximal_link" />
     <child
@@ -3259,14 +3336,10 @@
     <axis
       xyz="0 0 1" />
     <limit
-      lower="-1.561"
+      lower="-1.5708"
       upper="0"
-      effort="10"
-      velocity="0.8" />
-    <mimic
-      joint="R_ring_proximal_joint"
-      multiplier="1.032"
-      offset="0" />
+      effort="0"
+      velocity="0" />
   </joint>
 
   <link name="R_ring_tip_link">
@@ -3285,7 +3358,7 @@
   <joint name="R_ring_tip_joint" type="fixed">
     <parent link="R_ring_intermediate_link" />
     <child link="R_ring_tip_link" />
-    <origin rpy="0 0 0" xyz="0.038 -0.0015 0" />
+    <origin rpy="0 0 0" xyz="0.045 0.001 0" />
   </joint>
 
 
@@ -3293,17 +3366,17 @@
     name="R_pinky_proximal_link">
     <inertial>
       <origin
-        xyz="0.00964414 9.378E-05 2.96E-06"
+        xyz="0.017361 0.0045 0"
         rpy="0 0 0" />
       <mass
-        value="0.01911771" />
+        value="0.0358" />
       <inertia
-        ixx="8.8E-07"
-        ixy="2E-07"
+        ixx="3.91E-06"
+        ixy="-2.7E-7"
         ixz="0"
-        iyy="3.7E-06"
+        iyy="7.43E-06"
         iyz="0"
-        izz="3.85E-06" />
+        izz="7.77E-06" />
     </inertial>
     <visual>
       <origin
@@ -3311,7 +3384,7 @@
         rpy="0 0 0" />
       <geometry>
         <mesh
-          filename="../meshes/fourier_hand_6dof/R_pinky_proximal_link.STL" />
+          filename="../meshes/fourier_hand_12dof/R_pinky_proximal_link.STL" />
       </geometry>
       <material
         name="">
@@ -3325,7 +3398,7 @@
         rpy="0 0 0" />
       <geometry>
         <mesh
-          filename="../meshes/fourier_hand_6dof/R_pinky_proximal_link.STL" />
+          filename="../meshes/fourier_hand_12dof/R_pinky_proximal_link.STL" />
       </geometry>
     </collision>
   </link>
@@ -3333,8 +3406,8 @@
     name="R_pinky_proximal_joint"
     type="revolute">
     <origin
-      xyz="-0.028232 0.012307 -0.095916"
-      rpy="-0.00065397 1.4661 3.1409" />
+      xyz="-0.031472 0.0113 -0.099245"
+      rpy="0 1.4661 3.1416" />
     <parent
       link="R_hand_base_link" />
     <child
@@ -3342,26 +3415,26 @@
     <axis
       xyz="0 0 1" />
     <limit
-      lower="-1.503"
+      lower="-1.5185"
       upper="0"
-      effort="10"
-      velocity="0.8" />
+      effort="0"
+      velocity="0" />
   </joint>
   <link
     name="R_pinky_intermediate_link">
     <inertial>
       <origin
-        xyz="0.0160962 0.00118598 -8.72E-06"
+        xyz="0.01875 0.00296 5.23E-6"
         rpy="0 0 0" />
       <mass
-        value="0.00568707" />
+        value="0.00812" />
       <inertia
-        ixx="1.7E-07"
-        ixy="1.3E-07"
-        ixz="0"
-        iyy="6.2E-07"
+        ixx="6.7E-7"
+        ixy="5E-8"
+        ixz="1E-8"
+        iyy="2.69E-06"
         iyz="0"
-        izz="6.7E-07" />
+        izz="2.6E-06" />
     </inertial>
     <visual>
       <origin
@@ -3369,7 +3442,7 @@
         rpy="0 0 0" />
       <geometry>
         <mesh
-          filename="../meshes/fourier_hand_6dof/R_pinky_intermediate_link.STL" />
+          filename="../meshes/fourier_hand_12dof/R_pinky_intermediate_link.STL" />
       </geometry>
       <material
         name="">
@@ -3383,7 +3456,7 @@
         rpy="0 0 0" />
       <geometry>
         <mesh
-          filename="../meshes/fourier_hand_6dof/R_pinky_intermediate_link.STL" />
+          filename="../meshes/fourier_hand_12dof/R_pinky_intermediate_link.STL" />
       </geometry>
     </collision>
   </link>
@@ -3391,23 +3464,19 @@
     name="R_pinky_intermediate_joint"
     type="revolute">
     <origin
-      xyz="0.030933 -0.0081952 0"
-      rpy="0 0.00031806 -0.32129" />
+      xyz="0.038948 0.0020202 0"
+      rpy="0 -0.0013299 -0.20067" />
     <parent
       link="R_pinky_proximal_link" />
     <child
       link="R_pinky_intermediate_link" />
     <axis
-      xyz="0 0 1" />
+      xyz="0.0013299 0 1" />
     <limit
-      lower="-1.532"
+      lower="-1.5708"
       upper="0"
-      effort="10"
-      velocity="0.8" />
-    <mimic
-      joint="R_pinky_proximal_joint"
-      multiplier="1.019"
-      offset="0" />
+      effort="0"
+      velocity="0" />
   </joint>
 
   <link name="R_pinky_tip_link">
@@ -3426,27 +3495,26 @@
   <joint name="R_pinky_tip_joint" type="fixed">
     <parent link="R_pinky_intermediate_link" />
     <child link="R_pinky_tip_link" />
-    <origin rpy="0 0 0" xyz="0.031 -0.0005 0" />
+    <origin rpy="0 0 0" xyz="0.038 0.001 0" />
   </joint>
 
 
 
-
   <link
-    name="head_roll_link">
+    name="head_yaw_link">
     <inertial>
       <origin
-        xyz="0.00425 0 0"
+        xyz="-0.0001367 -0.0001340 0.05313"
         rpy="0 0 0" />
       <mass
-        value="0.01" />
+        value="0.45" />
       <inertia
-        ixx="4.3E-7"
-        ixy="0"
-        ixz="0"
-        iyy="4.4E-7"
-        iyz="0"
-        izz="7.2E-7" />
+        ixx="0.0007357"
+        ixy="-8.7E-7"
+        ixz="1.075E-5"
+        iyy="0.0007692"
+        iyz="1.54E-6"
+        izz="0.0001691" />
     </inertial>
     <visual>
       <origin
@@ -3454,7 +3522,7 @@
         rpy="0 0 0" />
       <geometry>
         <mesh
-          filename="../meshes/gr1t2/head_roll_link.STL" />
+          filename="../meshes/gr1t1/head_yaw_link.STL" />
       </geometry>
       <material
         name="">
@@ -3468,7 +3536,65 @@
         rpy="0 0 0" />
       <geometry>
         <mesh
-          filename="../meshes/gr1t2/head_roll_link.STL" />
+          filename="../meshes/gr1t1/head_yaw_link.STL" />
+      </geometry>
+    </collision> -->
+  </link>
+  <joint
+    name="head_yaw_joint"
+    type="revolute">
+    <origin
+      xyz="0 0 0.17339"
+      rpy="0 0 0" />
+    <parent
+      link="torso_link" />
+    <child
+      link="head_yaw_link" />
+    <axis
+      xyz="0 0 1" />
+    <limit
+      lower="-2.71"
+      upper="2.71"
+      effort="3.95"
+      velocity="27.96" />
+  </joint>
+  <link
+    name="head_roll_link">
+    <inertial>
+      <origin
+        xyz="-3E-5 0.01418 -0.00267"
+        rpy="0 0 0" />
+      <mass
+        value="0.1267" />
+      <inertia
+        ixx="1.95e-5"
+        ixy="-1.57e-6"
+        ixz="-1.33e-6"
+        iyy="1.746e-5"
+        iyz="-1.44e-6"
+        izz="1.961e-5" />
+    </inertial>
+    <visual>
+      <origin
+        xyz="0 0 0"
+        rpy="0 0 0" />
+      <geometry>
+        <mesh
+          filename="../meshes/gr1t1/head_roll_link.STL" />
+      </geometry>
+      <material
+        name="">
+        <color
+          rgba="0.752941176470588 0.752941176470588 0.752941176470588 1" />
+      </material>
+    </visual>
+    <!-- <collision>
+      <origin
+        xyz="0 0 0"
+        rpy="0 0 0" />
+      <geometry>
+        <mesh
+          filename="../meshes/gr1t1/head_roll_link.STL" />
       </geometry>
     </collision> -->
   </link>
@@ -3476,10 +3602,10 @@
     name="head_roll_joint"
     type="revolute">
     <origin
-      xyz="0.002 0.0005184 0.14465"
+      xyz="0 -0.00105 0.14195"
       rpy="0 0 0" />
     <parent
-      link="torso_link" />
+      link="head_yaw_link" />
     <child
       link="head_roll_link" />
     <axis
@@ -3494,17 +3620,17 @@
     name="head_pitch_link">
     <inertial>
       <origin
-        xyz="-0.0021765 -4.1784E-07 0.017509"
+        xyz="0.02654 0.002225 -0.01063"
         rpy="0 0 0" />
       <mass
-        value="0.06" />
+        value="0.45" />
       <inertia
-        ixx="2.509E-05"
-        ixy="0"
-        ixz="-1.3E-06"
-        iyy="1.707E-05"
-        iyz="0"
-        izz="2.462E-05" />
+        ixx="0.001107"
+        ixy="1.689E-5"
+        ixz="0.0002775"
+        iyy="0.001414"
+        iyz="-8.33E-6"
+        izz="0.001518" />
     </inertial>
     <visual>
       <origin
@@ -3512,7 +3638,7 @@
         rpy="0 0 0" />
       <geometry>
         <mesh
-          filename="../meshes/gr1t2/head_pitch_link.STL" />
+          filename="../meshes/gr1t1/head_pitch_link.STL" />
       </geometry>
       <material
         name="">
@@ -3520,15 +3646,12 @@
           rgba="0.752941176470588 0.752941176470588 0.752941176470588 1" />
       </material>
     </visual>
-    <!-- <collision>
-      <origin
-        xyz="0 0 0"
-        rpy="0 0 0" />
+    <collision name="head_pitch_link.STL">
+      <origin xyz="0.018281080808229797 0 -0.01336201800288447" rpy="0 0 0"/>
       <geometry>
-        <mesh
-          filename="../meshes/gr1t2/head_pitch_link.STL" />
+        <sphere radius="0.1086868692306477"/>
       </geometry>
-    </collision> -->
+    </collision>
   </link>
   <joint
     name="head_pitch_joint"
@@ -3549,75 +3672,20 @@
       velocity="27.96" />
   </joint>
   <link
-    name="head_yaw_link">
+    name="IMU_link">
     <inertial>
       <origin
-        xyz="0.02710 -0.00206 0.09577"
-        rpy="0 0 0" />
-      <mass
-        value="1.58" />
-      <inertia
-        ixx="7.54439E-3"
-        ixy="7.210E-5"
-        ixz="9.5183E-4"
-        iyy="0.01013433"
-        iyz="5.051E-5"
-        izz="5.65975E-3" />
-    </inertial>
-    <visual>
-      <origin
-        xyz="0 0 0"
-        rpy="0 0 0" />
-      <geometry>
-        <mesh
-          filename="../meshes/gr1t2/head_yaw_link.STL" />
-      </geometry>
-      <material
-        name="">
-        <color
-          rgba="0.752941176470588 0.752941176470588 0.752941176470588 1" />
-      </material>
-    </visual>
-    <collision name="head_yaw_link.STL">
-      <origin xyz="0.018281080808229797 -0.0008800241069948287 0.0936201800288447" rpy="0 0 0"/>
-      <geometry>
-        <sphere radius="0.1186868692306477"/>
-      </geometry>
-    </collision>
-  </link>
-  <joint
-    name="head_yaw_joint"
-    type="revolute">
-    <origin
-      xyz="0 0 0.0513"
-      rpy="0 0 0" />
-    <parent
-      link="head_pitch_link" />
-    <child
-      link="head_yaw_link" />
-    <axis
-      xyz="0 0 1" />
-    <limit
-      lower="-2.71"
-      upper="2.71"
-      effort="3.95"
-      velocity="27.96" />
-  </joint>
-  <link
-    name="imu_link">
-    <inertial>
-      <origin
-        xyz="-0.062133 -1.5129E-06 -0.003126"
+        xyz="-0.0003275 0 -0.005737"
         rpy="0 0 0" />
       <mass
         value="0.05" />
       <inertia
-        ixx="1.125E-05"
+        ixx="1.122E-5"
         ixy="0"
-        ixz="8.8E-07"
-        iyy="1.67E-05"
+        ixz="-1.8E-7"
+        iyy="1.199E-5"
         iyz="0"
-        izz="1.983E-05" />
+        izz="1.442E-5" />
     </inertial>
     <visual>
       <origin
@@ -3625,7 +3693,7 @@
         rpy="0 0 0" />
       <geometry>
         <mesh
-          filename="../meshes/gr1t2/imu_link.STL" />
+          filename="../meshes/gr1t1/IMU_link.STL" />
       </geometry>
       <material
         name="">
@@ -3639,20 +3707,20 @@
         rpy="0 0 0" />
       <geometry>
         <mesh
-          filename="../meshes/gr1t2/imu_link.STL" />
+          filename="../meshes/gr1t1/IMU_link.STL" />
       </geometry>
     </collision> -->
   </link>
   <joint
-    name="imu_joint"
+    name="IMU_joint"
     type="fixed">
     <origin
-      xyz="0 0 -0.0595999999999995"
+      xyz="-0.064772 0 -0.0596"
       rpy="0 0 0" />
     <parent
       link="base_link" />
     <child
-      link="imu_link" />
+      link="IMU_link" />
     <axis
       xyz="0 0 0" />
   </joint>
