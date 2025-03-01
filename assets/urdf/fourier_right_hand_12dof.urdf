@@ -1,6 +1,6 @@
 <?xml version="1.0" encoding="utf-8"?>
 
-<!-- 10162024-alpha-1 -->
+<!-- 02282025-alpha-1 -->
 
 <robot
   name="fourier_right_hand_12dof">
@@ -31,7 +31,7 @@
       <material
         name="">
         <color
-          rgba="0.75294 0.75294 0.75294 1" />
+          rgba="1 1 1 1" />
       </material>
     </visual>
     <collision>
@@ -44,6 +44,19 @@
       </geometry>
     </collision>
   </link>
+  <!-- <joint
+    name="R_hand_base_joint"
+    type="fixed">
+    <origin
+      xyz="0 0 -0.021"
+      rpy="0 0 0" />
+    <parent
+      link="right_end_effector_link" />
+    <child
+      link="R_hand_base_link" />
+    <axis
+      xyz="0 0 0" />
+  </joint> -->
   <link
     name="R_thumb_proximal_yaw_link">
     <inertial>
@@ -71,7 +84,7 @@
       <material
         name="">
         <color
-          rgba="0.86667 0.86667 0.8902 1" />
+          rgba="1 1 1 1" />
       </material>
     </visual>
     <collision>
@@ -129,7 +142,7 @@
       <material
         name="">
         <color
-          rgba="0.75294 0.75294 0.75294 1" />
+          rgba="1 1 1 1" />
       </material>
     </visual>
     <collision>
@@ -187,7 +200,7 @@
       <material
         name="">
         <color
-          rgba="0.75294 0.75294 0.75294 1" />
+          rgba="1 1 1 1" />
       </material>
     </visual>
     <collision>
@@ -238,7 +251,6 @@
     <origin rpy="0 0 0" xyz="0.035 -0.001 0" />
   </joint>
 
-
   <link
     name="R_index_metacarpal_link">
     <inertial>
@@ -266,7 +278,7 @@
       <material
         name="">
         <color
-          rgba="0.75294 0.75294 0.75294 1" />
+          rgba="1 1 1 1" />
       </material>
     </visual>
     <collision>
@@ -324,7 +336,7 @@
       <material
         name="">
         <color
-          rgba="0.75294 0.75294 0.75294 1" />
+          rgba="1 1 1 1" />
       </material>
     </visual>
     <collision>
@@ -382,7 +394,7 @@
       <material
         name="">
         <color
-          rgba="0.75294 0.75294 0.75294 1" />
+          rgba="1 1 1 1" />
       </material>
     </visual>
     <collision>
@@ -433,7 +445,6 @@
     <origin rpy="0 0 0" xyz="0.047 0.001 0" />
   </joint>
 
-
   <link
     name="R_middle_proximal_link">
     <inertial>
@@ -461,7 +472,7 @@
       <material
         name="">
         <color
-          rgba="0.75294 0.75294 0.75294 1" />
+          rgba="1 1 1 1" />
       </material>
     </visual>
     <collision>
@@ -519,7 +530,7 @@
       <material
         name="">
         <color
-          rgba="0.75294 0.75294 0.75294 1" />
+          rgba="1 1 1 1" />
       </material>
     </visual>
     <collision>
@@ -598,7 +609,7 @@
       <material
         name="">
         <color
-          rgba="0.75294 0.75294 0.75294 1" />
+          rgba="1 1 1 1" />
       </material>
     </visual>
     <collision>
@@ -656,7 +667,7 @@
       <material
         name="">
         <color
-          rgba="0.75294 0.75294 0.75294 1" />
+          rgba="1 1 1 1" />
       </material>
     </visual>
     <collision>
@@ -735,7 +746,7 @@
       <material
         name="">
         <color
-          rgba="0.75294 0.75294 0.75294 1" />
+          rgba="1 1 1 1" />
       </material>
     </visual>
     <collision>
@@ -793,7 +804,7 @@
       <material
         name="">
         <color
-          rgba="0.75294 0.75294 0.75294 1" />
+          rgba="1 1 1 1" />
       </material>
     </visual>
     <collision>
@@ -817,7 +828,7 @@
     <child
       link="R_pinky_intermediate_link" />
     <axis
-      xyz="0 0 1" />
+      xyz="0.0013299 0 1" />
     <limit
       lower="-1.5708"
       upper="0"
