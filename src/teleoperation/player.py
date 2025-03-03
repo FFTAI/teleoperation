@@ -320,7 +320,7 @@ class TeleopRobot(DexRobot, CameraMixin):
 
         return left_pose, right_pose, head_pose
 
-    def control_hands(self, left_qpos: np.ndarray, right_qpos: np.ndarray):
+    def control_hands(self, left_qpos: np.ndarray, right_qpos: np.ndarray, return_real=False):
         """Control real hands
 
         Args:
@@ -334,7 +334,11 @@ class TeleopRobot(DexRobot, CameraMixin):
         self.left_hand.set_positions(left)  # type: ignore
         self.right_hand.set_positions(right)  # type: ignore
 
-        return np.hstack([left, right])
+        if return_real:
+            return np.hstack([left, right])
+        else:
+            actuated_indices = self.hand_retarget.cfg.actuated_indices
+            return np.hstack([left_qpos[actuated_indices], right_qpos[actuated_indices]])
 
     def control_joints(self):
         qpos = self.joint_filter.next(time.time(), self.q_real)

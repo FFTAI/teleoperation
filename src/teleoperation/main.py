@@ -270,7 +270,8 @@ def main(
                 or fsm.state == FSM.State.EPISODE_STARTED
                 or fsm.state == FSM.State.COLLECTING
             ):
-                filtered_hand_qpos = robot.control_hands(left_qpos, right_qpos)
+                # TODO: this is not actually filtered tho
+                filtered_hand_qpos = robot.control_hands(left_qpos, right_qpos, return_real=False)
                 qpos = robot.control_joints()
 
                 if fsm.state == FSM.State.COLLECTING and data_dict is not None:
@@ -278,6 +279,7 @@ def main(
                     left_pose = se3_to_xyzortho6d(left_wrist_mat)
                     right_pose = se3_to_xyzortho6d(right_wrist_mat)
                     head_pose = so3_to_ortho6d(head_mat)
+
                     data_dict.add_action(filtered_hand_qpos, qpos, np.hstack([left_pose, right_pose, head_pose]))
 
             if fsm.state == FSM.State.COLLECTING and data_dict is not None:

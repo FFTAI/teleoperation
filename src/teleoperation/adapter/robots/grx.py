@@ -106,11 +106,14 @@ class GR1Robot:
 
     def _safeguard(self):
         self._set_position_mode()
-        pd_control_kp = np.array(self._gains["pd_control_kp"])
-        pd_control_kd = np.array(self._gains["pd_control_kd"])
-        pd_control_kp[12, 13, 14, 18, 19, 20, 21, 25, 26, 27, 28] = 0.0
-        pd_control_kd[12, 13, 14, 18, 19, 20, 21, 25, 26, 27, 28] = 500.0
-        self.client.set_gains(pd_control_kp=pd_control_kp.tolist(), pd_control_kd=pd_control_kd.tolist())
+        # pd_control_kp = np.array(self._gains["pd_control_kp"])
+        # pd_control_kd = np.array(self._gains["pd_control_kd"])
+        # pd_control_kp[[12, 13, 14, 18, 19, 20, 21, 25, 26, 27, 28]] = 0.0
+        # pd_control_kd[[12, 13, 14, 18, 19, 20, 21, 25, 26, 27, 28]] = 500.0
+        # self.client.set_gains(pd_control_kp=pd_control_kp.tolist(), pd_control_kd=pd_control_kd.tolist())
+
+        self.client.set_gains(pd_control_kp=[0] * 32, pd_control_kd=[500] * 32)
+        self._gravity_compensation_on.clear()
 
     @property
     def joint_positions(self):
