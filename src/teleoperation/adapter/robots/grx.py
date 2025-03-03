@@ -79,20 +79,26 @@ class GR1Robot:
                 violation_cnt = 0
                 continue
             cnt += 1
-            if cnt < 30:
-                continue
+
             curr_state = self.client.joint_positions.copy()
             diff = curr_state - self._desired_state
             diff = np.abs(diff)
 
             max_diff = diff[[12, 13, 14, 18, 19, 20, 21, 25, 26, 27, 28]].max()
 
+            if max_diff > 1.5:
+                logger.warning(f"LARGE Violation detected {max_diff}, stopping...")
+                self._safeguard()
+
+            if cnt < 30:
+                continue
+
             if max_diff > 0.25:
                 violation_cnt += 1
                 logger.debug(f"{diff[[12, 13, 14, 18, 19, 20, 21, 25, 26, 27, 28]]=}")
                 logger.debug(f"Violation detected: {max_diff=}")
-                if violation_cnt > 8:
-                    logger.debug("Violation detected, stopping...")
+                if violation_cnt > 8 or max_diff > 1:
+                    logger.debug(f"Violation detected: {max_diff}, stopping...")
                     self._safeguard()
                     violation_cnt = 0
             else:

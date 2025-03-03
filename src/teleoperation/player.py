@@ -294,7 +294,7 @@ class TeleopRobot(DexRobot, CameraMixin):
 
     def observe(self):
         left_qpos, right_qpos = self.left_hand.get_positions(), self.right_hand.get_positions()
-        # left_qpos, right_qpos = self.hand_retarget.real_to_qpos(left_qpos, right_qpos)
+        left_qpos, right_qpos = self.hand_retarget.real_to_qpos(left_qpos, right_qpos)
         hand_qpos = np.hstack([left_qpos, right_qpos])
 
         (qpos,) = self.client.observe()
