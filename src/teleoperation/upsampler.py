@@ -151,7 +151,7 @@ class Upsampler(threading.Thread):
                     break
 
             if self.pause_event.is_set() and self.paused:
-                self.robot.command_joints(self.last_command, gravity_compensation=False)
+                self.robot.command_joints(self.last_command, gravity_compensation=self.gravity_compensation)
                 time.sleep(self.target_dt)
                 continue
 

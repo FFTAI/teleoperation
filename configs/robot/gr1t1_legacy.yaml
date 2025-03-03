@@ -86,8 +86,8 @@ joint_limits:
   left_shoulder_pitch_joint: [-2.27, 0.3]
   right_shoulder_pitch_joint: [-2.27, 0.3]
 
-  left_shoulder_roll_joint: [0, 1.57]
-  right_shoulder_roll_joint: [-1.57, 0]
+  left_shoulder_roll_joint: [-0.1, 1.57]
+  right_shoulder_roll_joint: [-1.57, 0.1]
 
   left_shoulder_yaw_joint: [-2.09, 2.09]
   right_shoulder_yaw_joint: [-2.09, 2.09]

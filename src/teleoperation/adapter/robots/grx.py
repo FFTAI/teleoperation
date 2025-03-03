@@ -54,7 +54,12 @@ class GR1Robot:
 
         self._gravity_compensation_on.clear()
 
+        self._desired_state = None
+
+        self._gains = self.client.get_gains()
+
         threading.Thread(target=self._set_mode_thread, name="set mode thread", daemon=True).start()
+        threading.Thread(target=self._safeguard_thread, name="safeguard thread", daemon=True).start()
 
     def _set_mode_thread(self):
         while True and not self._stop_event.is_set():
@@ -63,6 +68,43 @@ class GR1Robot:
                 self._set_impedance_mode()
             else:
                 self._set_position_mode()
+
+    def _safeguard_thread(self):
+        cnt = 0
+        violation_cnt = 0
+        while True and not self._stop_event.is_set():
+            time.sleep(1 / 30)
+            if not self._gravity_compensation_on.is_set() or self._desired_state is None:
+                cnt = 0
+                violation_cnt = 0
+                continue
+            cnt += 1
+            if cnt < 30:
+                continue
+            curr_state = self.client.joint_positions.copy()
+            diff = curr_state - self._desired_state
+            diff = np.abs(diff)
+
+            max_diff = diff[[12, 13, 14, 18, 19, 20, 21, 25, 26, 27, 28]].max()
+
+            if max_diff > 0.25:
+                violation_cnt += 1
+                logger.debug(f"{diff[[12, 13, 14, 18, 19, 20, 21, 25, 26, 27, 28]]=}")
+                logger.debug(f"Violation detected: {max_diff=}")
+                if violation_cnt > 8:
+                    logger.debug("Violation detected, stopping...")
+                    self._safeguard()
+                    violation_cnt = 0
+            else:
+                violation_cnt = 0
+
+    def _safeguard(self):
+        self._set_position_mode()
+        pd_control_kp = np.array(self._gains["pd_control_kp"])
+        pd_control_kd = np.array(self._gains["pd_control_kd"])
+        pd_control_kp[12, 13, 14, 18, 19, 20, 21, 25, 26, 27, 28] = 0.0
+        pd_control_kd[12, 13, 14, 18, 19, 20, 21, 25, 26, 27, 28] = 500.0
+        self.client.set_gains(pd_control_kp=pd_control_kp.tolist(), pd_control_kd=pd_control_kd.tolist())
 
     @property
     def joint_positions(self):
@@ -87,6 +129,7 @@ class GR1Robot:
             self._gravity_compensation_on.set()
         else:
             self._gravity_compensation_on.clear()
+        self._desired_state = positions.copy()
 
     def init_command_joints(self, positions):
         self.client.move_joints(
