@@ -60,7 +60,7 @@ camera:
 robot:
   policy:
     repo_id: "pick_place"
-    type: "diffusion3d"
+    type: "idp3"
     pretrained_path: ???
 
     config:
