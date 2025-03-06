@@ -13,7 +13,7 @@ from omegaconf import DictConfig
 
 from teleoperation.adapter.hands import DummyDexHand, HandAdapter
 from teleoperation.adapter.robots import DummyRobot, RobotAdapter
-from teleoperation.camera.utils import post_process
+from teleoperation.camera.utils import create_colored_point_cloud_from_depth_oak, post_process
 from teleoperation.preprocess import VuerPreprocessor
 from teleoperation.retarget.robot import DexRobot
 from teleoperation.television import OpenTeleVision
@@ -595,29 +595,56 @@ class EvalRobot(DexRobot, CameraMixin):
         os._exit(0)
 
 
-# def main(data_dir: str, task: str = "01_cube_kitting", episode: int = 1, config: str = "config.yml"):
-#     root = data_dir
-#     folder_name = f"{task}/processed"
-#     episode_name = f"processed_episode_{episode}.hdf5"
-#     episode_path = Path(root) / folder_name / episode_name
+class iDP3EvalRobot(EvalRobot):
+    def __init__(self, cfg: DictConfig):
+        super().__init__(cfg)
 
-#     data = h5py.File(str(episode_path), "r")
-#     actions = np.array(data["qpos_action"])[::2]
-#     left_imgs = np.array(data["observation.image.left"])[::2]  # 30hz
-#     right_imgs = np.array(data["observation.image.right"])[::2]
-#     data.close()
+    def step(self):
+        qpos, hand_qpos, ee_pose, head_pose = self.observe()
 
-#     timestamps = actions.shape[0]
+        frames = self.cam.grab()
+        if frames["top"]["rgb"] is None:
+            logger.warning("No top image.")
+            return
+        rr.set_time_sequence("step", self._step)
+        # rr.set_time_seconds("ts", time.time())
+        self._step += 1
+        rr.log("/observation/images/top", rr.Image(frames["top"]["rgb"].astype(np.uint8)))
 
-#     replay_robot = ReplayRobot(OmegaConf.load(config), dt=1 / 30, show_fpv=True)
+        # TODO: read self.eval_cfg.cameras
+        images_top = torch.tensor(frames["top"]["rgb"], dtype=torch.float32)
+        # h, w, c to b, c, h, w
+        images_top = images_top.expand(1, -1, -1, -1).permute(0, 3, 1, 2).to(self.device)
 
-#     try:
-#         for t in tqdm(range(timestamps)):
-#             replay_robot.step(actions[t], left_imgs[t, :], right_imgs[t, :])
-#     except KeyboardInterrupt:
-#         replay_robot.end()
-#         exit()
+        depth = frames["top"]["depth"]
 
+        pointcloud = None
+        if depth is not None:
+            rr.log("/observation/images/depth", rr.Image(depth.astype(np.uint8)))
 
-# if __name__ == "__main__":
-#     typer.run(main)
+            pointcloud = create_colored_point_cloud_from_depth_oak(depth * 1e-3, num_points=4096)
+            pointcloud = torch.tensor(pointcloud, dtype=torch.float32).expand(1, -1, -1).reshape(1, -1).to(self.device)
+
+        # TODO: add injectable obs_transform()
+        obs = np.concatenate([qpos[12:], hand_qpos])
+
+        rr.log("/observation/state", rr.BarChart(obs.tolist()))
+        obs = torch.tensor(obs, dtype=torch.float32).unsqueeze(0).to(self.device)
+
+        logger.debug(f"Observation: {qpos.shape}, {hand_qpos.shape} {frames['top']['rgb'].shape}  {obs.shape}")
+
+        batch = {
+            "observation.state": obs,
+            "observation.images.top": images_top,
+            "observation.pointcloud": pointcloud,
+        }
+        for k, v in batch.items():
+            if k != "task":
+                logger.debug(f"{k}: {v.shape}")
+        action = self.policy.select_action(batch=batch)
+        action = action.cpu().numpy().squeeze()
+        logger.debug(action)
+
+        rr.log("/action", rr.BarChart(action.tolist()))
+
+        return action
