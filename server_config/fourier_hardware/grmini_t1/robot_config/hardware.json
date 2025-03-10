@@ -1,6 +1,7 @@
 {
     "robot_name":"grmini_t1",
     "control_step":0.0025,
+    "pub_state":false,
     "control_groups":
     [
         {
@@ -20,7 +21,8 @@
                     "ftv":0.3,
                     "fti":0.03,
                     "reverse_direction":true,
-                    "filter_cf":3
+                    "filter_cf":3,
+                    "offset":0.0
                 }
             ]
         },
@@ -41,7 +43,8 @@
                     "ftv":0.3,
                     "fti":0.03,
                     "reverse_direction":true,
-                    "filter_cf":3
+                    "filter_cf":3,
+                    "offset":0.0
                 },
                 {
                     "type":"revolute",
@@ -52,7 +55,8 @@
                     "ftv":0.2,
                     "fti":0.02,
                     "reverse_direction":true,
-                    "filter_cf":3
+                    "filter_cf":3,
+                    "offset":0.0
                 },
                 {
                     "type":"revolute",
@@ -63,7 +67,8 @@
                     "ftv":0.2,
                     "fti":0.02,
                     "reverse_direction":false,
-                    "filter_cf":3
+                    "filter_cf":3,
+                    "offset":0.0
                 },
                 {
                     "type":"revolute",
@@ -74,7 +79,8 @@
                     "ftv":0.2,
                     "fti":0.02,
                     "reverse_direction":true,
-                    "filter_cf":3
+                    "filter_cf":3,
+                    "offset":0.0
                 },
                 {
                     "type":"revolute",
@@ -85,7 +91,8 @@
                     "ftv":0.2,
                     "fti":0.02,
                     "reverse_direction":false,
-                    "filter_cf":3
+                    "filter_cf":3,
+                    "offset":0.0
                 }
             ]          
         },
@@ -106,7 +113,8 @@
                     "ftv":0.3,
                     "fti":0.03,
                     "reverse_direction":false,
-                    "filter_cf":3
+                    "filter_cf":3,
+                    "offset":0.0
                 },
                 {
                     "type":"revolute",
@@ -117,7 +125,8 @@
                     "ftv":0.2,
                     "fti":0.02,
                     "reverse_direction":true,
-                    "filter_cf":3
+                    "filter_cf":3,
+                    "offset":0.0
                 },
                 {
                     "type":"revolute",
@@ -128,7 +137,8 @@
                     "ftv":0.2,
                     "fti":0.02,
                     "reverse_direction":false,
-                    "filter_cf":3
+                    "filter_cf":3,
+                    "offset":0.0
                 },
                 {
                     "type":"revolute",
@@ -139,7 +149,8 @@
                     "ftv":0.2,
                     "fti":0.02,
                     "reverse_direction":false,
-                    "filter_cf":3
+                    "filter_cf":3,
+                    "offset":0.0
                 },
                 {
                     "type":"revolute",
@@ -150,7 +161,8 @@
                     "ftv":0.2,
                     "fti":0.02,
                     "reverse_direction":false,
-                    "filter_cf":3
+                    "filter_cf":3,
+                    "offset":0.0
                 }
             ]           
         },
@@ -171,7 +183,8 @@
                     "ftv":0.2,
                     "fti":0.02,
                     "reverse_direction":true,
-                    "filter_cf":3
+                    "filter_cf":3,
+                    "offset":0.0
                 },
                 {
                     "type":"revolute",
@@ -182,7 +195,8 @@
                     "ftv":0.2,
                     "fti":0.02,
                     "reverse_direction":false,
-                    "filter_cf":3
+                    "filter_cf":3,
+                    "offset":0.0
                 },
                 {
                     "type":"revolute",
@@ -193,7 +207,8 @@
                     "ftv":0.2,
                     "fti":0.02,
                     "reverse_direction":false,
-                    "filter_cf":3
+                    "filter_cf":3,
+                    "offset":0.0
                 },
                 {
                     "type":"revolute",
@@ -204,7 +219,8 @@
                     "ftv":0.2,
                     "fti":0.02,
                     "reverse_direction":true,
-                    "filter_cf":3
+                    "filter_cf":3,
+                    "offset":0.0
                 },
                 {
                     "type":"revolute",
@@ -215,7 +231,8 @@
                     "ftv":0.2,
                     "fti":0.02,
                     "reverse_direction":true,
-                    "filter_cf":3
+                    "filter_cf":3,
+                    "offset":0.0
                 },
                 {
                     "type":"revolute",
@@ -226,7 +243,8 @@
                     "ftv":0.2,
                     "fti":0.02,
                     "reverse_direction":false,
-                    "filter_cf":3
+                    "filter_cf":3,
+                    "offset":0.0
                 }
             ]           
         },
@@ -247,7 +265,8 @@
                     "ftv":0.2,
                     "fti":0.02,
                     "reverse_direction":false,
-                    "filter_cf":3
+                    "filter_cf":3,
+                    "offset":0.0
                 },
                 {
                     "type":"revolute",
@@ -258,7 +277,8 @@
                     "ftv":0.2,
                     "fti":0.02,
                     "reverse_direction":false,
-                    "filter_cf":3
+                    "filter_cf":3,
+                    "offset":0.0
                 },
                 {
                     "type":"revolute",
@@ -269,7 +289,8 @@
                     "ftv":0.2,
                     "fti":0.02,
                     "reverse_direction":false,
-                    "filter_cf":3
+                    "filter_cf":3,
+                    "offset":0.0
                 },
                 {
                     "type":"revolute",
@@ -280,7 +301,8 @@
                     "ftv":0.2,
                     "fti":0.02,
                     "reverse_direction":false,
-                    "filter_cf":3
+                    "filter_cf":3,
+                    "offset":0.0
                 },
                 {
                     "type":"revolute",
@@ -291,7 +313,8 @@
                     "ftv":0.2,
                     "fti":0.02,
                     "reverse_direction":true,
-                    "filter_cf":3
+                    "filter_cf":3,
+                    "offset":0.0
                 },
                 {
                     "type":"revolute",
@@ -302,7 +325,8 @@
                     "ftv":0.2,
                     "fti":0.02,
                     "reverse_direction":true,
-                    "filter_cf":3
+                    "filter_cf":3,
+                    "offset":0.0
                 }
             ]           
         }
