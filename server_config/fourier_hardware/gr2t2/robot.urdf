@@ -26,7 +26,7 @@
         rpy="0 0 0" />
       <geometry>
         <mesh
-          filename="package:///meshes/base_link.STL" />
+          filename="../../../assets/meshes/gr2t2/base_link.STL" />
       </geometry>
       <material
         name="">
@@ -73,7 +73,7 @@
         rpy="0 0 0" />
       <geometry>
         <mesh
-          filename="package:///meshes/waist_yaw_link.STL" />
+          filename="../../../assets/meshes/gr2t2/waist_yaw_link.STL" />
       </geometry>
       <material
         name="">
@@ -87,7 +87,7 @@
         rpy="0 0 0" />
       <geometry>
         <mesh
-          filename="package:///meshes/waist_yaw_link.STL" />
+          filename="../../../assets/meshes/gr2t2/waist_yaw_link.STL" />
       </geometry>
     </collision> -->
   </link>
@@ -131,7 +131,7 @@
         rpy="0 0 0" />
       <geometry>
         <mesh
-          filename="package:///meshes/torso_link.STL" />
+          filename="../../../assets/meshes/gr2t2/torso_link.STL" />
       </geometry>
       <material
         name="">
@@ -183,7 +183,7 @@
         rpy="0 0 0" />
       <geometry>
         <mesh
-          filename="package:///meshes/head_yaw_link.STL" />
+          filename="../../../assets/meshes/gr2t2/head_yaw_link.STL" />
       </geometry>
       <material
         name="">
@@ -197,7 +197,7 @@
         rpy="0 0 0" />
       <geometry>
         <mesh
-          filename="package:///meshes/head_yaw_link.STL" />
+          filename="../../../assets/meshes/gr2t2/head_yaw_link.STL" />
       </geometry>
     </collision> -->
   </link>
@@ -241,7 +241,7 @@
         rpy="0 0 0" />
       <geometry>
         <mesh
-          filename="package:///meshes/head_pitch_link.STL" />
+          filename="../../../assets/meshes/gr2t2/head_pitch_link.STL" />
       </geometry>
       <material
         name="">
@@ -298,7 +298,7 @@
         rpy="0 0 0" />
       <geometry>
         <mesh
-          filename="package:///meshes/camera_link.STL" />
+          filename="../../../assets/meshes/gr2t2/camera_link.STL" />
       </geometry>
       <material
         name="">
@@ -312,7 +312,7 @@
         rpy="0 0 0" />
       <geometry>
         <mesh
-          filename="package:///meshes/camera_link.STL" />
+          filename="../../../assets/meshes/gr2t2/camera_link.STL" />
       </geometry>
     </collision> -->
   </link>
@@ -351,7 +351,7 @@
         rpy="0 0 0" />
       <geometry>
         <mesh
-          filename="package:///meshes/left_upper_arm_pitch_link.STL" />
+          filename="../../../assets/meshes/gr2t2/left_upper_arm_pitch_link.STL" />
       </geometry>
       <material
         name="">
@@ -365,7 +365,7 @@
         rpy="0 0 0" />
       <geometry>
         <mesh
-          filename="package:///meshes/left_upper_arm_pitch_link.STL" />
+          filename="../../../assets/meshes/gr2t2/left_upper_arm_pitch_link.STL" />
       </geometry>
     </collision> -->
   </link>
@@ -409,7 +409,7 @@
         rpy="0 0 0" />
       <geometry>
         <mesh
-          filename="package:///meshes/left_upper_arm_roll_link.STL" />
+          filename="../../../assets/meshes/gr2t2/left_upper_arm_roll_link.STL" />
       </geometry>
       <material
         name="">
@@ -423,7 +423,7 @@
         rpy="0 0 0" />
       <geometry>
         <mesh
-          filename="package:///meshes/left_upper_arm_roll_link.STL" />
+          filename="../../../assets/meshes/gr2t2/left_upper_arm_roll_link.STL" />
       </geometry>
     </collision> -->
   </link>
@@ -467,7 +467,7 @@
         rpy="0 0 0" />
       <geometry>
         <mesh
-          filename="package:///meshes/left_upper_arm_yaw_link.STL" />
+          filename="../../../assets/meshes/gr2t2/left_upper_arm_yaw_link.STL" />
       </geometry>
       <material
         name="">
@@ -524,7 +524,7 @@
         rpy="0 0 0" />
       <geometry>
         <mesh
-          filename="package:///meshes/left_lower_arm_pitch_link.STL" />
+          filename="../../../assets/meshes/gr2t2/left_lower_arm_pitch_link.STL" />
       </geometry>
       <material
         name="">
@@ -538,7 +538,7 @@
         rpy="0 0 0" />
       <geometry>
         <mesh
-          filename="package:///meshes/left_lower_arm_pitch_link.STL" />
+          filename="../../../assets/meshes/gr2t2/left_lower_arm_pitch_link.STL" />
       </geometry>
     </collision> -->
   </link>
@@ -582,7 +582,7 @@
         rpy="0 0 0" />
       <geometry>
         <mesh
-          filename="package:///meshes/left_hand_yaw_link.STL" />
+          filename="../../../assets/meshes/gr2t2/left_hand_yaw_link.STL" />
       </geometry>
       <material
         name="">
@@ -639,7 +639,7 @@
         rpy="0 0 0" />
       <geometry>
         <mesh
-          filename="package:///meshes/left_hand_pitch_link.STL" />
+          filename="../../../assets/meshes/gr2t2/left_hand_pitch_link.STL" />
       </geometry>
       <material
         name="">
@@ -653,7 +653,7 @@
         rpy="0 0 0" />
       <geometry>
         <mesh
-          filename="package:///meshes/left_hand_pitch_link.STL" />
+          filename="../../../assets/meshes/gr2t2/left_hand_pitch_link.STL" />
       </geometry>
     </collision> -->
   </link>
@@ -697,7 +697,7 @@
         rpy="0 0 0" />
       <geometry>
         <mesh
-          filename="package:///meshes/left_hand_roll_link.STL" />
+          filename="../../../assets/meshes/gr2t2/left_hand_roll_link.STL" />
       </geometry>
       <material
         name="">
@@ -711,7 +711,7 @@
         rpy="0 0 0" />
       <geometry>
         <mesh
-          filename="package:///meshes/left_hand_roll_link.STL" />
+          filename="../../../assets/meshes/gr2t2/left_hand_roll_link.STL" />
       </geometry>
     </collision> -->
   </link>
@@ -755,7 +755,7 @@
         rpy="0 0 0" />
       <geometry>
         <mesh
-          filename="package:///meshes/left_end_effector_link.STL" />
+          filename="../../../assets/meshes/gr2t2/left_end_effector_link.STL" />
       </geometry>
       <material
         name="">
@@ -807,7 +807,7 @@
         rpy="0 0 0" />
       <geometry>
         <mesh
-          filename="package:///meshes/right_upper_arm_pitch_link.STL" />
+          filename="../../../assets/meshes/gr2t2/right_upper_arm_pitch_link.STL" />
       </geometry>
       <material
         name="">
@@ -821,7 +821,7 @@
         rpy="0 0 0" />
       <geometry>
         <mesh
-          filename="package:///meshes/right_upper_arm_pitch_link.STL" />
+          filename="../../../assets/meshes/gr2t2/right_upper_arm_pitch_link.STL" />
       </geometry>
     </collision> -->
   </link>
@@ -865,7 +865,7 @@
         rpy="0 0 0" />
       <geometry>
         <mesh
-          filename="package:///meshes/right_upper_arm_roll_link.STL" />
+          filename="../../../assets/meshes/gr2t2/right_upper_arm_roll_link.STL" />
       </geometry>
       <material
         name="">
@@ -879,7 +879,7 @@
         rpy="0 0 0" />
       <geometry>
         <mesh
-          filename="package:///meshes/right_upper_arm_roll_link.STL" />
+          filename="../../../assets/meshes/gr2t2/right_upper_arm_roll_link.STL" />
       </geometry>
     </collision> -->
   </link>
@@ -923,7 +923,7 @@
         rpy="0 0 0" />
       <geometry>
         <mesh
-          filename="package:///meshes/right_upper_arm_yaw_link.STL" />
+          filename="../../../assets/meshes/gr2t2/right_upper_arm_yaw_link.STL" />
       </geometry>
       <material
         name="">
@@ -980,7 +980,7 @@
         rpy="0 0 0" />
       <geometry>
         <mesh
-          filename="package:///meshes/right_lower_arm_pitch_link.STL" />
+          filename="../../../assets/meshes/gr2t2/right_lower_arm_pitch_link.STL" />
       </geometry>
       <material
         name="">
@@ -994,7 +994,7 @@
         rpy="0 0 0" />
       <geometry>
         <mesh
-          filename="package:///meshes/right_lower_arm_pitch_link.STL" />
+          filename="../../../assets/meshes/gr2t2/right_lower_arm_pitch_link.STL" />
       </geometry>
     </collision> -->
   </link>
@@ -1038,7 +1038,7 @@
         rpy="0 0 0" />
       <geometry>
         <mesh
-          filename="package:///meshes/right_hand_yaw_link.STL" />
+          filename="../../../assets/meshes/gr2t2/right_hand_yaw_link.STL" />
       </geometry>
       <material
         name="">
@@ -1095,7 +1095,7 @@
         rpy="0 0 0" />
       <geometry>
         <mesh
-          filename="package:///meshes/right_hand_pitch_link.STL" />
+          filename="../../../assets/meshes/gr2t2/right_hand_pitch_link.STL" />
       </geometry>
       <material
         name="">
@@ -1109,7 +1109,7 @@
         rpy="0 0 0" />
       <geometry>
         <mesh
-          filename="package:///meshes/right_hand_pitch_link.STL" />
+          filename="../../../assets/meshes/gr2t2/right_hand_pitch_link.STL" />
       </geometry>
     </collision> -->
   </link>
@@ -1153,7 +1153,7 @@
         rpy="0 0 0" />
       <geometry>
         <mesh
-          filename="package:///meshes/right_hand_roll_link.STL" />
+          filename="../../../assets/meshes/gr2t2/right_hand_roll_link.STL" />
       </geometry>
       <material
         name="">
@@ -1167,7 +1167,7 @@
         rpy="0 0 0" />
       <geometry>
         <mesh
-          filename="package:///meshes/right_hand_roll_link.STL" />
+          filename="../../../assets/meshes/gr2t2/right_hand_roll_link.STL" />
       </geometry>
     </collision> -->
   </link>
@@ -1211,7 +1211,7 @@
         rpy="0 0 0" />
       <geometry>
         <mesh
-          filename="package:///meshes/right_end_effector_link.STL" />
+          filename="../../../assets/meshes/gr2t2/right_end_effector_link.STL" />
       </geometry>
       <material
         name="">
@@ -1263,7 +1263,7 @@
         rpy="0 0 0" />
       <geometry>
         <mesh
-          filename="package:///meshes/left_thigh_pitch_link.STL" />
+          filename="../../../assets/meshes/gr2t2/left_thigh_pitch_link.STL" />
       </geometry>
       <material
         name="">
@@ -1277,7 +1277,7 @@
         rpy="0 0 0" />
       <geometry>
         <mesh
-          filename="package:///meshes/left_thigh_pitch_link.STL" />
+          filename="../../../assets/meshes/gr2t2/left_thigh_pitch_link.STL" />
       </geometry>
     </collision> -->
   </link>
@@ -1321,7 +1321,7 @@
         rpy="0 0 0" />
       <geometry>
         <mesh
-          filename="package:///meshes/left_thigh_roll_link.STL" />
+          filename="../../../assets/meshes/gr2t2/left_thigh_roll_link.STL" />
       </geometry>
       <material
         name="">
@@ -1335,7 +1335,7 @@
         rpy="0 0 0" />
       <geometry>
         <mesh
-          filename="package:///meshes/left_thigh_roll_link.STL" />
+          filename="../../../assets/meshes/gr2t2/left_thigh_roll_link.STL" />
       </geometry>
     </collision> -->
   </link>
@@ -1379,7 +1379,7 @@
         rpy="0 0 0" />
       <geometry>
         <mesh
-          filename="package:///meshes/left_thigh_yaw_link.STL" />
+          filename="../../../assets/meshes/gr2t2/left_thigh_yaw_link.STL" />
       </geometry>
       <material
         name="">
@@ -1436,7 +1436,7 @@
         rpy="0 0 0" />
       <geometry>
         <mesh
-          filename="package:///meshes/left_shank_pitch_link.STL" />
+          filename="../../../assets/meshes/gr2t2/left_shank_pitch_link.STL" />
       </geometry>
       <material
         name="">
@@ -1493,7 +1493,7 @@
         rpy="0 0 0" />
       <geometry>
         <mesh
-          filename="package:///meshes/left_foot_roll_link.STL" />
+          filename="../../../assets/meshes/gr2t2/left_foot_roll_link.STL" />
       </geometry>
       <material
         name="">
@@ -1507,7 +1507,7 @@
         rpy="0 0 0" />
       <geometry>
         <mesh
-          filename="package:///meshes/left_foot_roll_link.STL" />
+          filename="../../../assets/meshes/gr2t2/left_foot_roll_link.STL" />
       </geometry>
     </collision> -->
   </link>
@@ -1551,7 +1551,7 @@
         rpy="0 0 0" />
       <geometry>
         <mesh
-          filename="package:///meshes/left_foot_pitch_link.STL" />
+          filename="../../../assets/meshes/gr2t2/left_foot_pitch_link.STL" />
       </geometry>
       <material
         name="">
@@ -1565,7 +1565,7 @@
         rpy="0 0 0" />
       <geometry>
         <mesh
-          filename="package:///meshes/left_foot_pitch_link.STL" />
+          filename="../../../assets/meshes/gr2t2/left_foot_pitch_link.STL" />
       </geometry>
     </collision>
   </link>
@@ -1609,7 +1609,7 @@
         rpy="0 0 0" />
       <geometry>
         <mesh
-          filename="package:///meshes/right_thigh_pitch_link.STL" />
+          filename="../../../assets/meshes/gr2t2/right_thigh_pitch_link.STL" />
       </geometry>
       <material
         name="">
@@ -1623,7 +1623,7 @@
         rpy="0 0 0" />
       <geometry>
         <mesh
-          filename="package:///meshes/right_thigh_pitch_link.STL" />
+          filename="../../../assets/meshes/gr2t2/right_thigh_pitch_link.STL" />
       </geometry>
     </collision> -->
   </link>
@@ -1667,7 +1667,7 @@
         rpy="0 0 0" />
       <geometry>
         <mesh
-          filename="package:///meshes/right_thigh_roll_link.STL" />
+          filename="../../../assets/meshes/gr2t2/right_thigh_roll_link.STL" />
       </geometry>
       <material
         name="">
@@ -1681,7 +1681,7 @@
         rpy="0 0 0" />
       <geometry>
         <mesh
-          filename="package:///meshes/right_thigh_roll_link.STL" />
+          filename="../../../assets/meshes/gr2t2/right_thigh_roll_link.STL" />
       </geometry>
     </collision> -->
   </link>
@@ -1725,7 +1725,7 @@
         rpy="0 0 0" />
       <geometry>
         <mesh
-          filename="package:///meshes/right_thigh_yaw_link.STL" />
+          filename="../../../assets/meshes/gr2t2/right_thigh_yaw_link.STL" />
       </geometry>
       <material
         name="">
@@ -1782,7 +1782,7 @@
         rpy="0 0 0" />
       <geometry>
         <mesh
-          filename="package:///meshes/right_shank_pitch_link.STL" />
+          filename="../../../assets/meshes/gr2t2/right_shank_pitch_link.STL" />
       </geometry>
       <material
         name="">
@@ -1839,7 +1839,7 @@
         rpy="0 0 0" />
       <geometry>
         <mesh
-          filename="package:///meshes/right_foot_roll_link.STL" />
+          filename="../../../assets/meshes/gr2t2/right_foot_roll_link.STL" />
       </geometry>
       <material
         name="">
@@ -1853,7 +1853,7 @@
         rpy="0 0 0" />
       <geometry>
         <mesh
-          filename="package:///meshes/right_foot_roll_link.STL" />
+          filename="../../../assets/meshes/gr2t2/right_foot_roll_link.STL" />
       </geometry>
     </collision> -->
   </link>
@@ -1897,7 +1897,7 @@
         rpy="0 0 0" />
       <geometry>
         <mesh
-          filename="package:///meshes/right_foot_pitch_link.STL" />
+          filename="../../../assets/meshes/gr2t2/right_foot_pitch_link.STL" />
       </geometry>
       <material
         name="">
@@ -1911,7 +1911,7 @@
         rpy="0 0 0" />
       <geometry>
         <mesh
-          filename="package:///meshes/right_foot_pitch_link.STL" />
+          filename="../../../assets/meshes/gr2t2/right_foot_pitch_link.STL" />
       </geometry>
     </collision>
   </link>
@@ -1955,7 +1955,7 @@
         rpy="0 0 0" />
       <geometry>
         <mesh
-          filename="package:///meshes/imu_link.STL" />
+          filename="../../../assets/meshes/gr2t2/imu_link.STL" />
       </geometry>
       <material
         name="">
@@ -1969,7 +1969,7 @@
         rpy="0 0 0" />
       <geometry>
         <mesh
-          filename="package:///meshes/imu_link.STL" />
+          filename="../../../assets/meshes/gr2t2/imu_link.STL" />
       </geometry>
     </collision> -->
   </link>
