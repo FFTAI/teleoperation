@@ -5,15 +5,8 @@ RUN ldconfig && mkdir -p /app/deps && \
     ldd /usr/local/lib/fourier_hardware_py.cpython-310-x86_64-linux-gnu.so | awk '{print $3}' | grep -v '^(' | grep 'local' | xargs -I {} cp --dereference {} /app/deps/ 2>/dev/null || true && \
     ldd /usr/local/lib/fourier_hardware_dds_py.cpython-310-x86_64-linux-gnu.so | awk '{print $3}' | grep -v '^(' | grep 'local' | xargs -I {} cp --dereference {} /app/deps/ 2>/dev/null || true \
     find /app/deps -type l -exec cp --parents --dereference {} /app/deps/ \;
-# && \
-# find -type f -exec ldd {} \; | grep 'not found' | awk '{print $1}' | xargs -I '{}' cp '{}' /app/deps/ \;
-RUN ls -lah /app/deps/
 
 FROM 192.168.3.15:9595/farts/depthai:3.10-22.04 AS runtime
-# FROM yuxianggao/depthai:latest
-
-# COPY --from=builder /app/deps/ /app/deps/
-
 COPY --from=ghcr.io/astral-sh/uv:latest /uv /uvx /bin/
 
 ENV UV_COMPILE_BYTECODE=1
@@ -59,23 +52,11 @@ RUN --mount=type=cache,target=/root/.cache/uv \
 
 # Place executables in the environment at the front of the path
 ENV PATH="/app/.venv/bin:$PATH"
-
-# RUN --mount=type=cache,target=/root/.cache/pip pip install --upgrade pip && \
-#     pip install fourier-grx-dds==0.2.7a0 -i https://mirrors.tuna.tsinghua.edu.cn/pypi/web/simple && \
-#     pip install -e ".[fourier,depthai]" --default-timeout=100 -i https://mirrors.tuna.tsinghua.edu.cn/pypi/web/simple --extra-index-url https://download.pytorch.org/whl/cpu && \
-#     pip uninstall -y typing
-
-RUN ln -s /app/.venv/lib/python3.10/site-packages/fourier_grx_dds/libraries/libfastcdr.so.2.2.5 /app/.venv/lib/python3.10/site-packages/fourier_grx_dds/libraries/libfastcdr.so.2 && \
-    ln -s /app/.venv/lib/python3.10/site-packages/fourier_grx_dds/libraries/libfastdds.so.3.1.0 /app/.venv/lib/python3.10/site-packages/fourier_grx_dds/libraries/libfastdds.so.3.1
+ENV LD_LIBRARY_PATH=/usr/local/lib:/usr/lib/x86_64-linux-gnu/:/app/.venv/lib:/app/.venv/lib/python3.10/site-packages/fourier_grx_dds/libraries/
 
 COPY --from=builder /usr/lib/python3/dist-packages/grx_sot_py.so /app/grx_sot_py.so
 COPY --from=builder /usr/lib/python3/dist-packages/fourier_hardware_py.cpython-310-x86_64-linux-gnu.so /app/fourier_hardware_py.cpython-310-x86_64-linux-gnu.so
 COPY --from=builder /usr/lib/python3/dist-packages/fourier_hardware_dds_py.cpython-310-x86_64-linux-gnu.so /app/fourier_hardware_dds_py.cpython-310-x86_64-linux-gnu.so
 COPY --from=builder /app/deps/ /usr/local/lib/
-
-
-ENV LD_LIBRARY_PATH=/usr/local/lib:/usr/lib/x86_64-linux-gnu/:/app/.venv/lib:/app/.venv/lib/python3.10/site-packages/fourier_grx_dds/libraries/
-
-
 
 CMD ["source", "/app/.venv/bin/activate"]
