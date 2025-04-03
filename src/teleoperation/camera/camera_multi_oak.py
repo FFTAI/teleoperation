@@ -13,30 +13,11 @@ import depthai as dai
 from depthai_sdk import OakCamera
 from depthai_sdk.classes.packets import FramePacket
 
+from teleoperation.camera.oak_utils import find_cameras
 from teleoperation.camera.utils import DisplayCamera, RecordCamera, delete_if_exists
 from teleoperation.utils import get_timestamp_utc
 
 logger = logging.getLogger(__name__)
-
-
-# https://docs.luxonis.com/software/depthai/multi-device-setup/
-def find_cameras(raise_when_empty=True) -> list[dict]:
-    logger.info("Searching for cameras...")
-    cameras = []
-    for device in dai.Device.getAllAvailableDevices():
-        logger.info(f"{device.getMxId()} {device.state}")
-        print(f"{device}")
-        cameras.append(
-            {
-                "serial_number": device.getMxId(),
-                "name": device.name,
-            }
-        )
-
-    if not cameras and raise_when_empty:
-        raise OSError("Not a single camera was detected. Try re-plugging.")
-
-    return cameras
 
 
 @dataclass

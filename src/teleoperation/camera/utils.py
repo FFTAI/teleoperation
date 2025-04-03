@@ -3,6 +3,7 @@ import logging
 import multiprocessing as mp
 import threading
 import time
+from dataclasses import dataclass
 from multiprocessing import shared_memory
 from pathlib import Path
 from typing import Literal
@@ -15,6 +16,28 @@ from teleoperation.utils import posix_to_iso
 
 logger = logging.getLogger(__name__)
 cv2.setNumThreads(1)
+
+
+@dataclass
+class CameraInfo:
+    serial_number: str
+    name: str
+    calibration: dict
+    fps: int = 30
+
+    def save_json(self, path: str | Path, name: str = "camera_info.json"):
+        if isinstance(path, str):
+            path = Path(path)
+        path = path.resolve()
+
+        path.mkdir(parents=True, exist_ok=True)
+        path = path / name
+        if path.exists():
+            logger.warning(f"File {path} already exists. Overwriting.")
+        import json
+
+        with open(path, "w") as f:
+            json.dump(self.__dict__, f, indent=4)
 
 
 class RecordCamera:

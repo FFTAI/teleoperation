@@ -12,6 +12,7 @@ import depthai as dai
 from depthai_sdk import OakCamera
 from depthai_sdk.classes.packets import FramePacket
 
+from teleoperation.camera.oak_utils import find_cameras
 from teleoperation.camera.utils import DisplayCamera, RecordCamera, delete_if_exists
 from teleoperation.utils import get_timestamp_utc
 
@@ -34,6 +35,14 @@ class CameraOak:
         display_crop_sizes: tuple[int, int, int, int],
         eval_mode: bool = False,
     ):
+        cameras = find_cameras(raise_when_empty=True)
+
+        if len(cameras) > 1:
+            logger.warning("Multiple cameras detected. Using the first one.")
+        self.cam_info = cameras[0]
+        self.cam_info.name = key
+        self.cam_info.fps = fps
+
         self.key = key
         self.fps = fps
         self.use_depth = use_depth
@@ -83,6 +92,9 @@ class CameraOak:
         self.frame_id = 0
         self.video_path = os.path.join(output_path, self.key)
         delete_if_exists(self.video_path)
+
+        self.cam_info.save_json(self.video_path)
+
         self.is_recording.set()
 
     def stop_recording(self):
@@ -171,7 +183,7 @@ class CameraOak:
     def _make_camera(self):
         if self.oak is not None:
             self.oak.close()
-        oak = OakCamera(args={"xlinkChunkSize": 0})
+        oak = OakCamera(device=self.cam_info.serial_number, args={"xlinkChunkSize": 0})
         stereo_fps = self.fps
         color_fps = self.fps
 
