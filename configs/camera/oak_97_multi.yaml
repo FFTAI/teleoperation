@@ -1,18 +1,19 @@
 instance:
   _target_: teleoperation.camera.camera_multi_oak.CameraMultiOak
   keys:
-    top: 14442C10114BBCD600
-    waist: 14442C10B1E3BCD600
+    top: ???
+    waist: ???
   camera_config:
     fps: 30
     width: 1280
     height: 800
     use_depth: ${use_depth}
+    resolution: "800p"
 
   display_config:
     key: "top"
     mode: "mono"
-    resolution: [480, 640]
+    resolution: "400p"
     crop_sizes: [0, 0, 0, 0]
 
   save_processes: 6

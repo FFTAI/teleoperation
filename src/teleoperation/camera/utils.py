@@ -82,9 +82,16 @@ class DisplayCamera:
     def __init__(
         self,
         mode: Literal["mono", "stereo", "none"],
-        resolution: tuple[int, int],
+        resolution: tuple[int, int] | str,
         crop_sizes: tuple[int, int, int, int],
     ):
+        if isinstance(resolution, str):
+            if resolution == "400p":
+                resolution = (400, 640)
+            elif resolution == "800p":
+                resolution = (800, 1280)
+
+        self.resolution = resolution
         self.mode = mode
         if mode == "none":
             return

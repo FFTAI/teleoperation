@@ -39,7 +39,7 @@ class CameraOak:
 
         if len(cameras) > 1:
             logger.warning("Multiple cameras detected. Using the first one.")
-        self.cam_info = cameras[0]
+        self.cam_info = list(cameras.values())[0]
         self.cam_info.name = key
         self.cam_info.fps = fps
 
@@ -93,7 +93,7 @@ class CameraOak:
         self.video_path = os.path.join(output_path, self.key)
         delete_if_exists(self.video_path)
 
-        self.cam_info.save_json(self.video_path)
+        self.cam_info.save_json(os.path.join(self.video_path, self.key))
 
         self.is_recording.set()
 

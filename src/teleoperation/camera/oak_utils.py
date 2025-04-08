@@ -48,9 +48,9 @@ def getDFov(intrinsics, w, h):
 
 
 # https://docs.luxonis.com/software/depthai/multi-device-setup/
-def find_cameras(raise_when_empty=True) -> list[CameraInfo]:
+def find_cameras(raise_when_empty=True) -> dict[str, CameraInfo]:
     logger.info("Searching for cameras...")
-    cameras = []
+    cameras = {}
     for device in dai.Device.getAllAvailableDevices():
         logger.info(f"{device.getMxId()} {device.state}")
         print(f"{device}")
@@ -62,23 +62,21 @@ def find_cameras(raise_when_empty=True) -> list[CameraInfo]:
             M = np.array(M)
             d = np.array(calib.getDistortionCoefficients(cam))
 
-        cameras.append(
-            CameraInfo(
-                serial_number=device.getMxId(),
-                name=device.name,
-                calibration={
-                    "camera_matrix": M.tolist(),
-                    "distortion_coefficients": d.tolist(),
-                    "resolution": (width, height),
-                },
-            )
+        cameras[device.getMxId()] = CameraInfo(
+            serial_number=device.getMxId(),
+            name=device.name,
+            calibration={
+                "camera_matrix": M.tolist(),
+                "distortion_coefficients": d.tolist(),
+                "resolution": (width, height),
+            },
         )
 
     if not cameras and raise_when_empty:
         raise OSError("Not a single camera was detected. Try re-plugging.")
 
     logger.info(f"Found {len(cameras)} cameras.")
-    for camera in cameras:
+    for camera in cameras.values():
         logger.info(f"Camera: {camera.serial_number}")
         logger.info(f"Name: {camera.name}")
         logger.info(f"Calibration: {camera.calibration}")
