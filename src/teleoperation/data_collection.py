@@ -7,6 +7,7 @@ from dataclasses import asdict, dataclass, field
 from glob import glob
 
 import numpy as np
+from filelock import FileLock
 from omegaconf import DictConfig
 
 from teleoperation.utils import format_episode_id, get_timestamp_utc
@@ -38,6 +39,7 @@ class RecordingInfo:
     session_path: str
     episode_path: str
     video_path: str
+    lock: FileLock | None = None
 
     @classmethod
     def from_session_path(cls, session_path: str):
@@ -51,10 +53,25 @@ class RecordingInfo:
             self.session_path,
             exist_ok=True,
         )
-        # os.makedirs(
-        #     self.images_path,
-        #     exist_ok=True,
-        # )
+
+    def acquire(self):
+        lock_path = self.video_path + ".lock"
+        logger.debug(f"Acquiring lock for {lock_path}.")
+        if self.lock and self.lock.is_locked:
+            logger.warning(f"Lock already acquired for {self.lock.lock_file}.")
+            self.lock.release()
+
+        self.lock = FileLock(lock_path)
+        self.lock.acquire(timeout=10)
+
+    def release(self):
+        if self.lock:
+            if self.lock.is_locked:
+                logger.debug(f"Releasing lock for {self.lock.lock_file}.")
+                self.lock.release()
+            self.lock = None
+        else:
+            logger.warning("No lock to release.")
 
     def increment(self):
         self.episode_id += 1

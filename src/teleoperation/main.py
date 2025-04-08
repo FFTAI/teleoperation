@@ -216,7 +216,7 @@ def main(
                 if not cfg.recording.enabled or recording is None:
                     raise InitializationError("Recording not initialized.")
                 # collection_start = time.time()
-
+                recording.acquire()
                 robot.start_recording(str(recording.video_path))
 
                 data_dict = EpisodeDataDict.new(recording.episode_id, camera_names)
@@ -236,6 +236,8 @@ def main(
                 logger.warning(f"Episode {recording.episode_id} discarded")
                 data_dict = None
                 robot.stop_recording()
+
+                recording.release()
 
                 time.sleep(0.5)
                 _, _ = trigger()
@@ -258,6 +260,7 @@ def main(
                 time.sleep(0.5)
 
                 data_dict = None
+                recording.release()
                 recording.increment()
 
                 _, _ = trigger()
