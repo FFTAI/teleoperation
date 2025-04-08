@@ -48,7 +48,7 @@ def getDFov(intrinsics, w, h):
 
 
 # https://docs.luxonis.com/software/depthai/multi-device-setup/
-def find_cameras(raise_when_empty=True) -> dict[str, CameraInfo]:
+def find_cameras(raise_when_empty=True, type_str="oak-d-w-97") -> dict[str, CameraInfo]:
     logger.info("Searching for cameras...")
     cameras = {}
     for device in dai.Device.getAllAvailableDevices():
@@ -65,6 +65,7 @@ def find_cameras(raise_when_empty=True) -> dict[str, CameraInfo]:
         cameras[device.getMxId()] = CameraInfo(
             serial_number=device.getMxId(),
             name=device.name,
+            type=type_str,
             calibration={
                 "camera_matrix": M.tolist(),
                 "distortion_coefficients": d.tolist(),

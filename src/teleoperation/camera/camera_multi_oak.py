@@ -53,7 +53,7 @@ class CameraMultiOak:
     ):
         self.fps = camera_config.fps
 
-        cameras = find_cameras(raise_when_empty=True)
+        cameras = find_cameras(raise_when_empty=True, type_str="oak-d-w-97")
 
         assert len(cameras) >= len(keys), f"Expected {len(keys)} cameras, found {len(cameras)}"
 
@@ -77,6 +77,8 @@ class CameraMultiOak:
 
             self.camera_infos[key].name = key
             self.camera_infos[key].fps = camera_config.fps
+
+            self.camera_infos[key].width = camera_config.width
 
         self.use_depth = camera_config.use_depth
         self.eval_mode = eval_mode

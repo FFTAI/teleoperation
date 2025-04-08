@@ -22,6 +22,7 @@ cv2.setNumThreads(1)
 class CameraInfo:
     serial_number: str
     name: str
+    type: str
     calibration: dict
     fps: int = 30
 
