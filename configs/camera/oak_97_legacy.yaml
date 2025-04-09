@@ -1,0 +1,15 @@
+instance:
+  _target_: teleoperation.camera.camera_oak.CameraOak
+  key: "top"
+  fps: 30
+  use_depth: ${use_depth}
+  stereo_resolution: "400p"
+  color_resolution: "800p"
+
+  save_processes: 6
+  save_threads: 12
+  save_queue_size: 30
+
+  display_mode: "stereo"
+  display_resolution: [400, 640]
+  display_crop_sizes: [0, 0, 0, 0]
