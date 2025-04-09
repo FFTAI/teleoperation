@@ -1,14 +1,24 @@
 instance:
   _target_: teleoperation.camera.camera_multi_oak.CameraMultiOak
-  keys:
-    top: ???
-    waist: ???
-  camera_config:
-    fps: 30
-    width: 1280
-    height: 800
-    use_depth: ${use_depth}
-    resolution: "800p"
+
+  camera_configs:
+    top:
+      serial: ???
+      fps: 30
+      width: 1280
+      height: 800
+      resolution: "800p"
+      use_depth: ${use_depth}
+      rotation: 0
+
+    waist:
+      serial: ???
+      fps: 30
+      width: 1280
+      height: 800
+      resolution: "800p"
+      use_depth: ${use_depth}
+      rotation: 180
 
   display_config:
     key: "top"

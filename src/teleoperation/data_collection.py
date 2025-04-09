@@ -29,6 +29,8 @@ def get_camera_names(cfg):
         return [cfg.camera.instance.key]
     elif cfg.camera.instance.get("keys", {}).keys():
         return list(cfg.camera.instance.get("keys", {}).keys())
+    elif cfg.camera.instance.get("camera_configs", {}).keys():
+        return list(cfg.camera.instance.get("camera_configs", {}).keys())
     else:
         raise ValueError("No camera keys found in config.")
 
