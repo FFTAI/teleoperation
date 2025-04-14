@@ -373,6 +373,51 @@ class TeleopRobot(DexRobot, CameraMixin):
         os._exit(0)
 
 
+class EvalPolicy:
+    def __init__(self, config: DictConfig):
+        self.device = "cuda" if torch.cuda.is_available() else "cpu"
+        logger.info(f"Device: {self.device}")
+        logger.info(f"Loading policy {config.type} from {config.pretrained_path}")
+
+        ds_meta = LeRobotDatasetMetadata(config.repo_id, local_files_only=True)
+
+        cfg = make_policy_config(config.type, **config.config)
+
+        kwargs = {}
+        features = dataset_to_policy_features(ds_meta.features)
+        kwargs["dataset_stats"] = ds_meta.stats
+
+        cfg.output_features = {key: ft for key, ft in features.items() if ft.type is FeatureType.ACTION}
+        cfg.input_features = {key: ft for key, ft in features.items() if key not in cfg.output_features}
+        kwargs["config"] = cfg
+
+        self.policy = get_policy_class(config.type).from_pretrained(
+            config.pretrained_path, local_files_only=True, map_location=self.device, **kwargs
+        )
+
+        # self.policy = torch.compile(self.policy, mode="reduce-overhead")
+        self.policy.eval()
+        self.policy.to(self.device)
+
+        logger.info(f"Policy {config.type} loaded from {config.pretrained_path}.")
+
+    def select_action(self, batch):
+        return self.policy.select_action(batch=batch)
+
+
+class RemotePolicy:
+    def __init__(self, config: DictConfig):
+        self.device = "cpu"
+        logger.info(f"Device: {self.device}")
+
+        self.endpoint = config.endpoint
+
+        raise NotImplementedError("Remote policy not implemented yet.")
+
+    def select_action(self, batch):
+        raise NotImplementedError("Remote policy not implemented yet.")
+
+
 class EvalRobot(DexRobot, CameraMixin):
     def __init__(
         self,
@@ -401,7 +446,7 @@ class EvalRobot(DexRobot, CameraMixin):
         self.cam = hydra.utils.instantiate(cfg.camera.instance).start()
 
         self._init_command_sent = False
-        self._init_policy()
+        self.policy = EvalPolicy(cfg.policy)
         self._step = 0
 
         if not self.sim:
@@ -437,33 +482,6 @@ class EvalRobot(DexRobot, CameraMixin):
             hand_dimension = cfg.hand.left_hand.get("dimension", 6)
             self.left_hand: HandAdapter = DummyDexHand(hand_dimension)
             self.right_hand: HandAdapter = DummyDexHand(hand_dimension)
-
-    def _init_policy(self):
-        self.device = "cuda" if torch.cuda.is_available() else "cpu"
-        logger.info(f"Device: {self.device}")
-        logger.info(f"Loading policy {self.config.policy.type} from {self.config.policy.pretrained_path}")
-
-        ds_meta = LeRobotDatasetMetadata(self.config.policy.repo_id, local_files_only=True)
-
-        cfg = make_policy_config(self.config.policy.type, **self.config.policy.config)
-
-        kwargs = {}
-        features = dataset_to_policy_features(ds_meta.features)
-        kwargs["dataset_stats"] = ds_meta.stats
-
-        cfg.output_features = {key: ft for key, ft in features.items() if ft.type is FeatureType.ACTION}
-        cfg.input_features = {key: ft for key, ft in features.items() if key not in cfg.output_features}
-        kwargs["config"] = cfg
-
-        self.policy = get_policy_class(self.config.policy.type).from_pretrained(
-            self.config.policy.pretrained_path, local_files_only=True, map_location=self.device, **kwargs
-        )
-
-        # self.policy = torch.compile(self.policy, mode="reduce-overhead")
-        self.policy.eval()
-        self.policy.to(self.device)
-
-        logger.info(f"Policy {self.config.policy.type} loaded from {self.config.policy.pretrained_path}.")
 
     def step(self):
         qpos, hand_qpos, ee_pose, head_pose = self.observe()
