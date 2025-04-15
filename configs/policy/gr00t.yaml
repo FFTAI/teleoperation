@@ -1,0 +1,4 @@
+instance:
+  _target_: teleoperation.player.Gr00tPolicy
+  host: 127.0.0.1
+  port: 5555

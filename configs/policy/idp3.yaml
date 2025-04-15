@@ -1,0 +1,9 @@
+instance:
+  _target_: teleoperation.player.Gr00tPolicy
+  repo_id: "pick_place"
+  type: "idp3"
+  pretrained_path: ???
+
+  config:
+    n_action_steps: 15
+    # center_crop: true

@@ -16,6 +16,7 @@ from teleoperation.adapter.robots import DummyRobot, RobotAdapter
 from teleoperation.camera.utils import create_colored_point_cloud_from_depth_oak, post_process
 from teleoperation.preprocess import VuerPreprocessor
 from teleoperation.retarget.robot import DexRobot
+from teleoperation.service.gr00t import RobotInferenceClient
 from teleoperation.television import OpenTeleVision
 from teleoperation.upsampler import Upsampler
 from teleoperation.utils import CERT_DIR, se3_to_xyzortho6d
@@ -373,15 +374,17 @@ class TeleopRobot(DexRobot, CameraMixin):
         os._exit(0)
 
 
-class EvalPolicy:
-    def __init__(self, config: DictConfig):
+class LerobotPolicy:
+    def __init__(self, repo_id: str, type: str, pretrained_path: str, policy_config: DictConfig):
+        if not LEROBOT_AVAILABLE or rr is None or torch is None:
+            raise ImportError("LeRobot not installed.")
         self.device = "cuda" if torch.cuda.is_available() else "cpu"
         logger.info(f"Device: {self.device}")
-        logger.info(f"Loading policy {config.type} from {config.pretrained_path}")
+        logger.info(f"Loading policy {type} from {pretrained_path}")
 
-        ds_meta = LeRobotDatasetMetadata(config.repo_id, local_files_only=True)
+        ds_meta = LeRobotDatasetMetadata(repo_id, local_files_only=True)
 
-        cfg = make_policy_config(config.type, **config.config)
+        cfg = make_policy_config(type, **policy_config)
 
         kwargs = {}
         features = dataset_to_policy_features(ds_meta.features)
@@ -391,18 +394,80 @@ class EvalPolicy:
         cfg.input_features = {key: ft for key, ft in features.items() if key not in cfg.output_features}
         kwargs["config"] = cfg
 
-        self.policy = get_policy_class(config.type).from_pretrained(
-            config.pretrained_path, local_files_only=True, map_location=self.device, **kwargs
+        self.policy = get_policy_class(type).from_pretrained(
+            pretrained_path, local_files_only=True, map_location=self.device, **kwargs
         )
 
         # self.policy = torch.compile(self.policy, mode="reduce-overhead")
         self.policy.eval()
         self.policy.to(self.device)
 
-        logger.info(f"Policy {config.type} loaded from {config.pretrained_path}.")
+        logger.info(f"Policy {type} loaded from {pretrained_path}.")
 
     def select_action(self, batch):
         return self.policy.select_action(batch=batch)
+
+
+class Gr00tPolicy:
+    def __init__(self, host: str, port: int):
+        logger.info(f"Connecting to server at {config.host}:{config.port}")
+        self.policy_client = RobotInferenceClient(host=config.host, port=config.port)
+
+        print("Available modality config available:")
+        self.modality_configs = self.policy_client.get_modality_config()
+        print(self.modality_configs.keys())
+
+        # # Making prediction...
+        # # - obs: video.ego_view: (1, 256, 256, 3)
+        # # - obs: state.left_arm: (1, 7)
+        # # - obs: state.right_arm: (1, 7)
+        # # - obs: state.left_hand: (1, 6)
+        # # - obs: state.right_hand: (1, 6)
+        # # - obs: state.waist: (1, 3)
+
+        # # - action: action.left_arm: (16, 7)
+        # # - action: action.right_arm: (16, 7)
+        # # - action: action.left_hand: (16, 6)
+        # # - action: action.right_hand: (16, 6)
+        # # - action: action.waist: (16, 3)
+        # obs = {
+        #     "video.ego_view": np.random.randint(0, 256, (1, 256, 256, 3), dtype=np.uint8),
+        #     "state.left_arm": np.random.rand(1, 7),
+        #     "state.right_arm": np.random.rand(1, 7),
+        #     "state.left_hand": np.random.rand(1, 6),
+        #     "state.right_hand": np.random.rand(1, 6),
+        #     "state.waist": np.random.rand(1, 3),
+        #     "annotation.human.action.task_description": ["do your thing!"],
+        # }
+
+        # time_start = time.time()
+        # action = policy_client.get_action(obs)
+        # print(f"Total time taken to get action from server: {time.time() - time_start} seconds")
+
+        # for key, value in action.items():
+        #     print(f"Action: {key}: {value.shape}")
+
+    def _make_observation(self, batch):
+        """batch = {
+        "observation.state": obs,
+        "observation.images.top": images_top,
+        "task": [self.eval_cfg.prompt],
+        """
+
+        obs = {
+            "video.ego_view": batch["observation.images.top"],
+            # "state.waist": batch["observation.state"][:3],
+            "state.left_arm": batch["observation.state"][6:13],
+            "state.right_arm": batch["observation.state"][13:20],
+            "state.left_hand": batch["observation.state"][20:26],
+            "state.right_hand": batch["observation.state"][26:32],
+            "annotation.human.action.task_description": [batch["task"]],
+        }
+        return obs
+
+    def select_action(self, batch):
+        obs = self._make_observation(batch)
+        return self.policy_client.get_action(obs)
 
 
 class RemotePolicy:
@@ -423,11 +488,12 @@ class EvalRobot(DexRobot, CameraMixin):
         self,
         cfg: DictConfig,
     ):
-        if not LEROBOT_AVAILABLE or rr is None or torch is None:
-            raise ImportError("LeRobot not installed.")
-        rr.init("eval_robot", spawn=False)
-        rr.connect_tcp(cfg.eval.rerun_endpoint)
-        logging.getLogger().addHandler(rr.LoggingHandler("logs/handler"))
+        if cfg.eval.rerun_enabled and rr is not None:
+            rr.init("eval_robot", spawn=False)
+            rr.connect_tcp(cfg.eval.rerun_endpoint)
+            logging.getLogger().addHandler(rr.LoggingHandler("logs/handler"))
+        else:
+            rr = None
 
         self.eval_cfg = cfg.eval
         super().__init__(cfg)
@@ -446,7 +512,7 @@ class EvalRobot(DexRobot, CameraMixin):
         self.cam = hydra.utils.instantiate(cfg.camera.instance).start()
 
         self._init_command_sent = False
-        self.policy = EvalPolicy(cfg.policy)
+        self.policy = hydra.utils.instantiate(cfg.policy.instance)
         self._step = 0
 
         if not self.sim:
@@ -490,10 +556,12 @@ class EvalRobot(DexRobot, CameraMixin):
         if frames["top"]["rgb"] is None:
             logger.warning("No top image.")
             return
-        rr.set_time_sequence("step", self._step)
-        # rr.set_time_seconds("ts", time.time())
+        if rr:
+            rr.set_time_sequence("step", self._step)
+        # if rr: rr.set_time_seconds("ts", time.time())
         self._step += 1
-        rr.log("/observation/images/top", rr.Image(frames["top"]["rgb"].astype(np.uint8)))
+        if rr:
+            rr.log("/observation/images/top", rr.Image(frames["top"]["rgb"].astype(np.uint8)))
 
         # TODO: read self.eval_cfg.cameras
         images_top = torch.tensor(frames["top"]["rgb"], dtype=torch.float32)
@@ -503,7 +571,8 @@ class EvalRobot(DexRobot, CameraMixin):
         # TODO: add injectable obs_transform()
         obs = np.concatenate([qpos[12:], hand_qpos])
 
-        rr.log("/observation/state", rr.BarChart(obs.tolist()))
+        if rr:
+            rr.log("/observation/state", rr.BarChart(obs.tolist()))
         obs = torch.tensor(obs, dtype=torch.float32).unsqueeze(0).to(self.device)
 
         logger.debug(f"Observation: {qpos.shape}, {hand_qpos.shape} {frames['top']['rgb'].shape}  {obs.shape}")
@@ -522,7 +591,8 @@ class EvalRobot(DexRobot, CameraMixin):
 
         logger.debug(action)
 
-        rr.log("/action", rr.BarChart(action.tolist()))
+        if rr:
+            rr.log("/action", rr.BarChart(action.tolist()))
 
         return action
 
@@ -624,10 +694,12 @@ class iDP3EvalRobot(EvalRobot):
         if frames["top"]["rgb"] is None:
             logger.warning("No top image.")
             return
-        rr.set_time_sequence("step", self._step)
+        if rr:
+            rr.set_time_sequence("step", self._step)
         # rr.set_time_seconds("ts", time.time())
         self._step += 1
-        rr.log("/observation/images/top", rr.Image(frames["top"]["rgb"].astype(np.uint8)))
+        if rr:
+            rr.log("/observation/images/top", rr.Image(frames["top"]["rgb"].astype(np.uint8)))
 
         # TODO: read self.eval_cfg.cameras
         images_top = torch.tensor(frames["top"]["rgb"], dtype=torch.float32)
@@ -638,7 +710,8 @@ class iDP3EvalRobot(EvalRobot):
 
         pointcloud = None
         if depth is not None:
-            rr.log("/observation/images/depth", rr.Image(depth.astype(np.uint8)))
+            if rr:
+                rr.log("/observation/images/depth", rr.Image(depth.astype(np.uint8)))
 
             pointcloud = create_colored_point_cloud_from_depth_oak(depth * 1e-3, num_points=4096)
             pointcloud = torch.tensor(pointcloud, dtype=torch.float32).expand(1, -1, -1).reshape(1, -1).to(self.device)
@@ -646,7 +719,8 @@ class iDP3EvalRobot(EvalRobot):
         # TODO: add injectable obs_transform()
         obs = np.concatenate([qpos[12:], hand_qpos])
 
-        rr.log("/observation/state", rr.BarChart(obs.tolist()))
+        if rr:
+            rr.log("/observation/state", rr.BarChart(obs.tolist()))
         obs = torch.tensor(obs, dtype=torch.float32).unsqueeze(0).to(self.device)
 
         logger.debug(f"Observation: {qpos.shape}, {hand_qpos.shape} {frames['top']['rgb'].shape}  {obs.shape}")
@@ -663,6 +737,7 @@ class iDP3EvalRobot(EvalRobot):
         action = action.cpu().numpy().squeeze()
         logger.debug(action)
 
-        rr.log("/action", rr.BarChart(action.tolist()))
+        if rr:
+            rr.log("/action", rr.BarChart(action.tolist()))
 
         return action
