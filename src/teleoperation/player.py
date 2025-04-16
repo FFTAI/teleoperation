@@ -7,6 +7,7 @@ from multiprocessing import Event, Queue
 from threading import Lock
 from typing import Any, Literal
 
+import cv2
 import hydra
 import numpy as np
 from omegaconf import DictConfig
@@ -26,8 +27,6 @@ logger = logging.getLogger(__name__)
 LEROBOT_AVAILABLE = True
 
 try:
-    import rerun as rr
-    import torch
     from lerobot.common.datasets.lerobot_dataset import LeRobotDataset, LeRobotDatasetMetadata
     from lerobot.common.datasets.utils import dataset_to_policy_features
     from lerobot.common.policies.factory import get_policy_class, make_policy_config
@@ -35,8 +34,19 @@ try:
 except ImportError:
     logger.warning("LeRobot not installed.")
     LEROBOT_AVAILABLE = False
-    rr = None
+
+try:
+    import torch
+except ImportError:
+    logger.warning("Torch not installed.")
     torch = None
+
+try:
+    import rerun as rr
+
+except ImportError:
+    logger.warning("Rerun not installed.")
+    rr = None
 
 
 class CameraMixin:
@@ -409,43 +419,14 @@ class LerobotPolicy:
 
 
 class Gr00tPolicy:
-    def __init__(self, host: str, port: int):
-        logger.info(f"Connecting to server at {config.host}:{config.port}")
-        self.policy_client = RobotInferenceClient(host=config.host, port=config.port)
+    def __init__(self, host: str, port: int, **kwargs):
+        self._action_queue = Queue()
+        logger.info(f"Connecting to server at {host}:{port}")
+        self.policy_client = RobotInferenceClient(host=host, port=port)
 
         print("Available modality config available:")
         self.modality_configs = self.policy_client.get_modality_config()
-        print(self.modality_configs.keys())
-
-        # # Making prediction...
-        # # - obs: video.ego_view: (1, 256, 256, 3)
-        # # - obs: state.left_arm: (1, 7)
-        # # - obs: state.right_arm: (1, 7)
-        # # - obs: state.left_hand: (1, 6)
-        # # - obs: state.right_hand: (1, 6)
-        # # - obs: state.waist: (1, 3)
-
-        # # - action: action.left_arm: (16, 7)
-        # # - action: action.right_arm: (16, 7)
-        # # - action: action.left_hand: (16, 6)
-        # # - action: action.right_hand: (16, 6)
-        # # - action: action.waist: (16, 3)
-        # obs = {
-        #     "video.ego_view": np.random.randint(0, 256, (1, 256, 256, 3), dtype=np.uint8),
-        #     "state.left_arm": np.random.rand(1, 7),
-        #     "state.right_arm": np.random.rand(1, 7),
-        #     "state.left_hand": np.random.rand(1, 6),
-        #     "state.right_hand": np.random.rand(1, 6),
-        #     "state.waist": np.random.rand(1, 3),
-        #     "annotation.human.action.task_description": ["do your thing!"],
-        # }
-
-        # time_start = time.time()
-        # action = policy_client.get_action(obs)
-        # print(f"Total time taken to get action from server: {time.time() - time_start} seconds")
-
-        # for key, value in action.items():
-        #     print(f"Action: {key}: {value.shape}")
+        print(self.modality_configs)
 
     def _make_observation(self, batch):
         """batch = {
@@ -454,20 +435,53 @@ class Gr00tPolicy:
         "task": [self.eval_cfg.prompt],
         """
 
+        img = batch["observation.images.top"]
+        img = img[:, 240:-240, :]
+        img = cv2.resize(img, (256, 256), interpolation=cv2.INTER_LINEAR)
+
+        print(f"Image shape: {img.shape}")
+        img = img[None, :, :, :].astype(np.uint8)
+        img = np.ascontiguousarray(img)
+
+        print(f"Final Image shape: {img.shape}")
+
+        if rr:
+            rr.log("/observation/images/top", rr.Image(img))
+
         obs = {
-            "video.ego_view": batch["observation.images.top"],
-            # "state.waist": batch["observation.state"][:3],
-            "state.left_arm": batch["observation.state"][6:13],
-            "state.right_arm": batch["observation.state"][13:20],
-            "state.left_hand": batch["observation.state"][20:26],
-            "state.right_hand": batch["observation.state"][26:32],
+            "video.ego_view": img,  # (1, 256, 256, 3)
+            "state.waist": batch["observation.state"][None, :3],
+            "state.head": batch["observation.state"][None, 3:6],
+            "state.left_arm": batch["observation.state"][None, 6:13],
+            "state.right_arm": batch["observation.state"][None, 13:20],
+            "state.left_hand": batch["observation.state"][None, 20:26],
+            "state.right_hand": batch["observation.state"][None, 26:32],
             "annotation.human.action.task_description": [batch["task"]],
         }
         return obs
 
     def select_action(self, batch):
+        if not self._action_queue.empty():
+            return self._action_queue.get()
+
         obs = self._make_observation(batch)
-        return self.policy_client.get_action(obs)
+        action_dict = self.policy_client.get_action(obs)
+
+        actions = np.concatenate(
+            [
+                np.zeros((16, 6)),
+                action_dict["action.left_arm"],
+                action_dict["action.right_arm"],
+                action_dict["action.left_hand"],
+                action_dict["action.right_hand"],
+            ],
+            axis=1,
+        )
+
+        for action in actions:
+            self._action_queue.put(action)
+
+        return self._action_queue.get()
 
 
 class RemotePolicy:
@@ -488,6 +502,8 @@ class EvalRobot(DexRobot, CameraMixin):
         self,
         cfg: DictConfig,
     ):
+        import rerun as rr
+
         if cfg.eval.rerun_enabled and rr is not None:
             rr.init("eval_robot", spawn=False)
             rr.connect_tcp(cfg.eval.rerun_endpoint)
@@ -560,26 +576,26 @@ class EvalRobot(DexRobot, CameraMixin):
             rr.set_time_sequence("step", self._step)
         # if rr: rr.set_time_seconds("ts", time.time())
         self._step += 1
-        if rr:
-            rr.log("/observation/images/top", rr.Image(frames["top"]["rgb"].astype(np.uint8)))
+        # if rr:
+        # rr.log("/observation/images/top", rr.Image(frames["top"]["rgb"].astype(np.uint8)))
 
         # TODO: read self.eval_cfg.cameras
-        images_top = torch.tensor(frames["top"]["rgb"], dtype=torch.float32)
-        # h, w, c to b, c, h, w
-        images_top = images_top.expand(1, -1, -1, -1).permute(0, 3, 1, 2).to(self.device)
+        # images_top = torch.tensor(frames["top"]["rgb"], dtype=torch.float32)
+        # # h, w, c to b, c, h, w
+        # images_top = images_top.expand(1, -1, -1, -1).permute(0, 3, 1, 2).to(self.device)
 
         # TODO: add injectable obs_transform()
         obs = np.concatenate([qpos[12:], hand_qpos])
 
         if rr:
             rr.log("/observation/state", rr.BarChart(obs.tolist()))
-        obs = torch.tensor(obs, dtype=torch.float32).unsqueeze(0).to(self.device)
+        # obs = torch.tensor(obs, dtype=torch.float32).unsqueeze(0).to(self.device)
 
         logger.debug(f"Observation: {qpos.shape}, {hand_qpos.shape} {frames['top']['rgb'].shape}  {obs.shape}")
 
         batch = {
             "observation.state": obs,
-            "observation.images.top": images_top,
+            "observation.images.top": frames["top"]["rgb"].astype(np.uint8),
             "task": [self.eval_cfg.prompt],
         }
         for k, v in batch.items():
@@ -587,12 +603,14 @@ class EvalRobot(DexRobot, CameraMixin):
                 logger.debug(f"{k}: {v.shape}")
         action = self.policy.select_action(batch=batch)
 
-        action = action.cpu().numpy().squeeze()
+        # action = action.cpu().numpy().squeeze()
 
-        logger.debug(action)
+        logger.info(action)
 
-        if rr:
-            rr.log("/action", rr.BarChart(action.tolist()))
+        # if rr:
+        #     rr.log("/action", rr.BarChart(action.tolist()))
+
+        # from IPython
 
         return action
 
@@ -698,8 +716,8 @@ class iDP3EvalRobot(EvalRobot):
             rr.set_time_sequence("step", self._step)
         # rr.set_time_seconds("ts", time.time())
         self._step += 1
-        if rr:
-            rr.log("/observation/images/top", rr.Image(frames["top"]["rgb"].astype(np.uint8)))
+        # if rr:
+        #     rr.log("/observation/images/top", rr.Image(frames["top"]["rgb"].astype(np.uint8)))
 
         # TODO: read self.eval_cfg.cameras
         images_top = torch.tensor(frames["top"]["rgb"], dtype=torch.float32)

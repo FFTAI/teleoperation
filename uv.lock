@@ -854,14 +854,14 @@ wheels = [
 
 [[package]]
 name = "dexhandpy"
-version = "0.0.40"
+version = "0.0.37"
 source = { registry = "https://test.pypi.org/simple" }
 dependencies = [
     { name = "pybind11", marker = "(platform_machine != 'aarch64' and sys_platform == 'linux') or (platform_machine == 'aarch64' and extra == 'extra-13-teleoperation-cpu' and extra == 'extra-13-teleoperation-gpu') or (platform_machine == 'aarch64' and extra == 'extra-13-teleoperation-cpu' and extra == 'extra-13-teleoperation-lerobot') or (platform_machine == 'aarch64' and extra == 'extra-13-teleoperation-gpu' and extra == 'extra-13-teleoperation-lerobot') or (sys_platform != 'linux' and extra == 'extra-13-teleoperation-cpu' and extra == 'extra-13-teleoperation-gpu') or (sys_platform != 'linux' and extra == 'extra-13-teleoperation-cpu' and extra == 'extra-13-teleoperation-lerobot') or (sys_platform != 'linux' and extra == 'extra-13-teleoperation-gpu' and extra == 'extra-13-teleoperation-lerobot')" },
 ]
-sdist = { url = "https://test-files.pythonhosted.org/packages/7e/d7/3f818987d6a1a8a5989d697cea30a241655483090679ea3eaa0c6b6e44cb/dexhandpy-0.0.40.tar.gz", hash = "sha256:11702c185eb251272012efcd4b687f1829ee657dc82b18183c8ce17359d6fd74", size = 398696 }
+sdist = { url = "https://test-files.pythonhosted.org/packages/12/8f/5e79af440f529d58784739b76f752610a12d557076812a4207169a6690c4/dexhandpy-0.0.37.tar.gz", hash = "sha256:ef579133e65b2483a313b10fd640a329052753a3ae2c6ec4140c031dfe10bd41", size = 400587 }
 wheels = [
-    { url = "https://test-files.pythonhosted.org/packages/54/35/f467d773c8d7a662564f6b76c80b4cf6c9da8ec0d498322277aad8a80f04/dexhandpy-0.0.40-py311-none-manylinux_2_24_x86_64.whl", hash = "sha256:4db9e3b5189c248e93dae6c599d840774c064de540316c66b91ca90f257442e6", size = 510742 },
+    { url = "https://test-files.pythonhosted.org/packages/44/86/e61db895df3a77f6d3f1962468319550a21041ac6db4f55c6792f1684058/dexhandpy-0.0.37-py3-none-any.whl", hash = "sha256:cf098f4e6b1295a44d6273d6638bee7f4ed7551abed771285a172a5dcff7c892", size = 512584 },
 ]
 
 [[package]]
@@ -3666,7 +3666,7 @@ dev = [
     { name = "ruff", specifier = ">=0.9.1" },
 ]
 fourier = [
-    { name = "dexhandpy", specifier = "==0.0.40", index = "https://test.pypi.org/simple" },
+    { name = "dexhandpy", specifier = "==0.0.37", index = "https://test.pypi.org/simple" },
     { name = "fourier-dhx", specifier = ">=0.0.2" },
     { name = "fourier-grx-client", specifier = "==0.2.0a8" },
     { name = "fourier-grx-dds", specifier = "==0.2.7a0" },

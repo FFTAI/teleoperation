@@ -14,7 +14,7 @@ logger = logging.getLogger(__name__)
 
 @hydra.main(config_path=str(CONFIG_DIR), config_name="eval_idp3", version_base="1.2")
 def main(cfg: DictConfig):
-    if cfg.robot.policy.type == "diffusion3d":
+    if cfg.policy.instance.type == "diffusion3d":
         robot = iDP3EvalRobot(cfg)
     else:
         robot = EvalRobot(cfg)
