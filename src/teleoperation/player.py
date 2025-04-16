@@ -419,7 +419,9 @@ class LerobotPolicy:
 
 
 class Gr00tPolicy:
-    def __init__(self, host: str, port: int, **kwargs):
+    def __init__(self, host: str, port: int, chunk_size: int, execute_size: int, **kwargs):
+        self.chunk_size = chunk_size
+        self.execute_size = execute_size
         self._action_queue = Queue()
         logger.info(f"Connecting to server at {host}:{port}")
         self.policy_client = RobotInferenceClient(host=host, port=port)
@@ -469,14 +471,14 @@ class Gr00tPolicy:
 
         actions = np.concatenate(
             [
-                np.zeros((16, 6)),
+                np.zeros((self.chunk_size, 6)),
                 action_dict["action.left_arm"],
                 action_dict["action.right_arm"],
                 action_dict["action.left_hand"],
                 action_dict["action.right_hand"],
             ],
             axis=1,
-        )
+        )[: self.execute_size, ...]
 
         for action in actions:
             self._action_queue.put(action)

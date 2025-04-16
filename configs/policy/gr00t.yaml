@@ -3,3 +3,5 @@ instance:
   type: "n1"
   host: 127.0.0.1
   port: 5555
+  chunk_size: 16
+  execute_size: 10
