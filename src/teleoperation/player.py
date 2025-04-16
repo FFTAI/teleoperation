@@ -701,7 +701,7 @@ class EvalRobot(DexRobot, CameraMixin):
         os._exit(0)
 
 
-class iDP3EvalRobot(EvalRobot):
+class PointCloudEvalRobot(EvalRobot):
     def __init__(self, cfg: DictConfig):
         super().__init__(cfg)
 

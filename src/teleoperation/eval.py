@@ -4,7 +4,7 @@ import time
 import hydra
 from omegaconf import DictConfig
 
-from teleoperation.player import EvalRobot, iDP3EvalRobot
+from teleoperation.player import EvalRobot, PointCloudEvalRobot
 from teleoperation.utils import (
     CONFIG_DIR,
 )
@@ -14,8 +14,8 @@ logger = logging.getLogger(__name__)
 
 @hydra.main(config_path=str(CONFIG_DIR), config_name="eval_idp3", version_base="1.2")
 def main(cfg: DictConfig):
-    if cfg.policy.instance.type == "diffusion3d":
-        robot = iDP3EvalRobot(cfg)
+    if cfg.policy.instance.type == "idp3":
+        robot = PointCloudEvalRobot(cfg)
     else:
         robot = EvalRobot(cfg)
 

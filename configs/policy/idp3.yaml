@@ -1,5 +1,5 @@
 instance:
-  _target_: teleoperation.player.Gr00tPolicy
+  _target_: teleoperation.player.LerobotPolicy
   repo_id: "pick_place"
   type: "idp3"
   pretrained_path: ???
