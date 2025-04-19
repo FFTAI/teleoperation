@@ -22,7 +22,7 @@ instance:
 
   display_config:
     key: "top"
-    mode: "mono"
+    mode: "stereo"
     resolution: "400p"
     crop_sizes: [0, 0, 0, 0]
 

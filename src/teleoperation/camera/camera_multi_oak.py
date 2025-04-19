@@ -191,14 +191,31 @@ class CameraMultiOak:
                 if q_display is not None and not self.eval_mode:
                     try:
                         p: FramePacket = q_display.get_queue().get(block=False)
-
-                        left_frame = cv2.cvtColor(
-                            p[self.sources[self.display_config.key]["left"]].frame, cv2.COLOR_GRAY2RGB
+                        if self.display_config.mode == "stereo":
+                            left_frame = cv2.cvtColor(
+                                p[self.sources[self.display_config.key]["left"]].frame, cv2.COLOR_GRAY2RGB
+                            )
+                            right_frame = cv2.cvtColor(
+                                p[self.sources[self.display_config.key]["right"]].frame, cv2.COLOR_GRAY2RGB
+                            )
+                            display_dict = {
+                                "left": left_frame,
+                                "right": right_frame,
+                            }
+                        elif self.display_config.mode == "mono":
+                            rgb_frame = cv2.cvtColor(
+                                p[self.sources[self.display_config.key]["rgb"]].frame, cv2.COLOR_BGR2RGB
+                            )
+                            rgb_frame = cv2.resize(rgb_frame, self.display.resolution)
+                            display_dict = {
+                                "rgb": rgb_frame,
+                            }
+                        else:
+                            raise ValueError(f"Invalid display mode: {self.display_config.mode}")
+                        self.display.put(
+                            display_dict,
+                            marker=self.is_recording.is_set(),
                         )
-                        right_frame = cv2.cvtColor(
-                            p[self.sources[self.display_config.key]["right"]].frame, cv2.COLOR_GRAY2RGB
-                        )
-                        self.display.put({"left": left_frame, "right": right_frame}, marker=self.is_recording.is_set())
                     except queue.Empty:
                         pass
                     except Exception as e:
