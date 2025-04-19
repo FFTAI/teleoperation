@@ -203,10 +203,8 @@ class CameraMultiOak:
                                 "right": right_frame,
                             }
                         elif self.display_config.mode == "mono":
-                            rgb_frame = cv2.cvtColor(
-                                p[self.sources[self.display_config.key]["rgb"]].frame, cv2.COLOR_BGR2RGB
-                            )
-                            rgb_frame = cv2.resize(rgb_frame, self.display.resolution)
+                            rgb_frame = cv2.cvtColor(p.frame, cv2.COLOR_BGR2RGB)
+                            rgb_frame = cv2.resize(rgb_frame, (self.display.resolution[1], self.display.resolution[0]))
                             display_dict = {
                                 "rgb": rgb_frame,
                             }
@@ -293,20 +291,26 @@ class CameraMultiOak:
         stereo_fps = fps
         color_fps = fps
 
+        color = oak.create_camera("CAM_A", resolution=resolution, fps=color_fps)
+        if resolution == "1080p":
+            color.config_color_camera(isp_scale=(2, 3))
+
         if not self.eval_mode and key == self.display_config.key:
-            left = oak.create_camera("left", resolution=self.display_config.resolution, fps=stereo_fps)
-            right = oak.create_camera("right", resolution=self.display_config.resolution, fps=stereo_fps)
-            q_display = oak.queue([left, right], max_size=3).configure_syncing(
-                enable_sync=True, threshold_ms=int((1000 / stereo_fps) / 2)
-            )
+            if self.display_config.mode == "stereo":
+                left = oak.create_camera("left", resolution=self.display_config.resolution, fps=stereo_fps)
+                right = oak.create_camera("right", resolution=self.display_config.resolution, fps=stereo_fps)
+                q_display = oak.queue([left, right], max_size=3).configure_syncing(
+                    enable_sync=True, threshold_ms=int((1000 / stereo_fps) / 2)
+                )
+
+            elif self.display_config.mode == "mono":
+                left = None
+                right = None
+                q_display = oak.queue(color, max_size=5)
         else:
             left = None
             right = None
             q_display = None
-
-        color = oak.create_camera("CAM_A", resolution=resolution, fps=color_fps)
-        if resolution == "1080p":
-            color.config_color_camera(isp_scale=(2, 3))
 
         if use_depth:
             stereo = oak.create_stereo(
@@ -384,7 +388,7 @@ if __name__ == "__main__":
                 serial="14442C10B1E3BCD600", fps=30, width=1280, height=800, use_depth=False, rotation=180
             ),
         },
-        display_config=DisplayConfig(key="top", mode="stereo", crop_sizes=(0, 0, 0, 0), resolution="400p"),
+        display_config=DisplayConfig(key="top", mode="mono", crop_sizes=(0, 0, 0, 0), resolution="400p"),
         save_processes=6,
         save_threads=6,
         save_queue_size=120,
