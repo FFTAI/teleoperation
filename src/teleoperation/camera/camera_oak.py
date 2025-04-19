@@ -93,7 +93,7 @@ class CameraOak:
         self.video_path = os.path.join(output_path, self.key)
         delete_if_exists(self.video_path)
 
-        self.cam_info.save_json(os.path.join(self.video_path, self.key))
+        self.cam_info.save_json(self.video_path)
 
         self.is_recording.set()
 

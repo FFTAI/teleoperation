@@ -37,6 +37,8 @@ class CameraInfo:
             logger.warning(f"File {path} already exists. Overwriting.")
         import json
 
+        logger.info(f"Saving camera {self.name} info to {path}")
+
         with open(path, "w") as f:
             json.dump(self.__dict__, f, indent=4)
 
