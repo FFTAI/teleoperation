@@ -295,6 +295,9 @@ class CameraMultiOak:
         if resolution == "1080p":
             color.config_color_camera(isp_scale=(2, 3))
 
+        left = None
+        right = None
+        q_display = None
         if not self.eval_mode and key == self.display_config.key:
             if self.display_config.mode == "stereo":
                 left = oak.create_camera("left", resolution=self.display_config.resolution, fps=stereo_fps)
@@ -302,17 +305,14 @@ class CameraMultiOak:
                 q_display = oak.queue([left, right], max_size=3).configure_syncing(
                     enable_sync=True, threshold_ms=int((1000 / stereo_fps) / 2)
                 )
-
             elif self.display_config.mode == "mono":
-                left = None
-                right = None
                 q_display = oak.queue(color, max_size=5)
-        else:
-            left = None
-            right = None
-            q_display = None
 
         if use_depth:
+            if left is None:
+                left = oak.create_camera("left", resolution="400p", fps=stereo_fps)
+            if right is None:
+                right = oak.create_camera("right", resolution="400p", fps=stereo_fps)
             stereo = oak.create_stereo(
                 left=left,
                 right=right,
