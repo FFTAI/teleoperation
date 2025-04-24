@@ -1,7 +1,6 @@
 from __future__ import annotations
 
 import logging
-import threading
 import time
 from concurrent.futures import ThreadPoolExecutor
 from multiprocessing import Event, Queue
@@ -18,23 +17,12 @@ from teleoperation.adapter.robots import DummyRobot, RobotAdapter
 from teleoperation.camera.utils import create_colored_point_cloud_from_depth_oak, post_process
 from teleoperation.preprocess import VuerPreprocessor
 from teleoperation.retarget.robot import DexRobot
-from teleoperation.service.gr00t import RobotInferenceClient
 from teleoperation.television import OpenTeleVision
 from teleoperation.upsampler import Upsampler
 from teleoperation.utils import CERT_DIR, se3_to_xyzortho6d
 
 logger = logging.getLogger(__name__)
 
-LEROBOT_AVAILABLE = True
-
-try:
-    from lerobot.common.datasets.lerobot_dataset import LeRobotDataset, LeRobotDatasetMetadata
-    from lerobot.common.datasets.utils import dataset_to_policy_features
-    from lerobot.common.policies.factory import get_policy_class, make_policy_config
-    from lerobot.configs.types import FeatureType
-except ImportError:
-    logger.warning("LeRobot not installed.")
-    LEROBOT_AVAILABLE = False
 
 try:
     import torch
@@ -383,133 +371,6 @@ class TeleopRobot(DexRobot, CameraMixin):
         import os
 
         os._exit(0)
-
-
-class LerobotPolicy:
-    def __init__(self, repo_id: str, type: str, pretrained_path: str, policy_config: DictConfig):
-        if not LEROBOT_AVAILABLE or rr is None or torch is None:
-            raise ImportError("LeRobot not installed.")
-        self.device = "cuda" if torch.cuda.is_available() else "cpu"
-        logger.info(f"Device: {self.device}")
-        logger.info(f"Loading policy {type} from {pretrained_path}")
-
-        ds_meta = LeRobotDatasetMetadata(repo_id, local_files_only=True)
-
-        cfg = make_policy_config(type, **policy_config)
-
-        kwargs = {}
-        features = dataset_to_policy_features(ds_meta.features)
-        kwargs["dataset_stats"] = ds_meta.stats
-
-        cfg.output_features = {key: ft for key, ft in features.items() if ft.type is FeatureType.ACTION}
-        cfg.input_features = {key: ft for key, ft in features.items() if key not in cfg.output_features}
-        kwargs["config"] = cfg
-
-        self.policy = get_policy_class(type).from_pretrained(
-            pretrained_path, local_files_only=True, map_location=self.device, **kwargs
-        )
-
-        # self.policy = torch.compile(self.policy, mode="reduce-overhead")
-        self.policy.eval()
-        self.policy.to(self.device)
-
-        logger.info(f"Policy {type} loaded from {pretrained_path}.")
-
-    def select_action(self, batch):
-        return self.policy.select_action(batch=batch)
-
-
-class Gr00tPolicy:
-    def __init__(self, host: str, port: int, chunk_size: int, execute_size: int, **kwargs):
-        self.chunk_size = chunk_size
-        self.execute_size = execute_size
-        self._action_queue = Queue()
-        logger.info(f"Connecting to server at {host}:{port}")
-        self.policy_client = RobotInferenceClient(host=host, port=port)
-
-        logger.info("Available modality config available:")
-        self.modality_configs = self.policy_client.get_modality_config()
-        logger.info(self.modality_configs)
-
-        self.batch = None
-        self._lock = threading.Lock()
-
-        self._get_action_worker_thread = threading.Thread(
-            target=self._get_action_worker, args=(chunk_size - execute_size,), daemon=True
-        )
-        self._get_action_worker_thread.start()
-
-    def _get_action_worker(self, overlap):
-        while True:
-            if self._action_queue.qsize() > overlap:
-                time.sleep(1 / 100)
-                continue
-            with self._lock:
-                if self.batch is None or self.batch["observation.images.top"] is None:
-                    time.sleep(1 / 100)
-                    continue
-                obs = self._make_observation(self.batch)
-            action_dict = self.policy_client.get_action(obs)
-
-            actions = np.concatenate(
-                [
-                    np.zeros((self.chunk_size, 6)),
-                    action_dict["action.left_arm"],
-                    action_dict["action.right_arm"],
-                    action_dict["action.left_hand"],
-                    action_dict["action.right_hand"],
-                ],
-                axis=1,
-            )
-            # [: self.execute_size, ...]
-
-            logger.debug(f"Remaining queue size: {self._action_queue.qsize()}")
-            # empty the queue
-
-            actual_overlap = overlap
-            while not self._action_queue.empty():
-                actual_overlap -= 1
-                self._action_queue.get()
-
-            actual_overlap = max(0, actual_overlap)
-            for action in actions[actual_overlap:]:
-                self._action_queue.put(action)
-
-            time.sleep(1 / 100)
-
-    def _make_observation(self, batch):
-        """batch = {
-        "observation.state": obs,
-        "observation.images.top": images_top,
-        "task": [self.eval_cfg.prompt],
-        """
-
-        img = batch["observation.images.top"].copy()
-        img = img[:, 240:-240, :]
-        img = cv2.resize(img, (256, 256), interpolation=cv2.INTER_LINEAR)
-        # if rr:
-        #     rr.log("/observation/images/top", rr.Image(img))
-        img = img[None, :, :, :].astype(np.uint8)
-
-        obs = {
-            "video.ego_view": img,  # (1, 256, 256, 3)
-            "state.waist": batch["observation.state"][None, :3].copy(),
-            "state.head": batch["observation.state"][None, 3:6].copy(),
-            "state.left_arm": batch["observation.state"][None, 6:13].copy(),
-            "state.right_arm": batch["observation.state"][None, 13:20].copy(),
-            "state.left_hand": batch["observation.state"][None, 20:26].copy(),
-            "state.right_hand": batch["observation.state"][None, 26:32].copy(),
-            "annotation.human.action.task_description": [batch["task"]],
-        }
-        return obs
-
-    def select_action(self, batch):
-        with self._lock:
-            self.batch = batch
-
-        logger.debug(f"Queue size: {self._action_queue.qsize()}")
-
-        return self._action_queue.get()
 
 
 class RemotePolicy:

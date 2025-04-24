@@ -1,0 +1,73 @@
+defaults:
+  - _self_
+
+  - hand: fourier_dexpilot_dhx
+  - robot: "gr1t1_legacy"
+  - camera: oak_97
+  - policy: scaledp
+  - override hydra/job_logging: colorlog
+  - override hydra/hydra_logging: colorlog
+
+# robot:
+#   urdf_path: "urdf/GR1T2_inspire_hand.urdf"
+# hand:
+#   left:
+#     urdf_path: urdf/fourier_hand_left.urdf
+#   right:
+#     urdf_path: urdf/fourier_hand_right.urdf
+
+debug: false
+debug_hand: false
+sim: false
+wait_time: 5.0
+frequency: 30
+use_waist: false
+use_head: false
+use_depth: true
+
+cpu:
+  affinity: []
+  niceness: -5
+
+recording:
+  enabled: false
+  task_name: "eval"
+
+joint_filter:
+  min_cutoff: 0.01
+  beta: 10.0
+
+hand_filter:
+  min_cutoff: 0.001
+  beta: 50.0
+
+head_filter:
+  alpha: 0.7
+
+upsampler:
+  frequency: 120
+  gravity_compensation: false
+
+hydra:
+  job:
+    chdir: false
+  run:
+    dir: outputs/${policy.instance.type}-${now:%Y-%m-%d_%H-%M-%S}
+
+camera:
+  instance:
+    eval_mode: true
+
+eval:
+  prompt: "Pick up the lemon and put it in the basket"
+  rerun_enabled: true
+  rerun_endpoint: 192.168.31.184:9876
+  states:
+    qpos: [0, 20]
+    hand_qpos: [20, 32]
+  actions:
+    qpos: [0, 20]
+    hand_qpos: [20, 32]
+  cameras:
+    top:
+      streams: ["rgbd"]

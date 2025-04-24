@@ -1,9 +1,9 @@
 instance:
-  _target_: teleoperation.player.LerobotPolicy
+  _target_: teleoperation.policy.lerobot.LerobotPolicy
   repo_id: "pick_place"
   type: "idp3"
   pretrained_path: ???
 
-  config:
+  policy_config:
     n_action_steps: 15
     # center_crop: true
