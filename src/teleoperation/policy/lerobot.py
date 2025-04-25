@@ -56,8 +56,13 @@ class LerobotPolicy:
         batch["observation.images.top"] = cv2.resize(
             batch["observation.images.top"], (256, 256), interpolation=cv2.INTER_LINEAR
         ).transpose(2, 0, 1)
-        batch["observation.images.top"] = torch.from_numpy(batch["observation.images.top"]).unsqueeze(0).to(self.device)
-        batch["observation.state"] = torch.from_numpy(batch["observation.state"]).unsqueeze(0).to(self.device)
+        batch["observation.images.top"] = (
+            torch.from_numpy(batch["observation.images.top"]).unsqueeze(0).to(self.device, dtype=torch.float32)
+        )
+        batch["observation.state"] = (
+            torch.from_numpy(batch["observation.state"]).unsqueeze(0).to(self.device, dtype=torch.float32)
+        )
+        # action = self.policy.select_action(batch=batch, recover_delta_actions=True)
         action = self.policy.select_action(batch=batch)
         action = action.cpu().numpy()
         action = action.squeeze(0)

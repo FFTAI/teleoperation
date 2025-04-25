@@ -480,7 +480,6 @@ class EvalRobot(DexRobot, CameraMixin):
 
         if rr:
             rr.log("/observation/state", rr.BarChart(obs.tolist()))
-        # obs = torch.tensor(obs, dtype=torch.float32).unsqueeze(0).to(self.device)
 
         logger.debug(f"Observation: {qpos.shape}, {hand_qpos.shape} {frames['top']['rgb'].shape}  {obs.shape}")
 
@@ -494,14 +493,10 @@ class EvalRobot(DexRobot, CameraMixin):
                 logger.debug(f"{k}: {v.shape}")
         action = self.policy.select_action(batch=batch)
 
-        # action = action.cpu().numpy().squeeze()
-
         logger.info(action)
 
         if rr:
             rr.log("/action", rr.BarChart(list(action)))
-
-        # from IPython
 
         return action
 

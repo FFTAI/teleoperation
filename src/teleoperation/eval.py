@@ -21,6 +21,9 @@ def main(cfg: DictConfig):
 
     robot.init_control_joints()
 
+    # wait for the robot to be ready
+    input("Press Enter to start the robot...")
+
     try:
         while True:
             robot.update_display()
