@@ -36,7 +36,12 @@ def main(cfg: DictConfig):
                 if name == "hand_qpos":
                     robot.control_hands(action[dim[0] : dim[1]])
                 elif name == "qpos":
-                    robot.control_joints(action[dim[0] : dim[1]])
+                    # robot.control_joints(action[dim[0] : dim[1]])
+                    # todo: zero waist and neck for now
+                    a = action[dim[0] : dim[1]]
+                    a[:6] = 0
+                    robot.control_joints(a)
+                    # logger.info(f"qpos: {a}")
                 elif name == "xyzquat":
                     raise NotImplementedError("Quat control is not implemented yet.")
                 elif name == "ortho6d":
@@ -44,6 +49,7 @@ def main(cfg: DictConfig):
                 else:
                     raise ValueError(f"Unknown action type {name}")
             time.sleep(1 / cfg.frequency)
+            # input("Press Enter to start the robot...")
 
     except KeyboardInterrupt:
         logger.info("Exiting...")
