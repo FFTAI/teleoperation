@@ -30,7 +30,6 @@ class LerobotPolicy:
         repo_id: str,
         type: str,
         pretrained_path: str,
-        use_delta_action=False,
         policy_config: DictConfig | dict | None = None,
     ):
         if policy_config is None:
@@ -38,7 +37,6 @@ class LerobotPolicy:
         if not LEROBOT_AVAILABLE or torch is None:
             raise ImportError("LeRobot not installed.")
         self.device = "cuda" if torch.cuda.is_available() else "cpu"
-        self.use_delta_action = use_delta_action
         logger.info(f"Device: {self.device}")
         logger.info(f"Loading policy {type} from {pretrained_path}")
 
@@ -73,10 +71,7 @@ class LerobotPolicy:
             torch.from_numpy(batch["observation.state"]).unsqueeze(0).to(self.device, dtype=torch.float32)
         )
 
-        if self.use_delta_action:
-            action = self.policy.select_action(batch=batch, recover_delta_actions=True)
-        else:
-            action = self.policy.select_action(batch=batch)
+        action = self.policy.select_action(batch=batch)
         action = action.cpu().numpy()
         action = action.squeeze(0)
         return action
