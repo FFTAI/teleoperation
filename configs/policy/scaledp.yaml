@@ -3,6 +3,7 @@ instance:
   repo_id: "FourierIntelligence/pick-lemon-200-256x256"
   type: "scale_dp"
   pretrained_path: ???
+  use_delta_action: true
 
   policy_config:
     n_action_steps: 24
