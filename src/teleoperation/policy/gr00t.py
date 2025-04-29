@@ -23,6 +23,29 @@ class Gr00tPolicy:
         self.modality_configs = self.policy_client.get_modality_config()
         logger.info(self.modality_configs)
 
+        self.modality = {
+            "state": {
+                "waist": {"start": 0, "end": 3},
+                "neck": {"start": 3, "end": 6},
+                "left_arm": {"start": 6, "end": 13},
+                "right_arm": {"start": 13, "end": 20},
+                "left_hand": {"start": 20, "end": 26},
+                "right_hand": {"start": 26, "end": 32},
+            },
+            "action": {
+                "waist": {"start": 0, "end": 3},
+                "neck": {"start": 3, "end": 6},
+                "left_arm": {"start": 6, "end": 13},
+                "right_arm": {"start": 13, "end": 20},
+                "left_hand": {"start": 20, "end": 26},
+                "right_hand": {"start": 26, "end": 32},
+            },
+            "video": {"top": {"original_key": "observation.images.top"}},
+            "annotation": {"human.action.task_description": {}},
+        }
+        self._state_dim = max([m["end"] for m in self.modality["state"].values()])
+        self._action_dim = max([m["end"] for m in self.modality["action"].values()])
+
         self.batch = None
         self._lock = threading.Lock()
 
@@ -68,6 +91,24 @@ class Gr00tPolicy:
                 self._action_queue.put(action)
 
             time.sleep(1 / 100)
+
+    def prepare_observation(self, observation_dict):
+        """Prepare observation for the policy. Convert from modality dict to array based on loaded modality config."""
+
+        assert set(
+            observation_dict.keys()
+        ).issuperset(
+            set(self.modality["state"].keys())
+        ), f"Observation dict keys {observation_dict.keys()} do not match modality config keys {self.modality['state'].keys()}"
+        obs = np.zeros((self._state_dim,), dtype=np.float32)
+        for key, value in observation_dict.items():
+            if key not in self.modality["state"]:
+                continue
+            start = self.modality["state"][key]["start"]
+            end = self.modality["state"][key]["end"]
+            obs[start:end] = value
+
+        return obs
 
     def _make_observation(self, batch):
         """batch = {

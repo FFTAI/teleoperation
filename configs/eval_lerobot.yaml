@@ -61,7 +61,7 @@ camera:
 
 eval:
   prompt: "Pick up the lemon and put it in the basket"
-  rerun_enabled: true
+  rerun_enabled: false
   rerun_endpoint: 192.168.31.184:9876
 
   display_keys:

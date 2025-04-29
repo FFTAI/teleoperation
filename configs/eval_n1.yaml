@@ -51,16 +51,22 @@ camera:
     eval_mode: true
 
 eval:
-  rerun_enabled: true
+  rerun_enabled: false
   rerun_endpoint: 192.168.31.184:9876
 
   prompt: "Put the blue clamp inside the plate"
-  states:
-    qpos: [0, 20]
-    hand_qpos: [20, 32]
-  actions:
-    qpos: [0, 20]
-    hand_qpos: [20, 32]
+
+  display_keys:
+    states:
+      ["waist", "neck", "left_arm", "right_arm", "left_hand", "right_hand"]
+    actions:
+      ["waist", "neck", "left_arm", "right_arm", "left_hand", "right_hand"]
+
+  modality_mask:
+    states: []
+    actions: []
+
   cameras:
-    top:
-      streams: ["rgb"]
+    observation.images.top:
+      stream: rgb
+      name: top
