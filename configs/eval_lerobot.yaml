@@ -53,6 +53,7 @@ hydra:
     chdir: false
   run:
     dir: outputs/${policy.instance.type}-${now:%Y-%m-%d_%H-%M-%S}
+  verbose: [teleoperation, __main__]
 
 camera:
   instance:
@@ -62,12 +63,18 @@ eval:
   prompt: "Pick up the lemon and put it in the basket"
   rerun_enabled: true
   rerun_endpoint: 192.168.31.184:9876
-  states:
-    qpos: [0, 20]
-    hand_qpos: [20, 32]
-  actions:
-    qpos: [0, 20]
-    hand_qpos: [20, 32]
+
+  display_keys:
+    states:
+      ["waist", "neck", "left_arm", "right_arm", "left_hand", "right_hand"]
+    actions:
+      ["waist", "neck", "left_arm", "right_arm", "left_hand", "right_hand"]
+
+  modality_mask:
+    states: ["left_leg", "right_leg", "waist", "neck"]
+    actions: ["left_leg", "right_leg", "waist", "neck"]
+
   cameras:
-    top:
-      streams: ["rgbd"]
+    observation.images.top:
+      stream: rgb
+      name: top

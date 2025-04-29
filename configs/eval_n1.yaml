@@ -1,12 +1,11 @@
 defaults:
-  - _self_
-
   - hand: fourier_dexpilot_dhx
   - robot: "gr1t1_legacy"
   - camera: oak_97
   - policy: gr00t
   - override hydra/job_logging: colorlog
   - override hydra/hydra_logging: colorlog
+  - _self_
 
 debug: false
 debug_hand: false
@@ -45,6 +44,7 @@ hydra:
     chdir: true
   run:
     dir: outputs/${recording.task_name}/${now:%Y-%m-%d_%H-%M-%S}
+  verbose: ["teleoperation"]
 
 camera:
   instance:

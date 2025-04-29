@@ -2,6 +2,7 @@ import logging
 import time
 
 import hydra
+import numpy as np
 from omegaconf import DictConfig
 
 from teleoperation.player import EvalRobot, PointCloudEvalRobot
@@ -32,24 +33,24 @@ def main(cfg: DictConfig):
             if action is None:
                 continue
 
-            for name, dim in cfg.eval.actions.items():
-                if name == "hand_qpos":
-                    robot.control_hands(action[dim[0] : dim[1]])
-                elif name == "qpos":
-                    # robot.control_joints(action[dim[0] : dim[1]])
-                    # todo: zero waist and neck for now
-                    a = action[dim[0] : dim[1]]
-                    a[:6] = 0
-                    robot.control_joints(a)
-                    # logger.info(f"qpos: {a}")
-                elif name == "xyzquat":
-                    raise NotImplementedError("Quat control is not implemented yet.")
-                elif name == "ortho6d":
-                    raise NotImplementedError("Ortho6d control is not implemented yet.")
-                else:
-                    raise ValueError(f"Unknown action type {name}")
+            logger.debug(action)
+
+            hand_action = np.concatenate([action.get("left_hand", np.zeros(6)), action.get("right_hand", np.zeros(6))])
+            arm_action = np.concatenate(
+                [
+                    action.get("left_leg", np.zeros(6)),
+                    action.get("right_leg", np.zeros(6)),
+                    action.get("waist", np.zeros(3)),
+                    action.get("neck", np.zeros(3)),
+                    action.get("left_arm", np.zeros(7)),
+                    action.get("right_arm", np.zeros(7)),
+                ],
+            )
+
+            # TODO: add pose state and action
+            robot.control_hands(hand_action)
+            robot.control_joints(arm_action)
             time.sleep(1 / cfg.frequency)
-            # input("Press Enter to start the robot...")
 
     except KeyboardInterrupt:
         logger.info("Exiting...")

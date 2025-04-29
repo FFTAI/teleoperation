@@ -4,9 +4,10 @@ instance:
   type: "scale_dp"
   pretrained_path: ???
 
-  policy_config:
-    n_action_steps: 8
-    model_size: "ScaleDP_S"
-    noise_scheduler_type: "DDIM"
-    num_inference_steps: 50
-    use_delta_action: true
+  # policy_config:
+  #   horizon: 24
+  #   n_action_steps: 16
+  #   model_size: "ScaleDP_S"
+  #   noise_scheduler_type: "DDIM"
+  #   num_inference_steps: 50
+  #   use_delta_action: false

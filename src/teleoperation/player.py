@@ -454,49 +454,77 @@ class EvalRobot(DexRobot, CameraMixin):
             self.left_hand: HandAdapter = DummyDexHand(hand_dimension)
             self.right_hand: HandAdapter = DummyDexHand(hand_dimension)
 
-    def step(self):
+    def step(self) -> dict[str, np.ndarray] | None:
         qpos, hand_qpos, ee_pose, head_pose = self.observe()
 
+        batch = {}
         frames = self.cam.grab()
-        if frames["top"]["rgb"] is None:
-            logger.warning("No top image.")
-            return
+        for key, cam in self.eval_cfg.cameras.items():
+            try:
+                batch[key] = frames[cam.name][cam.stream].astype(np.uint8)
+
+                if rr:
+                    img = frames[cam.name][cam.stream][:, 240:-240, :]
+                    img = cv2.resize(img, (256, 256), interpolation=cv2.INTER_LINEAR).astype(np.uint8)
+                    rr.log(f"/observation/{cam.name}/{cam.stream}", rr.Image(img))
+            except KeyError as e:
+                raise KeyError(f"Camera {cam.name} not found in frames. Available cameras: {frames.keys()}") from e
+
         if rr:
             rr.set_time_sequence("step", self._step)
-        # if rr: rr.set_time_seconds("ts", time.time())
+            # rr.set_time_seconds("ts", time.time())
         self._step += 1
-        if rr:
-            img = frames["top"]["rgb"][:, 240:-240, :]
-            img = cv2.resize(img, (256, 256), interpolation=cv2.INTER_LINEAR)
-            rr.log("/observation/images/top", rr.Image(img.astype(np.uint8)))
 
-        # TODO: read self.eval_cfg.cameras
-        # images_top = torch.tensor(frames["top"]["rgb"], dtype=torch.float32)
-        # # h, w, c to b, c, h, w
-        # images_top = images_top.expand(1, -1, -1, -1).permute(0, 3, 1, 2).to(self.device)
-
-        # TODO: add injectable obs_transform()
-        obs = np.concatenate([qpos[12:], hand_qpos])
-
-        if rr:
-            rr.log("/observation/state", rr.BarChart(obs.tolist()))
-
-        logger.debug(f"Observation: {qpos.shape}, {hand_qpos.shape} {frames['top']['rgb'].shape}  {obs.shape}")
-
-        batch = {
-            "observation.state": obs,
-            "observation.images.top": frames["top"]["rgb"].astype(np.uint8),
-            "task": [self.eval_cfg.prompt],
+        obs_dict = {
+            "left_leg": qpos[0:6],
+            "right_leg": qpos[6:12],
+            "waist": qpos[12:15],
+            "neck": qpos[15:18],
+            "left_arm": qpos[18:25],
+            "right_arm": qpos[25:32],
+            "left_hand": hand_qpos[0:6],
+            "right_hand": hand_qpos[6:12],
+            "left_ee_pose": ee_pose[0:9],
+            "right_ee_pose": ee_pose[9:18],
+            "head_pose": head_pose,
         }
-        for k, v in batch.items():
-            if k != "task":
-                logger.debug(f"{k}: {v.shape}")
+
+        # assert set(obs_dict.keys()).issuperset(set(self.eval_cfg.states)), (
+        #     f"Mismatch modality keys: {obs_dict.keys()} {self.eval_cfg.states}"
+        # )
+        # obs = np.concatenate([obs_dict[key] for key in self.eval_cfg.states])
+        obs = self.policy.prepare_observation(obs_dict)
+
+        if rr:
+            rr.log(
+                "/observation/state",
+                rr.BarChart(np.concatenate([obs_dict[key] for key in self.eval_cfg.display_keys.states])),
+            )
+
+        batch.update(
+            {
+                "observation.state": obs,
+                "task": [self.eval_cfg.prompt],
+            }
+        )
+        # for k, v in batch.items():
+        #     if k != "task":
+        #         logger.debug(f"{k}: {v.shape}")
+
+        for k, v in obs_dict.items():
+            if k in self.eval_cfg.modality_mask.states:
+                obs_dict[k] = np.zeros_like(v)
+
         action = self.policy.select_action(batch=batch)
 
-        logger.info(action)
+        # array_action to dict action
+
+        for k, v in action.items():
+            if k in self.eval_cfg.modality_mask.actions:
+                action[k] = np.zeros_like(v)
 
         if rr:
-            rr.log("/action", rr.BarChart(list(action)))
+            rr.log("/action", rr.BarChart(np.concatenate([action[k] for k in self.eval_cfg.display_keys.actions])))
 
         return action
 

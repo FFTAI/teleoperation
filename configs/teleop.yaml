@@ -52,3 +52,4 @@ hydra:
     chdir: true
   run:
     dir: outputs/${recording.task_name}/${now:%Y-%m-%d_%H-%M-%S}
+  verbose: [teleoperation, __main__]
