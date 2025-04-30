@@ -52,7 +52,7 @@ hydra:
   job:
     chdir: false
   run:
-    dir: outputs/${policy.instance.type}-${now:%Y-%m-%d_%H-%M-%S}
+    dir: outputs/${policy.instance.policy_type}-${now:%Y-%m-%d_%H-%M-%S}
   verbose: [teleoperation, __main__]
 
 camera:

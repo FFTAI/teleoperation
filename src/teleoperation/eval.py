@@ -15,7 +15,7 @@ logger = logging.getLogger(__name__)
 
 @hydra.main(config_path=str(CONFIG_DIR), config_name="eval_idp3", version_base="1.2")
 def main(cfg: DictConfig):
-    if cfg.policy.instance.type == "idp3":
+    if cfg.policy.instance.policy_type == "idp3":
         robot = PointCloudEvalRobot(cfg)
     else:
         robot = EvalRobot(cfg)

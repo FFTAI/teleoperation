@@ -4,15 +4,15 @@ from pathlib import Path
 
 import cv2
 import numpy as np
-from lerobot.common.datasets.utils import load_stats
 from omegaconf import DictConfig
 
 logger = logging.getLogger(__name__)
 
 
 try:
+    from lerobot.common.datasets.compute_stats import aggregate_stats
     from lerobot.common.datasets.lerobot_dataset import LeRobotDataset, LeRobotDatasetMetadata
-    from lerobot.common.datasets.utils import dataset_to_policy_features
+    from lerobot.common.datasets.utils import dataset_to_policy_features, load_episodes_stats, load_stats
     from lerobot.common.policies.factory import get_policy_class, make_policy_config
     from lerobot.configs.types import FeatureType
 
@@ -68,7 +68,7 @@ class LerobotPolicy:
     def __init__(
         self,
         repo_id: str,
-        type: str,
+        policy_type: str,
         pretrained_path: str,
         policy_config: DictConfig | dict | None = None,
     ):
@@ -78,13 +78,17 @@ class LerobotPolicy:
             raise ImportError("LeRobot not installed.")
         self.device = "cuda" if torch.cuda.is_available() else "cpu"
         logger.info(f"Device: {self.device}")
-        logger.info(f"Loading policy {type} from {pretrained_path}")
+        logger.info(f"Loading policy {policy_type} from {pretrained_path}")
 
         ds_path = Path(repo_id)
         dataset_stats = load_stats(
             ds_path
         )  # TODO: the naming could be confusing but since we are mainly using offline datasets, it would be more convenient to use the dataset local path
-        logger.debug("Loadeded dataset stats")
+
+        if not dataset_stats:
+            episodes_stats = load_episodes_stats(ds_path)
+            dataset_stats = aggregate_stats(list(episodes_stats.values()))
+        logger.debug(f"Loadeded dataset stats: {dataset_stats}")
 
         self.modality = load_modality(ds_path)
         logger.debug(f"Loadeded modality: {self.modality}")
@@ -92,7 +96,7 @@ class LerobotPolicy:
         self._state_dim = max([m["end"] for m in self.modality["state"].values()])
         self._action_dim = max([m["end"] for m in self.modality["action"].values()])
 
-        self.policy = get_policy_class(type).from_pretrained(pretrained_path, dataset_stats=dataset_stats)
+        self.policy = get_policy_class(policy_type).from_pretrained(pretrained_path, dataset_stats=dataset_stats)
 
         # self.policy = torch.compile(self.policy, mode="reduce-overhead")
         self.policy.eval()

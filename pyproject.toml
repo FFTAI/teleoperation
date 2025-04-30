@@ -41,7 +41,7 @@ realsense = ["pyrealsense2>=2.55.1.6486"]
 depthai = ["depthai-sdk>=1.15.0", "av>=13.1.0"]
 cpu = ["torch==2.5.1+cpu", "torchvision==0.20.1+cpu"]
 gpu = ["torch", "torchvision"]
-# lerobot = ["lerobot[flash-attn]", "transformers"]
+lerobot = ["lerobot[flash-attn]", "torch==2.6.0", "torchvision>=0.21.0"]
 # fourier = ["fourier-grx-client==0.2.0a8", "fourier-dhx>=0.0.2"]
 # lerobot = ["lerobot[pi0]"]
 
@@ -55,13 +55,16 @@ conflicts = [[{ extra = "cpu" }, { extra = "gpu" }, { extra = "lerobot" }]]
 torch = [
     { index = "torch-cpu", extra = "cpu" },
     { index = "torch-gpu", extra = "gpu" },
+    { index = "torch-gpu", extra = "lerobot" },
+
 ]
 torchvision = [
     { index = "torch-cpu", extra = "cpu" },
     { index = "torch-gpu", extra = "gpu" },
+    { index = "torch-gpu", extra = "lerobot" },
 ]
 pre-commit = { index = "tuna" }
-# lerobot = { path = "../fourier-lerobot", editable = true }
+lerobot = { path = "../fourier-lerobot", editable = true }
 
 rerun-sdk = { index = "tuna" }
 pybind11 = { index = "tuna" }
@@ -82,7 +85,7 @@ explicit = true
 
 [[tool.uv.index]]
 name = "torch-gpu"
-url = "https://download.pytorch.org/whl/cu126"
+url = "https://download.pytorch.org/whl/cu124"
 explicit = true
 
 [[tool.uv.index]]
