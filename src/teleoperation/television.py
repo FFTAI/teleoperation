@@ -142,6 +142,7 @@ class OpenTeleVision:
 
         except Exception as e:
             logger.debug(f"Error in on_hand_move right: {e}")
+            logger.debug(f"{len(event.value['rightHand'])=} {len(event.value['rightLandmarks'])=}")
             pass
 
     async def main_image(self, session, fps=30):

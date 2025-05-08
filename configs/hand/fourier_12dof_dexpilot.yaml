@@ -5,11 +5,13 @@ left_hand:
   _target_: teleoperation.adapter.hands.fourier.FourierDexHand
   hand_ip: "192.168.137.19"
   dimension: ${hand.dimension}
+  use_tactile: true
 
 right_hand:
   _target_: teleoperation.adapter.hands.fourier.FourierDexHand
   hand_ip: "192.168.137.39"
   dimension: ${hand.dimension}
+  use_tactile: true
 
 prefix_left: "L_"
 prefix_right: "R_"
@@ -17,8 +19,7 @@ prefix_right: "R_"
 tip_indices: [4, 9, 14, 19, 24]
 
 actuated_indices: [2, 1, 0, 4, 3, 8, 7, 6, 5, 11, 10, 9]
-range_max:
-  [1780, 1780, 0.0, 1780, 1780, 1780, 1780, 1780, 1780, 0.0, 0.0, 1700]
+range_max: [1780, 1780, 0.0, 1780, 1780, 1780, 1780, 1780, 1780, 0.0, 0.0, 1700]
 range_min: [0.0, 0.0, 576, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 1700, 1700, 0.0]
 
 # range_max:
@@ -57,7 +58,7 @@ left:
   scaling_factor: 1.1
 
   # A smaller alpha means stronger filtering, i.e. more smooth but also larger latency
-  low_pass_alpha: 0.3
+  low_pass_alpha: 1.0
 
 right:
   type: DexPilot
@@ -89,4 +90,4 @@ right:
     ]
   scaling_factor: 1.1
   # A smaller alpha means stronger filtering, i.e. more smooth but also larger latency
-  low_pass_alpha: 0.3
+  low_pass_alpha: 1.0
