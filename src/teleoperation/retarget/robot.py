@@ -150,8 +150,8 @@ class IKRobot(RobotWrapper):
 
         solver = qpsolvers.available_solvers[0]
 
-        if "quadprog" in qpsolvers.available_solvers:
-            solver = "quadprog"
+        if "daqp" in qpsolvers.available_solvers:
+            solver = "daqp"
 
         velocity = pink.solve_ik(
             self.configuration,
