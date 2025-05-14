@@ -1,38 +1,15 @@
-ARG BASE_IMAGE=yuxianggao/python:3.11-22.04
+ARG BASE_IMAGE=192.168.3.15:9595/base/python:3.10-22.04
 #################################
 #   Librealsense Builder Stage  #
 #################################
 FROM $BASE_IMAGE AS librealsense-builder
 
-ARG LIBRS_VERSION
+ARG LIBRS_VERSION=2.55.1
 # Make sure that we have a version number of librealsense as argument
 RUN test -n "$LIBRS_VERSION"
 
 # To avoid waiting for input during package installation
 ENV DEBIAN_FRONTEND=noninteractive
-
-# RUN mv /etc/apt/sources.list /etc/apt/sources.list.bak
-# RUN cat <<EOF > /etc/apt/sources.list
-#     deb http://mirrors.ustc.edu.cn/ubuntu/ jammy main restricted universe multiverse
-#     deb http://mirrors.ustc.edu.cn/ubuntu/ jammy-updates main restricted universe multiverse
-#     deb http://mirrors.ustc.edu.cn/ubuntu/ jammy-backports main restricted universe multiverse
-#     deb http://mirrors.ustc.edu.cn/ubuntu/ jammy-security main restricted universe multiverse
-# EOF
-
-
-# RUN mv /etc/apt/sources.list /etc/apt/sources.list.bak
-RUN cat <<EOF > /etc/apt/sources.list
-    deb https://mirrors.tuna.tsinghua.edu.cn/ubuntu/ jammy main restricted universe multiverse
-    # deb-src https://mirrors.tuna.tsinghua.edu.cn/ubuntu/ jammy main restricted universe multiverse
-    deb https://mirrors.tuna.tsinghua.edu.cn/ubuntu/ jammy-updates main restricted universe multiverse
-    # deb-src https://mirrors.tuna.tsinghua.edu.cn/ubuntu/ jammy-updates main restricted universe multiverse
-    deb https://mirrors.tuna.tsinghua.edu.cn/ubuntu/ jammy-backports main restricted universe multiverse
-    # deb-src https://mirrors.tuna.tsinghua.edu.cn/ubuntu/ jammy-backports main restricted universe multiverse
-
-    # 以下安全更新软件源包含了官方源与镜像站配置，如有需要可自行修改注释切换
-    deb http://security.ubuntu.com/ubuntu/ jammy-security main restricted universe multiverse
-    # deb-src http://security.ubuntu.com/ubuntu/ jammy-security main restricted universe multiverse
-EOF
 
 # Builder dependencies installation
 RUN apt-get update \
@@ -40,6 +17,7 @@ RUN apt-get update \
     build-essential \
     cmake \
     git \
+    wget \
     libssl-dev \
     libusb-1.0-0-dev \
     pkg-config \
@@ -49,20 +27,24 @@ RUN apt-get update \
     libglu1-mesa-dev \
     libudev-dev \
     curl \
-    # python3 \
-    # python3-dev \
+    python3 \
+    python3-dev \
+    libpython3-dev \
     ca-certificates \
+    v4l-utils \
     && rm -rf /var/lib/apt/lists/*
 
 # Download sources
 WORKDIR /usr/src
-RUN curl https://codeload.github.com/IntelRealSense/librealsense/tar.gz/refs/tags/v$LIBRS_VERSION -o librealsense.tar.gz
+RUN wget  https://github.com/IntelRealSense/librealsense/archive/refs/tags/v${LIBRS_VERSION}.tar.gz -O librealsense.tar.gz
 RUN tar -zxf librealsense.tar.gz \
     && rm librealsense.tar.gz
 RUN ln -s /usr/src/librealsense-$LIBRS_VERSION /usr/src/librealsense
 
 # Build and install
 RUN cd /usr/src/librealsense \
+    # && bash ./scripts/setup_udev_rules.sh \
+    # && bash ./scripts/patch-realsense-ubuntu-lts-hwe.sh \
     && mkdir build && cd build \
     && cmake \
     -DCMAKE_C_FLAGS_RELEASE="${CMAKE_C_FLAGS_RELEASE} -s" \
@@ -81,10 +63,10 @@ FROM ${BASE_IMAGE} AS librealsense
 
 # Copy binaries from builder stage
 COPY --from=librealsense-builder /opt/librealsense /usr/local/
-COPY --from=librealsense-builder /usr/lib/python3/dist-packages/pyrealsense2 /usr/lib/python3/dist-packages/pyrealsense2
+# COPY --from=librealsense-builder /usr/lib/python3/dist-packages/pyrealsense2 /usr/lib/python3/dist-packages/pyrealsense2
 COPY --from=librealsense-builder /usr/src/librealsense/config/99-realsense-libusb.rules /etc/udev/rules.d/
 COPY --from=librealsense-builder /usr/src/librealsense/config/99-realsense-d4xx-mipi-dfu.rules /etc/udev/rules.d/
-ENV PYTHONPATH=$PYTHONPATH:/usr/local/lib
+# ENV PYTHONPATH=$PYTHONPATH:/usr/local/lib
 
 # Install dep packages
 RUN apt-get update \
@@ -98,4 +80,4 @@ RUN apt-get update \
     && rm -rf /var/lib/apt/lists/*
 
 # Shows a list of connected Realsense devices
-CMD [ "rs-enumerate-devices", "--compact" ]
+# CMD [ "rs-enumerate-devices", "--compact" ]

@@ -1,5 +1,6 @@
-FROM 192.168.3.15:9595/base/python:3.11-20.04
+# FROM 192.168.3.15:9595/base/python:3.11-20.04
 # FROM yuxianggao/python:3.11-20.04
+FROM 192.168.3.15:9595/base/python:3.10-22.04
 
 ENV DEBIAN_FRONTEND=noninteractive
 
@@ -17,6 +18,12 @@ RUN mkdir -p /etc/apt/keyrings && curl -sSf https://librealsense.intel.com/Debia
 
 RUN echo "deb [signed-by=/etc/apt/keyrings/librealsense.pgp] https://librealsense.intel.com/Debian/apt-repo `lsb_release -cs` main" | \
     tee /etc/apt/sources.list.d/librealsense.list
+
+
+RUN apt-get update \
+    && apt-get install -y --no-install-recommends \
+    linux-headers-6.5.0-45-generic \
+    && rm -rf /var/lib/apt/lists/*
 
 RUN apt-get update \
     && apt-get install -y --no-install-recommends \

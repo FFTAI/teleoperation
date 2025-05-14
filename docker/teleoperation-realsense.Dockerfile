@@ -1,8 +1,5 @@
-# ARG BUILDER_IMAGE=192.168.3.32/base/fourier_hardware:v2.4
-# ARG BASE_IMAGE=192.168.3.32/farts/depthai:3.10-22.04
-
 ARG BUILDER_IMAGE=ghcr.io/fftai/fourier_hardware:v2.4
-ARG BASE_IMAGE=ghcr.io/fftai/depthai:3.10-22.04
+ARG BASE_IMAGE=ghcr.io/fftai/realsense:3.10-22.04
 
 FROM ${BUILDER_IMAGE} AS builder
 
@@ -31,7 +28,7 @@ RUN apt-get update && \
 
 # add user to the dialout group
 RUN usermod -aG dialout $USERNAME & \
-    usermod -aG input $USERNAME && \
+    # usermod -aG input $USERNAME && \
     usermod -aG plugdev $USERNAME && \
     usermod -aG sudo $USERNAME
 

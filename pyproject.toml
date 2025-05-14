@@ -1,6 +1,6 @@
 [project]
 name = "teleoperation"
-version = "0.5.10"
+version = "0.6.0"
 description = "Teleoperation for Fourier Robots"
 authors = [{ name = "Yuxiang Gao", email = "yuxiang.gao@fftai.com" }]
 dependencies = [
@@ -51,7 +51,6 @@ lerobot = ["torch==2.6.0", "torchvision>=0.21.0"] # TODO: document this
 [tool.uv]
 package = true
 default-groups = ["dev", "fourier"]
-environments = ["sys_platform == 'linux' and platform_machine != 'aarch64'"]
 conflicts = [[{ extra = "cpu" }, { extra = "gpu" }, { extra = "lerobot" }]]
 
 [tool.uv.sources]
@@ -91,9 +90,6 @@ url = "https://test.pypi.org/simple"
 explicit = true
 
 
-# [build-system]
-# requires = ["pdm-backend"]
-# build-backend = "pdm.backend"
 [build-system]
 requires = ["hatchling"]
 build-backend = "hatchling.build"
@@ -142,11 +138,6 @@ convention = "google"
 
 [project.scripts]
 teleoperation = "teleoperation.main:main"
-# [tool.pdm.scripts]
-# doc = { cmd = "mkdocs serve", help = "Start the dev server for docs preview" }
-# lint = "pre-commit run --all-files"
-# publish = "pdm publish -v -u __token__"
-# publish_doc = "mike deploy --push --update-aliases"
 
 
 [dependency-groups]

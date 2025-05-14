@@ -2,9 +2,9 @@
 
 POLICY=$1
 CKPT=$2
-# shift
+
 shift 2
-# if [ -z "$POLICY" ]; then
+
 HF_HOME=/home/fftai/Data python -m teleoperation.eval \
     --config-name eval_lerobot \
     policy=$POLICY \
