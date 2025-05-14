@@ -1,7 +1,11 @@
 defaults:
   - _self_
+  - hand: ???
+  - robot: ??? # e.g. "robot: 'gr1t2'"
+  - camera: ??? # e.g. "camera: 'oak_97'"
   - override hydra/job_logging: colorlog
   - override hydra/hydra_logging: colorlog
+
 
 # robot:
 #   urdf_path: "urdf/GR1T2_inspire_hand.urdf"
@@ -15,7 +19,7 @@ debug: false
 debug_hand: false
 sim: false
 wait_time: 5.0
-frequency: 50
+frequency: 60
 use_waist: false
 use_head: false
 use_depth: false

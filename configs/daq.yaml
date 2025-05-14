@@ -1,8 +1,8 @@
 defaults:
   - teleop
-  - hand: fourier_dexpilot
-  - robot: ??? # e.g. "robot: 'gr1t2'"
-  - camera: ??? # e.g. "camera: 'oak_97'"
+  - override hand: fourier_dexpilot
+  - override robot: ??? # e.g. "robot: 'gr1t2'"
+  - override camera: ??? # e.g. "camera: 'oak_97'"
   - _self_
 
 debug: false
@@ -14,6 +14,8 @@ use_waist: false
 use_head: false
 use_depth: false
 task_name: ??? # e.g. "task_name: 'task_name'"
+
+gravity_compensation: false
 
 cpu:
   affinity: []
@@ -27,4 +29,4 @@ recording:
 
 upsampler:
   frequency: 250
-  gravity_compensation: true
+  gravity_compensation: ${gravity_compensation}

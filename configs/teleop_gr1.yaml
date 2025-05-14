@@ -1,8 +1,8 @@
 defaults:
   - teleop
-  - hand: fourier_dexpilot
-  - robot: gr1t2
-  - camera: oak
+  - override hand: fourier_dexpilot_dhx
+  - override robot: gr1t1_legacy
+  - override camera: oak_97
   - _self_
 
 

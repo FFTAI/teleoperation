@@ -1,7 +1,7 @@
 defaults:
   - _self_
 
-  - hand: fourier_dexpilot
+  - hand: fourier_dexpilot_dhx
   - robot: "gr1t1_legacy"
   - camera: oak_97
   - override hydra/job_logging: colorlog

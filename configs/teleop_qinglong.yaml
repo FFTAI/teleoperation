@@ -1,8 +1,8 @@
 defaults:
   - teleop
-  - hand: fourier_dexpilot
-  - robot: qinglong
-  - camera: realsense
+  - override hand: fourier_dexpilot
+  - override robot: qinglong
+  - override camera: realsense
   - _self_
 
 
