@@ -64,12 +64,18 @@ class OpenTeleVision:
             self.img_shape = (img_shape[0], img_shape[1], 3)
         self.img_height, self.img_width = img_shape[:2]
 
-        url = f"https://{get_hostname()}.local:8012"
-        ws_url = f"wss://{get_hostname()}.local:8012"
-
         if ngrok:
-            self.app = Vuer(host="0.0.0.0", queries={"grid": False}, queue_len=3)
+            url = "http://localhost:8012"
+            ws_url = "ws://localhost:8012"
+            self.app = Vuer(
+                domain=url,
+                host="0.0.0.0",
+                queries={"ws": ws_url, "grid": False},
+                queue_len=3,
+            )
         else:
+            url = f"https://{get_hostname()}.local:8012"
+            ws_url = f"wss://{get_hostname()}.local:8012"
             self.app = Vuer(
                 domain=url,
                 host="0.0.0.0",

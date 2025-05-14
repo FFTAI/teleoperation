@@ -196,11 +196,14 @@ class TeleopRobot(DexRobot, CameraMixin):
 
         self.cam = hydra.utils.instantiate(cfg.camera.instance).start()
 
+        # disable https if mocap method is not avp
+        use_http = cfg.get("mocap", "avp") != "avp"
+
         self.tv = OpenTeleVision(
             self.cam.display.shape,
             self.cam.display.shm_name,
             stream_mode=f"rgb_{self.cam.display.mode}",  # type: ignore
-            ngrok=False,
+            ngrok=use_http,
             cert_file=str(CERT_DIR / "cert.pem"),
             key_file=str(CERT_DIR / "key.pem"),
         )

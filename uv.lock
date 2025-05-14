@@ -782,18 +782,6 @@ wheels = [
 ]
 
 [[package]]
-name = "dexhandpy"
-version = "0.0.37"
-source = { registry = "https://test.pypi.org/simple" }
-dependencies = [
-    { name = "pybind11", marker = "(platform_machine != 'aarch64' and sys_platform == 'linux') or (platform_machine == 'aarch64' and extra == 'extra-13-teleoperation-cpu' and extra == 'extra-13-teleoperation-gpu') or (platform_machine == 'aarch64' and extra == 'extra-13-teleoperation-cpu' and extra == 'extra-13-teleoperation-lerobot') or (platform_machine == 'aarch64' and extra == 'extra-13-teleoperation-gpu' and extra == 'extra-13-teleoperation-lerobot') or (sys_platform != 'linux' and extra == 'extra-13-teleoperation-cpu' and extra == 'extra-13-teleoperation-gpu') or (sys_platform != 'linux' and extra == 'extra-13-teleoperation-cpu' and extra == 'extra-13-teleoperation-lerobot') or (sys_platform != 'linux' and extra == 'extra-13-teleoperation-gpu' and extra == 'extra-13-teleoperation-lerobot')" },
-]
-sdist = { url = "https://test-files.pythonhosted.org/packages/12/8f/5e79af440f529d58784739b76f752610a12d557076812a4207169a6690c4/dexhandpy-0.0.37.tar.gz", hash = "sha256:ef579133e65b2483a313b10fd640a329052753a3ae2c6ec4140c031dfe10bd41", size = 400587 }
-wheels = [
-    { url = "https://test-files.pythonhosted.org/packages/44/86/e61db895df3a77f6d3f1962468319550a21041ac6db4f55c6792f1684058/dexhandpy-0.0.37-py3-none-any.whl", hash = "sha256:cf098f4e6b1295a44d6273d6638bee7f4ed7551abed771285a172a5dcff7c892", size = 512584 },
-]
-
-[[package]]
 name = "distlib"
 version = "0.3.9"
 source = { registry = "https://pypi.tuna.tsinghua.edu.cn/simple" }
@@ -3266,7 +3254,6 @@ dev = [
     { name = "ruff", marker = "(platform_machine != 'aarch64' and sys_platform == 'linux') or (platform_machine == 'aarch64' and extra == 'extra-13-teleoperation-cpu' and extra == 'extra-13-teleoperation-gpu') or (platform_machine == 'aarch64' and extra == 'extra-13-teleoperation-cpu' and extra == 'extra-13-teleoperation-lerobot') or (platform_machine == 'aarch64' and extra == 'extra-13-teleoperation-gpu' and extra == 'extra-13-teleoperation-lerobot') or (sys_platform != 'linux' and extra == 'extra-13-teleoperation-cpu' and extra == 'extra-13-teleoperation-gpu') or (sys_platform != 'linux' and extra == 'extra-13-teleoperation-cpu' and extra == 'extra-13-teleoperation-lerobot') or (sys_platform != 'linux' and extra == 'extra-13-teleoperation-gpu' and extra == 'extra-13-teleoperation-lerobot')" },
 ]
 fourier = [
-    { name = "dexhandpy", marker = "(platform_machine != 'aarch64' and sys_platform == 'linux') or (platform_machine == 'aarch64' and extra == 'extra-13-teleoperation-cpu' and extra == 'extra-13-teleoperation-gpu') or (platform_machine == 'aarch64' and extra == 'extra-13-teleoperation-cpu' and extra == 'extra-13-teleoperation-lerobot') or (platform_machine == 'aarch64' and extra == 'extra-13-teleoperation-gpu' and extra == 'extra-13-teleoperation-lerobot') or (sys_platform != 'linux' and extra == 'extra-13-teleoperation-cpu' and extra == 'extra-13-teleoperation-gpu') or (sys_platform != 'linux' and extra == 'extra-13-teleoperation-cpu' and extra == 'extra-13-teleoperation-lerobot') or (sys_platform != 'linux' and extra == 'extra-13-teleoperation-gpu' and extra == 'extra-13-teleoperation-lerobot')" },
     { name = "fourier-dhx", marker = "(platform_machine != 'aarch64' and sys_platform == 'linux') or (platform_machine == 'aarch64' and extra == 'extra-13-teleoperation-cpu' and extra == 'extra-13-teleoperation-gpu') or (platform_machine == 'aarch64' and extra == 'extra-13-teleoperation-cpu' and extra == 'extra-13-teleoperation-lerobot') or (platform_machine == 'aarch64' and extra == 'extra-13-teleoperation-gpu' and extra == 'extra-13-teleoperation-lerobot') or (sys_platform != 'linux' and extra == 'extra-13-teleoperation-cpu' and extra == 'extra-13-teleoperation-gpu') or (sys_platform != 'linux' and extra == 'extra-13-teleoperation-cpu' and extra == 'extra-13-teleoperation-lerobot') or (sys_platform != 'linux' and extra == 'extra-13-teleoperation-gpu' and extra == 'extra-13-teleoperation-lerobot')" },
     { name = "fourier-grx-client", marker = "(platform_machine != 'aarch64' and sys_platform == 'linux') or (platform_machine == 'aarch64' and extra == 'extra-13-teleoperation-cpu' and extra == 'extra-13-teleoperation-gpu') or (platform_machine == 'aarch64' and extra == 'extra-13-teleoperation-cpu' and extra == 'extra-13-teleoperation-lerobot') or (platform_machine == 'aarch64' and extra == 'extra-13-teleoperation-gpu' and extra == 'extra-13-teleoperation-lerobot') or (sys_platform != 'linux' and extra == 'extra-13-teleoperation-cpu' and extra == 'extra-13-teleoperation-gpu') or (sys_platform != 'linux' and extra == 'extra-13-teleoperation-cpu' and extra == 'extra-13-teleoperation-lerobot') or (sys_platform != 'linux' and extra == 'extra-13-teleoperation-gpu' and extra == 'extra-13-teleoperation-lerobot')" },
     { name = "fourier-grx-dds", marker = "(platform_machine != 'aarch64' and sys_platform == 'linux') or (platform_machine == 'aarch64' and extra == 'extra-13-teleoperation-cpu' and extra == 'extra-13-teleoperation-gpu') or (platform_machine == 'aarch64' and extra == 'extra-13-teleoperation-cpu' and extra == 'extra-13-teleoperation-lerobot') or (platform_machine == 'aarch64' and extra == 'extra-13-teleoperation-gpu' and extra == 'extra-13-teleoperation-lerobot') or (sys_platform != 'linux' and extra == 'extra-13-teleoperation-cpu' and extra == 'extra-13-teleoperation-gpu') or (sys_platform != 'linux' and extra == 'extra-13-teleoperation-cpu' and extra == 'extra-13-teleoperation-lerobot') or (sys_platform != 'linux' and extra == 'extra-13-teleoperation-gpu' and extra == 'extra-13-teleoperation-lerobot')" },
@@ -3324,7 +3311,6 @@ dev = [
     { name = "ruff", specifier = ">=0.9.1" },
 ]
 fourier = [
-    { name = "dexhandpy", specifier = "==0.0.37", index = "https://test.pypi.org/simple" },
     { name = "fourier-dhx", specifier = ">=0.0.2" },
     { name = "fourier-grx-client", specifier = "==0.2.0a8" },
     { name = "fourier-grx-dds", specifier = "==0.2.7a0" },

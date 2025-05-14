@@ -1,11 +1,17 @@
-FROM 192.168.3.32/base/fourier_hardware:v2.4 AS builder
+ARG BUILDER_IMAGE=192.168.3.32/base/fourier_hardware:v2.4
+ARG BASE_IMAGE=192.168.3.32/farts/depthai:3.10-22.04
+
+# ARG BUILDER_IMAGE=ghcr.io/fftai/fourier_hardware:v2.4
+# ARG BASE_IMAGE=ghcr.io/fftai/depthai:3.10-22.04
+
+FROM ${BUILDER_IMAGE} AS builder
 
 RUN ldconfig && mkdir -p /app/deps && \
     ldd /usr/local/lib/fourier_hardware_py.cpython-310-x86_64-linux-gnu.so | awk '{print $3}' | grep -v '^(' | grep 'local' | xargs -I {} cp --dereference {} /app/deps/ 2>/dev/null || true && \
     ldd /usr/local/lib/fourier_hardware_dds_py.cpython-310-x86_64-linux-gnu.so | awk '{print $3}' | grep -v '^(' | grep 'local' | xargs -I {} cp --dereference {} /app/deps/ 2>/dev/null || true \
     find /app/deps -type l -exec cp --parents --dereference {} /app/deps/ \;
 
-FROM 192.168.3.32/farts/depthai:3.10-22.04 AS runtime
+FROM ${BASE_IMAGE} AS runtime
 COPY --from=ghcr.io/astral-sh/uv:latest /uv /uvx /bin/
 
 ENV UV_COMPILE_BYTECODE=1
@@ -41,13 +47,15 @@ RUN apt-get update && apt-get install -y --no-install-recommends \
 # Set the non-root user as the default user
 USER $USERNAME
 
+ARG UV_CACHE_DIR=/home/${USERNAME}/.cache/uv
+
 WORKDIR /app
 RUN chown -R $USERNAME:$USERNAME /app
 
-COPY --chown=$USERNAME:$USERNAME dexhandpy-0.0.42-cp310-cp310-linux_x86_64.whl /app/
+# COPY --chown=$USERNAME:$USERNAME dexhandpy-0.0.42-cp310-cp310-linux_x86_64.whl /app/
 
 RUN uv venv --python /opt/venv/bin/python
-RUN --mount=type=cache,target=/root/.cache/uv \
+RUN --mount=type=cache,target=${UV_CACHE_DIR},uid=${USER_UID},gid=${USER_GID} \
     --mount=type=bind,source=uv.lock,target=uv.lock \
     --mount=type=bind,source=pyproject.toml,target=pyproject.toml \
     uv sync --frozen --no-install-project --no-dev --extra depthai --extra cpu --group fourier -vvv
@@ -60,15 +68,10 @@ COPY --chown=$USERNAME:$USERNAME uv.lock /app/
 COPY --chown=$USERNAME:$USERNAME README.md /app/
 
 
-
-# RUN chmod -R 755 /app
-
-RUN --mount=type=cache,target=/root/.cache/uv \
+RUN --mount=type=cache,target=${UV_CACHE_DIR},uid=${USER_UID},gid=${USER_GID} \
     uv sync --frozen --no-dev --extra depthai --extra cpu --group fourier -vvv
 
-# RUN --mount=type=cache,target=/root/.cache/uv \
-#     uv pip install fourier-grx-dds==0.2.7a0
-RUN --mount=type=cache,target=/root/.cache/uv \
+RUN --mount=type=cache,target=${UV_CACHE_DIR},uid=${USER_UID},gid=${USER_GID} \
     uv pip install mujoco meshcat ischedule matplotlib==3.4.3 notebook && \
     uv pip uninstall typing
 

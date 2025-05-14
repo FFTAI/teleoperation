@@ -20,6 +20,8 @@ use_waist: false
 use_head: false
 use_depth: false
 
+mocap: avp # avp, quest
+
 cpu:
   affinity: []
   niceness: -5
