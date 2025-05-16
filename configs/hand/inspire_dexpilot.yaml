@@ -2,11 +2,11 @@ type: "inspire"
 dimension: 6
 
 left_hand:
-  _target_: teleoperation.adapter.hands.inspire.InspireDexHand
+  _target_: teleoperation.adapter.hands.inspire_dhx.InspireDexHand
   ip: "192.168.137.19"
 
 right_hand:
-  _target_: teleoperation.adapter.hands.inspire.InspireDexHand
+  _target_: teleoperation.adapter.hands.inspire_dhx.InspireDexHand
   ip: "192.168.137.39"
 
 prefix_left: "L_"
