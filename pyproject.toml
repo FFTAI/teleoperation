@@ -16,7 +16,7 @@ dependencies = [
     "dex-retargeting<0.5.0",
     "pin-pink>=3.2.0",
     "qpsolvers[daqp,clarabel]>=4.6.0",
-    "rerun-sdk>=0.22.0",
+    "rerun-sdk==0.22.1",
     "meshcat>=0.3.2",
     "meshcat-shapes>=0.3.0",
     "numba>=0.60.0",
@@ -43,8 +43,8 @@ depthai = ["depthai-sdk>=1.15.0", "av>=13.1.0"]
 cpu = ["torch==2.5.1", "torchvision==0.20.1"]
 gpu = ["torch>=2.5.1", "torchvision>=0.20.1"]
 lerobot = ["torch==2.6.0", "torchvision>=0.21.0"] # TODO: document this
-# lerobot = ["lerobot", "torch==2.6.0", "torchvision>=0.21.0"]
 # lerobot = ["lerobot[flash-attn]", "torch==2.6.0", "torchvision>=0.21.0"]
+# lerobot = ["lerobot", "torch==2.6.0", "torchvision>=0.21.0"]
 # fourier = ["fourier-grx-client==0.2.0a8", "fourier-dhx>=0.0.2"]
 # lerobot = ["lerobot[pi0]"]
 

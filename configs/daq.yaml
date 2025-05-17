@@ -1,6 +1,6 @@
 defaults:
   - teleop
-  - override hand: fourier_dexpilot
+  - override hand: fourier_dexpilot_dhx
   - override robot: ??? # e.g. "robot: 'gr1t2'"
   - override camera: ??? # e.g. "camera: 'oak_97'"
   - _self_
@@ -24,8 +24,8 @@ cpu:
 recording:
   enabled: true
   task_name: ${task_name}
-  operator: ???
-  pilot: ???
+  operator: -1
+  pilot: -1
 
 upsampler:
   frequency: 250

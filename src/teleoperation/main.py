@@ -31,7 +31,7 @@ class InitializationError(Exception):
 PROJECT_ROOT = Path(__file__).resolve().parent.parent
 
 
-@hydra.main(config_path=str(CONFIG_DIR), config_name="daq", version_base="1.2")
+@hydra.main(config_path=str(CONFIG_DIR), config_name="teleop", version_base="1.2")
 def main(
     cfg: DictConfig,
 ):

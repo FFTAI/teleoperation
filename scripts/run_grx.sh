@@ -11,5 +11,5 @@ echo "-----------------------------------"
 docker run --rm -it --name grx \
     --net=host \
     -v ./server_config:/app \
-    192.168.3.32/grx/grx:1.0.0a20 \
+    ghcr.io/fftai/grx:1.0.0a20 \
     run "./${robot_type}.yaml" --namespace "gr/daq"

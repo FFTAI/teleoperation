@@ -1,7 +1,7 @@
 instance:
   _target_: teleoperation.policy.lerobot.LerobotPolicy
   repo_id: ???
-  type: "diffusion"
+  policy_type: "diffusion"
   pretrained_path: ???
 
   # policy_config:

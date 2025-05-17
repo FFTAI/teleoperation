@@ -1,5 +1,5 @@
 instance:
   _target_: teleoperation.policy.lerobot.LerobotPolicy
   repo_id: ???
-  type: "act"
+  policy_type: "act"
   pretrained_path: ???
