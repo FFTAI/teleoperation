@@ -13,7 +13,7 @@ from teleoperation.utils import (
 logger = logging.getLogger(__name__)
 
 
-@hydra.main(config_path=str(CONFIG_DIR), config_name="eval_idp3", version_base="1.2")
+@hydra.main(config_path=str(CONFIG_DIR), config_name="eval_lerobot", version_base="1.2")
 def main(cfg: DictConfig):
     if cfg.policy.instance.policy_type == "idp3":
         robot = PointCloudEvalRobot(cfg)
