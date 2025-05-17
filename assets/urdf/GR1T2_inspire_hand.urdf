@@ -1365,7 +1365,7 @@
     name="left_end_effector_joint"
     type="fixed">
     <origin
-      xyz="0 0 0"
+      xyz="0 0 -0.022"
       rpy="0 0 0" />
     <parent
       link="left_hand_pitch_link" />
@@ -1377,7 +1377,7 @@
     name="L_base_link_joint"
     type="fixed">
     <origin
-    xyz="0 0 -0.022"
+    xyz="0 0 0"
     rpy="0 0 0" />
     <parent link="left_end_effector_link"/>
     <child link="L_hand_base_link"/>
@@ -2520,7 +2520,7 @@
     name="right_end_effector_joint"
     type="fixed">
     <origin
-      xyz="0 0 0"
+      xyz="0 0 -0.022"
       rpy="0 0 0" />
     <parent
       link="right_hand_pitch_link" />
@@ -2533,7 +2533,7 @@
     name="R_base_link_joint"
     type="fixed">
     <origin
-    xyz="0 0 -0.022"
+    xyz="0 0 0"
     rpy="0 0 0" />
     <parent link="right_end_effector_link"/>
     <child link="R_hand_base_link"/>

@@ -1,23 +1,23 @@
 <?xml version="1.0" encoding="utf-8"?>
 
-<!-- 03012024-alpha-1 -->
+<!-- 04102025-alpha-1 -->
 
 <robot name="fourier_left_hand_6dof">
   <link
     name="L_hand_base_link">
     <inertial>
       <origin
-        xyz="-0.0004466 -0.009158 -0.04325"
+        xyz="-0.0010133 -0.001628 -0.049512"
         rpy="0 0 0" />
       <mass
-        value="0.306" />
+        value="0.29928" />
       <inertia
-        ixx="0.0003042"
-        ixy="-5E-07"
-        ixz="1E-07"
-        iyy="0.0004110"
-        iyz="4E-08"
-        izz="0.0001951" />
+        ixx="0.00020599"
+        ixy="-1.22E-06"
+        ixz="8.34E-06"
+        iyy="0.00028701"
+        iyz="7.34E-06"
+        izz="0.0001476" />
     </inertial>
     <visual>
       <origin
@@ -57,20 +57,20 @@
       xyz="0 0 0" />
   </joint> -->
   <link
-    name="L_thumb_proximal_base_link">
+    name="L_thumb_proximal_yaw_link">
     <inertial>
       <origin
-        xyz="0.011017 -2.4767E-05 0.00077605"
+        xyz="0.011674 -0.00039205 0.00044569"
         rpy="0 0 0" />
       <mass
-        value="0.00948527" />
+        value="0.0084328" />
       <inertia
         ixx="3E-07"
         ixy="1E-08"
-        ixz="-4E-08"
-        iyy="9.5E-07"
-        iyz="-1E-08"
-        izz="9.7E-07" />
+        ixz="-5E-08"
+        iyy="8.8E-07"
+        iyz="0"
+        izz="8.5E-07" />
     </inertial>
     <visual>
       <origin
@@ -78,7 +78,7 @@
         rpy="0 0 0" />
       <geometry>
         <mesh
-          filename="../meshes/fourier_hand_6dof/L_thumb_proximal_base_link.STL" />
+          filename="../meshes/fourier_hand_6dof/L_thumb_proximal_yaw_link.STL" />
       </geometry>
       <material
         name="">
@@ -92,7 +92,7 @@
         rpy="0 0 0" />
       <geometry>
         <mesh
-          filename="../meshes/fourier_hand_6dof/L_thumb_proximal_base_link.STL" />
+          filename="../meshes/fourier_hand_6dof/L_thumb_proximal_yaw_link.STL" />
       </geometry>
     </collision>
   </link>
@@ -100,35 +100,35 @@
     name="L_thumb_proximal_yaw_joint"
     type="revolute">
     <origin
-      xyz="0.022 -0.015498 -0.025093"
-      rpy="0 -1.3915E-05 0.025" />
+      xyz="0.022 -0.0155 -0.022992"
+      rpy="0 0 0" />
     <parent
       link="L_hand_base_link" />
     <child
-      link="L_thumb_proximal_base_link" />
+      link="L_thumb_proximal_yaw_link" />
     <axis
       xyz="0 0 1" />
     <limit
-      lower="-1.715"
+      lower="-1.696"
       upper="0"
-      effort="10"
-      velocity="0.8" />
+      effort="0"
+      velocity="0" />
   </joint>
   <link
-    name="L_thumb_proximal_link">
+    name="L_thumb_proximal_pitch_link">
     <inertial>
       <origin
-        xyz="0.03196306 -0.00014118 -2.861E-05"
+        xyz="0.034496 0.00048877 1.942E-05"
         rpy="0 0 0" />
       <mass
-        value="0.07347612" />
+        value="0.060766" />
       <inertia
-        ixx="1.131E-05"
-        ixy="1E-07"
-        ixz="4E-08"
-        iyy="3.183E-05"
-        iyz="-1E-08"
-        izz="3.376E-05" />
+        ixx="5.08E-06"
+        ixy="8.1E-07"
+        ixz="2E-08"
+        iyy="1.71E-05"
+        iyz="0"
+        izz="1.85E-05" />
     </inertial>
     <visual>
       <origin
@@ -136,7 +136,7 @@
         rpy="0 0 0" />
       <geometry>
         <mesh
-          filename="../meshes/fourier_hand_6dof/L_thumb_proximal_link.STL" />
+          filename="../meshes/fourier_hand_6dof/L_thumb_proximal_pitch_link.STL" />
       </geometry>
       <material
         name="">
@@ -150,7 +150,7 @@
         rpy="0 0 0" />
       <geometry>
         <mesh
-          filename="../meshes/fourier_hand_6dof/L_thumb_proximal_link.STL" />
+          filename="../meshes/fourier_hand_6dof/L_thumb_proximal_pitch_link.STL" />
       </geometry>
     </collision>
   </link>
@@ -158,35 +158,35 @@
     name="L_thumb_proximal_pitch_joint"
     type="revolute">
     <origin
-      xyz="0.02175 0 0"
-      rpy="-1.5707 0 0" />
+      xyz="0.021749 -0.00016321 0"
+      rpy="-1.5708 0 -0.0052052" />
     <parent
-      link="L_thumb_proximal_base_link" />
+      link="L_thumb_proximal_yaw_link" />
     <child
-      link="L_thumb_proximal_link" />
+      link="L_thumb_proximal_pitch_link" />
     <axis
       xyz="0 0 1" />
     <limit
       lower="0"
-      upper="1.215"
-      effort="10"
-      velocity="0.8" />
+      upper="1.143"
+      effort="0"
+      velocity="0" />
   </joint>
   <link
     name="L_thumb_distal_link">
     <inertial>
       <origin
-        xyz="0.01321529 -0.00326134 0"
+        xyz="0.012862 -0.0029035 0"
         rpy="0 0 0" />
       <mass
-        value="0.02031766" />
+        value="0.018024" />
       <inertia
-        ixx="9.2E-07"
-        ixy="-9E-08"
+        ixx="8.6E-07"
+        ixy="-1.4E-07"
         ixz="0"
-        iyy="2.48E-06"
+        iyy="2E-06"
         iyz="0"
-        izz="2.34E-06" />
+        izz="1.87E-06" />
     </inertial>
     <visual>
       <origin
@@ -216,22 +216,22 @@
     name="L_thumb_distal_joint"
     type="revolute">
     <origin
-      xyz="0.061298 0.0093066 0"
-      rpy="1.5707 -8.6792E-05 -0.002198" />
+      xyz="0.061549 0.007464 0"
+      rpy="0 1.7448E-05 -0.055652" />
     <parent
-      link="L_thumb_proximal_link" />
+      link="L_thumb_proximal_pitch_link" />
     <child
       link="L_thumb_distal_link" />
     <axis
-      xyz="0 1 0" />
+      xyz="0 0 1" />
     <limit
       lower="0"
-      upper="1.025"
-      effort="10"
-      velocity="0.8" />
+      upper="1.248"
+      effort="0"
+      velocity="0" />
     <mimic
       joint="L_thumb_proximal_pitch_joint"
-      multiplier="0.8435"
+      multiplier="1.06"
       offset="0" />
   </joint>
 
@@ -251,7 +251,7 @@
   <joint name="L_thumb_tip_joint" type="fixed">
     <parent link="L_thumb_distal_link" />
     <child link="L_thumb_tip_link" />
-    <origin rpy="0 0 0" xyz="0.031 -0.001 0" />
+    <origin rpy="0 0 0" xyz="0.0305 -0.001 0" />
   </joint>
 
 
@@ -259,17 +259,17 @@
     name="L_index_proximal_link">
     <inertial>
       <origin
-        xyz="0.0095993 0.000443 2.96E-06"
+        xyz="0.01388524 0.00133459 9.91E-06"
         rpy="0 0 0" />
       <mass
-        value="0.019117" />
+        value="0.01124444" />
       <inertia
-        ixx="8.6E-07"
-        ixy="1.2E-07"
+        ixx="7E-07"
+        ixy="2.1E-07"
         ixz="0"
-        iyy="3.71E-06"
+        iyy="1.81E-06"
         iyz="0"
-        izz="3.85E-06" />
+        izz="1.87E-06" />
     </inertial>
     <visual>
       <origin
@@ -299,8 +299,8 @@
     name="L_index_proximal_joint"
     type="revolute">
     <origin
-      xyz="0.026869 -0.012293 -0.095989"
-      rpy="0.0013057 1.5184 0.0013039" />
+      xyz="0.026868 -0.0123 -0.093989"
+      rpy="0 1.5184 0" />
     <parent
       link="L_hand_base_link" />
     <child
@@ -308,26 +308,26 @@
     <axis
       xyz="0 0 1" />
     <limit
-      lower="-1.515"
+      lower="-1.592"
       upper="0"
-      effort="10"
-      velocity="0.8" />
+      effort="0"
+      velocity="0" />
   </joint>
   <link
     name="L_index_intermediate_link">
     <inertial>
       <origin
-        xyz="0.01800421 0.00300042 -9.23E-06"
+        xyz="0.01473915 0.00479264 6.8E-06"
         rpy="0 0 0" />
       <mass
-        value="0.01292544" />
+        value="0.0027085" />
       <inertia
-        ixx="3.7E-07"
-        ixy="2.5E-07"
+        ixx="8E-08"
+        ixy="3E-08"
         ixz="0"
-        iyy="2.01E-06"
+        iyy="4.9E-07"
         iyz="0"
-        izz="2.04E-06" />
+        izz="4.9E-07" />
     </inertial>
     <visual>
       <origin
@@ -357,8 +357,8 @@
     name="L_index_intermediate_joint"
     type="revolute">
     <origin
-      xyz="0.031029 -0.0078234 0"
-      rpy="-3.9519E-05 0.00014029 -0.2501" />
+      xyz="0.031533 -0.0054444 0"
+      rpy="0 0.00014037 -0.0018338" />
     <parent
       link="L_index_proximal_link" />
     <child
@@ -366,13 +366,13 @@
     <axis
       xyz="0 0 1" />
     <limit
-      lower="-1.582"
+      lower="-1.791"
       upper="0"
-      effort="10"
-      velocity="0.8" />
+      effort="0"
+      velocity="0" />
     <mimic
       joint="L_index_proximal_joint"
-      multiplier="1.044"
+      multiplier="0.975"
       offset="0" />
   </joint>
 
@@ -392,7 +392,7 @@
   <joint name="L_index_tip_joint" type="fixed">
     <parent link="L_index_intermediate_link" />
     <child link="L_index_tip_link" />
-    <origin rpy="0 0 0" xyz="0.038 -0.0015 0" />
+    <origin rpy="0 0 0" xyz="0.0390 -0.0020 0" />
   </joint>
 
 
@@ -400,17 +400,17 @@
     name="L_middle_proximal_link">
     <inertial>
       <origin
-        xyz="0.00955708 0.00071862 2.96E-06"
+        xyz="0.01388815 0.00130401 9.91E-06"
         rpy="0 0 0" />
       <mass
-        value="0.01911771" />
+        value="0.01124444" />
       <inertia
-        ixx="8.6E-07"
-        ixy="6E-08"
+        ixx="7E-07"
+        ixy="2.2E-07"
         ixz="0"
-        iyy="3.72E-06"
+        iyy="1.81E-06"
         iyz="0"
-        izz="3.85E-06" />
+        izz="1.87E-06" />
     </inertial>
     <visual>
       <origin
@@ -440,8 +440,8 @@
     name="L_middle_proximal_joint"
     type="revolute">
     <origin
-      xyz="0.0085012 -0.012293 -0.097993"
-      rpy="1.394 1.5707 1.394" />
+      xyz="0.0085 -0.0123 -0.095992"
+      rpy="0 1.5708 0" />
     <parent
       link="L_hand_base_link" />
     <child
@@ -449,26 +449,26 @@
     <axis
       xyz="0 0 1" />
     <limit
-      lower="-1.503"
+      lower="-1.593"
       upper="0"
-      effort="10"
-      velocity="0.8" />
+      effort="0"
+      velocity="0" />
   </joint>
   <link
     name="L_middle_intermediate_link">
     <inertial>
       <origin
-        xyz="0.02127931 0.00408456 -9.98E-06"
+        xyz="0.01836 0.0048894 0"
         rpy="0 0 0" />
       <mass
-        value="0.01535007" />
+        value="0.0032739" />
       <inertia
-        ixx="4.1E-07"
-        ixy="2.2E-07"
+        ixx="9E-08"
+        ixy="5E-08"
         ixz="0"
-        iyy="3.28E-06"
+        iyy="7.9E-07"
         iyz="0"
-        izz="3.29E-06" />
+        izz="7.8E-07" />
     </inertial>
     <visual>
       <origin
@@ -498,8 +498,8 @@
     name="L_middle_intermediate_joint"
     type="revolute">
     <origin
-      xyz="0.030933 -0.0081952 0"
-      rpy="-3.5005E-05 0.00014792 -0.23244" />
+      xyz="0.031521 -0.0055139 0"
+      rpy="0 0.00015517 0.0048744" />
     <parent
       link="L_middle_proximal_link" />
     <child
@@ -507,13 +507,13 @@
     <axis
       xyz="0 0 1" />
     <limit
-      lower="-1.601"
+      lower="-1.792"
       upper="0"
-      effort="10"
-      velocity="0.8" />
+      effort="0"
+      velocity="0" />
     <mimic
       joint="L_middle_proximal_joint"
-      multiplier="1.065"
+      multiplier="0.975"
       offset="0" />
   </joint>
 
@@ -533,25 +533,25 @@
   <joint name="L_middle_tip_joint" type="fixed">
     <parent link="L_middle_intermediate_link" />
     <child link="L_middle_tip_link" />
-    <origin rpy="0 0 0" xyz="0.045 -0.001 0" />
+    <origin rpy="0 0 0" xyz="0.047 -0.0025 0" />
   </joint>
 
-  
+
   <link
     name="L_ring_proximal_link">
     <inertial>
       <origin
-        xyz="0.00959983 0.0004431 2.96E-06"
+        xyz="0.01388576 0.00132917 0.00025991"
         rpy="0 0 0" />
       <mass
-        value="0.01911771" />
+        value="0.01124444" />
       <inertia
-        ixx="8.6E-07"
-        ixy="1.2E-07"
+        ixx="7E-07"
+        ixy="2.1E-07"
         ixz="0"
-        iyy="3.71E-06"
+        iyy="1.81E-06"
         iyz="0"
-        izz="3.85E-06" />
+        izz="1.87E-06" />
     </inertial>
     <visual>
       <origin
@@ -581,8 +581,8 @@
     name="L_ring_proximal_joint"
     type="revolute">
     <origin
-      xyz="-0.00996 -0.012293 -0.097938"
-      rpy="3.1403 1.5184 3.1403" />
+      xyz="-0.010211 -0.0123 -0.095924"
+      rpy="3.1416 1.5184 3.1416" />
     <parent
       link="L_hand_base_link" />
     <child
@@ -590,26 +590,26 @@
     <axis
       xyz="0 0 1" />
     <limit
-      lower="-1.512"
+      lower="-1.593"
       upper="0"
-      effort="10"
-      velocity="0.8" />
+      effort="0"
+      velocity="0" />
   </joint>
   <link
     name="L_ring_intermediate_link">
     <inertial>
       <origin
-        xyz="0.01800421 0.00300042 -9.23E-06"
+        xyz="0.014739 0.0047926 6.8E-06"
         rpy="0 0 0" />
       <mass
-        value="0.01292544" />
+        value="0.0027085" />
       <inertia
-        ixx="3.7E-07"
-        ixy="2.5E-07"
+        ixx="8E-08"
+        ixy="3E-08"
         ixz="0"
-        iyy="2.01E-06"
+        iyy="4.9E-07"
         iyz="0"
-        izz="2.04E-06" />
+        izz="4.9E-07" />
     </inertial>
     <visual>
       <origin
@@ -639,8 +639,8 @@
     name="L_ring_intermediate_joint"
     type="revolute">
     <origin
-      xyz="0.031005 -0.0079165 0"
-      rpy="-3.5054E-05 0.0001607 -0.23658" />
+      xyz="0.031531 -0.0054567 0.00025"
+      rpy="0 0.00014037 -0.0025338" />
     <parent
       link="L_ring_proximal_link" />
     <child
@@ -648,13 +648,13 @@
     <axis
       xyz="0 0 1" />
     <limit
-      lower="-1.561"
+      lower="-1.791"
       upper="0"
-      effort="10"
-      velocity="0.8" />
+      effort="0"
+      velocity="0" />
     <mimic
       joint="L_ring_proximal_joint"
-      multiplier="1.032"
+      multiplier="0.975"
       offset="0" />
   </joint>
 
@@ -674,7 +674,7 @@
   <joint name="L_ring_tip_joint" type="fixed">
     <parent link="L_ring_intermediate_link" />
     <child link="L_ring_tip_link" />
-    <origin rpy="0 0 0" xyz="0.038 -0.002 0" />
+    <origin rpy="0 0 0" xyz="0.0385 -0.0015 0" />
   </joint>
 
 
@@ -682,17 +682,17 @@
     name="L_pinky_proximal_link">
     <inertial>
       <origin
-        xyz="0.00964414 9.378E-05 2.96E-06"
+        xyz="0.01388552 0.0013317 9.91E-06"
         rpy="0 0 0" />
       <mass
-        value="0.01911771" />
+        value="0.01124444" />
       <inertia
-        ixx="8.8E-07"
-        ixy="2E-07"
+        ixx="7E-07"
+        ixy="2.1E-07"
         ixz="0"
-        iyy="3.7E-06"
+        iyy="1.81E-06"
         iyz="0"
-        izz="3.85E-06" />
+        izz="1.87E-06" />
     </inertial>
     <visual>
       <origin
@@ -722,8 +722,8 @@
     name="L_pinky_proximal_joint"
     type="revolute">
     <origin
-      xyz="-0.028227 -0.012293 -0.096013"
-      rpy="3.1409 1.4661 3.1409" />
+      xyz="-0.028228 -0.0123 -0.094012"
+      rpy="3.1416 1.4661 3.1416" />
     <parent
       link="L_hand_base_link" />
     <child
@@ -731,26 +731,26 @@
     <axis
       xyz="0 0 1" />
     <limit
-      lower="-1.503"
+      lower="-1.592"
       upper="0"
-      effort="10"
-      velocity="0.8" />
+      effort="0"
+      velocity="0" />
   </joint>
   <link
     name="L_pinky_intermediate_link">
     <inertial>
       <origin
-        xyz="0.01609604 0.00118817 -8.72E-06"
+        xyz="0.012117 0.0047104 1.872E-05"
         rpy="0 0 0" />
       <mass
-        value="0.00568707" />
+        value="0.0024076" />
       <inertia
-        ixx="1.7E-07"
-        ixy="1.3E-07"
+        ixx="7E-08"
+        ixy="1E-08"
         ixz="0"
-        iyy="6.2E-07"
+        iyy="3.2E-07"
         iyz="0"
-        izz="6.7E-07" />
+        izz="3.2E-07" />
     </inertial>
     <visual>
       <origin
@@ -780,8 +780,8 @@
     name="L_pinky_intermediate_joint"
     type="revolute">
     <origin
-      xyz="0.030933 -0.0081952 0"
-      rpy="-9.8304E-05 0.00031806 -0.32129" />
+      xyz="0.031532 -0.005451 0"
+      rpy="0 0.00032164 -0.011403" />
     <parent
       link="L_pinky_proximal_link" />
     <child
@@ -789,13 +789,13 @@
     <axis
       xyz="0 0 1" />
     <limit
-      lower="-1.532"
+      lower="-1.791"
       upper="0"
-      effort="10"
-      velocity="0.8" />
+      effort="0"
+      velocity="0" />
     <mimic
       joint="L_pinky_proximal_joint"
-      multiplier="1.019"
+      multiplier="0.975"
       offset="0" />
   </joint>
 
@@ -815,7 +815,8 @@
   <joint name="L_pinky_tip_joint" type="fixed">
     <parent link="L_pinky_intermediate_link" />
     <child link="L_pinky_tip_link" />
-    <origin rpy="0 0 0" xyz="0.031 0 0" />
+    <origin rpy="0 0 0" xyz="0.033 -0.0015 0" />
   </joint>
+
 
 </robot>
