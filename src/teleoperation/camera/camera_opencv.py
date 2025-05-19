@@ -197,7 +197,11 @@ class CameraOpencv:
                 else:
                     self.display.put({"left": frame}, marker=self.is_recording.is_set())
                 if self.is_recording.is_set():
-                    self.recorder.put({"rgb": frame}, self.frame_id, self.video_path, self.timestamp)
+                    left_frame = frame[:, : self.width, :]
+                    right_frame = frame[:, self.width :, :]
+                    self.recorder.put(
+                        {"left": left_frame, "right": right_frame}, self.frame_id, self.video_path, self.timestamp
+                    )
                     self.frame_id += 1
 
             taken = time.monotonic() - start
