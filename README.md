@@ -133,6 +133,7 @@ Install the ZED SDK following the [official instructions](docs/zed_installation.
 
 ### 📐 GR1T1/T2 Calibration
 
+
 `FARTS` supports multiple versions of SDKs for Fourier robots.
 If you are using GR1T1 ir GR1T2 robot, we recommend the `grx` backend for now. While it is being phasing out in favor of the `hardware` backend, it is still the most stable and well-tested version.
 
@@ -303,7 +304,14 @@ The data will be saved in the `data` directory with the task name specified in t
 
 ## 📦 Docker Installation
 
-TODO
+Here are the steps to run data collection on a GR1pro (GR1T2) robot with our provided docker container.
+First start the `run_server.sh` script in the `server_config` directory. Be sure to follow the [instructions](#gr1t1t2-calibration) to calibrate the robot first.
+
+Then you can run our provided script:
+
+```bash
+./scripts/run_daq_docker.sh gr1t2 oak_97 daq_test
+```
 
 ## 🛠️ Development
 
