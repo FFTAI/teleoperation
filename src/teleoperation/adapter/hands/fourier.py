@@ -24,6 +24,13 @@ class FDHSingleton:
         return cls._instance
 
 
+# TODO: add a config for the tactile shape and order
+TACTILE_SHAPE = (6, 12, 8)
+TACTILE_ORDER = [5, 0, 1, 2, 3, 4]
+# TACTILE_NAMES = [中指，无名指，小指，拇指远，拇指近，食指]
+TACTILE_NAMES = ["middle", "ring", "little", "thumb_proximal", "thumb_intermediate", "index"]
+
+
 class FourierDexHand:
     def __init__(self, hand_ip: str, dimension: int = 6, use_tactile=False):
         self.hand: fdh.DexHand = fdh.DexHand()
@@ -36,6 +43,10 @@ class FourierDexHand:
         self.use_tactile = use_tactile
 
         self._hand_positions = [0] * dimension
+
+        assert len(TACTILE_SHAPE) == len(TACTILE_ORDER), "Tactile shape and order must have the same length"
+        self._tactile_readings = np.empty(TACTILE_SHAPE, dtype=np.uint8)
+
         self._cmd = [0] * dimension
         self._cmd_lock = threading.Lock()
         self._stop_event = threading.Event()
@@ -46,6 +57,12 @@ class FourierDexHand:
 
         self.set_pos_thread = threading.Thread(target=self._set_positions, daemon=True)
         self.set_pos_thread.start()
+
+        if self.use_tactile:
+            self._sensor_lock = threading.Lock()
+            logger.info(f"Using tactile sensor for hand {self.ip}")
+            self.get_tactile_thread = threading.Thread(target=self._get_tactile, daemon=True)
+            self.get_tactile_thread.start()
 
         logger.info(
             f"Calibrating dex hand: {self.name}; type: {self.type}; ip: {self.ip}; dimension: {dimension}, tactile: {use_tactile}"
@@ -86,6 +103,18 @@ class FourierDexHand:
             end = time.perf_counter()
             time.sleep(max(1 / (self.freq * 1.5) - (end - start), 0))
 
+    def _get_tactile(self):
+        tactile_index = [5, 0, 1, 2, 3, 4]
+        data = self.hand.get_ts_matrix(self.ip)
+
+        data = np.array([data[index] for index in tactile_index], dtype=np.uint8)
+
+        if data.shape != TACTILE_SHAPE:
+            logger.error(f"Invalid tactile shape: {data.shape}, expected: {TACTILE_SHAPE}")
+            return
+        with self._sensor_lock:
+            self._tactile_readings[:] = data
+
     def init(self):
         logger.debug("Initializing dex hand")
         ret = self.hand.init()
@@ -109,13 +138,10 @@ class FourierDexHand:
 
     def get_tactile(self):
         if not self.use_tactile:
+            logger.warning("Tactile sensor is not enabled")
             return None
-        tactile_index = [5, 0, 1, 2, 3, 4]
-        data = self.hand.get_ts_matrix(self.ip)
-
-        data = np.array([data[index] for index in tactile_index])
-
-        return data
+        with self._sensor_lock:
+            return self._tactile_readings
 
     def reset(self):
         res = self.hand.set_pos([0] * self.dimension)

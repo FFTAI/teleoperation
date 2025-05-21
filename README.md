@@ -5,7 +5,12 @@
 
 Welcome to `teleoperation`, the Fourier Advanced Robot Teleoperation System (F.A.R.T.S.)! This system enables real-time humanoid robot control using a VR headset and hand tracking. While primarily designed for Fourier GRX series robots, it's adaptable for other robots too. It supports various cameras like Depthai Oak, Intel RealSense, and generic USB cameras, and includes data collection features for imitation learning and VLA.
 
+## 🗺️ Roadmap
 
+- [] Add more documentation for the data collection and docker installation.
+- [] Support Fourier 12 DOFhand with tactile sensors.
+- [] Add tutorial for adding new emobiments.
+- [] Switch to structured configs.
 
 ## 🛍 Prerequisites
 
@@ -292,7 +297,7 @@ To stop the teleoperation, the operator can hit the `Space` key again or just `c
 For data collection, the process is largely the same. After hitting the `Space` key, for the first time to engage the teleoperation, the operator can hit the `Space` key again to start the data collection.
 When the data collection is started, the pilot should see a red dot in their VR session. This indicates that the data collection is in progress.
 The operator can then hit the `Space` key again to stop the data collection, or `x` key to discard the current episode.
-The data will be saved in the `data` directory with the task name specified in the command line.
+The data will be saved in the `data` directory with the task name specified in the command line.å
 
 ***You may watch the video to see how to access the VR session inside the VisionPro device: [VisionPro operation video](./figure/video/Vp.mp4)***
 

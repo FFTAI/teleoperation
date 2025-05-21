@@ -1,5 +1,5 @@
 instance:
-  _target_: teleoperation.adapter.robots.hardware.GR1Robot
+  _target_: teleoperation.adapter.robots.hardware.GR2Robot
   controlled_joint_indices: "${robot.controlled_joint_indices}"
   default_qpos: "${robot.default_qpos}"
   named_links: "${robot.named_links}"
@@ -10,9 +10,16 @@ instance:
 urdf_path: "urdf/GR2T2v2_fourier_hand_12dof.urdf"
 urdf_package_dirs: ["urdf"]
 
-controlled_groups: ${eval:'["waist", "head", "left_manipulator", "right_manipulator"]'}
-all_groups: ${eval:'["left_leg", "right_leg", "waist", "head", "left_manipulator", "right_manipulator"]'}
-
+controlled_groups: ["waist", "head", "left_manipulator", "right_manipulator"]
+all_groups:
+  [
+    "left_leg",
+    "right_leg",
+    "waist",
+    "head",
+    "left_manipulator",
+    "right_manipulator",
+  ]
 
 controlled_joint_indices: "${eval:'list(range(12, 29))'}"
 default_qpos: "${eval:'np.array([
@@ -47,7 +54,7 @@ joint_names:
     "right_shoulder_pitch_joint",
     "right_shoulder_roll_joint",
     "right_shoulder_yaw_joint",
-    "right_elbow_pitch_joint", 
+    "right_elbow_pitch_joint",
     "right_wrist_yaw_joint",
     "right_wrist_pitch_joint",
     "right_wrist_roll_joint",

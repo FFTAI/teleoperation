@@ -133,6 +133,7 @@ class StateData:
     hand: list[np.ndarray] = field(default_factory=list)
     robot: list[np.ndarray] = field(default_factory=list)
     pose: list[np.ndarray] = field(default_factory=list)
+    tactile: list[np.ndarray] = field(default_factory=list)
 
 
 @dataclass
@@ -164,10 +165,13 @@ class EpisodeDataDict(EpisodeMetaData, TimestampMixin):
     def length(self):
         return len(self.timestamp)
 
-    def add_state(self, hand: np.ndarray, robot: np.ndarray, pose: np.ndarray):
+    def add_state(self, hand: np.ndarray, robot: np.ndarray, pose: np.ndarray, tactile: np.ndarray | None = None):
         self.state.hand.append(hand)
         self.state.robot.append(robot)
         self.state.pose.append(pose)
+
+        if tactile is not None:
+            self.state.tactile.append(tactile)
 
     def add_action(self, hand: np.ndarray, robot: np.ndarray, pose: np.ndarray):
         self.action.hand.append(hand)
@@ -183,6 +187,7 @@ class EpisodeDataDict(EpisodeMetaData, TimestampMixin):
                 "hand": self.state.hand,
                 "robot": self.state.robot,
                 "pose": self.state.pose,
+                "tactile": self.state.tactile,
             },
             "action": {
                 "hand": self.action.hand,
