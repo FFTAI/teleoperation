@@ -7,7 +7,7 @@ import numpy as np
 logger = logging.getLogger(__name__)
 
 
-class GR1Robot:
+class GR2Robot:
     def __init__(
         self,
         controlled_joint_indices: list,
