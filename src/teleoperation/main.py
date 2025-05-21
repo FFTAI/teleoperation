@@ -288,9 +288,10 @@ def main(
             if fsm.state == FSM.State.COLLECTING and data_dict is not None:
                 qpos, hand_qpos, ee_pose, head_pose = robot.observe()
 
-                if cfg.get("use_tactile", False):
+                if cfg.hand.get("use_tactile", False):
                     left_tactile, right_tactile = robot.left_hand.get_tactile(), robot.right_hand.get_tactile()
-                    tactile = np.hstack([left_tactile, right_tactile])
+                    # logger.debug(f"Left tactile: {left_tactile}, Right tactile: {right_tactile}")
+                    tactile = np.concatenate([left_tactile, right_tactile], axis=0)
                 else:
                     tactile = None
 

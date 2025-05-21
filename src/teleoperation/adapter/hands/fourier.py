@@ -25,7 +25,7 @@ class FDHSingleton:
 
 
 # TODO: add a config for the tactile shape and order
-TACTILE_SHAPE = (6, 12, 8)
+TACTILE_SHAPE = (6, 12 * 8)
 TACTILE_ORDER = [5, 0, 1, 2, 3, 4]
 # TACTILE_NAMES = [中指，无名指，小指，拇指远，拇指近，食指]
 TACTILE_NAMES = ["middle", "ring", "little", "thumb_proximal", "thumb_intermediate", "index"]
@@ -33,7 +33,7 @@ TACTILE_NAMES = ["middle", "ring", "little", "thumb_proximal", "thumb_intermedia
 
 class FourierDexHand:
     def __init__(self, hand_ip: str, dimension: int = 6, use_tactile=False):
-        self.hand: fdh.DexHand = fdh.DexHand()
+        self.hand: fdh.DexHand = FDHSingleton()
 
         self.init()
 
@@ -44,7 +44,7 @@ class FourierDexHand:
 
         self._hand_positions = [0] * dimension
 
-        assert len(TACTILE_SHAPE) == len(TACTILE_ORDER), "Tactile shape and order must have the same length"
+        assert TACTILE_SHAPE[0] == len(TACTILE_ORDER), "Tactile shape and order must have the same length"
         self._tactile_readings = np.empty(TACTILE_SHAPE, dtype=np.uint8)
 
         self._cmd = [0] * dimension
@@ -104,16 +104,25 @@ class FourierDexHand:
             time.sleep(max(1 / (self.freq * 1.5) - (end - start), 0))
 
     def _get_tactile(self):
-        tactile_index = [5, 0, 1, 2, 3, 4]
-        data = self.hand.get_ts_matrix(self.ip)
+        while True and not self._stop_event.is_set():
+            start = time.perf_counter()
+            data = self.hand.get_ts_matrix(self.ip)
 
-        data = np.array([data[index] for index in tactile_index], dtype=np.uint8)
+            try:
+                data = np.array([data[index] for index in TACTILE_ORDER], dtype=np.uint8)
 
-        if data.shape != TACTILE_SHAPE:
-            logger.error(f"Invalid tactile shape: {data.shape}, expected: {TACTILE_SHAPE}")
-            return
-        with self._sensor_lock:
-            self._tactile_readings[:] = data
+                # data = np.reshape(data, TACTILE_SHAPE)
+
+                if data.shape != TACTILE_SHAPE:
+                    logger.error(f"Invalid tactile shape: {data.shape}, expected: {TACTILE_SHAPE}")
+                    return
+                with self._sensor_lock:
+                    self._tactile_readings[:] = data
+            except Exception as e:
+                logger.error(f"Error getting tactile data: {e}")
+
+            end = time.perf_counter()
+            time.sleep(max(1 / 90 - (end - start), 0))
 
     def init(self):
         logger.debug("Initializing dex hand")

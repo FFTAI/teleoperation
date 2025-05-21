@@ -171,7 +171,7 @@ class CameraOpencv:
         camera.set(cv2.CAP_PROP_FRAME_HEIGHT, self.height)
 
         self.fps = round(camera.get(cv2.CAP_PROP_FPS))
-        self.width = round(camera.get(cv2.CAP_PROP_FRAME_WIDTH))
+        # self.width = round(camera.get(cv2.CAP_PROP_FRAME_WIDTH))
         self.height = round(camera.get(cv2.CAP_PROP_FRAME_HEIGHT))
 
         logger.info(
