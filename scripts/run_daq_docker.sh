@@ -17,15 +17,16 @@ shift 3
 echo "Additional arguments: $@"
 
 docker run --rm -it --name daq \
+    --user $(id -u):$(id -g) \
     --privileged \
     -v /dev/bus/usb:/dev/bus/usb \
     --device-cgroup-rule='c 189:* rmw' \
     -e DISPLAY=$DISPLAY \
     -e "HOSTNAME=$(cat /etc/hostname)" \
     -v /tmp/.X11-unix:/tmp/.X11-unix \
-    -v /mnt/Data:/app/data:rw \
-    -v ~/.certs:/app/certs:ro \
-    -v ~/.farts/outputs:/app/outputs:rw \
+    -v ./data:/app/data:rw \
+    -v ./certs:/app/certs:ro \
+    -v ./outputs:/app/outputs:rw \
     --network=host \
     --ipc=host \
     -e HYDRA_FULL_ERROR=1 \

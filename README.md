@@ -310,6 +310,8 @@ First start the `run_server.sh` script in the `server_config` directory. Be sure
 Then you can run our provided script:
 
 ```bash
+mkdir -p ./outputs
+mkdir -p ./data
 ./scripts/run_daq_docker.sh gr1t2 oak_97 daq_test
 ```
 
