@@ -7,10 +7,12 @@ Welcome to `teleoperation`, the Fourier Advanced Robot Teleoperation System (F.A
 
 ## 🗺️ Roadmap
 
-- [] Add more documentation for the data collection and docker installation.
-- [] Support Fourier 12 DOFhand with tactile sensors.
-- [] Add tutorial for adding new emobiments.
-- [] Switch to structured configs.
+- [x] Add more documentation for the data collection and docker installation.
+- [ ] Support Fourier 12 DOFhand with tactile sensors.
+- [ ] Add tutorial for adding new emobiments, and general development guide.
+- [ ] Switch to structured configs.
+- [ ] Use `evdev` for keyboard input instead of `pynput` to avoid Wayland issues.
+- [ ] Add instructions for applying udev rules for the stereo camera on `GR2` robots.
 
 ## 🛍 Prerequisites
 
