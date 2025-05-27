@@ -86,6 +86,7 @@ RUN --mount=type=cache,target=${UV_CACHE_DIR},uid=${USER_UID},gid=${USER_GID} \
 # Place executables in the environment at the front of the path
 ENV PATH="/app/.venv/bin:$PATH"
 ENV LD_LIBRARY_PATH=/usr/local/fourier_dds_msgs/lib:/usr/local/lib:/usr/lib/x86_64-linux-gnu/:/app/.venv/lib:/app/.venv/lib/python3.10/site-packages/fourier_grx_dds/libraries/
+ENV PYTHONPATH=/app/.venv/lib/python3.10/site-packages:/app
 
 COPY --chown=farts:farts --from=builder /usr/lib/python3/dist-packages/grx_sot_py.so /app/grx_sot_py.so
 COPY --chown=farts:farts --from=builder /usr/lib/python3/dist-packages/fourier_hardware_py.cpython-310-x86_64-linux-gnu.so /app/fourier_hardware_py.cpython-310-x86_64-linux-gnu.so
