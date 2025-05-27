@@ -1,14 +1,14 @@
-# ARG BUILDER_IMAGE=192.168.3.32/base/fourier_hardware:v2.4
+# ARG BUILDER_IMAGE=192.168.3.32/base/fourier_hardware:latest
 # ARG BASE_IMAGE=192.168.3.32/farts/depthai:3.10-22.04
 
-ARG BUILDER_IMAGE=ghcr.io/fftai/fourier_hardware:v2.4
+ARG BUILDER_IMAGE=ghcr.io/fftai/fourier_hardware:latest
 ARG BASE_IMAGE=ghcr.io/fftai/depthai:3.10-22.04
 
 FROM ${BUILDER_IMAGE} AS builder
 
 RUN ldconfig && mkdir -p /app/deps && \
-    ldd /usr/local/lib/fourier_hardware_py.cpython-310-x86_64-linux-gnu.so | awk '{print $3}' | grep -v '^(' | grep 'local' | xargs -I {} cp --dereference {} /app/deps/ 2>/dev/null || true && \
-    ldd /usr/local/lib/fourier_hardware_dds_py.cpython-310-x86_64-linux-gnu.so | awk '{print $3}' | grep -v '^(' | grep 'local' | xargs -I {} cp --dereference {} /app/deps/ 2>/dev/null || true \
+    ldd /usr/lib/python3/dist-packages/fourier_hardware_py.cpython-310-x86_64-linux-gnu.so | awk '{print $3}' | grep -v '^(' | grep 'local' | xargs -I {} cp --dereference {} /app/deps/ 2>/dev/null || true && \
+    ldd /usr/lib/python3/dist-packages/fourier_hardware_dds_py.cpython-310-x86_64-linux-gnu.so | awk '{print $3}' | grep -v '^(' | grep 'local' | xargs -I {} cp --dereference {} /app/deps/ 2>/dev/null || true \
     find /app/deps -type l -exec cp --parents --dereference {} /app/deps/ \;
 
 FROM ${BASE_IMAGE} AS runtime
@@ -85,12 +85,13 @@ RUN --mount=type=cache,target=${UV_CACHE_DIR},uid=${USER_UID},gid=${USER_GID} \
 # uv pip install --no-deps --force-reinstall /app/dexhandpy-0.0.42-cp310-cp310-linux_x86_64.whl && \
 # Place executables in the environment at the front of the path
 ENV PATH="/app/.venv/bin:$PATH"
-ENV LD_LIBRARY_PATH=/usr/local/lib:/usr/lib/x86_64-linux-gnu/:/app/.venv/lib:/app/.venv/lib/python3.10/site-packages/fourier_grx_dds/libraries/
+ENV LD_LIBRARY_PATH=/usr/local/fourier_dds_msgs/lib:/usr/local/lib:/usr/lib/x86_64-linux-gnu/:/app/.venv/lib:/app/.venv/lib/python3.10/site-packages/fourier_grx_dds/libraries/
 
 COPY --chown=farts:farts --from=builder /usr/lib/python3/dist-packages/grx_sot_py.so /app/grx_sot_py.so
 COPY --chown=farts:farts --from=builder /usr/lib/python3/dist-packages/fourier_hardware_py.cpython-310-x86_64-linux-gnu.so /app/fourier_hardware_py.cpython-310-x86_64-linux-gnu.so
 COPY --chown=farts:farts --from=builder /usr/lib/python3/dist-packages/fourier_hardware_dds_py.cpython-310-x86_64-linux-gnu.so /app/fourier_hardware_dds_py.cpython-310-x86_64-linux-gnu.so
 COPY --chown=farts:farts --from=builder /app/deps/ /usr/local/lib/
+COPY --chown=farts:farts --from=builder /usr/local/fourier_dds_msgs/ /usr/local/fourier_dds_msgs/
 
 
 CMD ["source", "/app/.venv/bin/activate"]
