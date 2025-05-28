@@ -23,7 +23,7 @@ class RobotWrapper:
             package_dirs=[str(ASSET_DIR / d) for d in self.config.urdf_package_dirs],
             root_joint=pin.JointModelFreeFlyer(),
         )
-        
+
         self.num_joints = self.config.num_joints
 
         if self.config.joints_to_lock:
@@ -279,7 +279,9 @@ class RobotWrapper:
         if len(q) == self.num_joints:
             q = self.q_real2pink(q)
         elif len(q) != self.model.nq:
-            raise ValueError(f"Invalid q vector length: {len(q)}, model num joints: {self.model.nq}; robot num joints: {self.num_joints}")
+            raise ValueError(
+                f"Invalid q vector length: {len(q)}, model num joints: {self.model.nq}; robot num joints: {self.num_joints}"
+            )
 
         frame_idx = self.model.getFrameId(frame_name)
         frame_transform = self.robot.framePlacement(q, frame_idx)

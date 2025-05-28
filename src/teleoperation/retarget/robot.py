@@ -152,6 +152,8 @@ class IKRobot(RobotWrapper):
 
         if "daqp" in qpsolvers.available_solvers:
             solver = "daqp"
+        else:
+            raise ValueError("DAQP solver is not available. Please install it.")
 
         velocity = pink.solve_ik(
             self.configuration,

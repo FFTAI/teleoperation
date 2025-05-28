@@ -64,7 +64,7 @@ class RecordingInfo:
             self.lock.release()
 
         self.lock = FileLock(lock_path)
-        self.lock.acquire(timeout=10)
+        self.lock.acquire(timeout=10)  # TODO: handle timeout more gracefully
 
     def release(self):
         if self.lock:
