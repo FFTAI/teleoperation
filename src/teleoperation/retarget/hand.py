@@ -80,6 +80,27 @@ class HandRetarget:
 
         return left_qpos_real, right_qpos_real
 
+    def actuated_qpos_to_real(self, left_qpos, right_qpos):
+        """Convert hand joint angles to real values passed to the hand SDK"""
+
+        left_qpos_real = remap(
+            left_qpos,
+            self.left_retargeting.joint_limits[:, 0],
+            self.left_retargeting.joint_limits[:, 1],
+            self.cfg.range_max,
+            self.cfg.range_min,
+        )
+
+        right_qpos_real = remap(
+            right_qpos,
+            self.right_retargeting.joint_limits[:, 0],
+            self.right_retargeting.joint_limits[:, 1],
+            self.cfg.range_max,
+            self.cfg.range_min,
+        )
+
+        return left_qpos_real, right_qpos_real
+
     def real_to_qpos(self, left_qpos_real, right_qpos_real):
         """Convert real values passed to the hand SDK to hand joint angles"""
         left_qpos = remap(

@@ -396,7 +396,7 @@ class EvalRobot(DexRobot):
     def observe(self):
         left_qpos, right_qpos = self.left_hand.get_positions(), self.right_hand.get_positions()
 
-        # left_qpos, right_qpos = self.hand_retarget.real_to_qpos(left_qpos, right_qpos)
+        left_qpos, right_qpos = self.hand_retarget.real_to_qpos(left_qpos, right_qpos)
         hand_qpos = np.hstack([left_qpos, right_qpos])
 
         (qpos,) = self.client.observe()
@@ -422,10 +422,12 @@ class EvalRobot(DexRobot):
 
         return left_pose, right_pose, head_pose
 
-    def control_hands(self, hand_action):
-        # left, right = self.hand_action_convert(left_qpos, right_qpos, filtering=True)
+    def control_hands(self, left_hand, right_hand):
+        print(f"Control hands: {right_hand}, {left_hand}")
+        # left, right = self.hand_action_convert(left_hand, right_hand, filtering=True)
+        left, right = self.hand_retarget.actuated_qpos_to_real(left_hand, right_hand)
 
-        filtered_hand_action = self.hand_filter.next(time.time(), hand_action)
+        filtered_hand_action = self.hand_filter.next(time.time(), np.hstack([left, right]))
         left = filtered_hand_action[:6]
         right = filtered_hand_action[6:]
         self.left_hand.set_positions(left)  # type: ignore

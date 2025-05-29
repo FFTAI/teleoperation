@@ -27,6 +27,7 @@ def main(cfg: DictConfig):
 
     try:
         while True:
+            start = time.time()
             robot.update_display()
 
             action = robot.step()
@@ -35,7 +36,7 @@ def main(cfg: DictConfig):
 
             logger.debug(action)
 
-            hand_action = np.concatenate([action.get("left_hand", np.zeros(6)), action.get("right_hand", np.zeros(6))])
+            # hand_action = np.concatenate([action.get("left_hand", np.zeros(6)), action.get("right_hand", np.zeros(6))])
             arm_action = np.concatenate(
                 [
                     action.get("left_leg", np.zeros(6)),
@@ -48,9 +49,11 @@ def main(cfg: DictConfig):
             )
 
             # TODO: add pose state and action
-            robot.control_hands(hand_action)
+            robot.control_hands(action.get("left_hand", np.zeros(6)), action.get("right_hand", np.zeros(6)))
             robot.control_joints(arm_action)
-            time.sleep(1 / cfg.frequency)
+            end = time.time()
+            logger.debug(f"Step time: {end - start:.4f} seconds")
+            time.sleep(max(0, 1 / cfg.frequency - (end - start)))
 
     except KeyboardInterrupt:
         logger.info("Exiting...")
