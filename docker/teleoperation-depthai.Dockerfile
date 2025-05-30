@@ -59,7 +59,6 @@ ARG UV_CACHE_DIR=/home/${USERNAME}/.cache/uv
 WORKDIR /app
 RUN chown -R $USERNAME:$USERNAME /app
 
-# COPY --chown=$USERNAME:$USERNAME dexhandpy-0.0.42-cp310-cp310-linux_x86_64.whl /app/
 
 RUN uv venv --python /opt/venv/bin/python
 RUN --mount=type=cache,target=${UV_CACHE_DIR},uid=${USER_UID},gid=${USER_GID} \
@@ -82,7 +81,9 @@ RUN --mount=type=cache,target=${UV_CACHE_DIR},uid=${USER_UID},gid=${USER_GID} \
     uv pip install mujoco meshcat ischedule matplotlib==3.4.3 notebook && \
     uv pip uninstall typing
 
-# uv pip install --no-deps --force-reinstall /app/dexhandpy-0.0.42-cp310-cp310-linux_x86_64.whl && \
+# COPY --chown=$USERNAME:$USERNAME dexhandpy-0.0.42-cp310-cp310-linux_x86_64.whl /app/
+# RUN uv pip install --no-deps --force-reinstall dexhandpy==0.0.42 --extra-index-url http://192.168.3.35:8088/repository/pypi/simple --trusted-host 192.168.3.35
+
 # Place executables in the environment at the front of the path
 ENV PATH="/app/.venv/bin:$PATH"
 ENV LD_LIBRARY_PATH=/usr/local/fourier_dds_msgs/lib:/usr/local/lib:/usr/lib/x86_64-linux-gnu/:/app/.venv/lib:/app/.venv/lib/python3.10/site-packages/fourier_grx_dds/libraries/
