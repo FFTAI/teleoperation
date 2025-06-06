@@ -27,7 +27,7 @@ range_min: [0.0, 0.0, 576, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 1700, 1700, 0.0]
 
 left:
   type: vector
-  urdf_path: urdf/fourier_left_hand_12dof.urdf
+  urdf_path: fourier_left_hand_12dof
   # urdf_path: gr1_inspire/urdf/T2-dex.urdf
   wrist_link_name: "L_hand_base_link"
 
@@ -78,7 +78,7 @@ left:
 
 right:
   type: vector
-  urdf_path: urdf/fourier_right_hand_12dof.urdf
+  urdf_path: fourier_right_hand_12dof
   # urdf_path: gr1_inspire/urdf/T2-dex.urdf
   wrist_link_name: "R_hand_base_link"
 

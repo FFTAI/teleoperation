@@ -8,8 +8,7 @@ instance:
 
 dds_domain_id: ???
 dds_namespace: "/farts/gr1t1"
-urdf_path: "urdf/GR1T1_fourier_hand_6dof.urdf"
-urdf_package_dirs: ["urdf"]
+urdf_name: "gr1t1_fourier_hand_6dof"
 
 controlled_joint_indices: "${eval:'list(range(12, 32))'}"
 default_qpos: "${eval:'np.array([

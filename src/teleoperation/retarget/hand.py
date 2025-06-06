@@ -2,6 +2,7 @@ import logging
 
 import numpy as np
 from dex_retargeting.retargeting_config import RetargetingConfig
+from fourier_robot_descriptions.fourier import PACKAGE_PATH
 from omegaconf import DictConfig, OmegaConf
 
 from teleoperation.utils import ASSET_DIR, remap
@@ -13,8 +14,15 @@ class HandRetarget:
     def __init__(self, cfg: DictConfig) -> None:
         assets_dir = ASSET_DIR
         RetargetingConfig.set_default_urdf_dir(assets_dir)
-        left_retargeting_config = RetargetingConfig.from_dict(cfg=OmegaConf.to_container(cfg["left"], resolve=True))
-        right_retargeting_config = RetargetingConfig.from_dict(cfg=OmegaConf.to_container(cfg["right"], resolve=True))
+        cfg_left = OmegaConf.to_container(cfg["left"], resolve=True)
+        cfg_right = OmegaConf.to_container(cfg["right"], resolve=True)
+
+        # append urdf path
+        cfg_left["urdf_path"] = (PACKAGE_PATH / cfg_left["urdf_path"]).with_suffix(".urdf").absolute()
+        cfg_right["urdf_path"] = (PACKAGE_PATH / cfg_right["urdf_path"]).with_suffix(".urdf").absolute()
+
+        left_retargeting_config = RetargetingConfig.from_dict(cfg=cfg_left)
+        right_retargeting_config = RetargetingConfig.from_dict(cfg=cfg_right)
         self.left_retargeting = left_retargeting_config.build()
         self.right_retargeting = right_retargeting_config.build()
         self.hand_type = cfg.type

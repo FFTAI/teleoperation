@@ -29,7 +29,7 @@ range_min: [0.0, 0.0, 576, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 1700, 1700, 0.0]
 
 left:
   type: DexPilot
-  urdf_path: urdf/fourier_left_hand_12dof.urdf
+  urdf_path: fourier_left_hand_12dof
   wrist_link_name: "L_hand_base_link"
 
   finger_tip_link_names:
@@ -63,7 +63,7 @@ left:
 
 right:
   type: DexPilot
-  urdf_path: urdf/fourier_right_hand_12dof.urdf
+  urdf_path: fourier_right_hand_12dof
   wrist_link_name: "R_hand_base_link"
 
   finger_tip_link_names:

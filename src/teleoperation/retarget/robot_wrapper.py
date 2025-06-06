@@ -5,9 +5,8 @@ from collections.abc import Sequence
 import numpy as np
 import pink
 import pinocchio as pin
+from fourier_robot_descriptions.loaders.pinocchio import load_robot_description
 from omegaconf import DictConfig, OmegaConf
-
-from teleoperation.utils import ASSET_DIR
 
 logger = logging.getLogger(__name__)
 
@@ -18,15 +17,12 @@ class RobotWrapper:
             self.config = OmegaConf.load(config)
         else:
             self.config = config
-        self.robot = pin.RobotWrapper.BuildFromURDF(
-            filename=str(ASSET_DIR / self.config.urdf_path),
-            package_dirs=[str(ASSET_DIR / d) for d in self.config.urdf_package_dirs],
-            root_joint=pin.JointModelFreeFlyer(),
-        )
 
-        self.num_joints = self.config.num_joints
+        self.robot = load_robot_description(self.config.robot.urdf_name.lower(), root_joint=pin.JointModelFreeFlyer())
 
-        if self.config.joints_to_lock:
+        self.num_joints = self.config.robot.num_joints
+
+        if self.config.robot.joints_to_lock:
             logger.info(f"Locking joints: {self.config.joints_to_lock}")
             self.robot = self.robot.buildReducedRobot(self.config.joints_to_lock)
 

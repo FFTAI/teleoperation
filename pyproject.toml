@@ -14,7 +14,7 @@ dependencies = [
     "pynput>=1.7.7,<1.8.0",
     "omegaconf>=2.3.0",
     "dex-retargeting<0.5.0",
-    "pin-pink>=3.2.0",
+    "pin-pink>=3.3.0",
     "qpsolvers[daqp,clarabel]>=4.6.0",
     "rerun-sdk==0.22.1",
     "meshcat>=0.3.2",
@@ -25,6 +25,7 @@ dependencies = [
     "hydra-colorlog>=1.2.0",
     "filelock>=3.16.1",
     "zmq>=0.0.0",
+    "fourier-robot-descriptions"
 ]
 requires-python = "~=3.10,<3.12"
 readme = "README.md"
@@ -65,6 +66,8 @@ torchvision = [
     { index = "torch-gpu", extra = "gpu" },
     { index = "torch-gpu", extra = "lerobot" },
 ]
+fourier-robot-descriptions = { git = "https://github.com/yuxiang-gao/fourier-robot-descriptions.git", rev = "dabc035de0aef33e4d079cf46e0e2ee7583837d8" }
+# fourier-robot-descriptions = { path = "../fourier-robot-descriptions.py", editable = true }
 # dexhandpy = { path = "dexhandpy-0.0.42-cp310-cp310-linux_x86_64.whl" }
 # lerobot = { path = "../fourier-lerobot", editable = true }
 # lerobot = { git = "https://github.com/huggingface/lerobot.git" }

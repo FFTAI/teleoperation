@@ -21,7 +21,7 @@ range_min: [1.0, 1.0, 1.0, 1.0, 0.0, 1.0]
 
 left:
   type: vector
-  urdf_path: urdf/fourier_left_hand_6dof.urdf
+  urdf_path: fourier_left_hand_6dof
   wrist_link_name: "L_hand_base_link"
 
   # Target refers to the retargeting target, which is the robot hand
@@ -65,7 +65,7 @@ left:
 
 right:
   type: vector
-  urdf_path: urdf/fourier_right_hand_6dof.urdf
+  urdf_path: fourier_right_hand_6dof
   # urdf_path: gr1_inspire/urdf/T2-dex.urdf
   wrist_link_name: "R_hand_base_link"
 

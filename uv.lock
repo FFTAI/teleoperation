@@ -964,6 +964,18 @@ wheels = [
 ]
 
 [[package]]
+name = "fourier-robot-descriptions"
+version = "0.2.3"
+source = { git = "https://github.com/yuxiang-gao/fourier-robot-descriptions.git?rev=dabc035de0aef33e4d079cf46e0e2ee7583837d8#dabc035de0aef33e4d079cf46e0e2ee7583837d8" }
+dependencies = [
+    { name = "gitpython" },
+    { name = "numpy" },
+    { name = "pin" },
+    { name = "rich" },
+    { name = "tqdm" },
+]
+
+[[package]]
 name = "frozenlist"
 version = "1.6.0"
 source = { registry = "https://pypi.tuna.tsinghua.edu.cn/simple" }
@@ -1025,6 +1037,30 @@ dependencies = [
 sdist = { url = "https://pypi.tuna.tsinghua.edu.cn/packages/d9/29/d40217cbe2f6b1359e00c6c307bb3fc876ba74068cbab3dde77f03ca0dc4/ghp-import-2.1.0.tar.gz", hash = "sha256:9c535c4c61193c2df8871222567d7fd7e5014d835f97dc7b7439069e2413d343", size = 10943 }
 wheels = [
     { url = "https://pypi.tuna.tsinghua.edu.cn/packages/f7/ec/67fbef5d497f86283db54c22eec6f6140243aae73265799baaaa19cd17fb/ghp_import-2.1.0-py3-none-any.whl", hash = "sha256:8337dd7b50877f163d4c0289bc1f1c7f127550241988d568c1db512c4324a619", size = 11034 },
+]
+
+[[package]]
+name = "gitdb"
+version = "4.0.12"
+source = { registry = "https://pypi.tuna.tsinghua.edu.cn/simple" }
+dependencies = [
+    { name = "smmap" },
+]
+sdist = { url = "https://pypi.tuna.tsinghua.edu.cn/packages/72/94/63b0fc47eb32792c7ba1fe1b694daec9a63620db1e313033d18140c2320a/gitdb-4.0.12.tar.gz", hash = "sha256:5ef71f855d191a3326fcfbc0d5da835f26b13fbcba60c32c21091c349ffdb571", size = 394684 }
+wheels = [
+    { url = "https://pypi.tuna.tsinghua.edu.cn/packages/a0/61/5c78b91c3143ed5c14207f463aecfc8f9dbb5092fb2869baf37c273b2705/gitdb-4.0.12-py3-none-any.whl", hash = "sha256:67073e15955400952c6565cc3e707c554a4eea2e428946f7a4c162fab9bd9bcf", size = 62794 },
+]
+
+[[package]]
+name = "gitpython"
+version = "3.1.44"
+source = { registry = "https://pypi.tuna.tsinghua.edu.cn/simple" }
+dependencies = [
+    { name = "gitdb" },
+]
+sdist = { url = "https://pypi.tuna.tsinghua.edu.cn/packages/c0/89/37df0b71473153574a5cdef8f242de422a0f5d26d7a9e231e6f169b4ad14/gitpython-3.1.44.tar.gz", hash = "sha256:c87e30b26253bf5418b01b0660f818967f3c503193838337fe5e573331249269", size = 214196 }
+wheels = [
+    { url = "https://pypi.tuna.tsinghua.edu.cn/packages/1d/9a/4114a9057db2f1462d5c8f8390ab7383925fe1ac012eaa42402ad65c2963/GitPython-3.1.44-py3-none-any.whl", hash = "sha256:9e0e10cda9bed1ee64bc9a6de50e7e38a9c9943241cd7f585f6df3ed28011110", size = 207599 },
 ]
 
 [[package]]
@@ -2603,7 +2639,7 @@ wheels = [
 
 [[package]]
 name = "pin-pink"
-version = "3.2.0"
+version = "3.3.0"
 source = { registry = "https://pypi.tuna.tsinghua.edu.cn/simple" }
 dependencies = [
     { name = "loop-rate-limiters" },
@@ -2611,9 +2647,9 @@ dependencies = [
     { name = "pin" },
     { name = "qpsolvers" },
 ]
-sdist = { url = "https://pypi.tuna.tsinghua.edu.cn/packages/10/1d/6a4441ba48ebf3f7f0e02ae4765cf8e92ef2addc86ff64c113f5c3bc24fd/pin_pink-3.2.0.tar.gz", hash = "sha256:a61d608cbb3c854a76fe8e19535b90ed9dd7157d5ae334e33dcc548eaeace55d", size = 110787 }
+sdist = { url = "https://pypi.tuna.tsinghua.edu.cn/packages/f3/6a/ffac93504d5ea1a201400d64f79ad17c487435937301b7eba1b4bf9731b0/pin_pink-3.3.0.tar.gz", hash = "sha256:a92018ab21e36a8c07d510ccc5cd37d16b01f1a79a6b16c29c0529388cc48dcd", size = 212281 }
 wheels = [
-    { url = "https://pypi.tuna.tsinghua.edu.cn/packages/5c/09/3e40fd520c491bea3f1afc8dde068b916ccad0d23fb7ba7984cc39a5dd06/pin_pink-3.2.0-py3-none-any.whl", hash = "sha256:e4b6018bda3fc48b429e4d1b14fe4fae5c19eeccad77c1ede053c0fd90adbfef", size = 54426 },
+    { url = "https://pypi.tuna.tsinghua.edu.cn/packages/5e/5d/1ec853d9d163e18e7878805b0fc3a10f61bfc6cac726909759f83cf07dc8/pin_pink-3.3.0-py3-none-any.whl", hash = "sha256:e7d545466bce3b99464f5015ccc5b437a415dd92cde07510311bd7b88f008eb7", size = 55725 },
 ]
 
 [[package]]
@@ -3296,6 +3332,15 @@ wheels = [
 ]
 
 [[package]]
+name = "smmap"
+version = "5.0.2"
+source = { registry = "https://pypi.tuna.tsinghua.edu.cn/simple" }
+sdist = { url = "https://pypi.tuna.tsinghua.edu.cn/packages/44/cd/a040c4b3119bbe532e5b0732286f805445375489fceaec1f48306068ee3b/smmap-5.0.2.tar.gz", hash = "sha256:26ea65a03958fa0c8a1c7e8c7a58fdc77221b8910f6be2131affade476898ad5", size = 22329 }
+wheels = [
+    { url = "https://pypi.tuna.tsinghua.edu.cn/packages/04/be/d09147ad1ec7934636ad912901c5fd7667e1c858e19d355237db0d0cd5e4/smmap-5.0.2-py3-none-any.whl", hash = "sha256:b30115f0def7d7531d22a0fb6502488d879e75b260a9db4d0819cfb25403af5e", size = 24303 },
+]
+
+[[package]]
 name = "stack-data"
 version = "0.6.3"
 source = { registry = "https://pypi.tuna.tsinghua.edu.cn/simple" }
@@ -3364,6 +3409,7 @@ source = { editable = "." }
 dependencies = [
     { name = "dex-retargeting" },
     { name = "filelock" },
+    { name = "fourier-robot-descriptions" },
     { name = "h5py" },
     { name = "hydra-colorlog" },
     { name = "hydra-core" },
@@ -3443,6 +3489,7 @@ requires-dist = [
     { name = "depthai-sdk", marker = "extra == 'depthai'", specifier = ">=1.15.0" },
     { name = "dex-retargeting", specifier = "<0.5.0" },
     { name = "filelock", specifier = ">=3.16.1" },
+    { name = "fourier-robot-descriptions", git = "https://github.com/yuxiang-gao/fourier-robot-descriptions.git?rev=dabc035de0aef33e4d079cf46e0e2ee7583837d8" },
     { name = "h5py", specifier = ">=3.11.0" },
     { name = "hydra-colorlog", specifier = ">=1.2.0" },
     { name = "hydra-core", specifier = ">=1.3.2" },
@@ -3454,7 +3501,7 @@ requires-dist = [
     { name = "opencv-contrib-python", specifier = ">=4.10.0.84" },
     { name = "opencv-python", specifier = ">=4.10.0.84" },
     { name = "pillow", specifier = ">=11.0.0" },
-    { name = "pin-pink", specifier = ">=3.2.0" },
+    { name = "pin-pink", specifier = ">=3.3.0" },
     { name = "pynput", specifier = ">=1.7.7,<1.8.0" },
     { name = "pyrealsense2", marker = "extra == 'realsense'", specifier = ">=2.55.1.6486" },
     { name = "qpsolvers", extras = ["daqp", "clarabel"], specifier = ">=4.6.0" },

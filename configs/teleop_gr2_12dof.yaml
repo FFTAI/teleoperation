@@ -6,7 +6,7 @@ defaults:
   - _self_
 
 robot:
-  urdf_path: "urdf/GR2T2v2_fourier_hand_12dof.urdf"
+  urdf_name: "gr2t2v2_fourier_hand_12dof"
 
 debug: false
 debug_hand: false

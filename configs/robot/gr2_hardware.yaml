@@ -7,8 +7,7 @@ instance:
   controlled_groups: "${robot.controlled_groups}"
   all_groups: "${robot.all_groups}"
 
-urdf_path: "urdf/GR2T2v2_fourier_hand_12dof.urdf"
-urdf_package_dirs: ["urdf"]
+urdf_name: "gr2t2_fourier_hand_12dof"
 
 controlled_groups: ["waist", "head", "left_manipulator", "right_manipulator"]
 all_groups:

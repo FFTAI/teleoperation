@@ -18,7 +18,7 @@ range_max: [10.3, 10.3, 10.3, 10.3, 0.0, 10.3]
 range_min: [0.0, 0.0, 0.0, 0.0, 10.3, 0.0]
 left:
   type: DexPilot
-  urdf_path: urdf/fourier_left_hand_6dof.urdf
+  urdf_path: fourier_left_hand_6dof
   wrist_link_name: "L_hand_base_link"
 
   finger_tip_link_names:
@@ -47,7 +47,7 @@ left:
 
 right:
   type: DexPilot
-  urdf_path: urdf/fourier_right_hand_6dof.urdf
+  urdf_path: fourier_right_hand_6dof
   wrist_link_name: "R_hand_base_link"
 
   finger_tip_link_names:

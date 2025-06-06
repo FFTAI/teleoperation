@@ -19,7 +19,7 @@ range_min: [0, 0, 0, 0, 0, 0]
 
 left:
   type: vector
-  urdf_path: urdf/inspire_left_hand.urdf
+  urdf_path: inspire_left_hand
   # urdf_path: gr1_inspire/urdf/T2-dex.urdf
   wrist_link_name: "L_hand_base_link"
 
@@ -57,7 +57,7 @@ left:
 
 right:
   type: vector
-  urdf_path: urdf/inspire_right_hand.urdf
+  urdf_path: inspire_right_hand
   # urdf_path: gr1_inspire/urdf/T2-dex.urdf
   wrist_link_name: "R_hand_base_link"
 
