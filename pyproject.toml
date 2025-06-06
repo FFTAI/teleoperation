@@ -26,6 +26,7 @@ dependencies = [
     "zmq>=0.0.0",
     "fourier-robot-descriptions",
     "evdev>=1.9.2",
+    # "dexhandpy==0.0.42"
 ]
 requires-python = "~=3.10,<3.12"
 readme = "README.md"
@@ -68,6 +69,7 @@ torchvision = [
 ]
 fourier-robot-descriptions = { git = "https://github.com/yuxiang-gao/fourier-robot-descriptions.git", rev = "dabc035de0aef33e4d079cf46e0e2ee7583837d8" }
 # fourier-robot-descriptions = { path = "../fourier-robot-descriptions.py", editable = true }
+# dexhandpy = { index = "internal" }
 # dexhandpy = { path = "dexhandpy-0.0.42-cp310-cp310-linux_x86_64.whl" }
 # lerobot = { path = "../fourier-lerobot", editable = true }
 # lerobot = { git = "https://github.com/huggingface/lerobot.git" }
@@ -92,6 +94,10 @@ name = "test"
 url = "https://test.pypi.org/simple"
 explicit = true
 
+# [[tool.uv.index]]
+# name = "internal"
+# url = "http://192.168.3.35:8088/repository/pypi/simple "
+# explicit = true
 
 [build-system]
 requires = ["hatchling"]
