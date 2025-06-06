@@ -11,7 +11,6 @@ dependencies = [
     "rich>=13.8.1",
     "opencv-python>=4.10.0.84",
     "opencv-contrib-python>=4.10.0.84",
-    "pynput>=1.7.7,<1.8.0",
     "omegaconf>=2.3.0",
     "dex-retargeting<0.5.0",
     "pin-pink>=3.3.0",
@@ -25,7 +24,8 @@ dependencies = [
     "hydra-colorlog>=1.2.0",
     "filelock>=3.16.1",
     "zmq>=0.0.0",
-    "fourier-robot-descriptions"
+    "fourier-robot-descriptions",
+    "evdev>=1.9.2",
 ]
 requires-python = "~=3.10,<3.12"
 readme = "README.md"

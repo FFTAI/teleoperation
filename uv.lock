@@ -2884,89 +2884,6 @@ wheels = [
 ]
 
 [[package]]
-name = "pynput"
-version = "1.7.8"
-source = { registry = "https://pypi.tuna.tsinghua.edu.cn/simple" }
-dependencies = [
-    { name = "evdev", marker = "'linux' in sys_platform or (extra == 'extra-13-teleoperation-cpu' and extra == 'extra-13-teleoperation-gpu') or (extra == 'extra-13-teleoperation-cpu' and extra == 'extra-13-teleoperation-lerobot') or (extra == 'extra-13-teleoperation-gpu' and extra == 'extra-13-teleoperation-lerobot')" },
-    { name = "pyobjc-framework-applicationservices", marker = "sys_platform == 'darwin' or (extra == 'extra-13-teleoperation-cpu' and extra == 'extra-13-teleoperation-gpu') or (extra == 'extra-13-teleoperation-cpu' and extra == 'extra-13-teleoperation-lerobot') or (extra == 'extra-13-teleoperation-gpu' and extra == 'extra-13-teleoperation-lerobot')" },
-    { name = "pyobjc-framework-quartz", marker = "sys_platform == 'darwin' or (extra == 'extra-13-teleoperation-cpu' and extra == 'extra-13-teleoperation-gpu') or (extra == 'extra-13-teleoperation-cpu' and extra == 'extra-13-teleoperation-lerobot') or (extra == 'extra-13-teleoperation-gpu' and extra == 'extra-13-teleoperation-lerobot')" },
-    { name = "python-xlib", marker = "'linux' in sys_platform or (extra == 'extra-13-teleoperation-cpu' and extra == 'extra-13-teleoperation-gpu') or (extra == 'extra-13-teleoperation-cpu' and extra == 'extra-13-teleoperation-lerobot') or (extra == 'extra-13-teleoperation-gpu' and extra == 'extra-13-teleoperation-lerobot')" },
-    { name = "six" },
-]
-wheels = [
-    { url = "https://pypi.tuna.tsinghua.edu.cn/packages/77/23/2eeda4a156da594411abdb606654b681091e18f5e62d92a9c0965c101598/pynput-1.7.8-py2.py3-none-any.whl", hash = "sha256:a5d2e492dc3906ff85a5fe66bf05c440ce716fcc2d8bd988bc357b5d2298c577", size = 90363 },
-]
-
-[[package]]
-name = "pyobjc-core"
-version = "11.0"
-source = { registry = "https://pypi.tuna.tsinghua.edu.cn/simple" }
-sdist = { url = "https://pypi.tuna.tsinghua.edu.cn/packages/5c/94/a111239b98260869780a5767e5d74bfd3a8c13a40457f479c28dcd91f89d/pyobjc_core-11.0.tar.gz", hash = "sha256:63bced211cb8a8fb5c8ff46473603da30e51112861bd02c438fbbbc8578d9a70", size = 994931 }
-wheels = [
-    { url = "https://pypi.tuna.tsinghua.edu.cn/packages/bc/21/ccc992b38670176a615fb67686d709e03be989511da687f6f49ddc4ff6c8/pyobjc_core-11.0-cp310-cp310-macosx_10_9_universal2.whl", hash = "sha256:10866b3a734d47caf48e456eea0d4815c2c9b21856157db5917b61dee06893a1", size = 732162 },
-    { url = "https://pypi.tuna.tsinghua.edu.cn/packages/52/05/fa97309c3b1bc1ec90d701db89902e0bd5e1024023aa2c5387b889458b1b/pyobjc_core-11.0-cp311-cp311-macosx_10_9_universal2.whl", hash = "sha256:50675c0bb8696fe960a28466f9baf6943df2928a1fd85625d678fa2f428bd0bd", size = 727295 },
-]
-
-[[package]]
-name = "pyobjc-framework-applicationservices"
-version = "11.0"
-source = { registry = "https://pypi.tuna.tsinghua.edu.cn/simple" }
-dependencies = [
-    { name = "pyobjc-core", marker = "sys_platform == 'darwin' or (extra == 'extra-13-teleoperation-cpu' and extra == 'extra-13-teleoperation-gpu') or (extra == 'extra-13-teleoperation-cpu' and extra == 'extra-13-teleoperation-lerobot') or (extra == 'extra-13-teleoperation-gpu' and extra == 'extra-13-teleoperation-lerobot')" },
-    { name = "pyobjc-framework-cocoa", marker = "sys_platform == 'darwin' or (extra == 'extra-13-teleoperation-cpu' and extra == 'extra-13-teleoperation-gpu') or (extra == 'extra-13-teleoperation-cpu' and extra == 'extra-13-teleoperation-lerobot') or (extra == 'extra-13-teleoperation-gpu' and extra == 'extra-13-teleoperation-lerobot')" },
-    { name = "pyobjc-framework-coretext", marker = "sys_platform == 'darwin' or (extra == 'extra-13-teleoperation-cpu' and extra == 'extra-13-teleoperation-gpu') or (extra == 'extra-13-teleoperation-cpu' and extra == 'extra-13-teleoperation-lerobot') or (extra == 'extra-13-teleoperation-gpu' and extra == 'extra-13-teleoperation-lerobot')" },
-    { name = "pyobjc-framework-quartz", marker = "sys_platform == 'darwin' or (extra == 'extra-13-teleoperation-cpu' and extra == 'extra-13-teleoperation-gpu') or (extra == 'extra-13-teleoperation-cpu' and extra == 'extra-13-teleoperation-lerobot') or (extra == 'extra-13-teleoperation-gpu' and extra == 'extra-13-teleoperation-lerobot')" },
-]
-sdist = { url = "https://pypi.tuna.tsinghua.edu.cn/packages/ba/fb/4e42573b0d3baa3fa18ec53614cf979f951313f1451e8f2e17df9429da1f/pyobjc_framework_applicationservices-11.0.tar.gz", hash = "sha256:d6ea18dfc7d5626a3ecf4ac72d510405c0d3a648ca38cae8db841acdebecf4d2", size = 224334 }
-wheels = [
-    { url = "https://pypi.tuna.tsinghua.edu.cn/packages/29/2e/23d996e8294cc4d4ac719c410b1d210dfb1f64eecf87170d5e72c966592a/pyobjc_framework_ApplicationServices-11.0-cp310-cp310-macosx_10_9_universal2.whl", hash = "sha256:bc8f34b5b59ffd3c210ae883d794345c1197558ff3da0f5800669cf16435271e", size = 30839 },
-    { url = "https://pypi.tuna.tsinghua.edu.cn/packages/99/37/3d4dc6c004aaeb67bd43f7261d7c169ff45b8fc0eefbc7ba8cd6b0c881bc/pyobjc_framework_ApplicationServices-11.0-cp311-cp311-macosx_10_9_universal2.whl", hash = "sha256:61a99eef23abb704257310db4f5271137707e184768f6407030c01de4731b67b", size = 30846 },
-]
-
-[[package]]
-name = "pyobjc-framework-cocoa"
-version = "11.0"
-source = { registry = "https://pypi.tuna.tsinghua.edu.cn/simple" }
-dependencies = [
-    { name = "pyobjc-core", marker = "sys_platform == 'darwin' or (extra == 'extra-13-teleoperation-cpu' and extra == 'extra-13-teleoperation-gpu') or (extra == 'extra-13-teleoperation-cpu' and extra == 'extra-13-teleoperation-lerobot') or (extra == 'extra-13-teleoperation-gpu' and extra == 'extra-13-teleoperation-lerobot')" },
-]
-sdist = { url = "https://pypi.tuna.tsinghua.edu.cn/packages/c5/32/53809096ad5fc3e7a2c5ddea642590a5f2cb5b81d0ad6ea67fdb2263d9f9/pyobjc_framework_cocoa-11.0.tar.gz", hash = "sha256:00346a8cb81ad7b017b32ff7bf596000f9faa905807b1bd234644ebd47f692c5", size = 6173848 }
-wheels = [
-    { url = "https://pypi.tuna.tsinghua.edu.cn/packages/37/16/905a32c5241848ddd91d94bae346342750f28f49fadb3746e9e796f929f3/pyobjc_framework_Cocoa-11.0-cp310-cp310-macosx_10_9_universal2.whl", hash = "sha256:fbc65f260d617d5463c7fb9dbaaffc23c9a4fabfe3b1a50b039b61870b8daefd", size = 385509 },
-    { url = "https://pypi.tuna.tsinghua.edu.cn/packages/23/97/81fd41ad90e9c241172110aa635a6239d56f50d75923aaedbbe351828580/pyobjc_framework_Cocoa-11.0-cp311-cp311-macosx_10_9_universal2.whl", hash = "sha256:3ea7be6e6dd801b297440de02d312ba3fa7fd3c322db747ae1cb237e975f5d33", size = 385534 },
-]
-
-[[package]]
-name = "pyobjc-framework-coretext"
-version = "11.0"
-source = { registry = "https://pypi.tuna.tsinghua.edu.cn/simple" }
-dependencies = [
-    { name = "pyobjc-core", marker = "sys_platform == 'darwin' or (extra == 'extra-13-teleoperation-cpu' and extra == 'extra-13-teleoperation-gpu') or (extra == 'extra-13-teleoperation-cpu' and extra == 'extra-13-teleoperation-lerobot') or (extra == 'extra-13-teleoperation-gpu' and extra == 'extra-13-teleoperation-lerobot')" },
-    { name = "pyobjc-framework-cocoa", marker = "sys_platform == 'darwin' or (extra == 'extra-13-teleoperation-cpu' and extra == 'extra-13-teleoperation-gpu') or (extra == 'extra-13-teleoperation-cpu' and extra == 'extra-13-teleoperation-lerobot') or (extra == 'extra-13-teleoperation-gpu' and extra == 'extra-13-teleoperation-lerobot')" },
-    { name = "pyobjc-framework-quartz", marker = "sys_platform == 'darwin' or (extra == 'extra-13-teleoperation-cpu' and extra == 'extra-13-teleoperation-gpu') or (extra == 'extra-13-teleoperation-cpu' and extra == 'extra-13-teleoperation-lerobot') or (extra == 'extra-13-teleoperation-gpu' and extra == 'extra-13-teleoperation-lerobot')" },
-]
-sdist = { url = "https://pypi.tuna.tsinghua.edu.cn/packages/9d/e8/9b68dc788828e38143a3e834e66346713751cb83d7f0955016323005c1a2/pyobjc_framework_coretext-11.0.tar.gz", hash = "sha256:a68437153e627847e3898754dd3f13ae0cb852246b016a91f9c9cbccb9f91a43", size = 274222 }
-wheels = [
-    { url = "https://pypi.tuna.tsinghua.edu.cn/packages/ce/af/aa4ab3e029a9f539e782eab894c57590791700d892cda73a324fe22e09a6/pyobjc_framework_CoreText-11.0-cp310-cp310-macosx_10_9_universal2.whl", hash = "sha256:6939b4ea745b349b5c964823a2071f155f5defdc9b9fc3a13f036d859d7d0439", size = 30395 },
-    { url = "https://pypi.tuna.tsinghua.edu.cn/packages/f6/20/b8a967101b585a2425ffe645135f8618edd51e1430aeb668373475a07d1f/pyobjc_framework_CoreText-11.0-cp311-cp311-macosx_10_9_universal2.whl", hash = "sha256:56a4889858308b0d9f147d568b4d91c441cc0ffd332497cb4f709bb1990450c1", size = 30397 },
-]
-
-[[package]]
-name = "pyobjc-framework-quartz"
-version = "11.0"
-source = { registry = "https://pypi.tuna.tsinghua.edu.cn/simple" }
-dependencies = [
-    { name = "pyobjc-core", marker = "sys_platform == 'darwin' or (extra == 'extra-13-teleoperation-cpu' and extra == 'extra-13-teleoperation-gpu') or (extra == 'extra-13-teleoperation-cpu' and extra == 'extra-13-teleoperation-lerobot') or (extra == 'extra-13-teleoperation-gpu' and extra == 'extra-13-teleoperation-lerobot')" },
-    { name = "pyobjc-framework-cocoa", marker = "sys_platform == 'darwin' or (extra == 'extra-13-teleoperation-cpu' and extra == 'extra-13-teleoperation-gpu') or (extra == 'extra-13-teleoperation-cpu' and extra == 'extra-13-teleoperation-lerobot') or (extra == 'extra-13-teleoperation-gpu' and extra == 'extra-13-teleoperation-lerobot')" },
-]
-sdist = { url = "https://pypi.tuna.tsinghua.edu.cn/packages/a5/ad/f00f3f53387c23bbf4e0bb1410e11978cbf87c82fa6baff0ee86f74c5fb6/pyobjc_framework_quartz-11.0.tar.gz", hash = "sha256:3205bf7795fb9ae34747f701486b3db6dfac71924894d1f372977c4d70c3c619", size = 3952463 }
-wheels = [
-    { url = "https://pypi.tuna.tsinghua.edu.cn/packages/bd/b3/75fccb0406aac00eecbd14f278a9b6e6fc0e4483220d57eb3aff68666fb1/pyobjc_framework_Quartz-11.0-cp310-cp310-macosx_10_9_universal2.whl", hash = "sha256:da3ab13c9f92361959b41b0ad4cdd41ae872f90a6d8c58a9ed699bc08ab1c45c", size = 212343 },
-    { url = "https://pypi.tuna.tsinghua.edu.cn/packages/a3/6a/68957c8c5e8f0128d4d419728bac397d48fa7ad7a66e82b70e64d129ffca/pyobjc_framework_Quartz-11.0-cp311-cp311-macosx_10_9_universal2.whl", hash = "sha256:d251696bfd8e8ef72fbc90eb29fec95cb9d1cc409008a183d5cc3246130ae8c2", size = 212349 },
-]
-
-[[package]]
 name = "pyopenssl"
 version = "25.0.0"
 source = { registry = "https://pypi.tuna.tsinghua.edu.cn/simple" }
@@ -3040,18 +2957,6 @@ dependencies = [
 sdist = { url = "https://pypi.tuna.tsinghua.edu.cn/packages/66/c0/0c8b6ad9f17a802ee498c46e004a0eb49bc148f2fd230864601a86dcf6db/python-dateutil-2.9.0.post0.tar.gz", hash = "sha256:37dd54208da7e1cd875388217d5e00ebd4179249f90fb72437e91a35459a0ad3", size = 342432 }
 wheels = [
     { url = "https://pypi.tuna.tsinghua.edu.cn/packages/ec/57/56b9bcc3c9c6a792fcbaf139543cee77261f3651ca9da0c93f5c1221264b/python_dateutil-2.9.0.post0-py2.py3-none-any.whl", hash = "sha256:a8b2bc7bffae282281c8140a97d3aa9c14da0b136dfe83f850eea9a5f7470427", size = 229892 },
-]
-
-[[package]]
-name = "python-xlib"
-version = "0.33"
-source = { registry = "https://pypi.tuna.tsinghua.edu.cn/simple" }
-dependencies = [
-    { name = "six" },
-]
-sdist = { url = "https://pypi.tuna.tsinghua.edu.cn/packages/86/f5/8c0653e5bb54e0cbdfe27bf32d41f27bc4e12faa8742778c17f2a71be2c0/python-xlib-0.33.tar.gz", hash = "sha256:55af7906a2c75ce6cb280a584776080602444f75815a7aff4d287bb2d7018b32", size = 269068 }
-wheels = [
-    { url = "https://pypi.tuna.tsinghua.edu.cn/packages/fc/b8/ff33610932e0ee81ae7f1269c890f697d56ff74b9f5b2ee5d9b7fa2c5355/python_xlib-0.33-py2.py3-none-any.whl", hash = "sha256:c3534038d42e0df2f1392a1b30a15a4ff5fdc2b86cfa94f072bf11b10a164398", size = 182185 },
 ]
 
 [[package]]
@@ -3408,6 +3313,7 @@ version = "0.6.0"
 source = { editable = "." }
 dependencies = [
     { name = "dex-retargeting" },
+    { name = "evdev" },
     { name = "filelock" },
     { name = "fourier-robot-descriptions" },
     { name = "h5py" },
@@ -3422,7 +3328,6 @@ dependencies = [
     { name = "opencv-python" },
     { name = "pillow" },
     { name = "pin-pink" },
-    { name = "pynput" },
     { name = "qpsolvers", extra = ["clarabel", "daqp"] },
     { name = "rerun-sdk" },
     { name = "rich" },
@@ -3488,6 +3393,7 @@ requires-dist = [
     { name = "av", marker = "extra == 'webrtc'", specifier = ">=12.3.0" },
     { name = "depthai-sdk", marker = "extra == 'depthai'", specifier = ">=1.15.0" },
     { name = "dex-retargeting", specifier = "<0.5.0" },
+    { name = "evdev", specifier = ">=1.9.2", index = "https://pypi.tuna.tsinghua.edu.cn/simple" },
     { name = "filelock", specifier = ">=3.16.1" },
     { name = "fourier-robot-descriptions", git = "https://github.com/yuxiang-gao/fourier-robot-descriptions.git?rev=dabc035de0aef33e4d079cf46e0e2ee7583837d8" },
     { name = "h5py", specifier = ">=3.11.0" },
@@ -3502,7 +3408,6 @@ requires-dist = [
     { name = "opencv-python", specifier = ">=4.10.0.84" },
     { name = "pillow", specifier = ">=11.0.0" },
     { name = "pin-pink", specifier = ">=3.3.0" },
-    { name = "pynput", specifier = ">=1.7.7,<1.8.0" },
     { name = "pyrealsense2", marker = "extra == 'realsense'", specifier = ">=2.55.1.6486" },
     { name = "qpsolvers", extras = ["daqp", "clarabel"], specifier = ">=4.6.0" },
     { name = "rerun-sdk", specifier = "==0.22.1" },

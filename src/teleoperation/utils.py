@@ -1,8 +1,7 @@
 import logging
 import subprocess
 import time
-from collections import OrderedDict, defaultdict
-from copy import deepcopy
+from collections import OrderedDict
 from datetime import datetime, timezone
 from pathlib import Path
 
@@ -11,10 +10,6 @@ from numba import jit
 from scipy.spatial.transform import Rotation as R
 
 logger = logging.getLogger(__name__)
-try:
-    from pynput import keyboard
-except ImportError:
-    logger.warning("pynput import failed. KeyboardListener will not work.")
 
 
 PROJECT_ROOT = Path(__file__).resolve().parent
@@ -194,46 +189,6 @@ def remap(x, old_min, old_max, new_min, new_max, clip=True):
     if clip:
         tmp = np.clip(tmp, 0, 1)
     return new_min + tmp * (new_max - new_min)
-
-
-class KeyboardListener:
-    def __init__(self):
-        self.listener = keyboard.Listener(on_press=self.on_press, on_release=self.on_release)
-        self._key_pressed = defaultdict(bool)
-        logger.debug("Keyboard listener initialized")
-
-    @property
-    def key_pressed(self):
-        out_key_pressed = deepcopy(self._key_pressed)
-        self._key_pressed = defaultdict(bool)
-        return out_key_pressed
-
-    @property
-    def space_pressed(self):
-        return self._key_pressed.get("space", False)
-
-    def start(self):
-        self.listener.start()
-
-    def on_press(self, key):
-        try:
-            if isinstance(key, keyboard.KeyCode):
-                self._key_pressed[key.char] = True
-            elif isinstance(key, keyboard.Key):
-                self._key_pressed[key.name] = True
-
-        except AttributeError:
-            pass
-
-    def on_release(self, key):
-        try:
-            if key == keyboard.Key.space:
-                self._space_pressed = False
-        except AttributeError:
-            pass
-
-    def stop(self):
-        self.listener.stop()
 
 
 def encode_video_frames(

@@ -11,12 +11,12 @@ from omegaconf import DictConfig
 
 from teleoperation.data_collection import EpisodeDataDict, RecordingInfo, get_camera_names
 from teleoperation.filters import LPRotationFilter
+from teleoperation.keyboard_listener import detect_keyboard, start_keyboard_listener
 from teleoperation.player import TeleopRobot
 from teleoperation.state_machine import FSM
 from teleoperation.utils import (
     CONFIG_DIR,
     RECORD_DIR,
-    KeyboardListener,
     se3_to_xyzortho6d,
     so3_to_ortho6d,
 )
@@ -72,8 +72,10 @@ def main(
 
     robot = TeleopRobot(cfg)  # type: ignore
 
-    listener = KeyboardListener()
-    listener.start()
+    keyboard_device_path = detect_keyboard()
+    if keyboard_device_path is None:
+        raise InitializationError("No keyboard detected")
+    listener = start_keyboard_listener(keyboard_device_path)
 
     def make_debounce_trigger(debounce_tol):
         """Debounce trigger"""
@@ -81,16 +83,21 @@ def main(
 
         def _trigger():
             """Get keyboard triggers. `space` for FSM state transition, `x` for discarding current episode, `s` for stop (TODO)"""
-            pressed = listener.key_pressed
-            # logger.info(f"Pressed keys: {pressed}")
-            if pressed is None:
-                return False, None
-            if pressed.get("space", False):
-                return True, "space"
-            for key, value in pressed.items():
-                if value and key in ["q", "x", "d", "s", "z", "p"]:
-                    return True, key
+
+            for value in ["space", "q", "x", "d", "s", "z", "p"]:
+                if listener.is_pressed(value):
+                    return True, value
             return False, None
+            # pressed = listener.key_pressed
+            # # logger.info(f"Pressed keys: {pressed}")
+            # if pressed is None:
+            #     return False, None
+            # if pressed.get("space", False):
+            #     return True, "space"
+            # for key, value in pressed.items():
+            #     if value and key in ["q", "x", "d", "s", "z", "p"]:
+            #         return True, key
+            # return False, None
 
         def trigger():
             nonlocal last_trigger
@@ -106,8 +113,8 @@ def main(
 
     trigger = make_debounce_trigger(0.5)
 
-    def trigger_key(key):
-        return listener.key_pressed.get(key, False)
+    # def trigger_key(key):
+    #     return listener.key_pressed.get(key, False)
 
     head_filter = LPRotationFilter(cfg.head_filter.alpha)
 
