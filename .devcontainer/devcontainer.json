@@ -1,0 +1,72 @@
+// For format details, see https://aka.ms/devcontainer.json. For config options, see the
+// README at: https://github.com/devcontainers/templates/tree/main/src/ubuntu
+// docker run --rm -it --name daq \
+//     --privileged \
+//     -v /dev/bus/usb:/dev/bus/usb \
+//     --device-cgroup-rule='c 189:* rmw' \
+//     -e DISPLAY=$DISPLAY \
+//     -e "HOSTNAME=$(cat /etc/hostname)" \
+//     -v /tmp/.X11-unix:/tmp/.X11-unix \
+//     -v /mnt/Data:/app/data:rw \
+//     -v ~/.certs:/app/certs:ro \
+//     -v ~/.farts/outputs:/app/outputs:rw \
+//     --network=host \
+//     --ipc=host \
+//     -e HYDRA_FULL_ERROR=1 \
+//     192.168.3.32/farts/depthai-deploy-dds:latest \
+//     python -m teleoperation \
+//     --config-name daq \
+//     robot=${robot_type}_legacy \
+//     robot.instance.namespace="gr/daq-${machine_id}" \
+//     task_name=factory_$(date +%m_%d)_"${task}" \
+//     camera="${camera}" \
+//     hand=fourier_dexpilot_dhx \
+//     $@
+{
+	"name": "Teleoperation",
+	"build": {
+		// Path is relative to the devcontainer.json file.
+		"dockerfile": "../docker/teleoperation-depthai.Dockerfile",
+		"context": "..",
+		"args": {
+			"USERNAME": "farts",
+			"USER_UID": "1000",
+			"USER_GID": "1000"
+		},
+		"containerEnv": {
+			"HYDRA_FULL_ERROR": "1"
+		},
+		"runArgs": [
+			"--privileged",
+			"-v",
+			"/dev/bus/usb:/dev/bus/usb",
+			"--device-cgroup-rule='c 189:* rmw'",
+			"--network=host",
+			"--ipc=host"
+		]
+	},
+	// "features": {
+	// 	"ghcr.io/devcontainers/features/python:1": {
+	// 		"installTools": true,
+	// 		"installJupyterlab": true,
+	// 		"version": "3.11"
+	// 	},
+	// 	"ghcr.io/va-h/devcontainers-features/uv:1": {
+	// 		"shellautocompletion": true,
+	// 		"version": "latest"
+	// 	},
+	// 	"ghcr.io/bascodes/devcontainer-features/desktop-novnc:0": {
+	// 		"version": "1.2.0"
+	// 	}
+	// }
+	// Features to add to the dev container. More info: https://containers.dev/features.
+	// "features": {},
+	// Use 'forwardPorts' to make a list of ports inside the container available locally.
+	// "forwardPorts": [],
+	// Use 'postCreateCommand' to run commands after the container is created.
+	// "postCreateCommand": "uname -a",
+	// Configure tool-specific properties.
+	// "customizations": {},
+	// Uncomment to connect as root instead. More info: https://aka.ms/dev-containers-non-root.
+	"remoteUser": "farts"
+}
