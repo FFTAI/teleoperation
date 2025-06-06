@@ -18,11 +18,11 @@ class RobotWrapper:
         else:
             self.config = config
 
-        self.robot = load_robot_description(self.config.robot.urdf_name.lower(), root_joint=pin.JointModelFreeFlyer())
+        self.robot = load_robot_description(self.config.urdf_name.lower(), root_joint=pin.JointModelFreeFlyer())
 
-        self.num_joints = self.config.robot.num_joints
+        self.num_joints = self.config.num_joints
 
-        if self.config.robot.joints_to_lock:
+        if self.config.joints_to_lock:
             logger.info(f"Locking joints: {self.config.joints_to_lock}")
             self.robot = self.robot.buildReducedRobot(self.config.joints_to_lock)
 
