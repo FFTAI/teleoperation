@@ -18,6 +18,7 @@ echo "Additional arguments: $@"
 
 docker run --rm -it --name daq \
     --user $(id -u):$(id -g) \
+    --group-add $(getent group input | cut -d: -f3) \
     --privileged \
     -v /dev/bus/usb:/dev/bus/usb \
     --device-cgroup-rule='c 189:* rmw' \

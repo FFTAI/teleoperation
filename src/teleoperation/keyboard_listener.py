@@ -67,6 +67,9 @@ def detect_keyboard():
         if "keyboard" not in device.name.lower():
             continue
 
+        if "AT Translated".lower() in device.name.lower():
+            continue
+
         key_capabilities = device.capabilities().get(ecodes.EV_KEY, None)
         if key_capabilities is None:
             continue
