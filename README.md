@@ -317,6 +317,24 @@ mkdir -p ./data
 ./scripts/run_daq_docker.sh gr1t2 oak_97 daq_test
 ```
 
+## 🚀 Deploy policies
+
+This framework can also be used to deploy policies trained with [lerobot](https://github.com/huggingface/lerobot). Fist start the `run_server.sh` script in the `server_config` directory.
+
+```bash
+uv sync --extra lerobot --extra depthai
+uv pip install -e path/to/lerobot
+source .venv/bin/activate
+python -m teleoperation.eval \
+    --config-name eval_lerobot \
+    policy=$POLICY \
+    robot.instance.namespace="gr/daq" \
+    eval.rerun_enabled=false \
+    eval.rerun_endpoint=192.168.xx.xx:9876 \
+    policy.instance.pretrained_path=$CKPT
+```
+
+
 ## 🛠️ Development
 
 TODO
