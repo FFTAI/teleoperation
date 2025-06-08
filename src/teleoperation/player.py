@@ -383,6 +383,16 @@ class EvalRobot(DexRobot):
         action = self.policy.select_action(batch=batch)
 
         # array_action to dict action
+        action = {
+            "left_leg": np.zeros(6),
+            "right_leg": np.zeros(6),
+            "waist": action[:3],
+            "neck": action[3:6],
+            "left_arm": action[6:13],
+            "right_arm": action[13:20],
+            "left_hand": action[20:26],
+            "right_hand": action[26:32],
+        }
 
         for k, v in action.items():
             if k in self.eval_cfg.modality_mask.actions:
