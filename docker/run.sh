@@ -1,3 +1,5 @@
+xhost + local:$USER >/dev/null 2>&1
+
 docker run --rm \
     --privileged \
     -v /dev/bus/usb:/dev/bus/usb \
