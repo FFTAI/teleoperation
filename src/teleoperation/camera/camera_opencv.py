@@ -20,6 +20,7 @@ from typing import Literal
 import cv2
 
 from teleoperation.camera.utils import DisplayCamera, RecordCamera, delete_if_exists
+from teleoperation.utils import get_timestamp_utc
 
 logger = logging.getLogger(__name__)
 cv2.setNumThreads(1)
@@ -188,7 +189,7 @@ class CameraOpencv:
 
             frame = cv2.cvtColor(frame, cv2.COLOR_BGR2RGB)
 
-            self.timestamp = time.monotonic()
+            self.timestamp = get_timestamp_utc().timestamp()
             if ret:
                 if self.frame_type == "side_by_side":
                     left_frame = frame[:, : self.width, :]
