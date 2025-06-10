@@ -4,7 +4,7 @@ version = "0.6.1"
 description = "Teleoperation for Fourier Robots"
 authors = [{ name = "Yuxiang Gao", email = "yuxiang.gao@fftai.com" }]
 dependencies = [
-    "numpy>=2.0.0",
+    "numpy<=2.0.0",
     "h5py>=3.11.0",
     "vuer[all]==0.0.32rc8",
     "tqdm>=4.66.5",
@@ -27,7 +27,7 @@ dependencies = [
     "zmq>=0.0.0",
     "fourier-robot-descriptions",
     "evdev>=1.9.2",
-    # "dexhandpy==0.0.42"
+    # "dexhandpy==0.2.0"
 ]
 requires-python = "~=3.10,<3.12"
 readme = "README.md"
