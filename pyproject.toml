@@ -55,6 +55,11 @@ lerobot = ["torch==2.6.0", "torchvision>=0.21.0"] # TODO: document this
 package = true
 default-groups = ["dev", "fourier"]
 conflicts = [[{ extra = "cpu" }, { extra = "gpu" }, { extra = "lerobot" }]]
+environments = [
+    "sys_platform == 'darwin' and platform_machine == 'arm64'",
+    "sys_platform == 'linux' and platform_machine == 'x86_64'",
+    "sys_platform == 'linux' and platform_machine == 'aarch64'",
+]
 
 [tool.uv.sources]
 torch = [
@@ -83,7 +88,8 @@ default = true
 
 [[tool.uv.index]]
 name = "torch-cpu"
-url = "https://mirror.sjtu.edu.cn/pytorch-wheels/cpu"
+# url = "https://mirror.sjtu.edu.cn/pytorch-wheels/cpu"
+url = "https://download.pytorch.org/whl/cpu"
 explicit = true
 
 [[tool.uv.index]]
