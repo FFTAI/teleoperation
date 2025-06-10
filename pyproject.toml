@@ -1,10 +1,10 @@
 [project]
 name = "teleoperation"
-version = "0.6.0"
+version = "0.6.1"
 description = "Teleoperation for Fourier Robots"
 authors = [{ name = "Yuxiang Gao", email = "yuxiang.gao@fftai.com" }]
 dependencies = [
-    "numpy>=1.26.4",
+    "numpy>=2.0.0",
     "h5py>=3.11.0",
     "vuer[all]==0.0.32rc8",
     "tqdm>=4.66.5",
@@ -71,6 +71,7 @@ torchvision = [
 fourier-robot-descriptions = { git = "https://github.com/yuxiang-gao/fourier-robot-descriptions.git", rev = "dabc035de0aef33e4d079cf46e0e2ee7583837d8" }
 # fourier-robot-descriptions = { path = "../fourier-robot-descriptions.py", editable = true }
 # dexhandpy = { index = "internal" }
+depthai_sdk = { git="https://github.com/yuxiang-gao/depthai.git", branch = "main", subdirectory = "depthai_sdk" }
 # dexhandpy = { path = "dexhandpy-0.0.42-cp310-cp310-linux_x86_64.whl" }
 # lerobot = { path = "../fourier-lerobot", editable = true }
 # lerobot = { git = "https://github.com/huggingface/lerobot.git" }
